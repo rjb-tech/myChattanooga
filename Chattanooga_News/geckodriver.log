@@ -1,0 +1,183 @@
+1640742312415	geckodriver	INFO	Listening on 127.0.0.1:45931
+1640742313421	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile8n7JPf"
+*** You are running in headless mode.
+1640742316281	Marionette	INFO	Listening on port 42733
+1640742316357	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://foxchattanooga.com/resources/assets/2021-11-23T00-23Z/foxchattanooga/compiled_js/presentations-section_v1.min.js, line 1: Error: Network Error
+JavaScript warning: https://ads.jetpackdigital.com/lineitems/54086/0/jpdli.js?u=https://adclick.g.doubleclick.net/pcs/click%253Fxai%253DAKAOjsuSOmZJNz8MF5HEf0NVqX1pAlr-XxTja4_e6EfNBbsZqwJc2fqLDrrysHiNgTFN9quf1L5GzRMvoBRj7Bw3sPO3CYtYHCvjUTb1NVG0mdmfCQh9vtzcneQsP-ltubeG8q4IOaqvu8yGP6r5hm0PJLE99BmsWqJmJ7HClQCxEJvFvaXh3Iyk-FvL8R4I5YbYLs8me3snB0H2A4upxiKL5biSkhVe_1LwqURMIzKP0yjF9RoAtAchCYxXMl5TQb-OV5kCsG5O9AzA_F4KZOi3-j8Fvgx3zK5Lv8mhwihG27SGYW_1Cy6iouFZA0yPjOPtR_w%2526sai%253DAMfl-YTpUPaG0xviv18-wfmKdv4NJKEFIoknosnZT8lrFvc8h61mrCr-1hj4GWcwbASGC7KgSIqHG8FNBynp0QF5QG13SwO8TUw39wYDmJxJ6yan6-2PIjEixOoeo0OvK9E4%2526sig%253DCg0ArKJSzPcEk3zFl4KSEAE%2526fbs_aeid%253D%255Bgw_fbsaeid%255D%2526urlfix%253D1%2526adurl%253Dhttps://ad.doubleclick.net/ddm/trackclk/N1485080.3481786SINCLAIRBROADCAS/B26277237.317159676;dc_trk_aid=509771606;dc_trk_cid=159953955;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=&sid=1685, line 9908: unreachable code after return statement
+JavaScript warning: https://ads.jetpackdigital.com/lineitems/54086/0/jpdli.js?u=https://adclick.g.doubleclick.net/pcs/click%253Fxai%253DAKAOjsuSOmZJNz8MF5HEf0NVqX1pAlr-XxTja4_e6EfNBbsZqwJc2fqLDrrysHiNgTFN9quf1L5GzRMvoBRj7Bw3sPO3CYtYHCvjUTb1NVG0mdmfCQh9vtzcneQsP-ltubeG8q4IOaqvu8yGP6r5hm0PJLE99BmsWqJmJ7HClQCxEJvFvaXh3Iyk-FvL8R4I5YbYLs8me3snB0H2A4upxiKL5biSkhVe_1LwqURMIzKP0yjF9RoAtAchCYxXMl5TQb-OV5kCsG5O9AzA_F4KZOi3-j8Fvgx3zK5Lv8mhwihG27SGYW_1Cy6iouFZA0yPjOPtR_w%2526sai%253DAMfl-YTpUPaG0xviv18-wfmKdv4NJKEFIoknosnZT8lrFvc8h61mrCr-1hj4GWcwbASGC7KgSIqHG8FNBynp0QF5QG13SwO8TUw39wYDmJxJ6yan6-2PIjEixOoeo0OvK9E4%2526sig%253DCg0ArKJSzPcEk3zFl4KSEAE%2526fbs_aeid%253D%255Bgw_fbsaeid%255D%2526urlfix%253D1%2526adurl%253Dhttps://ad.doubleclick.net/ddm/trackclk/N1485080.3481786SINCLAIRBROADCAS/B26277237.317159676;dc_trk_aid=509771606;dc_trk_cid=159953955;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=&sid=1685, line 10732: unreachable code after return statement
+JavaScript warning: https://ads.jetpackdigital.com/lineitems/54086/0/jpdli.js?u=https://adclick.g.doubleclick.net/pcs/click%253Fxai%253DAKAOjsuSOmZJNz8MF5HEf0NVqX1pAlr-XxTja4_e6EfNBbsZqwJc2fqLDrrysHiNgTFN9quf1L5GzRMvoBRj7Bw3sPO3CYtYHCvjUTb1NVG0mdmfCQh9vtzcneQsP-ltubeG8q4IOaqvu8yGP6r5hm0PJLE99BmsWqJmJ7HClQCxEJvFvaXh3Iyk-FvL8R4I5YbYLs8me3snB0H2A4upxiKL5biSkhVe_1LwqURMIzKP0yjF9RoAtAchCYxXMl5TQb-OV5kCsG5O9AzA_F4KZOi3-j8Fvgx3zK5Lv8mhwihG27SGYW_1Cy6iouFZA0yPjOPtR_w%2526sai%253DAMfl-YTpUPaG0xviv18-wfmKdv4NJKEFIoknosnZT8lrFvc8h61mrCr-1hj4GWcwbASGC7KgSIqHG8FNBynp0QF5QG13SwO8TUw39wYDmJxJ6yan6-2PIjEixOoeo0OvK9E4%2526sig%253DCg0ArKJSzPcEk3zFl4KSEAE%2526fbs_aeid%253D%255Bgw_fbsaeid%255D%2526urlfix%253D1%2526adurl%253Dhttps://ad.doubleclick.net/ddm/trackclk/N1485080.3481786SINCLAIRBROADCAS/B26277237.317159676;dc_trk_aid=509771606;dc_trk_cid=159953955;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=&sid=1685, line 12222: unreachable code after return statement
+JavaScript warning: https://ads.jetpackdigital.com/lineitems/54086/0/jpdli.js?u=https://adclick.g.doubleclick.net/pcs/click%253Fxai%253DAKAOjsuSOmZJNz8MF5HEf0NVqX1pAlr-XxTja4_e6EfNBbsZqwJc2fqLDrrysHiNgTFN9quf1L5GzRMvoBRj7Bw3sPO3CYtYHCvjUTb1NVG0mdmfCQh9vtzcneQsP-ltubeG8q4IOaqvu8yGP6r5hm0PJLE99BmsWqJmJ7HClQCxEJvFvaXh3Iyk-FvL8R4I5YbYLs8me3snB0H2A4upxiKL5biSkhVe_1LwqURMIzKP0yjF9RoAtAchCYxXMl5TQb-OV5kCsG5O9AzA_F4KZOi3-j8Fvgx3zK5Lv8mhwihG27SGYW_1Cy6iouFZA0yPjOPtR_w%2526sai%253DAMfl-YTpUPaG0xviv18-wfmKdv4NJKEFIoknosnZT8lrFvc8h61mrCr-1hj4GWcwbASGC7KgSIqHG8FNBynp0QF5QG13SwO8TUw39wYDmJxJ6yan6-2PIjEixOoeo0OvK9E4%2526sig%253DCg0ArKJSzPcEk3zFl4KSEAE%2526fbs_aeid%253D%255Bgw_fbsaeid%255D%2526urlfix%253D1%2526adurl%253Dhttps://ad.doubleclick.net/ddm/trackclk/N1485080.3481786SINCLAIRBROADCAS/B26277237.317159676;dc_trk_aid=509771606;dc_trk_cid=159953955;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=&sid=1685, line 12236: unreachable code after return statement
+JavaScript warning: https://z.moatads.com/sinclairgamdisplay488716798718/moatad.js#moatClientLevel1=118411018&moatClientLevel2=2930153238&moatClientLevel3=5824089556&moatClientLevel4=138369520616&moatClientSlicer1=102752338&moatClientSlicer2=102780178&zMoatAdUnitPath=/4756/WTVCFOX/Web/news/local, line 253: WebGL warning: <Create>: getContext: Disallowing antialiased backbuffers due to blacklisting. (FEATURE_FAILURE_GLXTEST_FAILED)
+JavaScript warning: https://z.moatads.com/sinclairgamdisplay488716798718/moatad.js#moatClientLevel1=118411018&moatClientLevel2=2930153238&moatClientLevel3=5824089556&moatClientLevel4=138369520616&moatClientSlicer1=102752338&moatClientSlicer2=102780178&zMoatAdUnitPath=/4756/WTVCFOX/Web/news/local, line 253: WebGL warning: <Create>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://z.moatads.com/sinclairgamdisplay488716798718/moatad.js#moatClientLevel1=118411018&moatClientLevel2=2930153238&moatClientLevel3=5824089556&moatClientLevel4=138369520616&moatClientSlicer1=102752338&moatClientSlicer2=102780178&zMoatAdUnitPath=/4756/WTVCFOX/Web/news/local, line 253: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://z.moatads.com/sinclairgamdisplay488716798718/moatad.js#moatClientLevel1=118411018&moatClientLevel2=2930153238&moatClientLevel3=5824089556&moatClientLevel4=138369520616&moatClientSlicer1=102752338&moatClientSlicer2=102780178&zMoatAdUnitPath=/4756/WTVCFOX/Web/news/local, line 253: WebGL warning: <Create>: getContext: Disallowing antialiased backbuffers due to blacklisting. (FEATURE_FAILURE_GLXTEST_FAILED)
+JavaScript warning: https://z.moatads.com/sinclairgamdisplay488716798718/moatad.js#moatClientLevel1=118411018&moatClientLevel2=2930153238&moatClientLevel3=5824089556&moatClientLevel4=138369520616&moatClientSlicer1=102752338&moatClientSlicer2=102780178&zMoatAdUnitPath=/4756/WTVCFOX/Web/news/local, line 253: WebGL warning: <Create>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://z.moatads.com/sinclairgamdisplay488716798718/moatad.js#moatClientLevel1=118411018&moatClientLevel2=2930153238&moatClientLevel3=5824089556&moatClientLevel4=138369520616&moatClientSlicer1=102752338&moatClientSlicer2=102780178&zMoatAdUnitPath=/4756/WTVCFOX/Web/news/local, line 253: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript warning: https://pagead2.googlesyndication.com/bg/A3sS0H_86Eu8poIaUPJJxUQpsgwPL9Z0aaC7WTcRMFE.js line 1 > eval line 3258 > eval line 1 > eval, line 1: WebGL warning: <Create>: getContext: Disallowing antialiased backbuffers due to blacklisting. (FEATURE_FAILURE_GLXTEST_FAILED)
+JavaScript warning: https://pagead2.googlesyndication.com/bg/A3sS0H_86Eu8poIaUPJJxUQpsgwPL9Z0aaC7WTcRMFE.js line 1 > eval line 3258 > eval line 1 > eval, line 1: WebGL warning: <Create>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://pagead2.googlesyndication.com/bg/A3sS0H_86Eu8poIaUPJJxUQpsgwPL9Z0aaC7WTcRMFE.js line 1 > eval line 3258 > eval line 1 > eval, line 1: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript error: https://foxchattanooga.com/resources/assets/2021-11-23T00-23Z/foxchattanooga/compiled_js/presentations-story_v1.min.js, line 1: Error: Network Error
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 114: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: https://cdn.taboola.com/libtrc/sinclair-network/loader.js, line 34: TypeError: undefined is not a function
+JavaScript error: https://foxchattanooga.com/resources/assets/2021-11-23T00-23Z/foxchattanooga/compiled_js/presentations-story_v1.min.js, line 1: Error: Network Error
+JavaScript error: https://foxchattanooga.com/resources/assets/2021-11-23T00-23Z/foxchattanooga/compiled_js/presentations-story_v1.min.js, line 1: Error: Network Error
+JavaScript error: https://foxchattanooga.com/resources/assets/2021-11-23T00-23Z/foxchattanooga/compiled_js/presentations-story_v1.min.js, line 1: Error: Network Error
+JavaScript error: https://foxchattanooga.com/resources/assets/2021-11-23T00-23Z/foxchattanooga/compiled_js/presentations-story_v1.min.js, line 1: Error: Network Error
+1640742372056	Marionette	INFO	Stopped listening on port 42733
+JavaScript warning: https://z.moatads.com/sinclairgamdisplay488716798718/moatad.js#moatClientLevel1=4961833199&moatClientLevel2=2792895530&moatClientLevel3=5571341706&moatClientLevel4=138339541115&moatClientSlicer1=102752338&moatClientSlicer2=102780178&zMoatAdUnitPath=/4756/WTVCFOX/Web/news/local, line 253: WebGL warning: <Create>: getContext: Disallowing antialiased backbuffers due to blacklisting. (FEATURE_FAILURE_GLXTEST_FAILED)
+JavaScript warning: https://z.moatads.com/sinclairgamdisplay488716798718/moatad.js#moatClientLevel1=4961833199&moatClientLevel2=2792895530&moatClientLevel3=5571341706&moatClientLevel4=138339541115&moatClientSlicer1=102752338&moatClientSlicer2=102780178&zMoatAdUnitPath=/4756/WTVCFOX/Web/news/local, line 253: WebGL warning: <Create>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://z.moatads.com/sinclairgamdisplay488716798718/moatad.js#moatClientLevel1=4961833199&moatClientLevel2=2792895530&moatClientLevel3=5571341706&moatClientLevel4=138339541115&moatClientSlicer1=102752338&moatClientSlicer2=102780178&zMoatAdUnitPath=/4756/WTVCFOX/Web/news/local, line 253: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://z.moatads.com/sinclairgamdisplay488716798718/moatad.js#moatClientLevel1=4961833199&moatClientLevel2=2792895530&moatClientLevel3=5571341706&moatClientLevel4=138339541115&moatClientSlicer1=102752338&moatClientSlicer2=102780178&zMoatAdUnitPath=/4756/WTVCFOX/Web/news/local, line 253: WebGL warning: <Create>: getContext: Disallowing antialiased backbuffers due to blacklisting. (FEATURE_FAILURE_GLXTEST_FAILED)
+JavaScript warning: https://z.moatads.com/sinclairgamdisplay488716798718/moatad.js#moatClientLevel1=4961833199&moatClientLevel2=2792895530&moatClientLevel3=5571341706&moatClientLevel4=138339541115&moatClientSlicer1=102752338&moatClientSlicer2=102780178&zMoatAdUnitPath=/4756/WTVCFOX/Web/news/local, line 253: WebGL warning: <Create>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://z.moatads.com/sinclairgamdisplay488716798718/moatad.js#moatClientLevel1=4961833199&moatClientLevel2=2792895530&moatClientLevel3=5571341706&moatClientLevel4=138339541115&moatClientSlicer1=102752338&moatClientSlicer2=102780178&zMoatAdUnitPath=/4756/WTVCFOX/Web/news/local, line 253: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1640742378698	geckodriver	INFO	Listening on 127.0.0.1:59197
+1640742378702	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilekDrotU"
+*** You are running in headless mode.
+1640742381850	Marionette	INFO	Listening on port 37699
+1640742381923	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js, line 227: uncaught exception: TagError: adsbygoogle.push() error: Only one 'enable_page_level_ads' allowed per page.
+JavaScript error: https://noogatoday.6amcity.com/wp-content/themes/community-journals/assets/js/build/app.min.js?ver=20211210193518, line 7: ReferenceError: gform is not defined
+1640742385605	geckodriver	INFO	Listening on 127.0.0.1:49889
+1640742386611	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilezAvYjl"
+*** You are running in headless mode.
+JavaScript warning: https://pagead2.googlesyndication.com/bg/A3sS0H_86Eu8poIaUPJJxUQpsgwPL9Z0aaC7WTcRMFE.js line 1 > eval line 7464 > eval, line 1: WebGL warning: <Create>: getContext: Disallowing antialiased backbuffers due to blacklisting. (FEATURE_FAILURE_GLXTEST_FAILED)
+JavaScript warning: https://pagead2.googlesyndication.com/bg/A3sS0H_86Eu8poIaUPJJxUQpsgwPL9Z0aaC7WTcRMFE.js line 1 > eval line 7464 > eval, line 1: WebGL warning: <Create>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://pagead2.googlesyndication.com/bg/A3sS0H_86Eu8poIaUPJJxUQpsgwPL9Z0aaC7WTcRMFE.js line 1 > eval line 7464 > eval, line 1: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://pagead2.googlesyndication.com/bg/A3sS0H_86Eu8poIaUPJJxUQpsgwPL9Z0aaC7WTcRMFE.js line 1 > eval line 6277 > eval line 1 > eval, line 1: WebGL warning: <Create>: getContext: Disallowing antialiased backbuffers due to blacklisting. (FEATURE_FAILURE_GLXTEST_FAILED)
+JavaScript warning: https://pagead2.googlesyndication.com/bg/A3sS0H_86Eu8poIaUPJJxUQpsgwPL9Z0aaC7WTcRMFE.js line 1 > eval line 6277 > eval line 1 > eval, line 1: WebGL warning: <Create>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://pagead2.googlesyndication.com/bg/A3sS0H_86Eu8poIaUPJJxUQpsgwPL9Z0aaC7WTcRMFE.js line 1 > eval line 6277 > eval line 1 > eval, line 1: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://pagead2.googlesyndication.com/bg/A3sS0H_86Eu8poIaUPJJxUQpsgwPL9Z0aaC7WTcRMFE.js line 1 > eval line 6889 > eval, line 1: WebGL warning: <Create>: getContext: Disallowing antialiased backbuffers due to blacklisting. (FEATURE_FAILURE_GLXTEST_FAILED)
+JavaScript warning: https://pagead2.googlesyndication.com/bg/A3sS0H_86Eu8poIaUPJJxUQpsgwPL9Z0aaC7WTcRMFE.js line 1 > eval line 6889 > eval, line 1: WebGL warning: <Create>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://pagead2.googlesyndication.com/bg/A3sS0H_86Eu8poIaUPJJxUQpsgwPL9Z0aaC7WTcRMFE.js line 1 > eval line 6889 > eval, line 1: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+1640742390130	Marionette	INFO	Listening on port 37621
+1640742390269	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js, line 227: uncaught exception: TagError: adsbygoogle.push() error: Only one 'enable_page_level_ads' allowed per page.
+1640742393410	geckodriver	INFO	Listening on 127.0.0.1:50445
+1640742394415	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileqR0Tyq"
+*** You are running in headless mode.
+JavaScript error: https://noogatoday.6amcity.com/wp-content/themes/community-journals/assets/js/build/app.min.js?ver=20211210193518, line 7: ReferenceError: gform is not defined
+JavaScript warning: https://pagead2.googlesyndication.com/bg/A3sS0H_86Eu8poIaUPJJxUQpsgwPL9Z0aaC7WTcRMFE.js line 1 > eval line 6463 > eval, line 1: WebGL warning: <Create>: getContext: Disallowing antialiased backbuffers due to blacklisting. (FEATURE_FAILURE_GLXTEST_FAILED)
+JavaScript warning: https://pagead2.googlesyndication.com/bg/A3sS0H_86Eu8poIaUPJJxUQpsgwPL9Z0aaC7WTcRMFE.js line 1 > eval line 6463 > eval, line 1: WebGL warning: <Create>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://pagead2.googlesyndication.com/bg/A3sS0H_86Eu8poIaUPJJxUQpsgwPL9Z0aaC7WTcRMFE.js line 1 > eval line 6463 > eval, line 1: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://pagead2.googlesyndication.com/bg/A3sS0H_86Eu8poIaUPJJxUQpsgwPL9Z0aaC7WTcRMFE.js line 1 > eval line 745 > eval line 1 > eval, line 1: WebGL warning: <Create>: getContext: Disallowing antialiased backbuffers due to blacklisting. (FEATURE_FAILURE_GLXTEST_FAILED)
+JavaScript warning: https://pagead2.googlesyndication.com/bg/A3sS0H_86Eu8poIaUPJJxUQpsgwPL9Z0aaC7WTcRMFE.js line 1 > eval line 745 > eval line 1 > eval, line 1: WebGL warning: <Create>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://pagead2.googlesyndication.com/bg/A3sS0H_86Eu8poIaUPJJxUQpsgwPL9Z0aaC7WTcRMFE.js line 1 > eval line 745 > eval line 1 > eval, line 1: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+1640742399893	Marionette	INFO	Listening on port 36513
+1640742399944	Marionette	WARN	TLS certificate errors will be ignored for this session
+1640742404812	geckodriver	INFO	Listening on 127.0.0.1:52835
+1640742404816	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilelvstgY"
+*** You are running in headless mode.
+1640742407926	Marionette	INFO	Listening on port 40313
+1640742408027	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+[Child 32471, MediaDecoderStateMachine #1] WARNING: 7f4d0b140e60 OpenCubeb() failed to init cubeb: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/AudioStream.cpp, line 331
+[Child 32471, MediaDecoderStateMachine #1] WARNING: Decoder=7f4d19f1e400 [OnMediaSinkAudioError]: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/MediaDecoderStateMachine.cpp, line 3891
+[Child 32471, MediaDecoderStateMachine #1] WARNING: Decoder=7f4d19f1e400 Decode error: NS_ERROR_DOM_MEDIA_MEDIASINK_ERR (0x806e000b) - OnMediaSinkAudioError: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/MediaDecoderStateMachine.cpp, line 3470
+[Child 32471, MediaDecoderStateMachine #1] WARNING: 7f4d08363870 OpenCubeb() failed to init cubeb: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/AudioStream.cpp, line 331
+[Child 32471, MediaDecoderStateMachine #1] WARNING: Decoder=7f4d0e108800 [OnMediaSinkAudioError]: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/MediaDecoderStateMachine.cpp, line 3891
+[Child 32471, MediaDecoderStateMachine #1] WARNING: Decoder=7f4d0e108800 Decode error: NS_ERROR_DOM_MEDIA_MEDIASINK_ERR (0x806e000b) - OnMediaSinkAudioError: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/MediaDecoderStateMachine.cpp, line 3470
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+[Child 32471, MediaDecoderStateMachine #1] WARNING: 7f4cff5ecef0 OpenCubeb() failed to init cubeb: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/AudioStream.cpp, line 331
+[Child 32471, MediaDecoderStateMachine #1] WARNING: Decoder=7f4d0df7e000 [OnMediaSinkAudioError]: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/MediaDecoderStateMachine.cpp, line 3891
+[Child 32471, MediaDecoderStateMachine #1] WARNING: Decoder=7f4d0df7e000 Decode error: NS_ERROR_DOM_MEDIA_MEDIASINK_ERR (0x806e000b) - OnMediaSinkAudioError: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/MediaDecoderStateMachine.cpp, line 3470
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 114: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+[Child 32471, MediaDecoderStateMachine #1] WARNING: 7f4d038aaa50 OpenCubeb() failed to init cubeb: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/AudioStream.cpp, line 331
+[Child 32471, MediaDecoderStateMachine #1] WARNING: Decoder=7f4cfa40f800 [OnMediaSinkAudioError]: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/MediaDecoderStateMachine.cpp, line 3891
+[Child 32471, MediaDecoderStateMachine #1] WARNING: Decoder=7f4cfa40f800 Decode error: NS_ERROR_DOM_MEDIA_MEDIASINK_ERR (0x806e000b) - OnMediaSinkAudioError: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/MediaDecoderStateMachine.cpp, line 3470
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 114: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: https://docs.google.com/spreadsheets/d/e/2PACX-1vQst2gLBapeGAD1imq6i002Lxex-M_oJBUw7WztkpqodLGgP-mpaRvrep-MNl_J7TajeGHJ6U5aVJCT/pubhtml?gid=0&range=a1:g6&widget=false&headers=false&chrome=false, line 62: ReferenceError: posObjs is not defined
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+[Child 32471, MediaDecoderStateMachine #1] WARNING: 7f4d0b1404a0 OpenCubeb() failed to init cubeb: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/AudioStream.cpp, line 331
+[Child 32471, MediaDecoderStateMachine #1] WARNING: Decoder=7f4ce4bed400 [OnMediaSinkAudioError]: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/MediaDecoderStateMachine.cpp, line 3891
+[Child 32471, MediaDecoderStateMachine #1] WARNING: Decoder=7f4ce4bed400 Decode error: NS_ERROR_DOM_MEDIA_MEDIASINK_ERR (0x806e000b) - OnMediaSinkAudioError: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/MediaDecoderStateMachine.cpp, line 3470
+[Child 32471, MediaDecoderStateMachine #1] WARNING: 7f4cff983640 OpenCubeb() failed to init cubeb: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/AudioStream.cpp, line 331
+[Child 32471, MediaDecoderStateMachine #1] WARNING: Decoder=7f4cdf3cb800 [OnMediaSinkAudioError]: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/MediaDecoderStateMachine.cpp, line 3891
+[Child 32471, MediaDecoderStateMachine #1] WARNING: Decoder=7f4cdf3cb800 Decode error: NS_ERROR_DOM_MEDIA_MEDIASINK_ERR (0x806e000b) - OnMediaSinkAudioError: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/MediaDecoderStateMachine.cpp, line 3470
+JavaScript warning: https://pagead2.googlesyndication.com/bg/A3sS0H_86Eu8poIaUPJJxUQpsgwPL9Z0aaC7WTcRMFE.js line 1 > eval line 6619 > eval line 1 > eval, line 1: WebGL warning: <Create>: getContext: Disallowing antialiased backbuffers due to blacklisting. (FEATURE_FAILURE_GLXTEST_FAILED)
+JavaScript warning: https://pagead2.googlesyndication.com/bg/A3sS0H_86Eu8poIaUPJJxUQpsgwPL9Z0aaC7WTcRMFE.js line 1 > eval line 6619 > eval line 1 > eval, line 1: WebGL warning: <Create>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://pagead2.googlesyndication.com/bg/A3sS0H_86Eu8poIaUPJJxUQpsgwPL9Z0aaC7WTcRMFE.js line 1 > eval line 6619 > eval line 1 > eval, line 1: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript error: https://newsource-embed-prd.ns.cnn.com/videos/googlesdk.js, line 427: Error: IMA SDK is either not loaded from a google domain or is not a supported version.
+[Child 32471, MediaDecoderStateMachine #1] WARNING: 7f4d0de59ae0 OpenCubeb() failed to init cubeb: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/AudioStream.cpp, line 331
+[Child 32471, MediaDecoderStateMachine #1] WARNING: Decoder=7f4ce26bc400 [OnMediaSinkAudioError]: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/MediaDecoderStateMachine.cpp, line 3891
+[Child 32471, MediaDecoderStateMachine #1] WARNING: 7f4d0e5a52c0 OpenCubeb() failed to init cubeb: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/AudioStream.cpp, line 331
+[Child 32471, MediaDecoderStateMachine #1] WARNING: Decoder=7f4cf95c3c00 [OnMediaSinkAudioError]: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/MediaDecoderStateMachine.cpp, line 3891
+[Child 32471, MediaDecoderStateMachine #1] WARNING: Decoder=7f4cf95c3c00 Decode error: NS_ERROR_DOM_MEDIA_MEDIASINK_ERR (0x806e000b) - OnMediaSinkAudioError: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/MediaDecoderStateMachine.cpp, line 3470
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+[Child 32471, MediaDecoderStateMachine #1] WARNING: 7f4cfb965b20 OpenCubeb() failed to init cubeb: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/AudioStream.cpp, line 331
+[Child 32471, MediaDecoderStateMachine #1] WARNING: Decoder=7f4cdf3cf400 [OnMediaSinkAudioError]: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/MediaDecoderStateMachine.cpp, line 3891
+[Child 32471, MediaDecoderStateMachine #1] WARNING: Decoder=7f4cdf3cf400 Decode error: NS_ERROR_DOM_MEDIA_MEDIASINK_ERR (0x806e000b) - OnMediaSinkAudioError: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/MediaDecoderStateMachine.cpp, line 3470
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 114: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: https://newsource-embed-prd.ns.cnn.com/videos/googlesdk.js, line 427: Error: IMA SDK is either not loaded from a google domain or is not a supported version.
+[Child 32471, MediaDecoderStateMachine #1] WARNING: 7f4cfc3bbf30 OpenCubeb() failed to init cubeb: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/AudioStream.cpp, line 331
+[Child 32471, MediaDecoderStateMachine #1] WARNING: Decoder=7f4cff4ba800 [OnMediaSinkAudioError]: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/MediaDecoderStateMachine.cpp, line 3891
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+[Child 32471, MediaDecoderStateMachine #1] WARNING: 7f4d0a0fbbb0 OpenCubeb() failed to init cubeb: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/AudioStream.cpp, line 331
+[Child 32471, MediaDecoderStateMachine #1] WARNING: Decoder=7f4d0e6f4400 [OnMediaSinkAudioError]: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/MediaDecoderStateMachine.cpp, line 3891
+[Child 32471, MediaDecoderStateMachine #1] WARNING: Decoder=7f4d0e6f4400 Decode error: NS_ERROR_DOM_MEDIA_MEDIASINK_ERR (0x806e000b) - OnMediaSinkAudioError: file /build/firefox-esr-uHWgGn/firefox-esr-78.15.0esr/dom/media/MediaDecoderStateMachine.cpp, line 3470
+1640742647887	Marionette	INFO	Stopped listening on port 40313
+JavaScript error: https://www.wrcbtv.com/story/45542819/bishop-kevin-adams-explains-brawl-inside-church-that-went-viral line 2 > scriptElement, line 1: NS_ERROR_NOT_INITIALIZED: 
+IPDL protocol error: Handler returned error code!
+
+###!!! [Parent][DispatchAsyncMessage] Error: PMessagePort::Msg_PostMessages Processing error: message was deserialized, but the handler returned false (indicating failure)
+
+IPDL protocol error: Handler returned error code!
+
+###!!! [Parent][DispatchAsyncMessage] Error: PMessagePort::Msg_PostMessages Processing error: message was deserialized, but the handler returned false (indicating failure)
+
+IPDL protocol error: Handler returned error code!
+
+###!!! [Parent][DispatchAsyncMessage] Error: PMessagePort::Msg_PostMessages Processing error: message was deserialized, but the handler returned false (indicating failure)
+
+JavaScript error: https://www.wrcbtv.com/story/45542819/bishop-kevin-adams-explains-brawl-inside-church-that-went-viral line 2 > scriptElement, line 1: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: https://www.wrcbtv.com/story/45542819/bishop-kevin-adams-explains-brawl-inside-church-that-went-viral line 2 > scriptElement, line 1: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: https://www.wrcbtv.com/story/45542819/bishop-kevin-adams-explains-brawl-inside-church-that-went-viral line 2 > scriptElement, line 1: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.

@@ -1,0 +1,194 @@
+{% load static %}
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A community hub for the Chattanooga region. Stay up-to-date with the latest local articles and content" />
+  <meta name="theme-color" content="#F39887" />
+  <meta property="og:title" content="myChattanooga" />
+  <meta property="og:type" content="website" />
+  <meta property="og:description" content="A community hub for the Chattanooga region. Stay up-to-date with the latest local articles and content" />
+  <meta property="og:image" content="https://mychattanooga.app/static/news/images/mychattanooga_social_profile.png" />
+  <meta property="og:url" content="https://mychattanooga.app" />
+  <meta property="og:image:secure_url" content="https://mychattanooga.app/static/news/images/mychattanooga_social_profile.png" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Domine:wght@400;500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'news/css/bootstrap.css' %}" type="text/css" />
+  <link rel="stylesheet" href="{% static 'news/css/style.css' %}" type="text/css" />
+  <link rel="stylesheet" href="{% static 'news/css/dark.css' %}" type="text/css" />
+  
+  <link rel="stylesheet" href="{% static 'news/css/font-icons.css' %}" type="text/css" />
+  <link rel="stylesheet" href="{% static 'news/css/animate.css' %}" type="text/css" />
+  <link rel="stylesheet" href="{% static 'news/css/magnific-popup.css' %}" type="text/css" />
+  
+  <link rel="stylesheet" href="{% static 'news/css/custom.css' %}" type="text/css" />
+  
+  <!-- Blog Demo Specific Stylesheet -->
+  <link rel="stylesheet" href="{% static 'news/css/fonts.css' %}" type="text/css" />
+  <link rel="stylesheet" href="{% static 'news/css/blog.css' %}" type="text/css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  
+  <!-- Favicon stuff -->
+  <!-- generics -->
+  <link rel="icon" href="{% static 'news/images/Favicons/mcn-favicon-32.png' %}" sizes="32x32">
+  <link rel="icon" href="{% static 'news/images/Favicons/mcn-favicon-128.png' %}" sizes="128x128">
+  <link rel="icon" href="{% static 'news/images/Favicons/mcn-favicon-192.png' %}" sizes="192x192">
+  
+  <!-- Android -->
+  <link rel="shortcut icon" href="{% static 'news/images/Favicons/mcn-favicon-196.png' %}" sizes="196x196">
+  
+  <!-- iOS -->
+  <link rel="apple-touch-icon" href="{% static 'news/images/Favicons/mcn-favicon-152.png' %}" sizes="152x152">
+  <link rel="apple-touch-icon" href="{% static 'news/images/Favicons/mcn-favicon-167.png' %}" sizes="167x167">
+  <link rel="apple-touch-icon" href="{% static 'news/images/Favicons/mcn-favicon-180.png' %}" sizes="180x180">
+  
+  <!-- Document Title
+       ============================================= -->
+  {% if title %}
+  <title>myChattanooga - {{ title }}</title>
+  {% else %}
+  <title>myChattanooga - News</title>
+  {% endif %}
+  
+  <script src="{% static 'news/js/jquery.js' %}"></script>
+  <script src="{% static 'news/js/velocity.js' %}"></script>
+  <script src="{% static 'news/js/plugins.min.js' %}"></script>
+  <script data-main="{% static 'news/js/loader.js' %}" src="{% static 'news/js/require.js' %}"></script>
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2JMLXHWPNQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    
+    gtag('config', 'G-2JMLXHWPNQ');
+  </script>
+	
+</head>
+
+<body class="stretched search-overlay dark">
+	<div id="main" style="opacity: 0;">
+
+		<!-- Document Wrapper
+		============================================= -->
+		<div id="wrapper">
+
+			<!-- Header
+			============================================= -->
+			<header id="header" class="header-size-custom" data-sticky-shrink="false">
+				<div id="header-wrap">
+					<div class="container" id="header-logo" style="opacity: 1;">
+						<div class="header-row justify-content-lg-between">
+
+							<!-- Logo
+							============================================= -->
+							<div id="logo" class="mx-lg-auto col-auto flex-column order-lg-2 px-0">
+								<a href="/" class="standard-logo" data-dark-logo="{% static 'news/images/myChattanooga_long-light.png' %}" data-mobile-logo="{% static 'news/images/myChattanooga_long-dark.png' %}" data-mobile-logo-dark="{% static 'news/images/myChattanooga_long-light.png' %}"><img src="{% static 'news/images/myChattanooga_long-dark.png' %}" alt="MCN Logo"></a>
+								<a href="/" class="retina-logo" data-dark-logo="{% static 'news/images/myChattanooga_long-light.png' %}" data-mobile-logo="{% static 'news/images/myChattanooga_long-dark.png' %}" data-mobile-logo-dark="{% static 'news/images/myChattanooga_long-light.png' %}"><img src="{% static 'news/images/myChattanooga_long-dark.png' %}" alt="MCN Logo"></a>
+								<span class="divider divider-center date-today"><span class="divider-text"></span></span>
+							</div><!-- #logo end -->
+
+							<div class="col-auto col-lg-3 order-lg-1" id="main_socials">
+								<div class="social-icons">
+									<a href="https://www.facebook.com/ChattanoogaApp" class="social-icon si-rounded si-dark si-mini si-facebook" target="_blank">
+										<i class="icon-facebook"></i>
+										<i class="icon-facebook"></i>
+									</a>
+									<a href="https://twitter.com/ChattanoogaApp" class="social-icon si-rounded si-dark si-mini si-twitter" target="_blank">
+										<i class="icon-twitter"></i>
+										<i class="icon-twitter"></i>
+									</a>
+									<a href="https://www.instagram.com/chattanooga_headlines/" class="social-icon si-rounded si-dark si-mini si-instagram" target="_blank">
+										<i class="icon-instagram"></i>
+										<i class="icon-instagram"></i>
+									</a>
+								</div>
+							</div>
+
+							<div class="header-misc col-auto col-lg-3 justify-content-lg-end ml-0 ml-sm-3 px-0">
+
+							  <div id="reload-trigger" class="header-misc-icon" style="padding-right:3px; display: block;">
+							    <span><i class="icon-reload" style="display: block;"></i></span>
+							  </div>
+							  
+							  <div id="dark-trigger" class="dark-mode header-misc-icon d-none d-md-block" style="padding-left:3px; display:block !important;">
+							    <span style="display:block !important;"><i class="icon-dark"></i></span>
+							  </div>
+
+							</div>
+
+							<div id="primary-menu-trigger">
+								<svg class="svg-trigger" viewBox="0 0 100 100"><path d="m 30,33 h 40 c 3.722839,0 7.5,3.126468 7.5,8.578427 0,5.451959 -2.727029,8.421573 -7.5,8.421573 h -20"></path><path d="m 30,50 h 40"></path><path d="m 70,67 h -40 c 0,0 -7.5,-0.802118 -7.5,-8.365747 0,-7.563629 7.5,-8.634253 7.5,-8.634253 h 20"></path></svg>
+							</div>
+
+							<div class="col-auto col-lg-3 order-lg-1" id="mobile_socials" style="display: none;">
+								<div class="social-icons">
+									<a href="https://www.facebook.com/ChattanoogaApp" class="social-icon si-rounded si-dark si-mini si-facebook" target="_blank">
+										<i class="icon-facebook"></i>
+										<i class="icon-facebook"></i>
+									</a>
+									<a href="https://twitter.com/ChattanoogaApp" class="social-icon si-rounded si-dark si-mini si-twitter" target="_blank">
+										<i class="icon-twitter"></i>
+										<i class="icon-twitter"></i>
+									</a>
+									<a href="https://www.instagram.com/chattanooga_headlines/" class="social-icon si-rounded si-dark si-mini si-instagram" target="_blank">
+										<i class="icon-instagram"></i>
+										<i class="icon-instagram"></i>
+									</a>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					
+					<div class="container" id="header-menu" style="opacity: 1;">
+						<div class="header-row justify-content-lg-center header-border">
+
+
+							<nav class="primary-menu with-arrows">
+
+								<ul class="menu-container justify-content-between">
+									<li class="menu-item"><a class="menu-link" href="/"><div>News</div></a></li>
+									<li class="menu-item"><a class="menu-link" href="/faq/"><div>FAQ</div></a></li>
+									<li class="menu-item"><a class="menu-link" href="/stats/"><div>Stats</div></a></li>
+								</ul>
+
+						</div>
+					</div>
+				</div>
+				<div class="header-wrap-clone"></div>
+
+			</header><!-- #header end -->
+
+			<!-- Content
+			============================================= -->
+			<section id="content" class="scene_element scene_element--fadeinup" style="opacity: 0;">
+				<div class="content-wrap pt-0 pt-sm-6">
+					<div class="container">
+
+						{% block content %} {% endblock %}
+
+					</div>
+				</div>
+			</section><!-- #content end -->
+
+
+		</div><!-- #wrapper end -->
+
+		<!-- Go To Top
+		============================================= -->
+		<div id="gotoTop" class="icon-angle-up rounded-circle" style="left: 30px; right: auto;"></div>
+
+	</div>
+
+	<div id="footer" class="no-smoothstate">
+	  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	</div>
+
+</body>
+</html>

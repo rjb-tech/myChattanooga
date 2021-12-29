@@ -1,0 +1,25 @@
+/* ----------------------------------------------------------------
+	Custom CSS
+
+	Add all your Custom Styled CSS here for New Styles or
+	Overwriting Default Theme Styles for Better Handling Updates
+-----------------------------------------------------------------*/
+media (max-width: 767.98px)
+    .faq-section {
+        padding: 2rem 0 !important;
+        text-align: center;
+    }
+
+.faq-section {
+    padding: 0rem;
+}
+
+#time_since_posted {
+    color: #F39887 !important;
+    font-style: italic !important;
+}
+
+.dark #time_since_posted {
+    color: rgba(255,255,255, .5) !important;
+}
+

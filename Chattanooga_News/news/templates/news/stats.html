@@ -1,0 +1,37 @@
+{% extends "news/base.html" %}
+{% load static %}
+{% block content %}
+
+<span class="hiddenstat" id="statsinfo">
+    <span class="hiddenstat" id="scraped_tfp">{{ stats.scraped_tfp }} </span>
+    <span class="hiddenstat" id="relevant_tfp">{{ stats.relevant_tfp }}</span>
+
+    <span class="hiddenstat" id="scraped_chattanoogan">{{ stats.scraped_chattanoogan }}</span>
+    <span class="hiddenstat" id="relevant_chattanoogan">{{ stats.relevant_chattanoogan }}</span>
+
+    <span class="hiddenstat" id="scraped_fox_chattanooga">{{ stats.scraped_fox_chattanooga }}</span>
+    <span class="hiddenstat" id="relevant_fox_chattanooga">{{ stats.scraped_fox_chattanooga }}</span>
+
+    <span class="hiddenstat" id="scraped_wdef">{{ stats.scraped_wdef }}</span>
+    <span class="hiddenstat" id="relevant_wdef">{{ stats.relevant_wdef }}</span>
+
+    <span class="hiddenstat" id="scraped_nooga_today">{{ stats.scraped_nooga_today }}</span>
+    <span class="hiddenstat" id="relevant_nooga_today">{{ stats.relevant_nooga_today }}</span>
+
+    <span class="hiddenstat" id="scraped_pulse">{{ stats.scraped_pulse }}</span>
+    <span class="hiddenstat" id="relevant_pulse">{{ stats.relevant_pulse }}</span>
+
+    <span class="hiddenstat" id="scraped_chronicle">{{ stats.scraped_chronicle }}</span>
+    <span class="hiddenstat" id="relevant_chronicle">{{ stats.relevant_chronicle }}</span>
+
+    <span class="hiddenstat" id="scraped_wrcb">{{ stats.scraped_wrcb }}</span>
+    <span class="hiddenstat" id="relevant_wrcb">{{ stats.relevant_wrcb }}</span>
+</span>
+<div class="row justify-content-center gutter-50 col-mb-50">
+    <div class="col-lg-12">
+        <br style="display: none;" id="stats_break">
+        <div id="chart_div" style="display: inline-block; margin: 0 auto; width: 100%; height: 500px;"></div>
+    </div>
+</div>
+
+{% endblock %}

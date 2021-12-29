@@ -1,0 +1,66 @@
+{% extends "news/base.html" %}
+{% block content %}
+    <section id="page-title" class="faq-section">
+
+        <div class="container clearfix">
+            <div class="faq">
+                <h2>About MyChattanooga</h2>
+                <span>
+                  myChattanooga was made with the goal of keeping Chattanooga-area residents up to date with the local news. Designed as a one-stop shop for Chattanooga news, myChattanooga sifts through each local news site to only show you articles that are relevant to Chattanooga and the surrounding region. No national or statewide news (that doesn't mention Chattanooga) will be shown in an effort to only highlight news from our community. Local news awareness is more important than ever, and we thank you for trusting myChattanooga.
+                </span>
+                <br>
+                <br>
+            </div>
+            <div class="faq">
+                <h2>How does it work?</h2>
+                <span>
+                    myChattanooga is powered by an algorithm that goes out to local news outlets and reads all available headlines and stories from today to determine if they are relevant (more on relevancy below). The scraper is run multiple times every hour, so what you see on the homepage is always up-to-date. The sources we scrape are listed below. <strong style="font-style: italic;">NOTE: If you know of another reliable site that provides news for the region, please contact us using the email at the bottom of this page.</strong>
+                    <br>
+                    <p>
+                      <br>
+		      <!-- <a class="color-underline" href="https://www.youtube.com/channel/UCqO3AVi0ZtkL_VcME0C8Acg" target="_blank">&emsp;CHA Guide</a> <br> -->
+                      <a class="color-underline" href="https://www.chattanoogan.com/" target="_blank">&emsp;The Chattanoogan</a> <br>
+		      <a class="color-underline" href="https://www.chattnewschronicle.com/" target="_blank">&emsp;Chattanooga News Chronicle</a> <br>
+                      <a class="color-underline" href="http://www.chattanoogapulse.com/" target="_blank">&emsp;Chattanooga Pulse</a> <br>
+                      <a class="color-underline" href="https://www.timesfreepress.com/" target="_blank">&emsp;Chattanooga Times Free Press</a> <br>
+		      <a class="color-underline" href="https://foxchattanooga.com/" target="_blank">&emsp;Fox Chattanooga</a> <br>
+                      <a class="color-underline" href="https://noogatoday.6amcity.com/category/news/" target="_blank">&emsp;Nooga Today</a> <br>
+                      <a class="color-underline" href="https://wdef.com/" target="_blank">&emsp;WDEF News 12</a> <br>
+		      <a class="color-underline" href="https://www.wrcbtv.com/" target="_blank">&emsp;WRCB</a> <br>
+		    </p>
+                </span>
+                <br>
+                <br>
+            </div>
+            <div class="faq">
+                <h2>
+                    What makes an article relevant?
+                </h2>
+		<span>
+                    The algorithm currently searches found articles and headlines for keywords referring to Chattanooga or the surrounding region (in Tennessee). Any match of a keyword results in that article being flagged as relevant, while any articles that mention another state or do not have any keyword matches are passed over. We still recommend going to each source's website and seeing what else they have published throughout the day. No news aggregate site would be perfect at this, but we think MyChattanooga provides a good starting point for community awareness.
+                </span>
+                <br>
+                <br>
+            </div>
+	    <div class="faq">
+	      <h2>
+		Why aren't some of the images showing?
+	      </h2>
+	      <span>
+		Some websites still use unsecured, unencrypted transport protocols when serving content from their file servers, and some modern browsers automatically block this content in the interest of preserving user privacy. Because myChattanooga doesn't collect or handle any of your sensitive data, this shouldn't be a big deal, but you should always make sure your connection is secure when storing information on or purchasing from any website. Your browser should give you the option to show insecure content if you'd still like to view these images, but they will remain blocked on our iOS and Android apps to prevent any potential security risks on your device.
+	      </span>
+	      <br>
+	      <br>
+	    </div>
+            <div class="faq">
+                <h2>
+                    Where can I provide feedback and/or suggestions?
+                </h2>
+                <span>
+                    Please send all feedback and inquiries to <a class="color-underline" href="mailto:feedback@mychattanooga.news">feedback@mychattanooga.app</a>.
+                </span>
+            </div>
+        </div>
+
+    </section>
+{% endblock content %}
