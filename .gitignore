@@ -3,3 +3,7 @@
 *~
 index_backup.html
 *.log
+*.news
+*.stats
+data/TFP_By_Day
+data/2021
