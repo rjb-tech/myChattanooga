@@ -125,7 +125,7 @@ def brews(request):
 
 def load_stories():
 
-    today_news_filename = '/home/mychattanooga/data/' + get_date(7) + '.news'
+    today_news_filename = '/home/mychattanooga/WebApp/Chattanooga_News/data/' + get_date(7) + '.news'
 
     news_data = pickle.load(open(today_news_filename, 'rb'))
 

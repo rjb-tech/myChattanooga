@@ -7,3 +7,4 @@ index_backup.html
 *.stats
 data/TFP_By_Day
 data/2021
+news/__pycache__/
