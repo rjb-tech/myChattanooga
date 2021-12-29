@@ -1064,7 +1064,7 @@ def scrape_times_free_press(url, date, session):
     publisher = "Chattanooga Times Free Press (subscription required)"
 
     # Output file for writing TFP article post times
-    times_file_name = '/home/mychattanooga/Chattanooga_News/data/TFP_By_Day/tfp-article-times-' + get_date(3) + '.tfp'
+    times_file_name = '/home/mychattanooga/WebApp/Chattanooga_News/data/TFP_By_Day/tfp-article-times-' + get_date(3) + '.tfp'
     #times_file = open(times_file_name, 'a')
 
     os.system('touch ' + times_file_name)
