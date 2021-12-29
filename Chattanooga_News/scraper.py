@@ -2424,8 +2424,8 @@ def scrape_news():
         print("-- Daylight savings currently inactive --\n")
 
     # Today's news file
-    today_news_file = '/home/mychattanooga/data/' + get_date(7) + '.news'
-    today_stats_file = '/home/mychattanooga/data/' + get_date(7) + '.stats'
+    today_news_file = '/home/mychattanooga/WebApp/Chattanooga_News/data/' + get_date(7) + '.news'
+    today_stats_file = '/home/mychattanooga/WebApp/Chattanooga_News/data/' + get_date(7) + '.stats'
         
     # HTTP session to use for all scrapers
     # This should speed things up by not constantly having to open new connections for each scrape
