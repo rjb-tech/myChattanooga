@@ -8,3 +8,4 @@ index_backup.html
 data/TFP_By_Day
 data/2021
 *.pyc
+venv/
