@@ -1055,7 +1055,7 @@ def scrape_times_free_press(url, date, session):
     publisher = "Chattanooga Times Free Press (subscription required)"
 
     # Output file for writing TFP article post times
-    times_file_name = '/data/TFP_By_Day/tfp-article-times-' + get_date(3) + '.tfp'
+    times_file_name = os.path.dirname(os.path.realpath('__file__')) + '/data/TFP_By_Day/tfp-article-times-' + get_date(3) + '.tfp'
     #times_file = open(times_file_name, 'a')
 
     os.system('touch ' + times_file_name)
@@ -2422,8 +2422,8 @@ def scrape_news():
         print("-- Daylight savings currently inactive --\n")
 
     # Today's news file
-    today_news_file = '/data/' + get_date(7) + '.news'
-    today_stats_file = '/data/' + get_date(7) + '.stats'
+    today_news_file = os.path.dirname(os.path.realpath('__file__')) +'/data/' + get_date(7) + '.news'
+    today_stats_file = os.path.dirname(os.path.realpath('__file__')) +'/data/' + get_date(7) + '.stats'
         
     # HTTP session to use for all scrapers
     # This should speed things up by not constantly having to open new connections for each scrape
