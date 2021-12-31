@@ -5,3 +5,4 @@ lxml==4.6.2
 tweepy==3.10.0
 facebook-sdk==3.1.0
 pytz==2021.1
+SQLAlchemy==1.4.27
