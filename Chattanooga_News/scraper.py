@@ -5,19 +5,10 @@
 # Author: Ryne Burden
 #
 # Description: 
-#    - This script gathers daily news from all local news sources
-#
-#    - This script will be run before format_newsletter.py
+#    - This script gathers daily news from all local Chattanooga news sources
 #
 # Outputs:
 #    - The script will output a list with every relevant article from the day
-#
-# External Dependencies:
-#    - Python: 3.8.5
-#    - Beautiful Soup 4: 4.9.1
-#    - Requests 2.24.0
-#    - Selenium 3.141.0
-#    - lxml 4.6.2
 #
 # ************************************************** #
 
@@ -2343,12 +2334,15 @@ def tweet_new_articles(article_list):
         if int(current_article['time_posted'][:2]) > 12:
             current_time_posted = str(int(current_article['time_posted'][:2]) - 12) + ":" + current_article['time_posted'][-2:]
             AM_or_PM = 'PM'
+
         elif int(current_article['time_posted'][:2]) == 0:
             current_time_posted = "12:" + current_article['time_posted'][-2:]
             AM_or_PM = 'AM'
+
         elif int(current_article['time_posted'][:2]) == 12:
             current_time_posted = current_article['time_posted']
             AM_or_PM = 'PM'
+
         else:
             # I type cast the string into an int and back to a string to get rid of the leading 0 in the string 
             current_time_posted = str(int(current_article['time_posted'][:2])) + ":" +  current_article['time_posted'][-2:]
@@ -2382,6 +2376,7 @@ def post_to_facebook(article_list):
     for current_article in articles:
         if current_article['publisher'] == 'Chattanooga Times Free Press (subscription required)':
             current_publisher = "Times Free Press"
+
         else:
             current_publisher = current_article['publisher']
 
@@ -2391,12 +2386,15 @@ def post_to_facebook(article_list):
         if int(current_article['time_posted'][:2]) > 12:
             current_time_posted = str(int(current_article['time_posted'][:2]) - 12) + ":" + current_article['time_posted'][-2:]
             AM_or_PM = 'PM'
+
         elif int(current_article['time_posted'][:2]) == 0:
             current_time_posted = "12:" + current_article['time_posted'][-2:]
             AM_or_PM = 'AM'
+
         elif int(current_article['time_posted'][:2]) == 12:
             current_time_posted = current_article['time_posted']
             AM_or_PM = 'PM'
+
         else:
             # I type cast the string into an int and back to a string to get rid of the leading 0 in the string
             current_time_posted = str(int(current_article['time_posted'][:2])) + ":" + current_article['time_posted'][-2:]
@@ -2803,8 +2801,3 @@ def main():
         
 
 main()
-
-#fox_chattanooga_articles, scraped_fox_chattanooga = scrape_fox_chattanooga(links['fox_chattanooga']['base'] + links['fox_chattanooga']['local_news'], get_date(6))
-
-#for x in scrape_wdef(links['wdef']['base'] + links['wdef']['local_news'], get_date(8), requests.Session()):
-#    print(x)
