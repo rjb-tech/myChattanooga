@@ -5,7 +5,7 @@ index_backup.html
 *.log
 *.news
 *.stats
-data/TFP_By_Day
-data/2021
+Chattanooga_News/data/TFP_By_Day
+Chattanooga_News/data/2021
 *.pyc
 venv/
