@@ -2822,15 +2822,15 @@ def scrape_news():
     pickle.dump(stats, open(today_stats_file, 'wb'))
     logging.info('stats file saved')
 
-     if len(articles) > 0:
-         try:
-             tweet_new_articles(articles)
-         except Exception as e:
-             logging.error('Articles not tweeted', exc_info=True)
-         try:
-             post_to_facebook(articles)
-         except Exception as e:
-             logging.error('Articles not posted to Facebook', exc_info=True)
+    if len(articles) > 0:
+        try:
+            tweet_new_articles(articles)
+        except Exception as e:
+            logging.error('Articles not tweeted', exc_info=True)
+        try:
+            post_to_facebook(articles)
+        except Exception as e:
+            logging.error('Articles not posted to Facebook', exc_info=True)
             
 def Sort(sub_li, to_reverse):
     # reverse = None (Sorts in Ascending order)
