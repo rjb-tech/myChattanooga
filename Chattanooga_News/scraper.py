@@ -2598,6 +2598,8 @@ def scrape_news():
         
     # ---------- WDEF ---------- #
     try:
+        logging.info('WDEF scraper started')
+
         wdef_articles, scraped_wdef = scrape_wdef(links['wdef']['base'] + links['wdef']['local_news'], get_date(8), scraper_session)
         articles.extend(wdef_articles)
 
@@ -2608,10 +2610,11 @@ def scrape_news():
         stats['relevant_wdef'] = relevant_wdef
         
     except Exception as e:
-        print('\tException caught in WDEF scraper')
-        print(e)
+        logging.error('Exception caught in WDEF scraper', exc_info=True)
+        #print('\tException caught in WDEF scraper')
+        #print(e)
         #traceback.print_exc()
-        print()
+        #print()
 
         # Try to assign the current stats, make them 0 if they aren't available
         try:
