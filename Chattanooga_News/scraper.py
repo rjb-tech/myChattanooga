@@ -2367,7 +2367,8 @@ def tweet_new_articles(article_list):
         last_headline = current_article['headline']
         
     # Status message
-    print("** New articles tweeted **")
+    logging.info('** New articles tweeted **')
+    #print("** New articles tweeted **")
 
 def post_to_facebook(article_list):
 
@@ -2418,7 +2419,8 @@ def post_to_facebook(article_list):
 
         last_headline = current_article['headline']
 
-    print("** New articles posted to Facebook **")
+    #print("** New articles posted to Facebook **")
+    logging.info('** New articles posted to Facebook **')
     
 # Scraper function
 def scrape_news():
@@ -2776,10 +2778,11 @@ def scrape_news():
                 articles[x]['time_posted'] = "12:00"
 
         except KeyError:
-            # This except statement cathces and removes any dictionaries
+            # This except statement catches and removes any dictionaries
             # that indicate a site is down
             # These should be the only things that throw an exception
-            print(articles[x]['publisher'] + " " + articles[x]['headline'])
+            logging.info(articles[x]['publisher'] + " " + articles[x]['headline'])
+            #print(articles[x]['publisher'] + " " + articles[x]['headline'])
             articles.pop(x)
 
         # This catches index errors that occur when publishers are down and items get popped
@@ -2799,10 +2802,13 @@ def scrape_news():
     
     # Dump the list of articles from recycle_homepage to the .news file
     pickle.dump(articles_to_save, open(today_news_file, 'wb'))
+    logging.info('articles file saved')
 
-    # Status prints
-    print("\n-- " + str(len(articles_to_save)) + " relevant articles currently saved --")
-    print("-- " + str(len(articles)) + " of those are newly found --\n")
+    # Status logs
+    logging.info(str(len(articles_to_save)) + " relevant articles currently saved")
+    logging.info(str(len(articles)) + " of those are newly found")
+    #print("\n-- " + str(len(articles_to_save)) + " relevant articles currently saved --")
+    #print("-- " + str(len(articles)) + " of those are newly found --\n")
 
     # This is where something like a facebook/twitter/instagram API would come in handy
     # Instagram maybe should get its own command in data_commands since those are cherry-picked
@@ -2810,10 +2816,12 @@ def scrape_news():
 
     # This keeps firefox from taking up a ton of memory 
     os.system("pkill -f firefox")
+    logging.info('Firefox pkill, RAM cleared')
 
     calculate_relevant_stats(articles_to_save, current_stats, stats)
     pickle.dump(stats, open(today_stats_file, 'wb'))
-    
+    logging.info('stats file saved')
+
     if len(articles) > 0:
         try:
             tweet_new_articles(articles)
