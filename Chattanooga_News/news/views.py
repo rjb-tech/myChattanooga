@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render
 #from django.http import HttpResponse
 from datetime import datetime, timezone
@@ -93,7 +94,7 @@ def faq(request):
 
 def stats(request):
 
-    today_stats_file = '/home/mychattanooga/data/' + get_date(7) + '.stats'
+    today_stats_file = os.path.dirname(os.path.realpath('__file__')) +'/data/' + get_date(7) + '.stats'
 
     stats = pickle.load(open(today_stats_file, 'rb'))
 
