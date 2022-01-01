@@ -2492,6 +2492,8 @@ def scrape_news():
     # ---------- TIMES FREE PRESS ---------- #
     # For breaking/political section
     try:
+        logging.info('TFP scraper started')
+
         times_breaking_articles, scraped_times_breaking = scrape_times_free_press(links['times_free_press']['base'] + links['times_free_press']['local_news'], get_date(1), scraper_session)
         times_political_articles, scraped_times_political = scrape_times_free_press(links['times_free_press']['base'] + links['times_free_press']['local_politics'], get_date(1), scraper_session)
         times_business_articles, scraped_times_business = scrape_times_free_press(links['times_free_press']['base'] + links['times_free_press']['region_business'], get_date(1), scraper_session)
@@ -2516,9 +2518,10 @@ def scrape_news():
         articles.extend(tfp_articles)
 
     except Exception as e:
-        print("\tException caught in TFP scraper")
-        print(e)
-        print()
+        logging.error('exception caught in TFP scraper', exc_info=True)
+        #print("\tException caught in TFP scraper")
+        #print(e)
+        #print()
 
         # Put stats variables into dict
         try:
