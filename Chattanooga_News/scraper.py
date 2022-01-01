@@ -2627,6 +2627,8 @@ def scrape_news():
     # ---------- NOOGA TODAY ---------- #
     # For breaking / political section
     try:
+        logging.info('Nooga Today scraper started')
+
         nooga_today_news_articles, scraped_nooga_today_news = scrape_nooga_today_breaking_political(links['nooga_today']['base'] + links['nooga_today']['local_news'], get_date(1), 'news')
         nooga_today_city_articles, scraped_nooga_today_city = scrape_nooga_today_non_political(links['nooga_today']['base'] + links['nooga_today']['city'], get_date(1), 'city')
         nooga_today_food_articles, scraped_nooga_today_food = scrape_nooga_today_non_political(links['nooga_today']['base'] + links['nooga_today']['food_drink'], get_date(1), 'food + drink')
@@ -2643,9 +2645,10 @@ def scrape_news():
         stats['relevant_nooga_today'] = relevant_nooga_today
 
     except Exception as e:
-        print('\tException caught in Nooga Today scraper')
-        print(e)
-        print()
+        logging.error('Exception caught in Nooga Today scraper', exc_info=True)
+        #print('\tException caught in Nooga Today scraper')
+        #print(e)
+        #print()
 
         try:
             stats['scraped_nooga_today'] = current_stats['scraped_nooga_today']
@@ -2655,7 +2658,7 @@ def scrape_news():
             stats['relevant_nooga_today'] = 0
 
     os.system('pkill -f firefox')
-
+    logging.info('Firefox pkill, RAM cleared')
     # ---------- CHATTANOOGA PULSE ---------- #
     try:
         pulse_news_articles, scraped_pulse_news = scrape_pulse(links['chattanooga_pulse']['base'] + links['chattanooga_pulse']['local_news'], get_date(1), scraper_session)
