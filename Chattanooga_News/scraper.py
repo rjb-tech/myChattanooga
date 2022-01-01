@@ -18,6 +18,7 @@ import sys
 import time
 import pickle
 import tweepy
+import logging
 import requests
 import facebook
 import traceback
@@ -29,6 +30,15 @@ from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+# Configure logger
+logging.basicConfig(
+    filename='myChattanooga.log',
+    filemode='w',
+    format='%(asctime)s - %(message)s',
+    datefmt='%d-%b-%y %H:%M:%S',
+    level=logging.INFO
+)
 
 # This dictionary contains all the needed links for scraping
 links = {
@@ -1038,7 +1048,6 @@ def scrape_wdef(url, date, session):
                     
     return approved_articles, total_articles_scraped    
 
-
 def scrape_times_free_press(url, date, session):
 
     # Approved articles list and temp_list for scraping
@@ -1692,7 +1701,6 @@ def scrape_pulse(url, date, session):
             break
                 
     return approved_articles, total_articles_scraped
-
 
 def scrape_chattanooga_news_chronicle(url, date):
 
@@ -2414,17 +2422,21 @@ def post_to_facebook(article_list):
     
 # Scraper function
 def scrape_news():
-
-    print ("-- Scraper started at " + str(datetime.now()))
+    #print ("-- Scraper started at " + str(datetime.now()))
     if time.localtime()[8] == 1:
-        print("-- Daylight savings currently active --\n")
+        logging.info('scraper started with dst active')
+        #print("-- Daylight savings currently active --\n")
     else:
-        print("-- Daylight savings currently inactive --\n")
+        logging.info('scraper started with dst inactive')
+        #print("-- Daylight savings currently inactive --\n")
 
     # Today's news file
     today_news_file = os.path.dirname(os.path.realpath('__file__')) +'/data/' + get_date(7) + '.news'
     today_stats_file = os.path.dirname(os.path.realpath('__file__')) +'/data/' + get_date(7) + '.stats'
-        
+
+    logging.info('news file: ' + today_news_file)
+    logging.info('stats file: ' + today_stats_file)
+
     # HTTP session to use for all scrapers
     # This should speed things up by not constantly having to open new connections for each scrape
     scraper_session = requests.Session()
@@ -2455,7 +2467,9 @@ def scrape_news():
     # Load current stats if they exist
     try:
         current_stats = pickle.load(open(today_stats_file, 'rb'))
+        logging.info('stats loaded from file')
     except:
+        logging.info('no stats file found')
         current_stats = {
             'scraped_chattanoogan': 0,
             'relevant_chattanoogan': 0,
