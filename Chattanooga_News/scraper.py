@@ -2721,6 +2721,8 @@ def scrape_news():
 
     # ---------- WRCB ---------- #
     try:
+        logging.info('WRCB scraper started')
+
         wrcb_articles, scraped_wrcb = scrape_wrcb(links['wrcb']['base'] + links['wrcb']['local_news'], get_date(4), scraper_session)
         articles.extend(wrcb_articles)
 
@@ -2730,9 +2732,10 @@ def scrape_news():
         stats['relevant_wrcb'] = relevant_wrcb
 
     except Exception as e:
-        print('\tException caught in WRCB scraper')
-        print(e)
-        print()
+        logging.error('Exception caught in WRCB scraper', exc_info=True)
+        #print('\tException caught in WRCB scraper')
+        #print(e)
+        #print()
 
         try:
             stats['scraped_wrcb'] = current_stats['scraped_wrcb']
