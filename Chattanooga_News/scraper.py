@@ -2567,6 +2567,8 @@ def scrape_news():
 
     # ---------- FOX CHATTANOOGA ---------- #
     try:
+        logging.info('Fox Chattanooga scraper started')
+
         fox_chattanooga_articles, scraped_fox_chattanooga = scrape_fox_chattanooga(links['fox_chattanooga']['base'] + links['fox_chattanooga']['local_news'], get_date(6))
         articles.extend(fox_chattanooga_articles)
 
@@ -2577,10 +2579,11 @@ def scrape_news():
         stats['relevant_fox_chattanooga'] = relevant_fox_chattanooga
         
     except Exception as e:
-        print('\tException caught in Fox Chattanooga scraper')
-        print(e)
+        logging.error('Exception caught in Fox Chattanooga scraper', exc_info=True)
+        #print('\tException caught in Fox Chattanooga scraper')
+        #print(e)
         #traceback.print_exc()
-        print()
+        #print()
 
         # Add existing stat variables to the dict if the stats file exists, otherwise make them 0
         try:
@@ -2591,6 +2594,7 @@ def scrape_news():
             stats['relevant_fox_chattanooga'] = 0
 
     os.system('pkill -f firefox')
+    logging.info('Firefox pkill, RAM cleared')
         
     # ---------- WDEF ---------- #
     try:
