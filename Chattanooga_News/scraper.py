@@ -2661,6 +2661,8 @@ def scrape_news():
     logging.info('Firefox pkill, RAM cleared')
     # ---------- CHATTANOOGA PULSE ---------- #
     try:
+        logging.info('Pulse scraper started')
+
         pulse_news_articles, scraped_pulse_news = scrape_pulse(links['chattanooga_pulse']['base'] + links['chattanooga_pulse']['local_news'], get_date(1), scraper_session)
         pulse_city_articles, scraped_pulse_city = scrape_pulse(links['chattanooga_pulse']['base'] + links['chattanooga_pulse']['city_life'], get_date(1), scraper_session)
         articles.extend(pulse_news_articles)
@@ -2675,9 +2677,10 @@ def scrape_news():
         stats['relevant_pulse'] = relevant_pulse
         
     except Exception as e:
-        print('\tException caught in Pulse scraper')
-        print(e)
-        print()
+        logging.error('Exception caught in Pulse scraper', exc_info=True)
+        #print('\tException caught in Pulse scraper')
+        #print(e)
+        #print()
 
         try:
             stats['scraped_pulse'] = current_stats['scraped_pulse']
