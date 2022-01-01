@@ -2534,6 +2534,8 @@ def scrape_news():
     # ---------- CHATTANOOGAN ---------- #
     # For Breaking/Political section
     try:
+        logging.info('Chattanoogan scraper started')
+
         chattanoogan_news_articles, scraped_chattanoogan_news = scrape_chattanoogan(links['chattanoogan']['base'] + links['chattanoogan']['breaking'], get_date(1), scraper_session, 'b/p')
         chattanoogan_happenings_articles, scraped_chattanoogan_happenings = scrape_chattanoogan(links['chattanoogan']['base'] + links['chattanoogan']['happenings'], get_date(1), scraper_session, 'happenings')
         chattanoogan_business_articles, scraped_chattanoogan_business = scrape_chattanoogan(links['chattanoogan']['base'] + links['chattanoogan']['business'], get_date(1), scraper_session)
@@ -2550,9 +2552,10 @@ def scrape_news():
         stats['relevant_chattanoogan'] = relevant_chattanoogan
         
     except Exception as e:
-        print("\tException caught in Chattanoogan scraper")
-        print(e)
-        print()
+        logging.error('Exception caught in Chattanoogan scraper', exc_info=True)
+        #print("\tException caught in Chattanoogan scraper")
+        #print(e)
+        #print()
 
         # Put stat variables into stats dict
         try:
