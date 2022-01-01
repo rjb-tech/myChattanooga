@@ -2436,8 +2436,8 @@ def scrape_news():
     today_news_file = os.path.dirname(os.path.realpath('__file__')) +'/data/' + get_date(7) + '.news'
     today_stats_file = os.path.dirname(os.path.realpath('__file__')) +'/data/' + get_date(7) + '.stats'
 
-    logging.info('news file: ' + today_news_file)
-    logging.info('stats file: ' + today_stats_file)
+    logging.info('news file path: ' + today_news_file)
+    logging.info('stats file path: ' + today_stats_file)
 
     # HTTP session to use for all scrapers
     # This should speed things up by not constantly having to open new connections for each scrape
@@ -2471,7 +2471,7 @@ def scrape_news():
         current_stats = pickle.load(open(today_stats_file, 'rb'))
         logging.info('stats loaded from file')
     except:
-        logging.info('no stats file found')
+        logging.info('no stats file loaded')
         current_stats = {
             'scraped_chattanoogan': 0,
             'relevant_chattanoogan': 0,
@@ -2822,15 +2822,15 @@ def scrape_news():
     pickle.dump(stats, open(today_stats_file, 'wb'))
     logging.info('stats file saved')
 
-    if len(articles) > 0:
-        try:
-            tweet_new_articles(articles)
-        except Exception as e:
-            print(e)
-        try:
-            post_to_facebook(articles)
-        except Exception as e:
-            print(e)
+     if len(articles) > 0:
+         try:
+             tweet_new_articles(articles)
+         except Exception as e:
+             logging.error('Articles not tweeted', exc_info=True)
+         try:
+             post_to_facebook(articles)
+         except Exception as e:
+             logging.error('Articles not posted to Facebook', exc_info=True)
             
 def Sort(sub_li, to_reverse):
     # reverse = None (Sorts in Ascending order)
