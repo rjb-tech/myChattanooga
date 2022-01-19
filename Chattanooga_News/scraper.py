@@ -94,8 +94,8 @@ links = {
         'featured': '/category/featured/'},
 
     'wrcb': {
-        'base': 'https://www.wrcbtv.com',
-        'local_news': '/category/123974/news'},
+        'base': 'https://local3news.com',
+        'local_news': '/local-news/'},
 
     'youtube': {
         'base': 'https://youtube.com',
