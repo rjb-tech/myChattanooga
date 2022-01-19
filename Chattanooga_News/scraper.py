@@ -93,7 +93,7 @@ links = {
         'health': '/category/health/',
         'featured': '/category/featured/'},
 
-    'wrcb': {
+    'local_three': {
         'base': 'https://local3news.com',
         'local_news': '/local-news/'},
 
@@ -180,16 +180,6 @@ keywords_to_avoid = ['georgia',
                      'ohio',
                      'white house',
                      'get emailed headlines from chattanoogan.com']
-
-twitter_profiles = {'Times Free Press': '@TimesFreePress',
-                    'Chattanoogan': '@Chattanoogancom',
-                    'Fox Chattanooga': '@FOX_Chattanooga',
-                    'WDEF News 12': '@wdefnews12',
-                    'Nooga Today': '@NOOGAToday',
-                    'Chattanooga Pulse': '@ChattaPulse',
-                    'Chattanooga News Chronicle': 'Chattanooga News Chronicle',
-                    'WRCB': '@WRCB',
-                    'CHA Guide': 'CHA Guide'}
 
 def print_keywords():
     for x in region_keywords:
@@ -1814,13 +1804,13 @@ def scrape_chattanooga_news_chronicle(url, date):
 
     return approved_articles, total_articles_scraped
 
-def scrape_wrcb(url, date, session):
+def scrape_local_three(url, date, session):
 
     # Make a list to return
     approved_articles = list()
 
     # Populate publisher
-    publisher = "WRCB"
+    publisher = "Local 3 News"
 
     # Variable for news analytics
     total_articles_scraped = 0
@@ -1835,13 +1825,12 @@ def scrape_wrcb(url, date, session):
     try:
 
         # Get the HTML for the specified page and put it into a soup object
-        #wrcb_soup = bs(session.get(url).text, 'lxml')
         # set a page load timeout limit
         headless_browser.set_page_load_timeout(30)
         headless_browser.get(url)
         time.sleep(2)
-        wrcb_soup = bs(headless_browser.page_source, 'lxml')
-        content_section = wrcb_soup.find('div', class_ = 'PageBody')
+        local_three_soup = bs(headless_browser.page_source, 'lxml')
+        content_section = local_three_soup.find('div', class_ = 'PageBody')
         current_section = content_section.find_next('div', class_ = 'leftsidepad')
 
     except:
@@ -1857,7 +1846,7 @@ def scrape_wrcb(url, date, session):
     # This scraper will have 2 scraping loops
     # One for the card section at the top of the page and one for the rest of the articles
     # The first loop will break the function if it finds an article that's not from today
-    #content_section = wrcb_soup.find('div', class_ = 'CardContainer')
+    #content_section = local_three_soup.find('div', class_ = 'CardContainer')
 
     # This assignment just makes the first line of the for loop work
     # Otherwise current_article.find_next wouldn't work
@@ -2305,15 +2294,15 @@ def calculate_relevant_stats(articles, current_stats, stats):
         except:
             stats['relevant_wdef'] = 0
 
-    # WRCB stats
-    relevant_wrcb = count_articles(articles, "WRCB")
+    # Local 3 stats
+    relevant_local_three = count_articles(articles, "Local 3 News")
     try:
-        stats['relevant_wrcb'] = relevant_wrcb
+        stats['relevant_local_three'] = relevant_local_three
     except:
         try:
-            stats['relevant_wrcb'] = current_stats['relevant_wrcb']
+            stats['relevant_local_three'] = current_stats['relevant_local_three']
         except:
-            stats['relevant_wrcb'] = 0
+            stats['relevant_local_three'] = 0
 
 def tweet_new_articles(article_list):
 
@@ -2462,8 +2451,8 @@ def scrape_news():
         'relevant_pulse': 0,
         'scraped_wdef': 0,
         'relevant_wdef': 0,
-        'scraped_wrcb': 0,
-        'relevant_wrcb': 0
+        'scraped_local_three': 0,
+        'relevant_local_three': 0
     }
 
     # Load current stats if they exist
@@ -2487,8 +2476,8 @@ def scrape_news():
             'relevant_pulse': 0,
             'scraped_wdef': 0,
             'relevant_wdef': 0,
-            'scraped_wrcb': 0,
-            'relevant_wrcb': 0
+            'scraped_local_three': 0,
+            'relevant_local_three': 0
         }
     
     # ---------- TIMES FREE PRESS ---------- #
@@ -2721,30 +2710,30 @@ def scrape_news():
 
     # os.system('pkill -f firefox')
 
-    # ---------- WRCB ---------- #
+    # ---------- Local 3 News ---------- #
     try:
-        logging.info('WRCB scraper started')
+        logging.info('Local 3 scraper started')
 
-        wrcb_articles, scraped_wrcb = scrape_wrcb(links['wrcb']['base'] + links['wrcb']['local_news'], get_date(4), scraper_session)
-        articles.extend(wrcb_articles)
+        local_three_articles, scraped_local_three = scrape_local_three(links['local_three']['base'] + links['local_three']['local_news'], get_date(4), scraper_session)
+        articles.extend(local_three_articles)
 
-        relevant_wrcb = len(wrcb_articles)
+        relevant_local_three = len(local_three_articles)
 
-        stats['scraped_wrcb'] = scraped_wrcb
-        stats['relevant_wrcb'] = relevant_wrcb
+        stats['scraped_local_three'] = scraped_local_three
+        stats['relevant_local_three'] = relevant_local_three
 
     except Exception as e:
-        logging.error('Exception caught in WRCB scraper', exc_info=True)
-        #print('\tException caught in WRCB scraper')
+        logging.error('Exception caught in Local 3 News scraper', exc_info=True)
+        #print('\tException caught in Local 3 News scraper')
         #print(e)
         #print()
 
         try:
-            stats['scraped_wrcb'] = current_stats['scraped_wrcb']
-            stats['relevant_wrcb'] = current_stats['relevant_wrcb']
+            stats['scraped_local_three'] = current_stats['scraped_local_three']
+            stats['relevant_local_three'] = current_stats['relevant_local_three']
         except:
-            stats['scraped_wrcb'] = 0
-            stats['relevant_wrcb'] = 0
+            stats['scraped_local_three'] = 0
+            stats['relevant_local_three'] = 0
 
     # ---------- CHA GUIDE YOUTUBE ---------- #
     # try:
@@ -2845,3 +2834,4 @@ def main():
         
 
 main()
+
