@@ -1809,7 +1809,6 @@ def scrape_local_three(url, date):
     # This list will hold boolean values to determine if articles
     # are about Chattanooga or Hamilton County
     approved_articles = list()
-    all_local_stories = list()
 
     # Populate publisher
     publisher = "Local 3 News"
@@ -1828,7 +1827,7 @@ def scrape_local_three(url, date):
 
         # Get the HTML for the specified page and put it into a soup object
         # set a page load timeout limit
-        headless_browser.set_page_load_timeout(30)
+        headless_browser.set_page_load_timeout(10)
         headless_browser.get(url)
         time.sleep(2)
         local_three_soup = bs(headless_browser.page_source, 'lxml')
@@ -1861,72 +1860,12 @@ def scrape_local_three(url, date):
         
         # Get the link to the current card and use the requests session to go there and evaluate
         current_article = current_article.find_next('article')
-        current_headline = current_article.find('div', class_ = 'card-headline').h3.a.text
+        current_headline = current_article.find('div', class_ = 'card-headline').h3.a.text.strip()
         current_link = links['local_three']['base'] + current_article.find('h3').a['href']
-        current_image_link = current_article.find('div', class_ = 'image').a.img['data-srcset']
+        # The image srcset has a ton of different sizes, so let's grab the link to the biggest and see if that scales right
+        current_image_link = current_article.find('div', class_ = 'image').a.img['srcset'].split()[-2]
 
-        # START HERE - MAKE IT JUST LIKE NEWS CHANNEL 9 WEBSITE
-
-        print(current_headline)
-        print(current_link)
-        print(current_image_link)
-
-
-
-
-        # try:
-        #     current_article_soup = bs(headless_browser.page_source, 'lxml')
-        #     current_article_soup = current_article_soup.find('article').find('div', class_ = "main-content")
-        #     current_article_content = current_article_soup.find('div', class_ = "ArticleBody")
-        #     current_headline = current_article_soup.find('h1', class_ = 'headline').text
-        #     # Try to find the thumbnail for the article if there is one
-        #     try:
-        #         current_image_link = current_article.find('div', class_='image').a['href']
-        #     except:
-        #         current_image_link = current_article.find('')
-        # except:
-        #     continue
-        # # The date and time are both in current_datetime, so it needs to be harvested and refined further down below
-        # # We need to search for an updated time first so covid stuff doesn't throw off the algorithm
-        #
-        # try:
-        #     # Search for updated timestamp
-        #     current_datetime = current_article_soup.find('div', class_ = 'Timestamp-updated').find('span', class_ = 'Timestamp-time').text
-        # except:
-        #     current_datetime = current_article_soup.find('span', class_ = 'Timestamp-time').text
-        # # Assign a current_date_posted
-        # # Assign a not today if re.search is None since the .group will throw an exception
-        # try:
-        #     current_date_posted = re.search(date, current_datetime).group()
-        # except:
-        #     current_date_posted = "Not Today"
-        # current_time_posted = refine_article_time(current_datetime)
-        #
-        #
-        # # ---------- CARD SECTION ---------- #
-        # # Check for date match
-        # if re.search(date, current_date_posted):
-        #
-        #     total_articles_scraped += 1
-        #
-        #     if is_relevant_article(current_headline, current_article_content.text):
-        #
-        #         # Append to approved_articles
-        #         approved_articles.append({'headline': current_headline,
-        #                                   'link': current_link,
-        #                                   'image': current_image_link,
-        #                                   'date_posted': get_date(7),
-        #                                   'time_posted': current_time_posted,
-        #                                   'publisher': publisher})
-        #
-        # # Break the loop and function if the current article is not from today
-        # else:
-        #
-        #     headless_browser.quit()
-        #
-        #     headless_browser.delete_all_cookies()
-        #
-        #     return approved_articles, total_articles_scraped
+        # Go to the link and see if it's relevant
 
 
 
