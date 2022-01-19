@@ -1804,10 +1804,12 @@ def scrape_chattanooga_news_chronicle(url, date):
 
     return approved_articles, total_articles_scraped
 
-def scrape_local_three(url, date, session):
+def scrape_local_three(url, date):
 
-    # Make a list to return
+    # This list will hold boolean values to determine if articles
+    # are about Chattanooga or Hamilton County
     approved_articles = list()
+    all_local_stories = list()
 
     # Populate publisher
     publisher = "Local 3 News"
@@ -1830,8 +1832,8 @@ def scrape_local_three(url, date, session):
         headless_browser.get(url)
         time.sleep(2)
         local_three_soup = bs(headless_browser.page_source, 'lxml')
-        content_section = local_three_soup.find('div', class_ = 'PageBody')
-        current_section = content_section.find_next('div', class_ = 'leftsidepad')
+        content_section = local_three_soup.find('div', class_ = 'row row-primary')
+        current_section = content_section.find_next('div', id = 'tncms-region-index-primary-b')
 
     except:
 
@@ -1853,235 +1855,80 @@ def scrape_local_three(url, date, session):
     # card_section.find_next() would always get the first card
     current_article = current_section
 
-    # This is the first scraping loop
-    # There are 3 cards, so the loop will have 3 iterations
-    for card in range(3):
+    # This is the first scraping loop for the top 2 card section
+    # These should be the newest articles posted
+    for article in range(2):
         
         # Get the link to the current card and use the requests session to go there and evaluate
-        current_article = current_article.find_next('div', class_='CardContainer-gutterSpacing--sm')
-        current_link = current_article.find('div', class_ = 'Card-content').a['href']
-        headless_browser.get(current_link)
-        time.sleep(2)
-        headless_browser.implicitly_wait(3)
-        try:
-            current_article_soup = bs(headless_browser.page_source, 'lxml')
-            current_article_soup = current_article_soup.find('div', class_ = "Article-contents")
-            current_article_content = current_article_soup.find('div', class_ = "ArticleBody")
-            current_headline = current_article_soup.find('h1', class_ = 'Article-title').text
-            current_image_link = current_article.find('div', class_='imageContainer').img['data-src']
-        except:
-            continue
-        # The date and time are both in current_datetime, so it needs to be harvested and refined further down below
-        # We need to search for an updated time first so covid stuff doesn't throw off the algorithm
+        current_article = current_article.find_next('article')
+        current_headline = current_article.find('div', class_ = 'card-headline').h3.a.text
+        current_link = links['local_three']['base'] + current_article.find('h3').a['href']
+        current_image_link = current_article.find('div', class_ = 'image').a.img['data-srcset']
 
-        try:
-            # Search for updated timestamp
-            current_datetime = current_article_soup.find('div', class_ = 'Timestamp-updated').find('span', class_ = 'Timestamp-time').text
-        except:
-            current_datetime = current_article_soup.find('span', class_ = 'Timestamp-time').text
-        # Assign a current_date_posted
-        # Assign a not today if re.search is None since the .group will throw an exception
-        try:
-            current_date_posted = re.search(date, current_datetime).group()
-        except:
-            current_date_posted = "Not Today"
-        current_time_posted = refine_article_time(current_datetime)
+        # START HERE - MAKE IT JUST LIKE NEWS CHANNEL 9 WEBSITE
+
+        print(current_headline)
+        print(current_link)
+        print(current_image_link)
 
 
-        # ---------- CARD SECTION ---------- #
-        # Check for date match
-        if re.search(date, current_date_posted):
-
-            total_articles_scraped += 1
-            
-            if is_relevant_article(current_headline, current_article_content.text):
-
-                # Append to approved_articles
-                approved_articles.append({'headline': current_headline,
-                                          'link': current_link,
-                                          'image': current_image_link,
-                                          'date_posted': get_date(7),
-                                          'time_posted': current_time_posted,
-                                          'publisher': publisher})
-
-        # Break the loop and function if the current article is not from today
-        else:
-
-            headless_browser.quit()
-
-            headless_browser.delete_all_cookies()
-            
-            return approved_articles, total_articles_scraped
-
-    # First list section after card section
-    current_section = current_section.find_next('div', class_='leftsidepad')
-    current_article = current_section.find('div', class_ = 'CardList-item')
-    current_link = current_article.find('div', class_ = 'CardList-item-container').a['href']
-    headless_browser.get(current_link)
-    time.sleep(2)
-    headless_browser.implicitly_wait(3)
-    try:
-        current_article_soup = bs(headless_browser.page_source, 'lxml')    
-        current_article_soup = current_article_soup.find('div', class_ = "Article-contents")
-        current_article_content = current_article_soup.find('div', class_ = "ArticleBody")
-        current_headline = current_article_soup.find('h1', class_='Article-title').text
-        current_image_link = current_article.find('div', class_='imageContainer').img['data-src']
-    except:
-        pass
-    # The date and time are both in current_datetime, so it needs to be harvested and refined further down below
-    # We need to search for an updated time first so covid stuff doesn't throw off the algorithm
-    try:
-        # Search for updated timestamp
-        current_datetime = current_article_soup.find('div', class_='Timestamp-updated').find('span',
-                                                                                             class_='Timestamp-time').text
-    except:
-        current_datetime = current_article_soup.find('span', class_='Timestamp-time').text
-    # Assign a current_date_posted
-    # Assign a not today if re.search is None since the .group will throw an exception
-    try:
-        current_date_posted = re.search(date, current_datetime).group()
-    except:
-        current_date_posted = "Not Today"
-    current_time_posted = refine_article_time(current_datetime)
-
-    while (current_article):
-
-        if re.search(date, current_date_posted):
-
-            total_articles_scraped += 1
-            
-            if is_relevant_article(current_headline, current_article_content.text):
-
-                # Append to approved_articles
-                approved_articles.append({'headline': current_headline,
-                                          'link': current_link,
-                                          'image': current_image_link,
-                                          'date_posted': get_date(7),
-                                          'time_posted': current_time_posted,
-                                          'publisher': publisher})
-
-        # Break the loop if an article from another day is found
-        else:
-
-            headless_browser.delete_all_cookies()
-            headless_browser.quit()
-            return approved_articles, total_articles_scraped
-
-        # Find the next article
-        current_article = current_article.find_next('div', class_='CardList-item')
-        if (current_article):
-            current_link = current_article.find('div', class_='CardList-item-container').a['href']
-            headless_browser.get(current_link)
-            time.sleep(2)
-            headless_browser.implicitly_wait(3)
-            try:
-                current_article_soup = bs(headless_browser.page_source, 'lxml')
-                current_article_soup = current_article_soup.find('div', class_ = "Article-contents")
-                current_article_content = current_article_soup.find('div', class_ = "ArticleBody")
-                current_headline = current_article_soup.find('h1', class_='Article-title').text
-                current_image_link = current_article.find('div', class_='imageContainer').img['data-src']
-            except:
-                continue
-            # The date and time are both in current_datetime, so it needs to be harvested and refined further down below
-            # We need to search for an updated time first so covid stuff doesn't throw off the algorithm
-            try:
-                # Search for updated timestamp
-                current_datetime = current_article_soup.find('div', class_='Timestamp-updated').find('span',
-                                                                                                     class_='Timestamp-time').text
-            except:
-                current_datetime = current_article_soup.find('span', class_='Timestamp-time').text
-            # Assign a current_date_posted
-            # Assign a not today if re.search is None since the .group will throw an exception
-            try:
-                current_date_posted = re.search(date, current_datetime).group()
-            except:
-                current_date_posted = "Not Today"
-            current_time_posted = refine_article_time(current_datetime)
 
 
-    # Ending list section
-    current_section = current_section.find_next('div', class_='leftsidepad')
-    current_article = current_section.find('div', class_='CardList-item')
-    current_link = current_article.find('div', class_='CardList-item-container').a['href']
-    headless_browser.get(current_link)
-    time.sleep(2)
-    headless_browser.implicitly_wait(3)
-    try:
-        current_article_soup = bs(headless_browser.page_source, 'lxml')
-        current_article_soup = current_article_soup.find('div', class_ = "Article-contents")
-        current_article_content = current_article_soup.find('div', class_ = "ArticleBody")
-        current_headline = current_article_soup.find('h1', class_='Article-title').text
-        current_image_link = current_article.find('div', class_='imageContainer').img['data-src']
-    except:
-        pass
-    # The date and time are both in current_datetime, so it needs to be harvested and refined further down below
-    # We need to search for an updated time first so covid stuff doesn't throw off the algorithm
-    try:
-        # Search for updated timestamp
-        current_datetime = current_article_soup.find('div', class_='Timestamp-updated').find('span',
-                                                                                             class_='Timestamp-time').text
-    except:
-        current_datetime = current_article_soup.find('span', class_='Timestamp-time').text
-    # Assign a current_date_posted
-    # Assign a not today if re.search is None since the .group will throw an exception
-    try:
-        current_date_posted = re.search(date, current_datetime).group()
-    except:
-        current_date_posted = "Not Today"
-    current_time_posted = refine_article_time(current_datetime)
+        # try:
+        #     current_article_soup = bs(headless_browser.page_source, 'lxml')
+        #     current_article_soup = current_article_soup.find('article').find('div', class_ = "main-content")
+        #     current_article_content = current_article_soup.find('div', class_ = "ArticleBody")
+        #     current_headline = current_article_soup.find('h1', class_ = 'headline').text
+        #     # Try to find the thumbnail for the article if there is one
+        #     try:
+        #         current_image_link = current_article.find('div', class_='image').a['href']
+        #     except:
+        #         current_image_link = current_article.find('')
+        # except:
+        #     continue
+        # # The date and time are both in current_datetime, so it needs to be harvested and refined further down below
+        # # We need to search for an updated time first so covid stuff doesn't throw off the algorithm
+        #
+        # try:
+        #     # Search for updated timestamp
+        #     current_datetime = current_article_soup.find('div', class_ = 'Timestamp-updated').find('span', class_ = 'Timestamp-time').text
+        # except:
+        #     current_datetime = current_article_soup.find('span', class_ = 'Timestamp-time').text
+        # # Assign a current_date_posted
+        # # Assign a not today if re.search is None since the .group will throw an exception
+        # try:
+        #     current_date_posted = re.search(date, current_datetime).group()
+        # except:
+        #     current_date_posted = "Not Today"
+        # current_time_posted = refine_article_time(current_datetime)
+        #
+        #
+        # # ---------- CARD SECTION ---------- #
+        # # Check for date match
+        # if re.search(date, current_date_posted):
+        #
+        #     total_articles_scraped += 1
+        #
+        #     if is_relevant_article(current_headline, current_article_content.text):
+        #
+        #         # Append to approved_articles
+        #         approved_articles.append({'headline': current_headline,
+        #                                   'link': current_link,
+        #                                   'image': current_image_link,
+        #                                   'date_posted': get_date(7),
+        #                                   'time_posted': current_time_posted,
+        #                                   'publisher': publisher})
+        #
+        # # Break the loop and function if the current article is not from today
+        # else:
+        #
+        #     headless_browser.quit()
+        #
+        #     headless_browser.delete_all_cookies()
+        #
+        #     return approved_articles, total_articles_scraped
 
-    while (current_article):
 
-        if re.search(date, current_date_posted):
-
-            total_articles_scraped += 1
-            
-            if is_relevant_article(current_headline, current_article_content.text):
-
-                # Append to approved_articles
-                approved_articles.append({'headline': current_headline,
-                                          'link': current_link,
-                                          'image': current_image_link,
-                                          'date_posted': get_date(7),
-                                          'time_posted': current_time_posted,
-                                          'publisher': publisher})
-
-        # Break the loop if an article from another day is found
-        else:
-            headless_browser.delete_all_cookies()
-            headless_browser.quit()
-            return approved_articles, total_articles_scraped
-
-        # Find the next article
-        current_article = current_article.find_next('div', class_='CardList-item')
-        if (current_article):
-            current_link = current_article.find('div', class_='CardList-item-container').a['href']
-            headless_browser.get(current_link)
-            time.sleep(2)
-            headless_browser.implicitly_wait(3)
-            try:
-                current_article_soup = bs(headless_browser.page_source, 'lxml')
-                current_article_soup = current_article_soup.find('div', class_ = "Article-contents")
-                current_article_content = current_article_soup.find('div', class_ = "ArticleBody")
-                current_headline = current_article_soup.find('h1', class_='Article-title').text
-                current_image_link = current_article.find('div', class_='imageContainer').img['data-src']
-            except:
-                continue
-            # The date and time are both in current_datetime, so it needs to be harvested and refined further down below
-            # We need to search for an updated time first so covid stuff doesn't throw off the algorithm
-            try:
-                # Search for updated timestamp
-                current_datetime = current_article_soup.find('div', class_='Timestamp-updated').find('span',
-                                                                                                     class_='Timestamp-time').text
-            except:
-                current_datetime = current_article_soup.find('span', class_='Timestamp-time').text
-            # Assign a current_date_posted
-            # Assign a not today if re.search is None since the .group will throw an exception
-            try:
-                current_date_posted = re.search(date, current_datetime).group()
-            except:
-                current_date_posted = "Not Today"
-            current_time_posted = refine_article_time(current_datetime)
 
     # Delete cookies before quitting the browser
     headless_browser.delete_all_cookies()
@@ -2833,5 +2680,6 @@ def main():
     scrape_news()
         
 
-main()
+#main()
 
+local_three_articles, scraped_local_three = scrape_local_three(links['local_three']['base'] + links['local_three']['local_news'], get_date(4))
