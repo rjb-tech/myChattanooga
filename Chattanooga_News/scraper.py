@@ -185,7 +185,8 @@ def print_keywords():
     for x in region_keywords:
         print(x + "<br>")
 
-# This function is just an easy way to query the current date 
+
+# This function is just an easy way to query the current date
 def get_date(format):
 
     suffixes = {
@@ -257,6 +258,7 @@ def get_date(format):
     elif format == 12:
         return today.strftime('%-H:%M')
     
+
 # This function will add a 0 to the beginning of the published date of a given article
 def refine_article_date(date):
 
@@ -292,6 +294,7 @@ def refine_article_date(date):
 
     # Return the new date
     return new_date
+
 
 # This function will change the time from 12 hour to 24 hour format
 def refine_article_time(time):
@@ -331,7 +334,8 @@ def refine_article_time(time):
             #hour = int(hour) + 1
             return str(hour) + ":" + minute
 
-#This is used for determining posted times for Times Free Press articles
+
+# This is used for determining posted times for Times Free Press articles
 def calculate_time_posted(time_since_posted, hour_or_minute):
 
     # Load current time into a variable
@@ -384,6 +388,7 @@ def calculate_time_posted(time_since_posted, hour_or_minute):
             # return "not today" if the posted_hour is negative which would indicate a video from yesterday
             return str("not today")
             
+
 # This function determines if Times Free Press articles are from today
 def is_from_today(link):
 
@@ -401,6 +406,7 @@ def is_from_today(link):
             return True
     else:
         return False
+
 
 # This function is used to dtermine is an article is relevant by searching
 # The region keyword list
@@ -420,6 +426,7 @@ def is_relevant_article(headline='', excerpt=''):
     # Return false if no matches are found
     return False
 
+
 def is_relevant_chattanoogan(headline=''):
 
     # Avoid articles that mention chattanooga but are actually about another state/city
@@ -435,6 +442,7 @@ def is_relevant_chattanoogan(headline=''):
         
     # Return false if no matches are found
     return False
+
 
 # This function returns a time if it is available for a given story
 def search_tfp_times(headline, current_articles):
@@ -459,6 +467,7 @@ def search_tfp_times(headline, current_articles):
 
     # Returns None if the story isn't found
     return None
+
 
 # This function writes headlines and their posted times to the open file
 def write_to_times_file(found_articles, file_name):
@@ -499,6 +508,7 @@ def write_to_times_file(found_articles, file_name):
             
     pickle.dump(current_tfp_articles, open(file_name, 'wb'))
 
+
 # This funciton deletes stories from tfp lists that are duplicates
 def delete_dupes(tfp_list):
 
@@ -517,6 +527,7 @@ def delete_dupes(tfp_list):
         #print(to_return[duplicated_indices[x]]['headline'])
 
         tfp_list.pop(duplicated_indices[x])
+
 
 # This function will go to the given link and return the body of the article
 def get_pulse_article_content(link, session):
@@ -544,6 +555,7 @@ def get_pulse_article_content(link, session):
     # Return the string
     return text_to_return
 
+
 def count_articles(article_list, publisher):
 
     count = 0
@@ -553,6 +565,7 @@ def count_articles(article_list, publisher):
             count += 1
 
     return count
+
 
 def get_wdef_article_content(link, session):
 
@@ -577,6 +590,7 @@ def get_wdef_article_content(link, session):
         current_p_tag = current_p_tag.find_next('p')
 
     return string_to_return
+
 
 # Each scrape function will output a dictionary of articles with included timestamp
 # Category will only be used for breaking/political articles
@@ -710,6 +724,7 @@ def scrape_chattanoogan(url, date, session, category=None):
             break
             
     return approved_articles, total_articles_scraped
+
 
 def scrape_fox_chattanooga(url, date):
 
@@ -924,6 +939,7 @@ def scrape_fox_chattanooga(url, date):
 
     return approved_articles, total_articles_scraped
 
+
 def scrape_wdef(url, date, session):
 
     # List to return at the end of the function
@@ -1037,6 +1053,7 @@ def scrape_wdef(url, date, session):
             return approved_articles, total_articles_scraped
                     
     return approved_articles, total_articles_scraped    
+
 
 def scrape_times_free_press(url, date, session):
 
@@ -1195,6 +1212,7 @@ def scrape_times_free_press(url, date, session):
     write_to_times_file(approved_articles_copy, times_file_name)
 
     return approved_articles, total_articles_scraped
+
 
 def scrape_nooga_today_breaking_political(url, date, category):
 
@@ -1363,6 +1381,7 @@ def scrape_nooga_today_breaking_political(url, date, category):
     headless_browser.quit()
 
     return approved_articles, total_articles_scraped
+
 
 def scrape_nooga_today_non_political(url, date, category):
 
@@ -1584,6 +1603,7 @@ def scrape_nooga_today_non_political(url, date, category):
 
     return approved_articles, total_articles_scraped
 
+
 def scrape_pulse(url, date, session):
 
     # Lists for approved articles and scraping
@@ -1691,6 +1711,7 @@ def scrape_pulse(url, date, session):
             break
                 
     return approved_articles, total_articles_scraped
+
 
 def scrape_chattanooga_news_chronicle(url, date):
 
@@ -1804,6 +1825,7 @@ def scrape_chattanooga_news_chronicle(url, date):
 
     return approved_articles, total_articles_scraped
 
+
 def scrape_local_three(url, date):
 
     # This list will hold boolean values to determine if articles
@@ -1875,6 +1897,7 @@ def scrape_local_three(url, date):
     headless_browser.quit()
 
     return approved_articles, total_articles_scraped
+
 
 def scrape_youtube(url, date):
 
@@ -1973,6 +1996,7 @@ def scrape_youtube(url, date):
 
     return approved_articles
 
+
 def recycle_homepage(newly_found, currently_posted):
 
     # Sort the two lists so the oldest stories are indexed first
@@ -2005,6 +2029,7 @@ def recycle_homepage(newly_found, currently_posted):
 
     # return the list
     return list_to_return
+
 
 def calculate_relevant_stats(articles, current_stats, stats):
 
@@ -2090,6 +2115,7 @@ def calculate_relevant_stats(articles, current_stats, stats):
         except:
             stats['relevant_local_three'] = 0
 
+
 def tweet_new_articles(article_list):
 
     articles = article_list.copy()
@@ -2145,6 +2171,7 @@ def tweet_new_articles(article_list):
     logging.info('** New articles tweeted **')
     #print("** New articles tweeted **")
 
+
 def post_to_facebook(article_list):
 
     articles = article_list.copy()
@@ -2197,6 +2224,7 @@ def post_to_facebook(article_list):
     #print("** New articles posted to Facebook **")
     logging.info('** New articles posted to Facebook **')
     
+
 # Scraper function
 def scrape_news():
     #print ("-- Scraper started at " + str(datetime.now()))
@@ -2607,6 +2635,7 @@ def scrape_news():
         except Exception as e:
             logging.error('Articles not posted to Facebook', exc_info=True)
             
+
 def Sort(sub_li, to_reverse):
     # reverse = None (Sorts in Ascending order)
     # key is set to sort using second element of
@@ -2614,11 +2643,13 @@ def Sort(sub_li, to_reverse):
     sub_li.sort(key=lambda x: x['time_posted'], reverse=to_reverse)
     return sub_li
 
+
 def main():
 
     scrape_news()
         
 
 #main()
+
 
 local_three_articles, scraped_local_three = scrape_local_three(links['local_three']['base'] + links['local_three']['local_news'], get_date(4))
