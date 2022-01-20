@@ -1887,7 +1887,9 @@ def scrape_local_three(url, date):
         try:
             current_image_link = current_article.find('img')['srcset'].split()[-2]
         except:
-            current_image_link = "https://pbs.twimg.com/profile_banners/25735151/1642103542/1500x500"
+            # saving this just in case
+            #current_image_link = "https://pbs.twimg.com/profile_banners/25735151/1642103542/1500x500"
+            current_image_link = 'https://pbs.twimg.com/profile_images/1481715996469735425/bKvaJx6s_400x400.jpg'
 
         # Reformat date
         current_date_posted = current_date_posted[5:7] + '/' + current_date_posted[8:10] + '/' + current_date_posted[:4]
@@ -2558,7 +2560,7 @@ def scrape_news():
     try:
         logging.info('Local 3 scraper started')
 
-        local_three_articles, scraped_local_three = scrape_local_three(links['local_three']['base'] + links['local_three']['local_news'], get_date(4))
+        local_three_articles, scraped_local_three = scrape_local_three(links['local_three']['base'] + links['local_three']['local_news'], get_date(1))
         articles.extend(local_three_articles)
 
         relevant_local_three = len(local_three_articles)
