@@ -1871,28 +1871,28 @@ def scrape_local_three(url, date):
     # Otherwise current_article.find_next wouldn't work
     current_article = current_section
 
+    # Get the link to the current card and use the requests session to go there and evaluate
+    current_article = current_article.find_next('article', class_='tnt-section-local-news')
+    current_headline = current_article.find('div', class_='card-headline').a.text.strip()
+    current_article_category = current_article.find('div', class_='card-label-section').a.text.strip().lower()
+    current_link = links['local_three']['base'] + current_article.find('h3').a['href']
+    current_datetime = current_article.find('li', class_='card-date').time['datetime']
+    current_date_posted = current_datetime[:10]
+    current_time_posted = current_datetime[11:16]
+    # The image srcset has a ton of different sizes, so let's grab the link to the biggest and see if that scales right
+    try:
+        current_image_link = current_article.find('img')['srcset'].split()[-2]
+    except:
+        # saving this just in case
+        # current_image_link = "https://pbs.twimg.com/profile_banners/25735151/1642103542/1500x500"
+        current_image_link = 'https://pbs.twimg.com/profile_images/1481715996469735425/bKvaJx6s_400x400.jpg'
+
+    # Reformat date
+    current_date_posted = current_date_posted[5:7] + '/' + current_date_posted[8:10] + '/' + current_date_posted[:4]
+
     # Main scraping loop
     # Their story posting pattern is weird, but the first 7 or 8 are usually recent
-    for article in range(8):
-        
-        # Get the link to the current card and use the requests session to go there and evaluate
-        current_article = current_article.find_next('article', class_ = 'tnt-section-local-news')
-        current_headline = current_article.find('div', class_ = 'card-headline').a.text.strip()
-        current_article_category = current_article.find('div', class_ = 'card-label-section').a.text.strip().lower()
-        current_link = links['local_three']['base'] + current_article.find('h3').a['href']
-        current_datetime = current_article.find('li', class_ = 'card-date').time['datetime']
-        current_date_posted = current_datetime[:10]
-        current_time_posted = current_datetime[11:16]
-        # The image srcset has a ton of different sizes, so let's grab the link to the biggest and see if that scales right
-        try:
-            current_image_link = current_article.find('img')['srcset'].split()[-2]
-        except:
-            # saving this just in case
-            #current_image_link = "https://pbs.twimg.com/profile_banners/25735151/1642103542/1500x500"
-            current_image_link = 'https://pbs.twimg.com/profile_images/1481715996469735425/bKvaJx6s_400x400.jpg'
-
-        # Reformat date
-        current_date_posted = current_date_posted[5:7] + '/' + current_date_posted[8:10] + '/' + current_date_posted[:4]
+    while (current_article):
 
         if current_date_posted == date and current_article_category == 'local news':
 
@@ -1902,6 +1902,29 @@ def scrape_local_three(url, date):
                                         'date_posted': get_date(7),
                                         'time_posted': current_time_posted,
                                         'publisher': publisher})
+
+        else:
+            break
+
+        # Get the link to the current card and use the requests session to go there and evaluate
+        current_article = current_article.find_next('article', class_='tnt-section-local-news')
+        if current_article:
+            current_headline = current_article.find('div', class_='card-headline').a.text.strip()
+            current_article_category = current_article.find('div', class_='card-label-section').a.text.strip().lower()
+            current_link = links['local_three']['base'] + current_article.find('h3').a['href']
+            current_datetime = current_article.find('li', class_='card-date').time['datetime']
+            current_date_posted = current_datetime[:10]
+            current_time_posted = current_datetime[11:16]
+            # The image srcset has a ton of different sizes, so let's grab the link to the biggest and see if that scales right
+            try:
+                current_image_link = current_article.find('img')['srcset'].split()[-2]
+            except:
+                # saving this just in case
+                # current_image_link = "https://pbs.twimg.com/profile_banners/25735151/1642103542/1500x500"
+                current_image_link = 'https://pbs.twimg.com/profile_images/1481715996469735425/bKvaJx6s_400x400.jpg'
+
+            # Reformat date
+            current_date_posted = current_date_posted[5:7] + '/' + current_date_posted[8:10] + '/' + current_date_posted[:4]
 
     for article in all_local_articles:
 
