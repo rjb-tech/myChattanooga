@@ -1831,6 +1831,7 @@ def scrape_local_three(url, date):
     # This list will hold boolean values to determine if articles
     # are about Chattanooga or Hamilton County
     approved_articles = list()
+    all_local_articles = list()
 
     # Populate publisher
     publisher = "Local 3 News"
@@ -1851,7 +1852,7 @@ def scrape_local_three(url, date):
         # set a page load timeout limit
         headless_browser.set_page_load_timeout(10)
         headless_browser.get(url)
-        time.sleep(2)
+        time.sleep(4)
         local_three_soup = bs(headless_browser.page_source, 'lxml')
         content_section = local_three_soup.find('div', class_ = 'row row-primary')
         current_section = content_section.find_next('div', id = 'tncms-region-index-primary-b')
@@ -1866,30 +1867,59 @@ def scrape_local_three(url, date):
         # Return a list indicating the website wasn't able to be reached
         return [{'headline': 'DOWN', 'publisher': publisher, 'date_posted': get_date(7)}], None
 
-    # This scraper will have 2 scraping loops
-    # One for the card section at the top of the page and one for the rest of the articles
-    # The first loop will break the function if it finds an article that's not from today
-    #content_section = local_three_soup.find('div', class_ = 'CardContainer')
-
     # This assignment just makes the first line of the for loop work
     # Otherwise current_article.find_next wouldn't work
-    # card_section.find_next() would always get the first card
     current_article = current_section
 
-    # This is the first scraping loop for the top 2 card section
-    # These should be the newest articles posted
-    for article in range(2):
+    # Main scraping loop
+    # Their story posting pattern is weird, but the first 7 or 8 are usually recent
+    for article in range(8):
         
         # Get the link to the current card and use the requests session to go there and evaluate
-        current_article = current_article.find_next('article')
-        current_headline = current_article.find('div', class_ = 'card-headline').h3.a.text.strip()
+        current_article = current_article.find_next('article', class_ = 'tnt-section-local-news')
+        current_headline = current_article.find('div', class_ = 'card-headline').a.text.strip()
+        current_article_category = current_article.find('div', class_ = 'card-label-section').a.text.strip().lower()
         current_link = links['local_three']['base'] + current_article.find('h3').a['href']
+        current_datetime = current_article.find('li', class_ = 'card-date').time['datetime']
+        current_date_posted = current_datetime[:10]
+        current_time_posted = current_datetime[11:16]
         # The image srcset has a ton of different sizes, so let's grab the link to the biggest and see if that scales right
-        current_image_link = current_article.find('div', class_ = 'image').a.img['srcset'].split()[-2]
+        try:
+            current_image_link = current_article.find('img')['srcset'].split()[-2]
+        except:
+            current_image_link = "https://pbs.twimg.com/profile_banners/25735151/1642103542/1500x500"
 
-        # Go to the link and see if it's relevant
+        # Reformat date
+        current_date_posted = current_date_posted[5:7] + '/' + current_date_posted[8:10] + '/' + current_date_posted[:4]
 
+        if current_date_posted == date and current_article_category == 'local news':
 
+            all_local_articles.append({'headline': current_headline,
+                                        'link': current_link,
+                                        'image': current_image_link,
+                                        'date_posted': get_date(7),
+                                        'time_posted': current_time_posted,
+                                        'publisher': publisher})
+
+    for article in all_local_articles:
+
+        headless_browser.get(article['link'])
+        time.sleep(4)
+        current_article_soup = bs(headless_browser.page_source, 'lxml')
+        article_content = current_article_soup.find('div', itemprop = 'articleBody').text
+
+        if is_relevant_article(article['headline'], article_content):
+
+            approved_articles.append(article)
+
+        # This accounts for weather articles that don't explicitely mention chattanooga, but they're about the region
+        else:
+
+            try:
+                if current_article_soup.find('span', itemprop='author').text.strip().lower() == 'cedric haynes':
+                    approved_articles.append(article)
+            except:
+                continue
 
     # Delete cookies before quitting the browser
     headless_browser.delete_all_cookies()
@@ -2528,7 +2558,7 @@ def scrape_news():
     try:
         logging.info('Local 3 scraper started')
 
-        local_three_articles, scraped_local_three = scrape_local_three(links['local_three']['base'] + links['local_three']['local_news'], get_date(4), scraper_session)
+        local_three_articles, scraped_local_three = scrape_local_three(links['local_three']['base'] + links['local_three']['local_news'], get_date(4))
         articles.extend(local_three_articles)
 
         relevant_local_three = len(local_three_articles)
@@ -2649,7 +2679,7 @@ def main():
     scrape_news()
         
 
-#main()
+main()
 
 
-local_three_articles, scraped_local_three = scrape_local_three(links['local_three']['base'] + links['local_three']['local_news'], get_date(4))
+#local_three_articles, scraped_local_three = scrape_local_three(links['local_three']['base'] + links['local_three']['local_news'], get_date(1))
