@@ -2286,10 +2286,10 @@ def post_to_facebook(article_list):
 def scrape_news():
     #print ("-- Scraper started at " + str(datetime.now()))
     if time.localtime()[8] == 1:
-        logging.info('--- SCRAPER STARTED WITH DST ACTIVE ---')
+        logging.info('--- SCRAPER STARTING WITH DST ACTIVE ---')
         #print("-- Daylight savings currently active --\n")
     else:
-        logging.info('--- SCRAPER STARTED WITH DST ACTIVE ---')
+        logging.info('--- SCRAPER STARTING WITH DST ACTIVE ---')
         #print("-- Daylight savings currently inactive --\n")
 
     # Today's news file
@@ -2692,7 +2692,7 @@ def scrape_news():
         except Exception as e:
             logging.error('Articles not posted to Facebook', exc_info=True)
 
-    logging.info('\n')
+    logging.info('--- SCRAPER EXITING --- \n')
             
 
 def Sort(sub_li, to_reverse):
