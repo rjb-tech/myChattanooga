@@ -34,7 +34,7 @@ from selenium.webdriver.support import expected_conditions as EC
 # Configure logger
 logging.basicConfig(
     filename='myChattanooga.log',
-    filemode='w',
+    filemode='a',
     format='%(asctime)s - %(message)s',
     datefmt='%d-%b-%y %H:%M:%S',
     level=logging.INFO
@@ -2286,10 +2286,10 @@ def post_to_facebook(article_list):
 def scrape_news():
     #print ("-- Scraper started at " + str(datetime.now()))
     if time.localtime()[8] == 1:
-        logging.info('scraper started with dst active')
+        logging.info('--- SCRAPER STARTED WITH DST ACTIVE ---')
         #print("-- Daylight savings currently active --\n")
     else:
-        logging.info('scraper started with dst inactive')
+        logging.info('--- SCRAPER STARTED WITH DST ACTIVE ---')
         #print("-- Daylight savings currently inactive --\n")
 
     # Today's news file
@@ -2691,6 +2691,8 @@ def scrape_news():
             post_to_facebook(articles)
         except Exception as e:
             logging.error('Articles not posted to Facebook', exc_info=True)
+
+    logging.info('\n')
             
 
 def Sort(sub_li, to_reverse):
