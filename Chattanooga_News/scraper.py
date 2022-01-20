@@ -1896,6 +1896,8 @@ def scrape_local_three(url, date):
 
         if current_date_posted == date and current_article_category == 'local news':
 
+            total_articles_scraped += 1
+
             all_local_articles.append({'headline': current_headline,
                                         'link': current_link,
                                         'image': current_image_link,
