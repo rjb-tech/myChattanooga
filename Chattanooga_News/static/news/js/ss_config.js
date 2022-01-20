@@ -17,10 +17,10 @@ define([/*'jquery',*/ 'jquery.smoothState.min'/*, 'velocity'*/, 'functions'/*, '
                 ['Chronicle', Number($('span#scraped_chronicle').text()), Number($('span#relevant_chronicle').text())],
                 ['Chattanooga TFP', Number($('span#scraped_tfp').text()), Number($('span#relevant_tfp').text())],
                 ['Fox Chattanooga', Number($('span#scraped_fox_chattanooga').text()), Number($('span#relevant_fox_chattanooga').text())],
+                ['Local 3 News', Number($('span#scraped_local_three').text()), Number($('span#relevant_local_three').text())],
                 ['Nooga Today', Number($('span#scraped_nooga_today').text()), Number($('span#relevant_nooga_today').text())],
 		['Pulse', Number($('span#scraped_pulse').text()), Number($('span#relevant_pulse').text())],
-                ['WDEF', Number($('span#scraped_wdef').text()), Number($('span#relevant_wdef').text())],
-                ['WRCB', Number($('span#scraped_wrcb').text()), Number($('span#relevant_wrcb').text())]
+                ['WDEF', Number($('span#scraped_wdef').text()), Number($('span#relevant_wdef').text())]
             ]);
 
             var options = {
