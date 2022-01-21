@@ -2288,7 +2288,7 @@ def scrape_news():
     if time.localtime()[8] == 1:
         logging.info('--- SCRAPER STARTING WITH DST ACTIVE ---')
     else:
-        logging.info('--- SCRAPER STARTING WITH DST ACTIVE ---')
+        logging.info('--- SCRAPER STARTING WITH DST INACTIVE ---')
 
     # Today's news file
     today_news_file = os.path.dirname(os.path.realpath('__file__')) +'/data/' + get_date(7) + '.news'
