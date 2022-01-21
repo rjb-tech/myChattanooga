@@ -68,6 +68,7 @@ def get_date(format):
     elif format == 8:
         return today.strftime("%H:%M")
 
+
 # Python code to sort the tuples using second element
 # of sublist Inplace way to sort using sort()
 def Sort(sub_li, to_reverse):
@@ -76,6 +77,7 @@ def Sort(sub_li, to_reverse):
     # sublist lambda has been used
     sub_li.sort(key=lambda x: x['time_posted'], reverse=to_reverse)
     return sub_li
+
 
 def home(request):
 
@@ -88,9 +90,11 @@ def home(request):
     # the render function looks for files in the templates folder
     return render(request, 'news/generate_stories.html', context)
 
+
 def faq(request):
     # the render function looks for files in the templates folder
     return render(request, 'news/faq.html', {'title': 'FAQ'})
+
 
 def stats(request):
 
@@ -105,6 +109,7 @@ def stats(request):
 
     return render(request, 'news/stats.html', context)
 
+
 def newsletter_gen(request):
 
     stories = load_stories()
@@ -116,6 +121,7 @@ def newsletter_gen(request):
 
     return render(request, 'news/newsletter_generator.html', context)
 
+
 def brews(request):
 
     return render(request, 'news/brews.html', {'title': 'Brews'})
@@ -123,6 +129,7 @@ def brews(request):
 # def newsletter_signup(request):
 
 #     return render(request, 'news/newsletter_signup.html')
+
 
 def load_stories():
 
@@ -143,6 +150,7 @@ def load_stories():
 
     # Return stories to use as context for the home page
     return stories
+
 
 def calculate_time_since_posted(story_time):
 
