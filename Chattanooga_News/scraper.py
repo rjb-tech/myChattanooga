@@ -2427,10 +2427,8 @@ def scrape_news():
     #print ("-- Scraper started at " + str(datetime.now()))
     if time.localtime()[8] == 1:
         logging.info('--- SCRAPER STARTING WITH DST ACTIVE ---')
-        #print("-- Daylight savings currently active --\n")
     else:
         logging.info('--- SCRAPER STARTING WITH DST INACTIVE ---')
-        #print("-- Daylight savings currently inactive --\n")
 
     # Today's news file
     today_news_file = os.path.dirname(os.path.realpath('__file__')) +'/data/' + get_date(7) + '.news'
