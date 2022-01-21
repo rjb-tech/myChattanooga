@@ -93,7 +93,7 @@ links = {
         'health': '/category/health/',
         'featured': '/category/featured/'},
 
-    'wrcb': {
+    'local_three': {
         'base': 'https://local3news.com',
         'local_news': '/local-news/'},
 
@@ -181,21 +181,12 @@ keywords_to_avoid = ['georgia',
                      'white house',
                      'get emailed headlines from chattanoogan.com']
 
-twitter_profiles = {'Times Free Press': '@TimesFreePress',
-                    'Chattanoogan': '@Chattanoogancom',
-                    'Fox Chattanooga': '@FOX_Chattanooga',
-                    'WDEF News 12': '@wdefnews12',
-                    'Nooga Today': '@NOOGAToday',
-                    'Chattanooga Pulse': '@ChattaPulse',
-                    'Chattanooga News Chronicle': 'Chattanooga News Chronicle',
-                    'WRCB': '@WRCB',
-                    'CHA Guide': 'CHA Guide'}
-
 def print_keywords():
     for x in region_keywords:
         print(x + "<br>")
 
-# This function is just an easy way to query the current date 
+
+# This function is just an easy way to query the current date
 def get_date(format):
 
     suffixes = {
@@ -267,6 +258,7 @@ def get_date(format):
     elif format == 12:
         return today.strftime('%-H:%M')
     
+
 # This function will add a 0 to the beginning of the published date of a given article
 def refine_article_date(date):
 
@@ -302,6 +294,7 @@ def refine_article_date(date):
 
     # Return the new date
     return new_date
+
 
 # This function will change the time from 12 hour to 24 hour format
 def refine_article_time(time):
@@ -341,7 +334,8 @@ def refine_article_time(time):
             #hour = int(hour) + 1
             return str(hour) + ":" + minute
 
-#This is used for determining posted times for Times Free Press articles
+
+# This is used for determining posted times for Times Free Press articles
 def calculate_time_posted(time_since_posted, hour_or_minute):
 
     # Load current time into a variable
@@ -394,6 +388,7 @@ def calculate_time_posted(time_since_posted, hour_or_minute):
             # return "not today" if the posted_hour is negative which would indicate a video from yesterday
             return str("not today")
             
+
 # This function determines if Times Free Press articles are from today
 def is_from_today(link):
 
@@ -411,6 +406,7 @@ def is_from_today(link):
             return True
     else:
         return False
+
 
 # This function is used to dtermine is an article is relevant by searching
 # The region keyword list
@@ -430,6 +426,7 @@ def is_relevant_article(headline='', excerpt=''):
     # Return false if no matches are found
     return False
 
+
 def is_relevant_chattanoogan(headline=''):
 
     # Avoid articles that mention chattanooga but are actually about another state/city
@@ -445,6 +442,7 @@ def is_relevant_chattanoogan(headline=''):
         
     # Return false if no matches are found
     return False
+
 
 # This function returns a time if it is available for a given story
 def search_tfp_times(headline, current_articles):
@@ -469,6 +467,7 @@ def search_tfp_times(headline, current_articles):
 
     # Returns None if the story isn't found
     return None
+
 
 # This function writes headlines and their posted times to the open file
 def write_to_times_file(found_articles, file_name):
@@ -509,6 +508,7 @@ def write_to_times_file(found_articles, file_name):
             
     pickle.dump(current_tfp_articles, open(file_name, 'wb'))
 
+
 # This funciton deletes stories from tfp lists that are duplicates
 def delete_dupes(tfp_list):
 
@@ -527,6 +527,7 @@ def delete_dupes(tfp_list):
         #print(to_return[duplicated_indices[x]]['headline'])
 
         tfp_list.pop(duplicated_indices[x])
+
 
 # This function will go to the given link and return the body of the article
 def get_pulse_article_content(link, session):
@@ -554,6 +555,7 @@ def get_pulse_article_content(link, session):
     # Return the string
     return text_to_return
 
+
 def count_articles(article_list, publisher):
 
     count = 0
@@ -563,6 +565,7 @@ def count_articles(article_list, publisher):
             count += 1
 
     return count
+
 
 def get_wdef_article_content(link, session):
 
@@ -587,6 +590,7 @@ def get_wdef_article_content(link, session):
         current_p_tag = current_p_tag.find_next('p')
 
     return string_to_return
+
 
 # Each scrape function will output a dictionary of articles with included timestamp
 # Category will only be used for breaking/political articles
@@ -720,6 +724,7 @@ def scrape_chattanoogan(url, date, session, category=None):
             break
             
     return approved_articles, total_articles_scraped
+
 
 def scrape_fox_chattanooga(url, date):
 
@@ -934,6 +939,7 @@ def scrape_fox_chattanooga(url, date):
 
     return approved_articles, total_articles_scraped
 
+
 def scrape_wdef(url, date, session):
 
     # List to return at the end of the function
@@ -1047,6 +1053,7 @@ def scrape_wdef(url, date, session):
             return approved_articles, total_articles_scraped
                     
     return approved_articles, total_articles_scraped    
+
 
 def scrape_times_free_press(url, date, session):
 
@@ -1205,6 +1212,7 @@ def scrape_times_free_press(url, date, session):
     write_to_times_file(approved_articles_copy, times_file_name)
 
     return approved_articles, total_articles_scraped
+
 
 def scrape_nooga_today_breaking_political(url, date, category):
 
@@ -1373,6 +1381,7 @@ def scrape_nooga_today_breaking_political(url, date, category):
     headless_browser.quit()
 
     return approved_articles, total_articles_scraped
+
 
 def scrape_nooga_today_non_political(url, date, category):
 
@@ -1594,6 +1603,7 @@ def scrape_nooga_today_non_political(url, date, category):
 
     return approved_articles, total_articles_scraped
 
+
 def scrape_pulse(url, date, session):
 
     # Lists for approved articles and scraping
@@ -1701,6 +1711,7 @@ def scrape_pulse(url, date, session):
             break
                 
     return approved_articles, total_articles_scraped
+
 
 def scrape_chattanooga_news_chronicle(url, date):
 
@@ -1814,13 +1825,16 @@ def scrape_chattanooga_news_chronicle(url, date):
 
     return approved_articles, total_articles_scraped
 
-def scrape_wrcb(url, date, session):
 
-    # Make a list to return
+def scrape_local_three(url, date):
+
+    # This list will hold boolean values to determine if articles
+    # are about Chattanooga or Hamilton County
     approved_articles = list()
+    all_local_articles = list()
 
     # Populate publisher
-    publisher = "WRCB"
+    publisher = "Local 3 News"
 
     # Variable for news analytics
     total_articles_scraped = 0
@@ -1835,14 +1849,13 @@ def scrape_wrcb(url, date, session):
     try:
 
         # Get the HTML for the specified page and put it into a soup object
-        #wrcb_soup = bs(session.get(url).text, 'lxml')
         # set a page load timeout limit
-        headless_browser.set_page_load_timeout(30)
+        headless_browser.set_page_load_timeout(10)
         headless_browser.get(url)
-        time.sleep(2)
-        wrcb_soup = bs(headless_browser.page_source, 'lxml')
-        content_section = wrcb_soup.find('div', class_ = 'PageBody')
-        current_section = content_section.find_next('div', class_ = 'leftsidepad')
+        time.sleep(4)
+        local_three_soup = bs(headless_browser.page_source, 'lxml')
+        content_section = local_three_soup.find('div', class_ = 'row row-primary')
+        current_section = content_section.find_next('div', id = 'tncms-region-index-primary-b')
 
     except:
 
@@ -1854,245 +1867,86 @@ def scrape_wrcb(url, date, session):
         # Return a list indicating the website wasn't able to be reached
         return [{'headline': 'DOWN', 'publisher': publisher, 'date_posted': get_date(7)}], None
 
-    # This scraper will have 2 scraping loops
-    # One for the card section at the top of the page and one for the rest of the articles
-    # The first loop will break the function if it finds an article that's not from today
-    #content_section = wrcb_soup.find('div', class_ = 'CardContainer')
-
     # This assignment just makes the first line of the for loop work
     # Otherwise current_article.find_next wouldn't work
-    # card_section.find_next() would always get the first card
     current_article = current_section
 
-    # This is the first scraping loop
-    # There are 3 cards, so the loop will have 3 iterations
-    for card in range(3):
-        
+    # Get the link to the current card and use the requests session to go there and evaluate
+    current_article = current_article.find_next('article', class_='tnt-section-local-news')
+    current_headline = current_article.find('div', class_='card-headline').a.text.strip()
+    current_article_category = current_article.find('div', class_='card-label-section').a.text.strip().lower()
+    current_link = links['local_three']['base'] + current_article.find('h3').a['href']
+    current_datetime = current_article.find('li', class_='card-date').time['datetime']
+    current_date_posted = current_datetime[:10]
+    current_time_posted = current_datetime[11:16]
+    # The image srcset has a ton of different sizes, so let's grab the link to the biggest and see if that scales right
+    try:
+        current_image_link = current_article.find('img')['srcset'].split()[-2]
+    except:
+        # saving this just in case
+        # current_image_link = "https://pbs.twimg.com/profile_banners/25735151/1642103542/1500x500"
+        current_image_link = 'https://pbs.twimg.com/profile_images/1481715996469735425/bKvaJx6s_400x400.jpg'
+
+    # Reformat date
+    current_date_posted = current_date_posted[5:7] + '/' + current_date_posted[8:10] + '/' + current_date_posted[:4]
+
+    # Main scraping loop
+    # Their story posting pattern is weird, but the first 7 or 8 are usually recent
+    while (current_article):
+
+        if current_date_posted == date and current_article_category == 'local news':
+
+            total_articles_scraped += 1
+
+            all_local_articles.append({'headline': current_headline,
+                                        'link': current_link,
+                                        'image': current_image_link,
+                                        'date_posted': get_date(7),
+                                        'time_posted': current_time_posted,
+                                        'publisher': publisher})
+
+        else:
+            break
+
         # Get the link to the current card and use the requests session to go there and evaluate
-        current_article = current_article.find_next('div', class_='CardContainer-gutterSpacing--sm')
-        current_link = current_article.find('div', class_ = 'Card-content').a['href']
-        headless_browser.get(current_link)
-        time.sleep(2)
-        headless_browser.implicitly_wait(3)
-        try:
-            current_article_soup = bs(headless_browser.page_source, 'lxml')
-            current_article_soup = current_article_soup.find('div', class_ = "Article-contents")
-            current_article_content = current_article_soup.find('div', class_ = "ArticleBody")
-            current_headline = current_article_soup.find('h1', class_ = 'Article-title').text
-            current_image_link = current_article.find('div', class_='imageContainer').img['data-src']
-        except:
-            continue
-        # The date and time are both in current_datetime, so it needs to be harvested and refined further down below
-        # We need to search for an updated time first so covid stuff doesn't throw off the algorithm
-
-        try:
-            # Search for updated timestamp
-            current_datetime = current_article_soup.find('div', class_ = 'Timestamp-updated').find('span', class_ = 'Timestamp-time').text
-        except:
-            current_datetime = current_article_soup.find('span', class_ = 'Timestamp-time').text
-        # Assign a current_date_posted
-        # Assign a not today if re.search is None since the .group will throw an exception
-        try:
-            current_date_posted = re.search(date, current_datetime).group()
-        except:
-            current_date_posted = "Not Today"
-        current_time_posted = refine_article_time(current_datetime)
-
-
-        # ---------- CARD SECTION ---------- #
-        # Check for date match
-        if re.search(date, current_date_posted):
-
-            total_articles_scraped += 1
-            
-            if is_relevant_article(current_headline, current_article_content.text):
-
-                # Append to approved_articles
-                approved_articles.append({'headline': current_headline,
-                                          'link': current_link,
-                                          'image': current_image_link,
-                                          'date_posted': get_date(7),
-                                          'time_posted': current_time_posted,
-                                          'publisher': publisher})
-
-        # Break the loop and function if the current article is not from today
-        else:
-
-            headless_browser.quit()
-
-            headless_browser.delete_all_cookies()
-            
-            return approved_articles, total_articles_scraped
-
-    # First list section after card section
-    current_section = current_section.find_next('div', class_='leftsidepad')
-    current_article = current_section.find('div', class_ = 'CardList-item')
-    current_link = current_article.find('div', class_ = 'CardList-item-container').a['href']
-    headless_browser.get(current_link)
-    time.sleep(2)
-    headless_browser.implicitly_wait(3)
-    try:
-        current_article_soup = bs(headless_browser.page_source, 'lxml')    
-        current_article_soup = current_article_soup.find('div', class_ = "Article-contents")
-        current_article_content = current_article_soup.find('div', class_ = "ArticleBody")
-        current_headline = current_article_soup.find('h1', class_='Article-title').text
-        current_image_link = current_article.find('div', class_='imageContainer').img['data-src']
-    except:
-        pass
-    # The date and time are both in current_datetime, so it needs to be harvested and refined further down below
-    # We need to search for an updated time first so covid stuff doesn't throw off the algorithm
-    try:
-        # Search for updated timestamp
-        current_datetime = current_article_soup.find('div', class_='Timestamp-updated').find('span',
-                                                                                             class_='Timestamp-time').text
-    except:
-        current_datetime = current_article_soup.find('span', class_='Timestamp-time').text
-    # Assign a current_date_posted
-    # Assign a not today if re.search is None since the .group will throw an exception
-    try:
-        current_date_posted = re.search(date, current_datetime).group()
-    except:
-        current_date_posted = "Not Today"
-    current_time_posted = refine_article_time(current_datetime)
-
-    while (current_article):
-
-        if re.search(date, current_date_posted):
-
-            total_articles_scraped += 1
-            
-            if is_relevant_article(current_headline, current_article_content.text):
-
-                # Append to approved_articles
-                approved_articles.append({'headline': current_headline,
-                                          'link': current_link,
-                                          'image': current_image_link,
-                                          'date_posted': get_date(7),
-                                          'time_posted': current_time_posted,
-                                          'publisher': publisher})
-
-        # Break the loop if an article from another day is found
-        else:
-
-            headless_browser.delete_all_cookies()
-            headless_browser.quit()
-            return approved_articles, total_articles_scraped
-
-        # Find the next article
-        current_article = current_article.find_next('div', class_='CardList-item')
-        if (current_article):
-            current_link = current_article.find('div', class_='CardList-item-container').a['href']
-            headless_browser.get(current_link)
-            time.sleep(2)
-            headless_browser.implicitly_wait(3)
+        current_article = current_article.find_next('article', class_='tnt-section-local-news')
+        if current_article:
+            current_headline = current_article.find('div', class_='card-headline').a.text.strip()
+            current_article_category = current_article.find('div', class_='card-label-section').a.text.strip().lower()
+            current_link = links['local_three']['base'] + current_article.find('h3').a['href']
+            current_datetime = current_article.find('li', class_='card-date').time['datetime']
+            current_date_posted = current_datetime[:10]
+            current_time_posted = current_datetime[11:16]
+            # The image srcset has a ton of different sizes, so let's grab the link to the biggest and see if that scales right
             try:
-                current_article_soup = bs(headless_browser.page_source, 'lxml')
-                current_article_soup = current_article_soup.find('div', class_ = "Article-contents")
-                current_article_content = current_article_soup.find('div', class_ = "ArticleBody")
-                current_headline = current_article_soup.find('h1', class_='Article-title').text
-                current_image_link = current_article.find('div', class_='imageContainer').img['data-src']
+                current_image_link = current_article.find('img')['srcset'].split()[-2]
             except:
-                continue
-            # The date and time are both in current_datetime, so it needs to be harvested and refined further down below
-            # We need to search for an updated time first so covid stuff doesn't throw off the algorithm
-            try:
-                # Search for updated timestamp
-                current_datetime = current_article_soup.find('div', class_='Timestamp-updated').find('span',
-                                                                                                     class_='Timestamp-time').text
-            except:
-                current_datetime = current_article_soup.find('span', class_='Timestamp-time').text
-            # Assign a current_date_posted
-            # Assign a not today if re.search is None since the .group will throw an exception
-            try:
-                current_date_posted = re.search(date, current_datetime).group()
-            except:
-                current_date_posted = "Not Today"
-            current_time_posted = refine_article_time(current_datetime)
+                # saving this just in case
+                # current_image_link = "https://pbs.twimg.com/profile_banners/25735151/1642103542/1500x500"
+                current_image_link = 'https://pbs.twimg.com/profile_images/1481715996469735425/bKvaJx6s_400x400.jpg'
 
+            # Reformat date
+            current_date_posted = current_date_posted[5:7] + '/' + current_date_posted[8:10] + '/' + current_date_posted[:4]
 
-    # Ending list section
-    current_section = current_section.find_next('div', class_='leftsidepad')
-    current_article = current_section.find('div', class_='CardList-item')
-    current_link = current_article.find('div', class_='CardList-item-container').a['href']
-    headless_browser.get(current_link)
-    time.sleep(2)
-    headless_browser.implicitly_wait(3)
-    try:
+    for article in all_local_articles:
+
+        headless_browser.get(article['link'])
+        time.sleep(4)
         current_article_soup = bs(headless_browser.page_source, 'lxml')
-        current_article_soup = current_article_soup.find('div', class_ = "Article-contents")
-        current_article_content = current_article_soup.find('div', class_ = "ArticleBody")
-        current_headline = current_article_soup.find('h1', class_='Article-title').text
-        current_image_link = current_article.find('div', class_='imageContainer').img['data-src']
-    except:
-        pass
-    # The date and time are both in current_datetime, so it needs to be harvested and refined further down below
-    # We need to search for an updated time first so covid stuff doesn't throw off the algorithm
-    try:
-        # Search for updated timestamp
-        current_datetime = current_article_soup.find('div', class_='Timestamp-updated').find('span',
-                                                                                             class_='Timestamp-time').text
-    except:
-        current_datetime = current_article_soup.find('span', class_='Timestamp-time').text
-    # Assign a current_date_posted
-    # Assign a not today if re.search is None since the .group will throw an exception
-    try:
-        current_date_posted = re.search(date, current_datetime).group()
-    except:
-        current_date_posted = "Not Today"
-    current_time_posted = refine_article_time(current_datetime)
+        article_content = current_article_soup.find('div', itemprop = 'articleBody').text
 
-    while (current_article):
+        if is_relevant_article(article['headline'], article_content):
 
-        if re.search(date, current_date_posted):
+            approved_articles.append(article)
 
-            total_articles_scraped += 1
-            
-            if is_relevant_article(current_headline, current_article_content.text):
-
-                # Append to approved_articles
-                approved_articles.append({'headline': current_headline,
-                                          'link': current_link,
-                                          'image': current_image_link,
-                                          'date_posted': get_date(7),
-                                          'time_posted': current_time_posted,
-                                          'publisher': publisher})
-
-        # Break the loop if an article from another day is found
+        # This accounts for weather articles that don't explicitely mention chattanooga, but they're about the region
         else:
-            headless_browser.delete_all_cookies()
-            headless_browser.quit()
-            return approved_articles, total_articles_scraped
 
-        # Find the next article
-        current_article = current_article.find_next('div', class_='CardList-item')
-        if (current_article):
-            current_link = current_article.find('div', class_='CardList-item-container').a['href']
-            headless_browser.get(current_link)
-            time.sleep(2)
-            headless_browser.implicitly_wait(3)
             try:
-                current_article_soup = bs(headless_browser.page_source, 'lxml')
-                current_article_soup = current_article_soup.find('div', class_ = "Article-contents")
-                current_article_content = current_article_soup.find('div', class_ = "ArticleBody")
-                current_headline = current_article_soup.find('h1', class_='Article-title').text
-                current_image_link = current_article.find('div', class_='imageContainer').img['data-src']
+                if current_article_soup.find('span', itemprop='author').text.strip().lower() == 'cedric haynes':
+                    approved_articles.append(article)
             except:
                 continue
-            # The date and time are both in current_datetime, so it needs to be harvested and refined further down below
-            # We need to search for an updated time first so covid stuff doesn't throw off the algorithm
-            try:
-                # Search for updated timestamp
-                current_datetime = current_article_soup.find('div', class_='Timestamp-updated').find('span',
-                                                                                                     class_='Timestamp-time').text
-            except:
-                current_datetime = current_article_soup.find('span', class_='Timestamp-time').text
-            # Assign a current_date_posted
-            # Assign a not today if re.search is None since the .group will throw an exception
-            try:
-                current_date_posted = re.search(date, current_datetime).group()
-            except:
-                current_date_posted = "Not Today"
-            current_time_posted = refine_article_time(current_datetime)
 
     # Delete cookies before quitting the browser
     headless_browser.delete_all_cookies()
@@ -2100,6 +1954,7 @@ def scrape_wrcb(url, date, session):
     headless_browser.quit()
 
     return approved_articles, total_articles_scraped
+
 
 def scrape_youtube(url, date):
 
@@ -2198,6 +2053,7 @@ def scrape_youtube(url, date):
 
     return approved_articles
 
+
 def recycle_homepage(newly_found, currently_posted):
 
     # Sort the two lists so the oldest stories are indexed first
@@ -2230,6 +2086,7 @@ def recycle_homepage(newly_found, currently_posted):
 
     # return the list
     return list_to_return
+
 
 def calculate_relevant_stats(articles, current_stats, stats):
 
@@ -2305,15 +2162,16 @@ def calculate_relevant_stats(articles, current_stats, stats):
         except:
             stats['relevant_wdef'] = 0
 
-    # WRCB stats
-    relevant_wrcb = count_articles(articles, "WRCB")
+    # Local 3 stats
+    relevant_local_three = count_articles(articles, "Local 3 News")
     try:
-        stats['relevant_wrcb'] = relevant_wrcb
+        stats['relevant_local_three'] = relevant_local_three
     except:
         try:
-            stats['relevant_wrcb'] = current_stats['relevant_wrcb']
+            stats['relevant_local_three'] = current_stats['relevant_local_three']
         except:
-            stats['relevant_wrcb'] = 0
+            stats['relevant_local_three'] = 0
+
 
 def tweet_new_articles(article_list):
 
@@ -2370,6 +2228,7 @@ def tweet_new_articles(article_list):
     logging.info('** New articles tweeted **')
     #print("** New articles tweeted **")
 
+
 def post_to_facebook(article_list):
 
     articles = article_list.copy()
@@ -2422,6 +2281,7 @@ def post_to_facebook(article_list):
     #print("** New articles posted to Facebook **")
     logging.info('** New articles posted to Facebook **')
     
+
 # Scraper function
 def scrape_news():
     #print ("-- Scraper started at " + str(datetime.now()))
@@ -2460,8 +2320,8 @@ def scrape_news():
         'relevant_pulse': 0,
         'scraped_wdef': 0,
         'relevant_wdef': 0,
-        'scraped_wrcb': 0,
-        'relevant_wrcb': 0
+        'scraped_local_three': 0,
+        'relevant_local_three': 0
     }
 
     # Load current stats if they exist
@@ -2485,8 +2345,8 @@ def scrape_news():
             'relevant_pulse': 0,
             'scraped_wdef': 0,
             'relevant_wdef': 0,
-            'scraped_wrcb': 0,
-            'relevant_wrcb': 0
+            'scraped_local_three': 0,
+            'relevant_local_three': 0
         }
     
     # ---------- TIMES FREE PRESS ---------- #
@@ -2719,30 +2579,30 @@ def scrape_news():
 
     # os.system('pkill -f firefox')
 
-    # ---------- WRCB ---------- #
+    # ---------- Local 3 News ---------- #
     try:
-        logging.info('WRCB scraper started')
+        logging.info('Local 3 scraper started')
 
-        wrcb_articles, scraped_wrcb = scrape_wrcb(links['wrcb']['base'] + links['wrcb']['local_news'], get_date(4), scraper_session)
-        articles.extend(wrcb_articles)
+        local_three_articles, scraped_local_three = scrape_local_three(links['local_three']['base'] + links['local_three']['local_news'], get_date(1))
+        articles.extend(local_three_articles)
 
-        relevant_wrcb = len(wrcb_articles)
+        relevant_local_three = len(local_three_articles)
 
-        stats['scraped_wrcb'] = scraped_wrcb
-        stats['relevant_wrcb'] = relevant_wrcb
+        stats['scraped_local_three'] = scraped_local_three
+        stats['relevant_local_three'] = relevant_local_three
 
     except Exception as e:
-        logging.error('Exception caught in WRCB scraper', exc_info=True)
-        #print('\tException caught in WRCB scraper')
+        logging.error('Exception caught in Local 3 News scraper', exc_info=True)
+        #print('\tException caught in Local 3 News scraper')
         #print(e)
         #print()
 
         try:
-            stats['scraped_wrcb'] = current_stats['scraped_wrcb']
-            stats['relevant_wrcb'] = current_stats['relevant_wrcb']
+            stats['scraped_local_three'] = current_stats['scraped_local_three']
+            stats['relevant_local_three'] = current_stats['relevant_local_three']
         except:
-            stats['scraped_wrcb'] = 0
-            stats['relevant_wrcb'] = 0
+            stats['scraped_local_three'] = 0
+            stats['relevant_local_three'] = 0
 
     # ---------- CHA GUIDE YOUTUBE ---------- #
     # try:
@@ -2832,12 +2692,14 @@ def scrape_news():
 
     logging.info('--- SCRAPER EXITING --- \n')
             
+
 def Sort(sub_li, to_reverse):
     # reverse = None (Sorts in Ascending order)
     # key is set to sort using second element of
     # sublist lambda has been used
     sub_li.sort(key=lambda x: x['time_posted'], reverse=to_reverse)
     return sub_li
+
 
 def main():
 
