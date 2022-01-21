@@ -2284,7 +2284,7 @@ def post_to_facebook(article_list):
 
 # Scraper function
 def scrape_news():
-    #print ("-- Scraper started at " + str(datetime.now()))
+
     if time.localtime()[8] == 1:
         logging.info('--- SCRAPER STARTING WITH DST ACTIVE ---')
     else:
