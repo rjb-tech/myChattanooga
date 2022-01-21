@@ -2709,6 +2709,3 @@ def main():
         
 
 main()
-
-
-#local_three_articles, scraped_local_three = scrape_local_three(links['local_three']['base'] + links['local_three']['local_news'], get_date(1))
