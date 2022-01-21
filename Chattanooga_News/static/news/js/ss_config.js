@@ -192,7 +192,7 @@ define([/*'jquery',*/ 'jquery.smoothState.min'/*, 'velocity'*/, 'functions'/*, '
 			    var data = google.visualization.arrayToDataTable([
 				['', 'Posted Articles', 'Relevant Articles'],
 				['Chattanoogan', Number($('span#scraped_chattanoogan').text()), Number($('span#relevant_chattanoogan').text())],
-				['Chronicle', Number($('span#scraped_chronicle').text()), Number($('span#relevant_chronicle').text())],
+				//['Chronicle', Number($('span#scraped_chronicle').text()), Number($('span#relevant_chronicle').text())],
 				['Chattanooga TFP', Number($('span#scraped_tfp').text()), Number($('span#relevant_tfp').text())],
 				['Fox Chattanooga', Number($('span#scraped_fox_chattanooga').text()), Number($('span#relevant_fox_chattanooga').text())],
 				['Nooga Today', Number($('span#scraped_nooga_today').text()), Number($('span#relevant_nooga_today').text())],
