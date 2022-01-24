@@ -1933,8 +1933,12 @@ def scrape_local_three(url, date):
         headless_browser.get(article['link'])
         time.sleep(4)
         current_article_soup = bs(headless_browser.page_source, 'lxml')
-        article_content = current_article_soup.find('div', itemprop = 'articleBody').text
-
+        try:
+            article_content = current_article_soup.find('div', itemprop = 'articleBody').text
+        except:
+            logging.error('No article body for - ' + article['headline'] + ' - ', exc_info=True)
+            article_content = ''
+            
         if is_relevant_article(article['headline'], article_content):
 
             approved_articles.append(article)
