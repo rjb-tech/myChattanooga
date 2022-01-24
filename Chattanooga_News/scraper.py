@@ -1931,13 +1931,19 @@ def scrape_local_three(url, date):
     for article in all_local_articles:
 
         headless_browser.get(article['link'])
-        time.sleep(4)
+        time.sleep(5)
         current_article_soup = bs(headless_browser.page_source, 'lxml')
         try:
             article_content = current_article_soup.find('div', itemprop = 'articleBody').text
-        except:
-            logging.error('No article body for - ' + article['headline'] + ' - ', exc_info=True)
-            article_content = ''
+        except AttributeError:
+            try:
+                article_content = current_article_soup.find('div', class_ = 'asset-content').text
+                logging.info('Used asset-content div for text')
+                logging.error(f'No article body for - {article["headline"]} - ')
+            except AttributeError:
+                logging.info(f'article content blank for {article["headline"]}')
+                article_content = ''
+
             
         if is_relevant_article(article['headline'], article_content):
 
