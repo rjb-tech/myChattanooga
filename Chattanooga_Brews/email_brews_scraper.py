@@ -255,6 +255,7 @@ def post_office(mail, imap_server, smtp_server, table):
                 ooga.app if you find any mistakes.\n\n
                 Headline: {current_headline}\n\n
                 Message body:\n{current_body_to_send}
+                '''
 
             # Set message text to be sent
             # message_text = "Your message has been received by myChattanooga!\n\n"
