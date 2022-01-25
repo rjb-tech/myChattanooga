@@ -247,22 +247,12 @@ def post_office(mail, imap_server, smtp_server, table):
                 days_run = 0
             )
 
-            message_text =\
-                f'''
-                Your message has been received by myChattanooga!\n\n
-                You will find a summary of your submission below.\n
-                This is an automated process, so please confirm the information below is correct. Please contact us at \ 
-                feedback@mychattanooga.app if you find any mistakes.\n\n
-                Headline: {current_headline}\n\n
-                Message body:\n{current_body_to_send}
-                '''
-
             # Set message text to be sent
-            # message_text = "Your message has been received by myChattanooga!\n\n"
-            # message_text = message_text +  "You will find a summary of your submission.\n"
-            # message_text = message_text + "This is an automated process, so please confirm the information below is correct. If you find any mistakes, please contact us at feedback@mychattanooga.app.\n\n"
-            # message_text = message_text + "Headline: " + current_headline + "\n\n"
-            # message_text = message_text + "Message: \n" + current_body_to_send
+            message_text = "Your message has been received by myChattanooga!\n\n"
+            message_text = message_text +  "You will find a summary of your submission.\n"
+            message_text = message_text + "This is an automated process, so please confirm the information below is correct. If you find any mistakes, please contact us at feedback@mychattanooga.app.\n\n"
+            message_text = message_text + "Headline: " + current_headline + "\n\n"
+            message_text = message_text + "Message: \n" + current_body_to_send
             
             message_to_send = "Subject: {}\n\n{}".format(message_subject, message_text)
         
