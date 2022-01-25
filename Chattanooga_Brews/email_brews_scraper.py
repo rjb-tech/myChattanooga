@@ -24,6 +24,7 @@ partners = [
     "ryne"
 ]
 
+
 # This function is just an easy way to query the current date 
 def get_date(format):
 
@@ -96,6 +97,7 @@ def get_date(format):
     elif format == 12:
         return today.strftime('%-H:%M')
 
+
 # Function to connect to protonmail-bridge SMTP and IMAP servers
 # This will return the server connection objects
 def protonmail_connect(protonmail_username, protonmail_password):
@@ -120,6 +122,7 @@ def protonmail_connect(protonmail_username, protonmail_password):
     # Return the server object
     return imap_server, smtp_server
 
+
 # This function generates a filepath for the attachment as determined by the sender
 def get_filepath(sender):
 
@@ -138,11 +141,13 @@ def get_filepath(sender):
 
     return path
 
+
 def get_business(email_address):
 
     for partner in partners:
         if re.search(partner.lower(), email_address.lower()):
             return partner
+
 
 # This is where the emails are processed
 def post_office(mail, imap_server, smtp_server, table):
@@ -258,7 +263,8 @@ def post_office(mail, imap_server, smtp_server, table):
         list_to_return.append(save_statement)
             
     return list_to_return
-            
+
+
 # Main function
 def main():
     
@@ -321,7 +327,8 @@ def main():
     
     #server.close()
     proton_imap.logout()
-    
+
+
 main()
 
 # # I need to research this object more
