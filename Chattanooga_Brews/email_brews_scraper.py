@@ -251,8 +251,8 @@ def post_office(mail, imap_server, smtp_server, table):
                 f'''
                 Your message has been received by myChattanooga!\n\n
                 You will find a summary of your submission below.\n
-                This is an automated process, so please confirm the information below is correct. Please contact us at feedback@mychattan\
-                ooga.app if you find any mistakes.\n\n
+                This is an automated process, so please confirm the information below is correct. Please contact us at \ 
+                feedback@mychattanooga.app if you find any mistakes.\n\n
                 Headline: {current_headline}\n\n
                 Message body:\n{current_body_to_send}
                 '''
