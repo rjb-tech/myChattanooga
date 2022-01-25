@@ -300,7 +300,7 @@ def main():
     #meta.create_all(engine)
     
     # Start protonmail bridge and connect to the IMAP server
-    bridge_process = subprocess.Popen(["protonmail-bridge", "--noninteractive", "no-window"])
+    bridge_process = subprocess.run(["protonmail-bridge", "--noninteractive", "--no-window"])
     proton_imap, proton_smtp = protonmail_connect('ryneburden@protonmail.com', os.environ['PROTONMAIL_PASSWORD'])
 
     # Select the Brews folder within my account
@@ -332,7 +332,7 @@ def main():
     else:
         print("No unread messages found")
         
-    bridge_process.terminate()
+    #bridge_process.terminate()
     
     #server.close()
     proton_imap.logout()
