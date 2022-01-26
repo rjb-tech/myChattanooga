@@ -1828,6 +1828,16 @@ def scrape_chattanooga_news_chronicle(url, date):
 
 def scrape_local_three(url, date):
 
+    def is_meteorologist(current_author):
+        meteorologists = [
+            'alison pryor',
+            'david karnes',
+            'cedric haynes',
+            'clay smith'
+        ]
+        mapped_list = map(lambda x: current_author in x, meteorologists)
+        return sum(mapped_list) > 0
+
     # This list will hold boolean values to determine if articles
     # are about Chattanooga or Hamilton County
     approved_articles = list()
@@ -1949,11 +1959,12 @@ def scrape_local_three(url, date):
 
             approved_articles.append(article)
 
-        # This accounts for weather articles that don't explicitely mention chattanooga, but they're about the region
+        # This accounts for weather articles that don't explicitly mention chattanooga, but they're about the region
         else:
 
             try:
-                if current_article_soup.find('span', itemprop='author').text.strip().lower() == 'cedric haynes':
+                current_author = current_article_soup.find('span', itemprop='author').text.strip().lower()
+                if is_meteorologist(current_author):
                     approved_articles.append(article)
             except:
                 continue
