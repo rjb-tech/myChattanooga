@@ -12,6 +12,7 @@
 #
 # ************************************************** #
 import os
+import asyncio
 import re
 import sys
 import time
@@ -25,7 +26,7 @@ import facebook
 import traceback
 from typing import NamedTuple
 from pytz import timezone
-from sqlite3 import Error
+from sqlite3 import Cursor, Error
 from datetime import datetime
 from selenium import webdriver
 from bs4 import BeautifulSoup as bs
@@ -2309,7 +2310,7 @@ def post_to_facebook(article_list):
     
 
 # Scraper function
-def scrape_news():
+async def scrape_news():
 
     if time.localtime()[8] == 1:
         logging.info('--- SCRAPER STARTING WITH DST ACTIVE ---')
@@ -2380,9 +2381,9 @@ def scrape_news():
     try:
         logging.info('TFP scraper started')
 
-        times_breaking_articles, scraped_times_breaking = scrape_times_free_press(links['times_free_press']['base'] + links['times_free_press']['local_news'], get_date(1), scraper_session)
-        times_political_articles, scraped_times_political = scrape_times_free_press(links['times_free_press']['base'] + links['times_free_press']['local_politics'], get_date(1), scraper_session)
-        times_business_articles, scraped_times_business = scrape_times_free_press(links['times_free_press']['base'] + links['times_free_press']['region_business'], get_date(1), scraper_session)
+        times_breaking_articles, scraped_times_breaking = await scrape_times_free_press(links['times_free_press']['base'] + links['times_free_press']['local_news'], get_date(1), scraper_session)
+        times_political_articles, scraped_times_political = await scrape_times_free_press(links['times_free_press']['base'] + links['times_free_press']['local_politics'], get_date(1), scraper_session)
+        times_business_articles, scraped_times_business = await scrape_times_free_press(links['times_free_press']['base'] + links['times_free_press']['region_business'], get_date(1), scraper_session)
 
         tfp_articles = list()
         tfp_articles.extend(times_breaking_articles)
@@ -2422,9 +2423,9 @@ def scrape_news():
     try:
         logging.info('Chattanoogan scraper started')
 
-        chattanoogan_news_articles, scraped_chattanoogan_news = scrape_chattanoogan(links['chattanoogan']['base'] + links['chattanoogan']['breaking'], get_date(1), scraper_session, 'b/p')
-        chattanoogan_happenings_articles, scraped_chattanoogan_happenings = scrape_chattanoogan(links['chattanoogan']['base'] + links['chattanoogan']['happenings'], get_date(1), scraper_session, 'happenings')
-        chattanoogan_business_articles, scraped_chattanoogan_business = scrape_chattanoogan(links['chattanoogan']['base'] + links['chattanoogan']['business'], get_date(1), scraper_session)
+        chattanoogan_news_articles, scraped_chattanoogan_news = await scrape_chattanoogan(links['chattanoogan']['base'] + links['chattanoogan']['breaking'], get_date(1), scraper_session, 'b/p')
+        chattanoogan_happenings_articles, scraped_chattanoogan_happenings = await scrape_chattanoogan(links['chattanoogan']['base'] + links['chattanoogan']['happenings'], get_date(1), scraper_session, 'happenings')
+        chattanoogan_business_articles, scraped_chattanoogan_business = await scrape_chattanoogan(links['chattanoogan']['base'] + links['chattanoogan']['business'], get_date(1), scraper_session)
         articles.extend(chattanoogan_news_articles)
         articles.extend(chattanoogan_happenings_articles)
         articles.extend(chattanoogan_business_articles)
@@ -2455,7 +2456,7 @@ def scrape_news():
     try:
         logging.info('Fox Chattanooga scraper started')
 
-        fox_chattanooga_articles, scraped_fox_chattanooga = scrape_fox_chattanooga(links['fox_chattanooga']['base'] + links['fox_chattanooga']['local_news'], get_date(6))
+        fox_chattanooga_articles, scraped_fox_chattanooga = await scrape_fox_chattanooga(links['fox_chattanooga']['base'] + links['fox_chattanooga']['local_news'], get_date(6))
         articles.extend(fox_chattanooga_articles)
 
         relevant_fox_chattanooga = len(fox_chattanooga_articles)
@@ -2486,7 +2487,7 @@ def scrape_news():
     try:
         logging.info('WDEF scraper started')
 
-        wdef_articles, scraped_wdef = scrape_wdef(links['wdef']['base'] + links['wdef']['local_news'], get_date(8), scraper_session)
+        wdef_articles, scraped_wdef = await scrape_wdef(links['wdef']['base'] + links['wdef']['local_news'], get_date(8), scraper_session)
         articles.extend(wdef_articles)
 
         relevant_wdef = len(wdef_articles)
@@ -2515,9 +2516,9 @@ def scrape_news():
     try:
         logging.info('Nooga Today scraper started')
 
-        nooga_today_news_articles, scraped_nooga_today_news = scrape_nooga_today_breaking_political(links['nooga_today']['base'] + links['nooga_today']['local_news'], get_date(1), 'news')
-        nooga_today_city_articles, scraped_nooga_today_city = scrape_nooga_today_non_political(links['nooga_today']['base'] + links['nooga_today']['city'], get_date(1), 'city')
-        nooga_today_food_articles, scraped_nooga_today_food = scrape_nooga_today_non_political(links['nooga_today']['base'] + links['nooga_today']['food_drink'], get_date(1), 'food + drink')
+        nooga_today_news_articles, scraped_nooga_today_news = await scrape_nooga_today_breaking_political(links['nooga_today']['base'] + links['nooga_today']['local_news'], get_date(1), 'news')
+        nooga_today_city_articles, scraped_nooga_today_city = await scrape_nooga_today_non_political(links['nooga_today']['base'] + links['nooga_today']['city'], get_date(1), 'city')
+        nooga_today_food_articles, scraped_nooga_today_food = await scrape_nooga_today_non_political(links['nooga_today']['base'] + links['nooga_today']['food_drink'], get_date(1), 'food + drink')
         articles.extend(nooga_today_news_articles)
         articles.extend(nooga_today_city_articles)
         articles.extend(nooga_today_food_articles)
@@ -2549,8 +2550,8 @@ def scrape_news():
     try:
         logging.info('Pulse scraper started')
 
-        pulse_news_articles, scraped_pulse_news = scrape_pulse(links['chattanooga_pulse']['base'] + links['chattanooga_pulse']['local_news'], get_date(1), scraper_session)
-        pulse_city_articles, scraped_pulse_city = scrape_pulse(links['chattanooga_pulse']['base'] + links['chattanooga_pulse']['city_life'], get_date(1), scraper_session)
+        pulse_news_articles, scraped_pulse_news = await scrape_pulse(links['chattanooga_pulse']['base'] + links['chattanooga_pulse']['local_news'], get_date(1), scraper_session)
+        pulse_city_articles, scraped_pulse_city = await scrape_pulse(links['chattanooga_pulse']['base'] + links['chattanooga_pulse']['city_life'], get_date(1), scraper_session)
         articles.extend(pulse_news_articles)
         articles.extend(pulse_city_articles)
 
@@ -2609,7 +2610,7 @@ def scrape_news():
     try:
         logging.info('Local 3 scraper started')
 
-        local_three_articles, scraped_local_three = scrape_local_three(links['local_three']['base'] + links['local_three']['local_news'], get_date(1))
+        local_three_articles, scraped_local_three = await scrape_local_three(links['local_three']['base'] + links['local_three']['local_news'], get_date(1))
         articles.extend(local_three_articles)
 
         relevant_local_three = len(local_three_articles)
@@ -2730,10 +2731,8 @@ def Sort(sub_li, to_reverse):
 
 
 def already_saved(entry, conn) -> bool:
-    print(entry['headline'])
-    conn.execute("SELECT EXISTS(SELECT 1 FROM articles WHERE headline=?)", entry['headline'])
+    query = conn.execute("SELECT EXISTS(SELECT 1 FROM articles WHERE headline=?)", (entry['headline'],))
     var = query.fetchone()
-    print(var)
     return var
 
 
@@ -2749,8 +2748,10 @@ def create_connection(db_file):
 
 
 def save_articles(conn, articles):
+    articles_saved = 0
     for article in articles:
         if not already_saved(article, conn):
+            articles_saved += 1
             conn.execute(f'''
                         INSERT INTO articles
                         VALUES (
@@ -2760,15 +2761,33 @@ def save_articles(conn, articles):
                             {article['publisher']}
                         );
                         ''')
-    conn.commit()
-    logging.info(str(len(articles)) + " articles saved")
+    logging.info(str(articles_saved) + " articles saved")
 
 
-def main():
+class DBConnection:
+    db_conn = None
+    db_cursor = None
+    def __init__(self, db_file) -> None:
+        self.db_conn = create_connection(db_file)
+        self.db_cursor = self.db_conn.cursor()
 
-    db_connection = create_connection("myChattanooga.db")
-    current_articles = scrape_news()
-    save_articles(db_connection, current_articles)
-    db_connection.close()        
+    def __del__(self) -> None:
+        self.db_cursor.close() 
+        self.db_conn.commit()
+        self.db_conn.close()
 
-main()
+    def get_cursor(self) -> Cursor:
+        return self.db_cursor
+
+async def main():
+
+    # Scrape news, make sqlite db connection in the meantime
+    current_articles = await scrape_news()
+    data_highway = DBConnection("myChattanooga.db")
+    # Save new articles to database
+    save_articles(data_highway.get_cursor(), current_articles)
+    # Close db connection
+    del data_highway
+          
+if __name__ == "__main__":
+    asyncio.run(main())
