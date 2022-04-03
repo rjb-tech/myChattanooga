@@ -14,17 +14,13 @@
 import os
 import asyncio
 import re
-import sys
 import time
 import pickle
-from xmlrpc.client import Boolean
 import tweepy
 import logging
 import sqlite3
 import requests
 import facebook
-import traceback
-from typing import NamedTuple
 from pytz import timezone
 from sqlite3 import Cursor, Error
 from datetime import datetime
