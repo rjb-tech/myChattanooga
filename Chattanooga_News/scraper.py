@@ -2731,7 +2731,7 @@ def Sort(sub_li, to_reverse):
 
 def already_saved(entry, conn) -> bool:
     print(entry['headline'])
-    conn.execute("SELECT EXISTS(SELECT 1 FROM articles WHERE headline=?", entry['headline'])
+    conn.execute("SELECT EXISTS(SELECT 1 FROM articles WHERE headline=?)", entry['headline'])
     var = query.fetchone()
     print(var)
     return var
