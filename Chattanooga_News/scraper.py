@@ -11,18 +11,21 @@
 #    - The script will output a list with every relevant article from the day
 #
 # ************************************************** #
-
 import os
 import re
 import sys
 import time
 import pickle
+from xmlrpc.client import Boolean
 import tweepy
 import logging
+import sqlite3
 import requests
 import facebook
 import traceback
+from typing import NamedTuple
 from pytz import timezone
+from sqlite3 import Error
 from datetime import datetime
 from selenium import webdriver
 from bs4 import BeautifulSoup as bs
@@ -747,10 +750,10 @@ def scrape_fox_chattanooga(url, date):
     headless_browser = Firefox(options=firefox_options)
 
     # ---------- COPIED TO RUN_SCRAPER ----------#
-    #chrome_options = Options()
-    #chrome_options.add_argument('--headless')
-    #chrome_options.BinaryLocation = '/usr/bin/chromium-browser'
-    #headless_browser = webdriver.Chrome(executable_path='/usr/bin/chromedriver', options=chrome_options)
+    # chrome_options = Options()
+    # chrome_options.add_argument('--headless')
+    # chrome_options.BinaryLocation = '/usr/bin/chromium-browser'
+    # headless_browser = webdriver.Chrome(executable_path='/usr/bin/chromedriver', options=chrome_options)
 
     # Try statement to account for the website being down
     try:
@@ -2082,7 +2085,7 @@ def recycle_homepage(newly_found, currently_posted):
     currently_posted = Sort(currently_posted, False)
 
     # Make a list to return
-    list_to_return = list()
+    list_to_return = []
 
     # Loop through all articles and compare them for similarity
     for current_article in currently_posted:
@@ -2094,13 +2097,15 @@ def recycle_homepage(newly_found, currently_posted):
                 # A matching headline, link, or image link will prove similarity
                 # This is really only a problem with TFP articles and sometimes Channel 9
                 # All Chattanoogan articles have the same image, so the last check is necessary
-                if new_article['headline'].strip().lower() == current_article['headline'].strip().lower() or new_article['link'] == current_article['link'] or (new_article['image'] == current_article['image'] and current_article['publisher'] != "Chattanoogan"):
+                if new_article['headline'].strip().lower() == current_article['headline'].strip().lower() \
+                or new_article['link'] == current_article['link'] \
+                or (new_article['image'] == current_article['image'] and current_article['publisher'] != "Chattanoogan"):
 
-                    # Pop all currently posted articles from the list of new articles
+                    # Pop currently posted articles from the list of new articles
                     newly_found.pop(newly_found.index(new_article))
 
     # Add all current and remaining new articles to the list to return
-    list_to_return.extend(currently_posted)
+    # list_to_return.extend(currently_posted)
 
     if len(newly_found) > 0:
         list_to_return.extend(newly_found)
@@ -2383,7 +2388,7 @@ def scrape_news():
         tfp_articles.extend(times_breaking_articles)
         tfp_articles.extend(times_political_articles)
         tfp_articles.extend(times_business_articles)
-#        tfp_articles = times_breaking_articles + times_political_articles + times_business_articles
+        #tfp_articles = times_breaking_articles + times_political_articles + times_business_articles
 
         # Put stat values into variables
         scraped_tfp = scraped_times_business + scraped_times_political + scraped_times_breaking
@@ -2701,17 +2706,19 @@ def scrape_news():
     pickle.dump(stats, open(today_stats_file, 'wb'))
     logging.info('stats file saved')
 
-    if len(articles) > 0:
-        try:
-            tweet_new_articles(articles)
-        except Exception as e:
-            logging.error('Articles not tweeted', exc_info=True)
-        try:
-            post_to_facebook(articles)
-        except Exception as e:
-            logging.error('Articles not posted to Facebook', exc_info=True)
+    # if len(articles) > 0:
+    #     try:
+    #         tweet_new_articles(articles)
+    #     except Exception as e:
+    #         logging.error('Articles not tweeted', exc_info=True)
+    #     try:
+    #         post_to_facebook(articles)
+    #     except Exception as e:
+    #         logging.error('Articles not posted to Facebook', exc_info=True)
 
     logging.info('--- SCRAPER EXITING --- \n')
+
+    return articles_to_save
             
 
 def Sort(sub_li, to_reverse):
@@ -2722,9 +2729,46 @@ def Sort(sub_li, to_reverse):
     return sub_li
 
 
+def already_saved(entry, conn) -> bool:
+    print(entry['headline'])
+    conn.execute("SELECT EXISTS(SELECT 1 FROM articles WHERE headline=?", entry['headline'])
+    var = query.fetchone()
+    print(var)
+    return var
+
+
+def create_connection(db_file):
+    """ create a database connection to a SQLite database """
+    conn = None
+    try:
+        conn = sqlite3.connect(db_file)
+    except Error as e:
+        print(e)
+    finally:
+        return conn
+
+
+def save_articles(conn, articles):
+    for article in articles:
+        if not already_saved(article, conn):
+            conn.execute(f'''
+                        INSERT INTO articles
+                        VALUES (
+                            {article['headline']}, 
+                            {article['image']}, 
+                            {article['time_posted']}, 
+                            {article['publisher']}
+                        );
+                        ''')
+    conn.commit()
+    logging.info(str(len(articles)) + " articles saved")
+
+
 def main():
 
-    scrape_news()
-        
+    db_connection = create_connection("myChattanooga.db")
+    current_articles = scrape_news()
+    save_articles(db_connection, current_articles)
+    db_connection.close()        
 
 main()
