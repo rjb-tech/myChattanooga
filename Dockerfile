@@ -3,7 +3,7 @@ LABEL version="0.1"
 LABEL description="myChattanooga daily scraper environment"
 
 # timezone set
-RUN export TZ="America/New_York"
+ENV TZ="America/New_York"
 
 # Copy files and stuff 
 WORKDIR /home/myChattanooga
@@ -25,4 +25,3 @@ RUN apt install cron -y
 COPY ./src/scraper_cron /etc/cron.d/scraper_cron
 RUN chmod 0644 /etc/cron.d/scraper_cron
 RUN crontab /etc/cron.d/scraper_cron
-
