@@ -11,3 +11,4 @@ Chattanooga_News/data/2021
 venv/
 *.db
 *test*
+data/
