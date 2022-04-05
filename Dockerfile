@@ -7,7 +7,7 @@ ENV TZ="America/New_York"
 
 # Copy files and stuff 
 WORKDIR /home/myChattanooga
-COPY ./src .
+COPY ./app .
 COPY ../requirements.txt .
 RUN mkdir data
 
