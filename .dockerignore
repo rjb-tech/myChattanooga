@@ -1,4 +1,12 @@
-app/data/
-app/*.log
-app/*.db
+web/app/data/
+web/app/*.log
+web/app/*.db
+web/app/__pycache__/
 .git
+*.yml
+web/venv/
+.gitignore
+.dockerignore
+web/*.db
+web/*.md
+web/Dockerfile

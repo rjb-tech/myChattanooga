@@ -2,9 +2,9 @@ version: '0.1'
 
 services:
   web:
-    build: .
-    command: uvicorn app.main:app --host 0.0.0.0 --port 80
+    build: ./web
+    command: uvicorn main:app --host 0.0.0.0 --port 80
     volumes:
-      - .:/home/myChattanooga
+      - ./web/app:/home/myChattanooga
     ports:
       - 80:80
