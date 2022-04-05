@@ -19,7 +19,7 @@ RUN apt install firefox -y
 # Install python and dependencies
 RUN apt install python3-pip -y
 RUN apt install python3 -y
-RUN pip3 install -r requirements.txt
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
 # Install cron and give 
 RUN apt install cron -y
