@@ -2754,9 +2754,13 @@ def main():
     current_articles = scrape_news()
     data_highway = DBConnection("myChattanooga.db")
     # Save new articles to database
-    save_articles(data_highway.get_cursor(), current_articles)
-    # Close db connection
-    del data_highway
+    try:
+        save_articles(data_highway.get_cursor(), current_articles)
+    except Exception as e:
+        logging.error(e)
+    finally:
+        # Close db connection
+        del data_highway
 
 
 if __name__ == "__main__":
