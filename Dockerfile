@@ -9,6 +9,7 @@ ENV TZ="America/New_York"
 WORKDIR /home/myChattanooga
 COPY ./src .
 COPY ../requirements.txt .
+RUN mkdir data
 
 # firefox and geckodriver install stuff
 RUN mv geckodriver /usr/bin
