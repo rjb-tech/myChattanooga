@@ -1,4 +1,4 @@
-data/
-*.log
-*.db
+src/data/
+src/*.log
+src/*.db
 .git
