@@ -1,1 +1,1 @@
-*/15 * * * * python3 ./scraper.py
+*/15 * * * * python3 /home/myChattanooga/scraper.py
