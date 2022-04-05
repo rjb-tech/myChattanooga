@@ -7,4 +7,4 @@ services:
     volumes:
       - .:/home/myChattanooga
     ports:
-      - 8008:8000
+      - 80:80
