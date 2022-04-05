@@ -40,6 +40,6 @@ statements.append(tfp_table_sql)
 for statement in statements:
     curs.execute(statement)
 
-curs.close()
 conn.commit()
+curs.close()
 conn.close()

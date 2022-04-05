@@ -29,4 +29,4 @@ RUN crontab /etc/cron.d/scraper_cron
 RUN cron
 
 # Create DB tables
-RUN python3 /home/myChattanooga/create_tables.py
+RUN python3 create_tables.py
