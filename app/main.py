@@ -3,6 +3,6 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-@app.get("/")
-def poo():
-    pass
+@app.get("/articles")
+def articles():
+    return {"Hello": "World"}
