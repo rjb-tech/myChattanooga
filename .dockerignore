@@ -1,4 +1,4 @@
-src/data/
-src/*.log
-src/*.db
+app/data/
+app/*.log
+app/*.db
 .git

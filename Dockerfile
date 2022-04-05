@@ -23,6 +23,6 @@ RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
 # Install cron and give 
 RUN apt install cron -y
-COPY ./src/scraper_cron /etc/cron.d/scraper_cron
+COPY ./app/scraper_cron /etc/cron.d/scraper_cron
 RUN chmod 0644 /etc/cron.d/scraper_cron
 RUN crontab /etc/cron.d/scraper_cron
