@@ -21,8 +21,12 @@ RUN apt install python3-pip -y
 RUN apt install python3 -y
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
-# Install cron and give 
+# Install cron and start 
 RUN apt install cron -y
 COPY ./app/scraper_cron /etc/cron.d/scraper_cron
 RUN chmod 0644 /etc/cron.d/scraper_cron
 RUN crontab /etc/cron.d/scraper_cron
+RUN cron
+
+# Create DB tables
+RUN python3 /home/myChattanooga/create_tables.py
