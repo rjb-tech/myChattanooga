@@ -26,7 +26,7 @@ RUN apt install cron -y
 COPY ./app/scraper_cron /etc/cron.d/scraper_cron
 RUN chmod 0644 /etc/cron.d/scraper_cron
 RUN crontab /etc/cron.d/scraper_cron
-RUN cron
+RUN service start cron
 
 # Create DB tables
 RUN python3 create_tables.py
