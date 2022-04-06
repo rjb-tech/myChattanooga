@@ -1,5 +1,5 @@
 FROM python:3.9-slim-buster
-LABEL version="0.1"
+LABEL version="0.2"
 LABEL description="myChattanooga daily scraper environment"
 
 # timezone set
