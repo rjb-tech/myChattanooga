@@ -1,32 +1,36 @@
-FROM ubuntu
+FROM python:3.9-slim-buster
 LABEL version="0.1"
 LABEL description="myChattanooga daily scraper environment"
 
 # timezone set
 ENV TZ="America/New_York"
 
-# Copy files and stuff 
+# Copy files and stuff and such and so forth and so on
 WORKDIR /home/myChattanooga
 COPY ./app .
 COPY ./requirements.txt .
+COPY ./app/scraper_cron /etc/cron.d/scraper_cron
 RUN mkdir data
 
-# firefox and geckodriver install stuff
+# install system dependencies
 RUN mv geckodriver /usr/bin
-RUN apt update && apt upgrade -y
-RUN apt install firefox -y
+RUN apt update && apt upgrade -y && apt install -y --no-install-recommends \
+    firefox-esr \
+    python3-pip \
+    python3 \
+    dos2unix \
+    cron \
+    tk \
+ && rm -rf /var/lib/apt/lists/*
 
-# Install python and dependencies
-RUN apt install python3-pip -y
-RUN apt install python3 -y
+# Install python requirements and create DB tables
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
-# Install cron and start 
-RUN apt install cron -y
-COPY ./app/scraper_cron /etc/cron.d/scraper_cron
+# Install cron job to system (NOTE: Cron still needs to be started with service cron start)
 RUN chmod 0644 /etc/cron.d/scraper_cron
 RUN crontab /etc/cron.d/scraper_cron
-RUN service start cron
+RUN chmod +x entrypoint.sh
 
-# Create DB tables
-RUN python3 create_tables.py
+ENTRYPOINT bash -c "python3 create_tables.py && \
+                    service cron start && \
+                    uvicorn main:app --host 0.0.0.0"

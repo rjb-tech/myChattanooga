@@ -12,15 +12,15 @@
 #
 # ************************************************** #
 import os
-import asyncio
 import re
 import time
 import pickle
 import tweepy
+import asyncio
 import logging
-import sqlite3
 import requests
 import facebook
+import sqlalchemy
 from pytz import timezone
 from sqlite3 import Cursor, Error
 from datetime import datetime
@@ -30,6 +30,18 @@ from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from database_module import (
+    MC_Connection,
+    Article
+)
+from result import (
+    Ok,
+    Err,
+    Result
+)
+from sqlalchemy import exists
+from sqlalchemy.sql import exists, or_, select
+# from sqlalchemy.sql.expression import exists
 
 # Configure logger
 logging.basicConfig(
@@ -2267,7 +2279,7 @@ def post_to_facebook(article_list):
 
 
 # Scraper function
-def scrape_news():
+async def scrape_news():
     if time.localtime()[8] == 1:
         logging.info('--- SCRAPER STARTING WITH DST ACTIVE ---')
     else:
@@ -2705,63 +2717,46 @@ def Sort(sub_li, to_reverse):
     return sub_li
 
 
-def already_saved(entry, conn) -> bool:
-    query = conn.execute("SELECT EXISTS(SELECT 1 FROM articles WHERE headline=?)", (entry['headline'],))
-    is_saved = query.fetchone()[0]
-    return bool(is_saved)
+async def already_saved(article, table, conn) -> bool:
+    query = select(table).exists().where((table.c.link==article['link']) | (table.c.headline==article['headline']))
+    return 
 
 
-def create_connection(db_file):
-    """ create a database connection to a SQLite database """
-    conn = None
-    try:
-        conn = sqlite3.connect(db_file)
-    except Error as e:
-        print(e)
-    finally:
-        return conn
-
-
-def save_articles(conn, articles) -> None:
+async def save_articles(conn, articles) -> None:
     articles_saved = 0
-    for article in articles:
-        if not already_saved(article, conn):
-            articles_saved += 1
-            params=(article['headline'], article['image'], article['time_posted'], article['publisher'])
-            conn.execute("INSERT INTO articles VALUES (?, ?, ?, ?);", params)
-    logging.info(str(articles_saved) + " articles saved")
+    table = conn.get_table("articles")
+    db = conn.get_db_obj()
+    if isinstance(table, Ok) and isinstance(db, Ok):
+        table = table.unwrap()
+        db = db.unwrap()
+        for article in articles:
+            if not await already_saved(article, table, db):
+                query = table.insert().values(
+                                                headline=article['headline'],
+                                                link=article['link'],
+                                                image=article['image'],
+                                                time_posted=article['time_posted'],
+                                                publisher=article['publisher']
+                                            )
+                await db.execute(query)
+                articles_saved += 1
+        logging.info(str(articles_saved) + " articles saved")
 
-
-class DBConnection:
-    db_conn = None
-    db_cursor = None
-
-    def __init__(self, db_file) -> None:
-        self.db_conn = create_connection(db_file)
-        self.db_cursor = self.db_conn.cursor()
-
-    def __del__(self) -> None:
-        self.db_cursor.close()
-        self.db_conn.commit()
-        self.db_conn.close()
-
-    def get_cursor(self) -> Cursor:
-        return self.db_cursor
-
-
-def main():
+async def main():
     # Scrape news, make sqlite db connection in the meantime
-    current_articles = scrape_news()
-    data_highway = DBConnection("myChattanooga.db")
+    current_articles = await scrape_news()
+    data_highway = MC_Connection()
+    await data_highway.plug_in()
+    
     # Save new articles to database
     try:
-        save_articles(data_highway.get_cursor(), current_articles)
+        await save_articles(data_highway, current_articles)
     except Exception as e:
         logging.error(e)
     finally:
         # Close db connection
-        del data_highway
+        await data_highway.unplug()
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
