@@ -1,0 +1,1 @@
+*/15 * * * * cd /home/myChattanooga && python3 scraper.py > /home/myChattanooga/cron.log 2>&1

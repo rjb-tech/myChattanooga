@@ -1,0 +1,10 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "description": "Frontend for myChattanooga",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Ryne Burden"
+}

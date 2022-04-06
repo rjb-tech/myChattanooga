@@ -1,0 +1,15 @@
+beautifulsoup4==4.9.1
+requests==2.24.0
+selenium==3.141.0
+lxml==4.6.2
+tweepy==3.10.0
+facebook-sdk==3.1.0
+pytz==2021.1
+sqlalchemy==1.4.27
+fastapi==0.75.1
+uvicorn[standard]
+databases
+databases[sqlite]
+aiosqlite
+result==0.7.0
+django
