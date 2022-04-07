@@ -9,7 +9,8 @@ sqlalchemy==1.4.27
 fastapi==0.75.1
 uvicorn[standard]
 databases
-databases[sqlite]
-aiosqlite
+databases[asyncpg]
+asyncpg
 result==0.7.0
 django
+psycopg2

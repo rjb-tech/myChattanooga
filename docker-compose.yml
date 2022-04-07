@@ -1,9 +1,43 @@
 version: '0.2'
 
 services:
-  backend:
-    build: ./backend
-    # volumes:
-    #   - ./backend/app:/home/myChattanooga
+  database:
+    container_name: database
+    restart: always
+    env_file: .env
+    environment:
+      POSTGRES_USER: myChattanooga
+      POSTGRES_PASSWORD: ${DB_PW}
+      POSTGRES_DB: myChattanooga
+      CONTAINER: database
+    build:
+      dockerfile: Dockerfile
+      target: database
+    ports:
+      - 5432:5432
+  api:
+    container_name: api
+    depends_on:
+      - database
+    environment:
+      POSTGRES_USER: myChattanooga
+      POSTGRES_PASSWORD: ${DB_PW}
+      POSTGRES_DB: myChattanooga
+      CONTAINER: api
+    build:
+      dockerfile: Dockerfile
+      target: api_server
     ports:
       - 80:8000
+  scraper:
+    container_name: scraper
+    depends_on: 
+      - database
+    environment:
+      POSTGRES_USER: myChattanooga
+      POSTGRES_PASSWORD: ${DB_PW}
+      POSTGRES_DB: myChattanooga
+      CONTAINER: scraper
+    build:
+      dockerfile: Dockerfile
+      target: scraper
