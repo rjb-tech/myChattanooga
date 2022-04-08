@@ -39,7 +39,7 @@ async def shutdown():
     await database.unplug()
 
 
-@app.get("/articles", response_model=List[Article])
+@app.get("/articles", response_model=List[Article], response_model_exclude_none=True)
 async def today_articles():
     async def get_articles(conn):
         # Get result from the MC_Connection method and check for validity
@@ -49,11 +49,11 @@ async def today_articles():
             full_query = query_base.unwrap().select()
             return await database.get_db_obj().fetch_all(full_query)
     
-    query_results = get_query_results(get_articles)
-    return await asyncio.gather(query_results)
+    query_results = await get_query_results(get_articles)
+    return query_results
 
 
-@app.get("/stats")
+@app.get("/stats", response_model=List[Stat], response_model_exclude_none=True)
 async def today_stats():
     async def get_stats(conn):
         # Get result from the MC_Connection method and check for validity
@@ -63,15 +63,15 @@ async def today_stats():
             full_query = query_base.unwrap().select()
             return await database.get_db_obj().fetch_all(full_query)
  
-    query_results = get_query_results(get_stats)
-    return await asyncio.gather(query_results)
+    query_results = await get_query_results(get_stats)
+    return query_results
 
 
 async def get_query_results(input_async_function):
     if not database.is_connected():
         await startup()
     if database.is_connected():
-        query_results = input_async_function(database)
-        query_results = await asyncio.gather(query_results)
-        return query_results 
+        async_results = input_async_function(database)
+        query_results = await asyncio.gather(async_results) 
     await shutdown()
+    return query_results

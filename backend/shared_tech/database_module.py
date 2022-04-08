@@ -25,18 +25,18 @@ logging.basicConfig(
 
 class Article(BaseModel):
     id: Optional[int]
-    headline: str
-    link: str
-    image: str
-    time_posted: str
-    publisher: str
+    headline: Optional[str]
+    link: Optional[str]
+    image: Optional[str]
+    time_posted: Optional[str]
+    publisher: Optional[str]
 
 
 class Stat(BaseModel):
-    publisher: str
-    scraped: int
-    relevant: int
-    date: datetime
+    publisher: Optional[str]
+    scraped: Optional[int]
+    relevant: Optional[int]
+    date: Optional[datetime]
 
 
 class MC_Connection:
