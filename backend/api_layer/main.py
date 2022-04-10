@@ -47,7 +47,8 @@ async def today_articles():
         query_base = database.get_table("articles")
         if isinstance(query_base, Ok):
             full_query = query_base.unwrap().select()
-            return await database.get_db_obj().fetch_all(full_query)
+            data = await database.get_db_obj().fetch_all(full_query)
+            return [row for row in data]
     
     query_results = await get_query_results(get_articles)
     return query_results
@@ -61,17 +62,19 @@ async def today_stats():
         query_base = database.get_table("stats")
         if isinstance(query_base, Ok):
             full_query = query_base.unwrap().select()
-            return await database.get_db_obj().fetch_all(full_query)
+            data = await database.get_db_obj().fetch_all(full_query)
+            return [row for row in data]
  
     query_results = await get_query_results(get_stats)
     return query_results
 
 
+# UTILITY FUNCTION FOR QUERIES
+# Handles db connect and disconnect
 async def get_query_results(input_async_function):
     if not database.is_connected():
-        await startup()
+        await database.plug_in()
     if database.is_connected():
-        async_results = input_async_function(database)
-        query_results = await asyncio.gather(async_results) 
-    await shutdown()
-    return query_results
+        async_results = await input_async_function(database)
+    await database.unplug()
+    return async_results

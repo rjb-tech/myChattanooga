@@ -31,6 +31,9 @@ class Article(BaseModel):
     time_posted: Optional[str]
     publisher: Optional[str]
 
+    class Config:
+        orm_mode = True
+
 
 class Stat(BaseModel):
     publisher: Optional[str]
@@ -38,9 +41,12 @@ class Stat(BaseModel):
     relevant: Optional[int]
     date: Optional[datetime]
 
+    class Config:
+        orm_mode = True
+
 
 class MC_Connection:
-    DATABASE_URL = "postgresql://" + os.environ['POSTGRES_USER'] + ":" + os.environ['POSTGRES_PASSWORD'] + "@host.docker.internal:5432"
+    DATABASE_URL = "postgresql://" + os.environ['POSTGRES_USER'] + ":" + os.environ['POSTGRES_PASSWORD'] + "@host.docker.internal:5432/" + os.environ['POSTGRES_DB']
 
     db_obj = None
     db_connected = False

@@ -41,6 +41,7 @@ RUN apt update && apt upgrade -y && \
         gcc && \
     rm -rf /var/lib/apt/lists/* && \
     mv ./init.sql /docker-entrypoint-initdb.d/init.sql
+EXPOSE 5432
 
 # ----------------------------------------------------------------------------#
 # SCRAPER CONTAINER
@@ -65,4 +66,4 @@ RUN apt update && apt upgrade -y && \
     rm -rf /var/lib/apt/lists/* && \
     pip3 install --no-cache-dir --upgrade -r requirements.txt && \
     mkdir data
-ENTRYPOINT bash -c "python3 scraper.py"
+ENTRYPOINT bash -c "python3 scraper.py && cat myChattanooga.log 2>&1"
