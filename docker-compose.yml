@@ -29,11 +29,9 @@ services:
       dockerfile: Dockerfile
       target: api_server
     ports:
-      - 8000:8000
+      - 80:8000
   scraper:
     container_name: scraper
-    depends_on: 
-      - database
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
