@@ -39,11 +39,11 @@ export const MyChattanoogaProvider = ({ children }) => {
                     <StickyHeader isDark />
                 </header>
 
-                <main className="w-screen h-screen bg-green-300 overflow-y-scroll px-8 pb-8 pt-4 align-center" >
+                <main className="w-screen h-screen bg-green-300 overflow-y-scroll align-center" >
                     <div className="sm:hidden fixed h-fit w-1/2 object-center right-0">
                         <MobileMenu isExpanded={isExpanded} />
                     </div>
-                    <div className="scroll-smooth">
+                    <div className="scroll-smooth pt-4 px-8 md:px-16 md:py-12">
                         {children}
                     </div>
                 </main>
