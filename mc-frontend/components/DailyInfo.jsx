@@ -1,6 +1,8 @@
 import Image from "next/image"
 import menu from '../public/menu.svg'
 import { motion } from "framer-motion"
+import { useContext } from "react"
+import MyChattanoogaContext from "./MyChattanoogaProvider"
 
 export const DailyInfo = ({ toggleMenu }) => {
     return (

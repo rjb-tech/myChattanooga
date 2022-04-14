@@ -15,7 +15,7 @@ export const StickyHeader = ({ isDark }) => {
             <div className="flex flex-auto w-full h-fit lg:h-fit content-center">
                 <ProfileExplorer />
                 <Logo {...isDark} />
-                <DailyInfo {...isExpanded} {...toggleMenu} />
+                <DailyInfo {...toggleMenu} />
             </div>
             <div className="hidden sm:block w-full">
                 <NavBar />

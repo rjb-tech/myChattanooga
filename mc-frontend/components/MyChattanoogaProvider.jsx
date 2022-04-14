@@ -9,19 +9,23 @@ const MyChattanoogaContext = createContext();
 
 export const MyChattanoogaProvider = ({ children }) => {
     const [isExpanded, setIsExpanded] = useState(false)
+    const [isDark, setDark] = useState(true)
+    const [isFaded, fadeMenu] = useState(false)
+
     function toggleMenu() {
         setIsExpanded(isExpanded => !isExpanded)
         console.log(isExpanded)
     }
-    const [isDark, setDark] = useState(true)
     function toggleDark() {
         setDark(isDark => !isDark)
         console.log(isDark)
     }
+
     const value = {
         isExpanded: {isExpanded},
         toggleMenu: {toggleMenu}
     }
+
     return (
         <MyChattanoogaContext.Provider value={value}>
             <div className="flex flex-col h-screen overscroll-contain">
@@ -36,15 +40,19 @@ export const MyChattanoogaProvider = ({ children }) => {
                 </header>
 
                 <main className="w-screen h-screen bg-green-300 overflow-y-scroll px-8 pb-8 pt-4 align-center" >
-                    <div className="sm:hidden fixed h-fit w-1/2 bg-yellow-500 object-center right-0">
-                        <MobileMenu />
+                    <div className="sm:hidden fixed h-fit w-1/2 object-center right-0">
+                        <MobileMenu isExpanded={isExpanded} />
                     </div>
-                    {children}
+                    <div className="scroll-smooth">
+                        {children}
+                    </div>
                 </main>
 
-                <footer >
+                <footer className="flex items-center w-screen">
                         
-                    Maybe advertise or somn here
+                    <div className="flex-auto w-full">
+                        Hi
+                    </div>
                         
                 </footer>
             </div>
