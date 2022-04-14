@@ -15,13 +15,13 @@ export const Article = () => {
                 />
                 <div className="pt-4 flex-col items-center">
                     <div className="">
+                        Publisher
+                    </div>
+                    <div className="pt-2">
                         Headline
                     </div>
                     <div className="pt-2">
                         Time since posted
-                    </div>
-                    <div className="pt-2">
-                        Publisher
                     </div>
                 </div>
             </div>
