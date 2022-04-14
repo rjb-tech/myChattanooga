@@ -1,0 +1,15 @@
+backend/data_layer/data/
+backend/data_layer/*.log
+backend/data_layer/__pycache__/
+backend/app/scraper_cron
+.git
+*.yml
+backend/venv/
+.gitignore
+.dockerignore
+backend/*.db
+backend/*.md
+backend/Dockerfile
+frontend/node_modules
+.env
+*/__pycache__/

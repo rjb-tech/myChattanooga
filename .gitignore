@@ -9,3 +9,10 @@ Chattanooga_News/data/TFP_By_Day
 Chattanooga_News/data/2021
 *.pyc
 venv/
+*.db
+*test*
+data/
+*.data
+tfp*
+node_modules/
+*/__pycache__/
