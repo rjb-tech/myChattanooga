@@ -40,10 +40,10 @@ export const MyChattanoogaProvider = ({ children }) => {
                 </header>
 
                 <main className="w-screen h-screen bg-green-300 overflow-y-scroll align-center" >
-                    <div className="sm:hidden fixed h-fit w-1/2 object-center right-0">
+                    <div className="sm:hidden fixed h-fit w-1/2 object-center right-0 z-50">
                         <MobileMenu isExpanded={isExpanded} />
                     </div>
-                    <div className="scroll-smooth pt-4 px-8 md:px-16 md:py-12">
+                    <div className="scroll-smooth pt-8 px-8 md:px-16 md:py-12">
                         {children}
                     </div>
                 </main>

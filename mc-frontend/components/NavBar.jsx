@@ -2,7 +2,7 @@ import Link from "next/link"
 
 export const NavBar = () => {
     return (
-        <div className="flex justify-around w-full h-12 content-center items-center border-y-2 border-slate-200">
+        <div className="flex justify-around w-full h-12 content-center items-center border-slate-200">
             <div className="hover:animate-pulse text-center content-center items-center">
                 <Link href='/'>
                     <a className='text-center'>
