@@ -14,13 +14,27 @@ const variants = {
 export const MobileMenu = ({ isExpanded }) => {  
     return (
             <motion.nav 
-                className="h-full items-center w-full" 
+                className="items-center w-full" 
                 animate={isExpanded ? "open" : "closed"}
                 transition={{ duration: .25, type: "tween"}}
                 variants={variants}
             >  
-                <div className='h-fit w-full divide-y-2 flex-col flex-auto text-center bg-yellow-500'>
-                    <div className='h-8 w-full'>
+                <div className='h-fit w-full divide-y-2 flex-col flex-auto text-center bg-slate-500'>
+                    <div className='h-8 w-full p-1'>
+                        <Link href='/'>
+                            <a>
+                                Hi
+                            </a>
+                        </Link>
+                    </div>
+                    <div className='h-8 w-full p-1'>
+                        <Link href='/'>
+                            <a>
+                                Hi
+                            </a>
+                        </Link>
+                    </div>
+                    <div className='h-8 w-full p-1'>
                         <Link href='/'>
                             <a>
                                 Hi

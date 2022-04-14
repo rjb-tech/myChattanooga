@@ -1,7 +1,7 @@
 import { Logo } from "./Logo"
 import { NavBar } from "./NavBar"
-import { DailyInfo } from "./DailyInfo"
-import { ProfileExplorer } from "./ProfileExplorer"
+import { RightPanel } from "./RightPanel"
+import { LeftPanel } from "./LeftPanel"
 import { TimeClock } from "./TimeClock"
 import { UserPanel } from "./UserPanel"
 import MyChattanoogaContext from './MyChattanoogaProvider'
@@ -13,9 +13,9 @@ export const StickyHeader = ({ isDark }) => {
         <div className="flex flex-col w-full">
             
             <div className="flex flex-auto w-full h-fit lg:h-fit content-center">
-                <ProfileExplorer />
+                <LeftPanel />
                 <Logo {...isDark} />
-                <DailyInfo {...toggleMenu} />
+                <RightPanel {...toggleMenu} />
             </div>
             <div className="hidden sm:block w-full">
                 <NavBar />
