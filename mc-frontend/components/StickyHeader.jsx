@@ -8,14 +8,14 @@ import MyChattanoogaContext from './MyChattanoogaProvider'
 import { useContext } from "react"
 
 export const StickyHeader = ({ isDark }) => {
-    const { isExpanded, toggleMenu } = useContext(MyChattanoogaContext);
+    const { isExpanded, toggleNav } = useContext(MyChattanoogaContext);
     return (
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full md:sticky">
             
             <div className="flex flex-auto w-full h-fit lg:h-fit content-center border-b-2">
                 <LeftPanel />
                 <Logo {...isDark} />
-                <RightPanel {...toggleMenu} />
+                <RightPanel {...toggleNav} />
             </div>
             <div className="hidden sm:block w-full border-b-2">
                 <NavBar />
