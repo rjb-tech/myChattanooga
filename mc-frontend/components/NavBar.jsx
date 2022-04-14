@@ -1,15 +1,29 @@
-import Link from 'next/link'
+import Link from "next/link"
 
-export const NavBar = (props) => {
+export const NavBar = () => {
     return (
-        <div className='flex w-fit'>
-            <nav className='flex flex-wrap items-center flex-nowrap flex-auto justify-items-end w-fit'>  
+        <div className="flex justify-around w-full h-12 content-center items-center border-y-2 border-slate-200">
+            <div className="hover:animate-pulse text-center content-center items-center">
                 <Link href='/'>
-                    <a>
+                    <a className='text-center'>
+                        Brews
+                    </a>
+                </Link>
+            </div>
+            <div className="hover:animate-pulse text-center content-center items-center">
+                <Link href='/'>
+                    <a className='text-center'>
                         News
                     </a>
                 </Link>
-            </nav>
-        </div>  
-    );
-};
+            </div>
+            <div className="hover:animate-pulse text-center content-center items-center">
+                <Link href='/'>
+                    <a className='text-center'>
+                        FAQ
+                    </a>
+                </Link>
+            </div>
+        </div>
+    )
+}
