@@ -8,6 +8,9 @@ module.exports = {
       height: {
         '88': '24rem',
         '112': '26rem'
+      },
+      fontFamily: {
+        
       }
     },
   },

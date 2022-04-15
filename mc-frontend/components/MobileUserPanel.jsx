@@ -1,21 +1,16 @@
-import { useState } from 'react';
-import menu from '../public/menu.svg'
 import Link from 'next/link'
-import Image from 'next/image'
 import { animate, motion } from "framer-motion"
-import { useContext } from 'react';
-import MyChattanoogaContext from './MyChattanoogaProvider';
 
 const variants = {
     open: { opacity: 1, x: 0 },
-    closed: { opacity: 0, x: "100%" },
+    closed: { opacity: 0, x: "-100%" },
 }
 
-export const MobileNav = ({ menuExpanded }) => {  
+export const MobileUserPanel = ({ panelExpanded }) => {  
     return (
             <motion.nav 
                 className="items-center w-full shadow-xl" 
-                animate={menuExpanded ? "open" : "closed"}
+                animate={panelExpanded ? "open" : "closed"}
                 transition={{ duration: .25, type: "tween"}}
                 variants={variants}
             >  

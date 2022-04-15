@@ -6,12 +6,12 @@ import MyChattanoogaContext from "./MyChattanoogaProvider"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faBars } from "@fortawesome/free-solid-svg-icons"
 
-export const RightPanel = ({ toggleNav }) => {
+export const RightPanel = ({ toggleMobileNav }) => {
     return (
-        <div className="flex border-slate-300 border-2 w-1/4 md:w-1/12 flex-auto">
+        <div className="flex w-1/4 md:w-1/12 flex-auto">
             <motion.button 
                     className="sm:hidden flex-auto pt-3" type="button" 
-                    onClick={() => toggleNav()}
+                    onClick={() => toggleMobileNav()}
                 >
                 <div className="p-6">
                     <FontAwesomeIcon icon={faBars} />

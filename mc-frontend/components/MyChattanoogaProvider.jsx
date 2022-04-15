@@ -5,17 +5,22 @@ import Image from 'next/image'
 import { useState, createContext, Children, useContext } from "react"
 import { MobileNav } from "./MobileNav"
 import Script from "next/script"
+import { MobileUserPanel } from "./MobileUserPanel"
 
 const MyChattanoogaContext = createContext();
 
 export const MyChattanoogaProvider = ({ children }) => {
-    const [isExpanded, setIsExpanded] = useState(false)
+    const [menuExpanded, setMenuExpanded] = useState(false)
+    const [panelExpanded, setPanelExpanded] = useState(false)
     const [isDark, setDark] = useState(true)
     const [isFaded, fadeMenu] = useState(false)
 
-    function toggleNav() {
-        setIsExpanded(isExpanded => !isExpanded)
-        console.log(isExpanded)
+    function toggleMobileNav() {
+        setMenuExpanded(menuExpanded => !menuExpanded)
+        console.log(menuExpanded)
+    }
+    function toggleMobileUserPanel() {
+        setPanelExpanded(panelExpanded => !panelExpanded)
     }
     function toggleDark() {
         setDark(isDark => !isDark)
@@ -23,8 +28,10 @@ export const MyChattanoogaProvider = ({ children }) => {
     }
 
     const value = {
-        isExpanded: {isExpanded},
-        toggleNav: {toggleNav}
+        isExpanded: {menuExpanded},
+        toggleMobileNav: {toggleMobileNav},
+        panelExpanded: {panelExpanded},
+        toggleMobileUserPanel: {toggleMobileUserPanel}
     }
 
     return (
@@ -37,15 +44,18 @@ export const MyChattanoogaProvider = ({ children }) => {
                         <Script src="https://kit.fontawesome.com/27b6c4e65c.js" />
                 </Head>
 
-                <header className="relative w-screen shadow-md">
+                <header className="relative w-screen shadow-sm">
                     <StickyHeader isDark />
                 </header>
 
-                <main className="w-screen h-screen bg-green-300 overflow-y-scroll align-center" >
-                    <div className="sm:hidden fixed h-fit w-1/2 object-center right-0 z-50">
-                        <MobileNav isExpanded={isExpanded} />
+                <main className="w-screen h-screen overflow-y-scroll align-center" >
+                    <div className="sm:hidden fixed h-fit w-1/2 object-center left-0 z-50">
+                        <MobileUserPanel panelExpanded={panelExpanded} />
                     </div>
-                    <div className="scroll-smooth pt-4 px-4 md:px-8 md:py-6">
+                    <div className="sm:hidden fixed h-fit w-1/2 object-center right-0 z-50">
+                        <MobileNav menuExpanded={menuExpanded} />
+                    </div>
+                    <div className="scroll-smooth p-6 lg:px-8 lg:pt-8">
                         {children}
                     </div>
                 </main>
