@@ -2,18 +2,22 @@ import { StickyHeader } from "./StickyHeader"
 import { ContentZone } from "./ContentZone"
 import Head from 'next/head'
 import Image from 'next/image'
-import { useState, createContext, Children, useContext } from "react"
+import { useState, createContext, useRef, useEffect } from "react"
 import { MobileNav } from "./MobileNav"
 import Script from "next/script"
 import { MobileUserPanel } from "./MobileUserPanel"
+import { faAngleUp } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const MyChattanoogaContext = createContext();
 
 export const MyChattanoogaProvider = ({ children }) => {
+
     const [menuExpanded, setMenuExpanded] = useState(false)
     const [panelExpanded, setPanelExpanded] = useState(false)
     const [isDark, setDark] = useState(true)
-    const [isFaded, fadeMenu] = useState(false)
+    const [weatherData, setWeatherData] = useState(null)
+    const [defaultWeatherLocation, setDefaultWeatherLocation] = useState(null)
 
     function toggleMobileNav() {
         setMenuExpanded(menuExpanded => !menuExpanded)
@@ -21,17 +25,18 @@ export const MyChattanoogaProvider = ({ children }) => {
     }
     function toggleMobileUserPanel() {
         setPanelExpanded(panelExpanded => !panelExpanded)
+        console.log(panelExpanded)
     }
     function toggleDark() {
-        setDark(isDark => !isDark)
-        console.log(isDark)
+        setDark(isDark => !isDark);
+        console.log(isDark);
     }
 
     const value = {
         isExpanded: {menuExpanded},
         toggleMobileNav: {toggleMobileNav},
         panelExpanded: {panelExpanded},
-        toggleMobileUserPanel: {toggleMobileUserPanel}
+        toggleMobileUserPanel: {toggleMobileUserPanel},
     }
 
     return (
@@ -45,28 +50,28 @@ export const MyChattanoogaProvider = ({ children }) => {
                 </Head>
 
                 <header className="relative w-screen shadow-sm">
-                    <StickyHeader isDark />
+                    <StickyHeader isDark={isDark} />
                 </header>
 
-                <main className="w-screen h-screen overflow-y-scroll align-center" >
-                    <div className="sm:hidden fixed h-fit w-1/2 object-center left-0 z-50">
-                        <MobileUserPanel panelExpanded={panelExpanded} />
-                    </div>
-                    <div className="sm:hidden fixed h-fit w-1/2 object-center right-0 z-50">
+                <main className="w-screen h-screen overflow-y-scroll align-center relative" >
+                    <div className="sm:hidden w-full fixed h-fit object-center left-0 z-50 flex mx-auto">
                         <MobileNav menuExpanded={menuExpanded} />
+                    </div>
+                    <div className="sm:hidden fixed h-fit w-full object-center right-0 bottom-0 z-50">
+                        <MobileUserPanel panelExpanded={panelExpanded} />
                     </div>
                     <div className="scroll-smooth p-6 lg:px-8 lg:pt-8">
                         {children}
                     </div>
                 </main>
 
-                <footer className="flex items-center w-screen">
+                {/* <footer className="flex items-center w-screen">
                     
                     <div className="flex-auto">
                         Hi
                     </div>
                         
-                </footer>
+                </footer> */}
             </div>
         </MyChattanoogaContext.Provider>
     )

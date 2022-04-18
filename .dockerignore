@@ -10,6 +10,11 @@ backend/venv/
 backend/*.db
 backend/*.md
 backend/Dockerfile
-frontend/node_modules
+mc-frontend/node_modules
+mc-frontend/.next
+mc-frontend/.gitignore
+mc-frontend/.eslintrc.json
+mc-frontend/README.md
+mc-frontend/package-lock.json
 .env
 */__pycache__/

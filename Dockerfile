@@ -66,4 +66,13 @@ RUN apt update && apt upgrade -y && \
     rm -rf /var/lib/apt/lists/* && \
     pip3 install --no-cache-dir --upgrade -r requirements.txt && \
     mkdir data
-ENTRYPOINT bash -c "python3 scraper.py && cat myChattanooga.log 2>&1"
+ENTRYPOINT bash -c "echo scraper started && python3 scraper.py && cat myChattanooga.log 2>&1"
+
+# ----------------------------------------------------------------------------#
+# NODE CONTAINER
+FROM node:16-alpine as frontend
+WORKDIR /myChattanooga
+ENV TZ="America/New_York"
+RUN apk update && \
+    apk upgrade && \
+    apk add bash
