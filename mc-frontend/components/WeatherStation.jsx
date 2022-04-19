@@ -54,8 +54,7 @@ export const WeatherStation = ({ isNight }) => {
         const fetchData = async () => {
             const latitude = locations[`${currentLocation}`]['latitude'];
             const longitude = locations[`${currentLocation}`]['longitude'];
-            // make a weather api route for this to hide api key
-            const response = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${process.env.openWeatherAPIKey}&units=imperial`);
+            const response = await fetch(`/api/weather?latitude=${latitude}&longitude=${longitude}`);
             const newData = await response.json();
         };
 
