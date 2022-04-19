@@ -3,7 +3,6 @@ export function calculateTimeSincePosted (timePosted) {
     const currentDate = new Date();
     const currentHour = currentDate.getUTCHours();
     const currentMinute = currentDate.getUTCMinutes();
-    console.log(timePosted);
     const timePostedHour = timePosted.slice(0,2);
     const timePostedMinute = timePosted.slice(3,5);
 
