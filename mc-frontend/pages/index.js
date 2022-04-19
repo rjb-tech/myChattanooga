@@ -6,9 +6,8 @@ import { useContext } from "react"
 
 export default function Home(pageProps) {
   const [ articles, setArticles ] = useState([]);
-  const [isLoading, setIsLoading ] = useState(false)
+  const [articlesLoading, setArticlesLoading ] = useState(false)
 
-  // FETCH ISN'T WORKING, PAUSING UNTIL CONTAINERIZED
   useEffect(() => {
     const fetchData = async () => {
       const result = await fetch('/api/articles')
@@ -18,8 +17,9 @@ export default function Home(pageProps) {
         })
 
     };
+    setArticlesLoading(articlesLoading => !articlesLoading)
     fetchData();
-
+    setArticlesLoading(articlesLoading => !articlesLoading)
   }, [])
 
   return (
@@ -42,7 +42,7 @@ export default function Home(pageProps) {
               <div className="py-2 md:px-2" key={story.headline}>
                 <Article 
                   headline={story.headline}
-                  time_posted={story.time_posted}
+                  timePosted={story.time_posted}
                   publisher={story.publisher}
                   image={story.image} 
                 />
