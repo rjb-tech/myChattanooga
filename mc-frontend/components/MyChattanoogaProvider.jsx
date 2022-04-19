@@ -21,15 +21,18 @@ export const MyChattanoogaProvider = ({ children }) => {
 
     function toggleMobileNav() {
         setMenuExpanded(menuExpanded => !menuExpanded)
-        console.log(menuExpanded)
     }
     function toggleMobileUserPanel() {
         setPanelExpanded(panelExpanded => !panelExpanded)
-        console.log(panelExpanded)
+        if (panelExpanded) {
+            console.log("expanded")
+        }
+        else {
+            console.log("closed")
+        }
     }
     function toggleDark() {
         setDark(isDark => !isDark);
-        console.log(isDark);
     }
 
     const value = {
@@ -53,14 +56,14 @@ export const MyChattanoogaProvider = ({ children }) => {
                     <StickyHeader isDark={isDark} />
                 </header>
 
-                <main className="w-screen h-screen overflow-y-scroll align-center relative" >
-                    <div className="sm:hidden w-full fixed h-fit object-center left-0 z-50 flex mx-auto">
+                <main className="w-screen h-screen align-center relative overflow-y-scroll" >
+                    <div className="sm:hidden fixed w-full h-fit object-center -left-full z-50 flex mx-auto">
                         <MobileNav menuExpanded={menuExpanded} />
                     </div>
-                    <div className="sm:hidden fixed h-fit w-full object-center right-0 bottom-0 z-50">
+                    <div className="sm:hidden fixed w-full h-fit object-center -bottom-0 z-50 mx-auto">
                         <MobileUserPanel panelExpanded={panelExpanded} />
                     </div>
-                    <div className="scroll-smooth p-6 lg:px-8 lg:pt-8">
+                    <div className="overscroll-auto scroll-smooth p-6 lg:px-8 lg:pt-8">
                         {children}
                     </div>
                 </main>

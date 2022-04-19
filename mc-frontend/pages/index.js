@@ -5,7 +5,8 @@ import MyChattanoogaContext from "../components/MyChattanoogaProvider"
 import { useContext } from "react"
 
 export default function Home(pageProps) {
-  const [ articles, setArticles ] = useState([])
+  const [ articles, setArticles ] = useState([]);
+  const [isLoading, setIsLoading ] = useState(false)
 
   // FETCH ISN'T WORKING, PAUSING UNTIL CONTAINERIZED
   useEffect(() => {
