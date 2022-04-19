@@ -14,7 +14,6 @@ export default function Home(pageProps) {
       const result = await fetch('/api/articles')
         .then(async (response) => {
           const data = await response.json();
-          console.log(Object.values(data));
           setArticles(Object.values(data));
         })
 
