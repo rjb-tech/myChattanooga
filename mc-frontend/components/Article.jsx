@@ -3,7 +3,7 @@ import Link from "next/link"
 
 export const Article = ({ publisher, headline, time_posted, image }) => {
     return (
-    <div className="relative flex-auto h-fit md:w-full lg:w-full shadow-sm bg-white hover:bg-slate-100 rounded-sm shadow-md">
+    <div className="relative flex-auto h-fit md:h-full md:w-full lg:w-full shadow-sm bg-white hover:bg-slate-100 rounded-sm shadow-md">
         <Link href="/" >
             <a>
                 <div className="p-4">
