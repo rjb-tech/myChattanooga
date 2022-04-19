@@ -5,7 +5,7 @@ import { calculateTimeSincePosted } from "./helpers"
 const publisherBaseString = "text-xs font-bold"
 const headlineBaseString = "pt-2 text-xl"
 
-export const Article = ({ publisher, headline, timePosted, image, isDark }) => {
+export const Article = ({ publisher, headline, timePosted, image, isDark, link }) => {
     const publisherClassString = isDark 
                                 ? publisherBaseString + " text-[#F39887]" 
                                 : publisherBaseString
@@ -16,12 +16,12 @@ export const Article = ({ publisher, headline, timePosted, image, isDark }) => {
                             ? "pt-2 text-md italic text-stone-600" 
                             : "pt-2 text-md italic text-[#F39887]"
     const articleWrapperString = isDark 
-                                 ? "relative flex-auto h-fit md:h-full md:w-full lg:w-full shadow-sm bg-black hover:bg-slate-100 rounded-sm shadow-md" 
-                                 : "relative flex-auto h-fit md:h-full md:w-full lg:w-full shadow-sm bg-white hover:bg-slate-100 rounded-sm shadow-md"
+                                 ? "relative flex-auto h-fit md:h-full md:w-full lg:w-full shadow-sm bg-black hover:bg-slate-100 rounded-sm shadow-md rounded-lg" 
+                                 : "relative flex-auto h-fit md:h-full md:w-full lg:w-full shadow-sm bg-white hover:bg-slate-100 rounded-sm shadow-md rounded-lg"
     return (
     <div className={articleWrapperString}>
-        <Link href="/" >
-            <a>
+        <Link href={link} >
+            <a target="_blank">
                 <div className="p-4">
                     <div className="">
                         <Image
