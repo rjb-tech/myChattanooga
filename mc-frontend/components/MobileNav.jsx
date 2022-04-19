@@ -15,12 +15,12 @@ const variants = {
 export const MobileNav = ({ menuExpanded }) => {  
     return (
             <motion.nav 
-                className="items-center w-full shadow-xl mx-auto" 
+                className="items-center w-full shadow-xl mx-auto bg-white rounded-xl" 
                 animate={menuExpanded ? "open" : "closed"}
                 transition={{ duration: .25, type: "tween"}}
                 variants={variants}
             >  
-                <div className='h-fit w-full divide-y-2 flex-col flex-auto text-center bg-slate-500'>
+                <div className='h-fit w-full divide-y-2 flex-col flex-auto text-center'>
                     <div className='h-fit mx-auto py-8 px-12'>
                         <WeatherStation />
                     </div>

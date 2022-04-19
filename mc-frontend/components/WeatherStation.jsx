@@ -54,8 +54,9 @@ const locations = {
         longitude: -85.307215,
         name: "Southside"
     }
-}
+};
 
+// https://www.npmjs.com/package/react-open-weather
 const customWeatherStyles = {
 	fontFamily:  'Helvetica, sans-serif',
 	gradientStart:  '#0181C2',
@@ -68,12 +69,6 @@ const customWeatherStyles = {
 	todayDescFontColor:  '#B5DEF4',
 	todayInfoFontColor:  '#B5DEF4',
 	todayIconColor:  '#FFF',
-	forecastBackgroundColor:  '#FFF',
-	forecastSeparatorColor:  '#DDD',
-	forecastDateColor:  '#777',
-	forecastDescColor:  '#777',
-	forecastRangeColor:  '#777',
-	forecastIconColor:  '#4BC4F7',
 };
 
 export const WeatherStation = ({ isNight }) => {
@@ -90,13 +85,13 @@ export const WeatherStation = ({ isNight }) => {
     return (
         <div className='flex-col mx-auto h-full'>
             <ReactWeather
+                theme={customWeatherStyles}
                 isLoading={isLoading}
                 errorMessage={errorMessage}
                 data={data}
                 lang="en"
                 locationLabel={locations[`${currentLocation}`].name}
                 unitsLabels={{ temperature: 'F', windSpeed: 'mph' }}
-                theme={customWeatherStyles}
                 showForecast={false}
             />
         </div>
