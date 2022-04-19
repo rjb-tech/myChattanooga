@@ -2,8 +2,8 @@ import Link from 'next/link'
 import { animate, motion } from "framer-motion"
 
 const variants = {
-    open: { opacity: 0, y: "100%" },
-    closed: { opacity: 1, y: "0%" },
+    open: { opacity: 1, y: "0%" },
+    closed: { opacity: 0, y: "100%" },
 }
 
 export const MobileUserPanel = ({ panelExpanded }) => {  
