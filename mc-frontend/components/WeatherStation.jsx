@@ -95,8 +95,9 @@ export const WeatherStation = ({ isNight }) => {
                 data={data}
                 lang="en"
                 locationLabel={locations[`${currentLocation}`].name}
-                unitsLabels={{ temperature: 'C', windSpeed: 'Km/h' }}
+                unitsLabels={{ temperature: 'F', windSpeed: 'mph' }}
                 theme={customWeatherStyles}
+                showForecast={false}
             />
         </div>
     )
