@@ -24,12 +24,6 @@ export const MyChattanoogaProvider = ({ children }) => {
     }
     function toggleMobileUserPanel() {
         setPanelExpanded(panelExpanded => !panelExpanded)
-        if (panelExpanded) {
-            console.log("expanded")
-        }
-        else {
-            console.log("closed")
-        }
     }
     function toggleDark() {
         setDark(isDark => !isDark);
