@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import '../node_modules/weather-react-icons/lib/css/weather-icons.css'
 import { WeatherIcon } from 'weather-react-icons'
 
@@ -45,14 +45,17 @@ const locations = {
     }
 }
 
-export const WeatherStation = ({ isNight, iconId,  currentLocation }) => {
+export const WeatherStation = ({ isNight }) => {
+
+    const [ currentLocation, setCurrentLocation ] = useState('hixson');
 
     // Source: https://sherryhsu.medium.com/react-async-data-fetch-f5ccb107d02b
     useEffect(() => {
         const fetchData = async () => {
             const latitude = locations[`${currentLocation}`]['latitude'];
             const longitude = locations[`${currentLocation}`]['longitude'];
-            const response = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=54b7e61f7e7116f117b557cf2ba4c59f&units=imperial`);
+            // make a weather api route for this to hide api key
+            const response = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${process.env.openWeatherAPIKey}&units=imperial`);
             const newData = await response.json();
         };
 
@@ -61,7 +64,7 @@ export const WeatherStation = ({ isNight, iconId,  currentLocation }) => {
 
     return (
         <div className=''>
-            <WeatherIcon iconId={iconId} name="owm" night={isNight} className="h-64" />
+            <WeatherIcon iconId={200} name="owm" night={isNight} className="h-64" />
         </div>
     )
 }

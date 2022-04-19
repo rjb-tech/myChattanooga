@@ -22,7 +22,7 @@ export const MobileNav = ({ menuExpanded }) => {
             >  
                 <div className='h-fit w-full divide-y-2 flex-col flex-auto text-center bg-slate-500'>
                     <div className='h-48 mx-auto py-8 px-12'>
-                        <WeatherStation iconId={200} currentLocation="hixson" />
+                        <WeatherStation />
                     </div>
                     <div className='h-8 w-full p-1'>
                         <Link href='/'>
