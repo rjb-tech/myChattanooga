@@ -15,7 +15,7 @@ export const MyChattanoogaProvider = ({ children }) => {
 
     const [menuExpanded, setMenuExpanded] = useState(false)
     const [panelExpanded, setPanelExpanded] = useState(false)
-    const [isDark, setDark] = useState(true)
+    const [isDark, setDark] = useState(false)
     const [weatherData, setWeatherData] = useState(null)
     const [defaultWeatherLocation, setDefaultWeatherLocation] = useState(null)
 
@@ -52,7 +52,7 @@ export const MyChattanoogaProvider = ({ children }) => {
 
                 <main className="w-screen h-screen align-center relative overflow-y-scroll" >
                     <div className="sm:hidden fixed w-full h-fit object-center -left-full z-50 flex mx-auto">
-                        <MobileNav menuExpanded={menuExpanded} />
+                        <MobileNav isDark={isDark} menuExpanded={menuExpanded} />
                     </div>
                     <div className="sm:hidden fixed w-full h-fit object-center -bottom-0 z-50 mx-auto">
                         <MobileUserPanel panelExpanded={panelExpanded} />
