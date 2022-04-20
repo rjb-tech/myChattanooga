@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react'
-import '../node_modules/weather-react-icons/lib/css/weather-icons.css'
-import { WeatherIcon } from 'weather-react-icons'
 import ReactWeather, { useOpenWeather } from 'react-open-weather'
 
 const locations = {
@@ -54,46 +52,32 @@ const locations = {
         longitude: -85.307215,
         name: "Southside"
     }
-};
-
-// https://www.npmjs.com/package/react-open-weather
-const customWeatherStyles = {
-	fontFamily:  'Helvetica, sans-serif',
-	gradientStart:  '#0181C2',
-	gradientMid:  '#04A7F9',
-	gradientEnd:  '#4BC4F7',
-	locationFontColor:  '#FFF',
-	todayTempFontColor:  '#FFF',
-	todayDateFontColor:  '#B5DEF4',
-	todayRangeFontColor:  '#B5DEF4',
-	todayDescFontColor:  '#B5DEF4',
-	todayInfoFontColor:  '#B5DEF4',
-	todayIconColor:  '#FFF',
-};
+}
 
 export const WeatherStation = ({ isNight }) => {
 
     const [ currentLocation, setCurrentLocation ] = useState('northChattanooga');
-    const { data, isLoading, errorMessage } = useOpenWeather({
-        key: "54b7e61f7e7116f117b557cf2ba4c59f", // This needs to be stored securely somehow idk yet
-        lat: locations[`${currentLocation}`]['latitude'],
-        lon: locations[`${currentLocation}`]['latitude'],
-        lang: 'en',
-        unit: 'imperial', // values are (metric, standard, imperial)
-    });
+    const [ currentTemp, setCurrentTemp ] = useState(null)
+    const [ currentIcon, setCurrentIcon ] = useState(null)
+
+    Source: https://sherryhsu.medium.com/react-async-data-fetch-f5ccb107d02b
+    useEffect(() => {
+        const fetchData = async () => {
+            const latitude = locations[`${currentLocation}`]['latitude'];
+            const longitude = locations[`${currentLocation}`]['longitude'];
+            const response = await fetch(`/api/weather?latitude=${latitude}&longitude=${longitude}`);
+            const data = await response.json()
+            console.log(data)
+            setCurrentTemp(data.current.temp.toFixed())
+            setCurrentIcon(data.current.weather[0].icon)
+        };
+
+        fetchData();
+    }, [])
 
     return (
         <div className='flex-col mx-auto h-full'>
-            <ReactWeather
-                theme={customWeatherStyles}
-                isLoading={isLoading}
-                errorMessage={errorMessage}
-                data={data}
-                lang="en"
-                locationLabel={locations[`${currentLocation}`].name}
-                unitsLabels={{ temperature: 'F', windSpeed: 'mph' }}
-                showForecast={false}
-            />
+            <Image src="http://openweathermap.org/img/wn/10d@2x.png" />
         </div>
     )
 }
