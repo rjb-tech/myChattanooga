@@ -67,7 +67,7 @@ export const WeatherStation = ({ isNight }) => {
             const longitude = locations[`${currentLocation}`]['longitude'];
             const response = await fetch(`/api/weather?latitude=${latitude}&longitude=${longitude}`);
             const data = await response.json()
-            console.log(data)
+            
             setCurrentTemp(data.current.temp.toFixed())
             setCurrentIcon(data.current.weather[0].icon)
         };
@@ -77,7 +77,7 @@ export const WeatherStation = ({ isNight }) => {
 
     return (
         <div className='flex-col mx-auto h-full'>
-            <Image src="http://openweathermap.org/img/wn/10d@2x.png" />
+            <Image src={`http://openweathermap.org/img/wn/${currentIcon}@2x.png`} />
         </div>
     )
 }
