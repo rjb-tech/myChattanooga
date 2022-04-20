@@ -352,6 +352,7 @@ export const WeatherStation = ({ isNight }) => {
     const [ weatherDescription, setWeatherDescription ] = useState("");
     const [ currentSunrise, setCurrentSunrise ] = useState(0);
     const [ currentSunset, setCurrentSunset ] = useState(0);
+    const [ currentHumidity, setCurrentHumidity ] = useState(0);
 
     // Source: https://sherryhsu.medium.com/react-async-data-fetch-f5ccb107d02b
     useEffect(() => {
@@ -366,6 +367,7 @@ export const WeatherStation = ({ isNight }) => {
             setWeatherDescription(data.current.weather[0].description);
             setCurrentSunrise(data.current.sunrise);
             setCurrentSunset(data.current.sunset);
+            setCurrentHumidity(data.current.humidity)
         };
 
         fetchData();
@@ -394,6 +396,9 @@ export const WeatherStation = ({ isNight }) => {
                         </div>
                         <div className='text-lg justify-center'>
                             {weatherDescription}
+                        </div>
+                        <div className='text-lg justify-center'>
+                            {currentHumidity}% Humidity
                         </div>
                     </div>
                 </div>
