@@ -1,8 +1,8 @@
 // This is covering some tech debt related to the scraper passing back date as strings
 export function calculateTimeSincePosted (timePosted) {
     const currentDate = new Date();
-    const currentHour = currentDate.getUTCHours();
-    const currentMinute = currentDate.getUTCMinutes();
+    const currentHour = currentDate.getHours();
+    const currentMinute = currentDate.getMinutes();
     const timePostedHour = timePosted.slice(0,2);
     const timePostedMinute = timePosted.slice(3,5);
 
