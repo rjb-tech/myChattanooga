@@ -371,7 +371,7 @@ export const WeatherStation = ({ isNight }) => {
         fetchData();
     }, [])
     
-    const actualIcon = isDay ? SkyconType[weatherCodeMappings[currentWeatherCode].day] : SkyconType[weatherCodeMappings[currentWeatherCode].night]
+    const actualIcon = isDay(currentSunrise, currentSunset) ? SkyconType[weatherCodeMappings[currentWeatherCode].day] : SkyconType[weatherCodeMappings[currentWeatherCode].night]
     console.log(currentWeatherCode)
 
     return (
