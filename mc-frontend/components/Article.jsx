@@ -27,8 +27,8 @@ export const Article = ({ publisher, headline, timePosted, image, isDark, link }
                         <Image
                             className="rounded-md"
                             src={image}
-                            height={12} // This will have to be tinkered with, probs needs a ternary operator thingy
-                            width={16}
+                            height={1} // This will have to be tinkered with, probs needs a ternary operator thingy
+                            width={1}
                             layout="responsive"
                         />
                     </div>
