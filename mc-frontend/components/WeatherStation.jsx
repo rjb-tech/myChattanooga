@@ -382,15 +382,15 @@ export const WeatherStation = ({ isDark }) => {
         icon: isDay(currentSunrise, currentSunset) 
                 ? SkyconType[weatherCodeMappings[currentWeatherCode].day] 
                 : SkyconType[weatherCodeMappings[currentWeatherCode].night],
-        size: 128,
+        size: 100,
         animate: true,
         color: isDark===true ? '#FFF' : '#222'
     }
 
     return (
         <div className='flex-col w-full h-fit'>
-            <div className='flex-col h-fit py-6'>
-                <div className='flex-auto text-3xl text-center font-bold'>
+            <div className='flex-col h-fit md:py-6'>
+                <div className='flex-auto text-3xl md:text-xl text-center font-bold'>
                     {locations[`${currentLocation}`].name}
                 </div>
                 <div className='flex w-full place-items-center'> 
@@ -403,14 +403,14 @@ export const WeatherStation = ({ isDark }) => {
                             color={weatherConfig.color}
                         />                        
                     </div>
-                    <div className='w-1/2 text-5xl container pl-4'>
-                        <div className='justify-start flex text-center'>
+                    <div className='w-1/2 container pl-4'>
+                        <div className='justify-start flex text-center text-5xl md:text-3xl'>
                             {currentTemp}<p className='text-2xl mt-1 text-left'>&#176;F</p>
                         </div>
-                        <p className='text-lg justify-center py-2 text-left'>
+                        <p className='text-lg md:text-base justify-center py-2 text-left italic'>
                             {weatherDescription}
                         </p>
-                        <p className='text-base justify-center text-left'>
+                        <p className='text-base md:text-sm justify-center text-left'>
                             {currentHumidity}% Humidity
                         </p>
                     </div>
