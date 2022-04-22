@@ -56,7 +56,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                     <div className="sm:hidden fixed w-full h-fit object-center -left-full z-50 flex mx-auto">
                         <MobileNav isDark={isDark} menuExpanded={menuExpanded} />
                     </div>
-                    <div className="sm:hidden fixed w-full h-fit object-center -bottom-0 z-50 mx-auto">
+                    <div className="sm:hidden fixed w-full h-fit object-center -right-full bottom-0 z-50 mx-auto">
                         <MobileUserPanel panelExpanded={panelExpanded} />
                     </div>
                     <div className="overscroll-auto scroll-smooth p-6 lg:px-8 lg:pt-8">
