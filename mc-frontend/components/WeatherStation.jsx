@@ -388,31 +388,33 @@ export const WeatherStation = ({ isDark }) => {
     }
 
     return (
-        <div className='flex-col w-full h-fit'>
-            <div className='flex-col h-fit md:py-6'>
-                <div className='flex-auto text-3xl md:text-xl text-center font-bold'>
-                    {locations[`${currentLocation}`].name}
-                </div>
-                <div className='flex w-full place-items-center'> 
-                    <div className='w-1/2 flex-auto flex justify-end'>
-                        <ReactSkycon 
-                            className='w-fit h-fit'
-                            icon={weatherConfig.icon}
-                            size={weatherConfig.size}
-                            animate={weatherConfig.animate}
-                            color={weatherConfig.color}
-                        />                        
+        <div className='w-2/3 mx-auto'>
+            <div className='flex-col w-full h-fit'>
+                <div className='flex-col h-fit md:py-6'>
+                    <div className='flex-auto text-3xl md:text-xl text-center font-bold'>
+                        {locations[`${currentLocation}`].name}
                     </div>
-                    <div className='w-1/2 container pl-4'>
-                        <div className='justify-start flex text-center text-5xl md:text-3xl'>
-                            {currentTemp}<p className='text-2xl mt-1 text-left'>&#176;F</p>
+                    <div className='flex w-full place-items-center'> 
+                        <div className='w-1/2 flex-auto flex justify-end'>
+                            <ReactSkycon 
+                                className='w-fit h-fit'
+                                icon={weatherConfig.icon}
+                                size={weatherConfig.size}
+                                animate={weatherConfig.animate}
+                                color={weatherConfig.color}
+                            />                        
                         </div>
-                        <p className='text-lg md:text-base justify-center py-2 text-left italic'>
-                            {weatherDescription}
-                        </p>
-                        <p className='text-base md:text-sm justify-center text-left'>
-                            {currentHumidity}% Humidity
-                        </p>
+                        <div className='w-1/2 container pl-4'>
+                            <div className='justify-start flex text-center text-5xl md:text-3xl'>
+                                {currentTemp}<p className='text-2xl mt-1 text-left'>&#176;F</p>
+                            </div>
+                            <p className='text-lg md:text-base justify-center py-2 text-left italic'>
+                                {weatherDescription}
+                            </p>
+                            <p className='text-base md:text-sm justify-center text-left'>
+                                {currentHumidity}% Humidity
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
