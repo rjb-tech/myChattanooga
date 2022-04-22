@@ -24,7 +24,7 @@ export const MobileNav = ({ menuExpanded, isDark }) => {
             >  
                 <div className='h-fit w-full divide-y-2 flex-col flex-auto text-center'>
                     <div className='h-fit mx-auto py-8 px-12'>
-                        <WeatherStation />
+                        <WeatherStation  isDark={isDark}/>
                     </div>
                     <div className='h-8 w-full p-1'>
                         <Link href='/'>
