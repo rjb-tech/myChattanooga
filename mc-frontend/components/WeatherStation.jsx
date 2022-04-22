@@ -388,10 +388,10 @@ export const WeatherStation = ({ isDark }) => {
     }
 
     return (
-        <div className='w-2/3 mx-auto'>
+        <div className='w-10/12 md:w-5/6 mx-auto'>
             <div className='flex-col w-full h-fit'>
-                <div className='flex-col h-fit md:py-6'>
-                    <div className='flex-auto text-3xl md:text-xl text-center font-bold'>
+                <div className='flex-col h-fit'>
+                    <div className='flex-auto text-3xl md:text-xl text-center font-bold pb-2'>
                         {locations[`${currentLocation}`].name}
                     </div>
                     <div className='flex w-full place-items-center'> 
