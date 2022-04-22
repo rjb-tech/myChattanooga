@@ -12,7 +12,7 @@ export const StickyHeader = ({ isDark }) => {
     return (
         <div className="flex flex-col w-full md:sticky">
             
-            <div className="flex flex-auto w-full h-fit lg:h-fit content-center border-b-2">
+            <div className="flex flex-auto w-full h-fit content-center border-b-2 items-center">
                 <LeftPanel {...toggleMobileNav} />
                 <Logo {...isDark} />
                 <RightPanel {...toggleMobileUserPanel} />
