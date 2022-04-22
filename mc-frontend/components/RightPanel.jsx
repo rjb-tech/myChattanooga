@@ -5,6 +5,7 @@ import { useContext } from "react"
 import MyChattanoogaContext from "./MyChattanoogaProvider"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSliders } from "@fortawesome/free-solid-svg-icons"
+import { WeatherStation } from "./WeatherStation"
 
 export const RightPanel = ({ toggleMobileUserPanel }) => {
     return (
@@ -17,6 +18,10 @@ export const RightPanel = ({ toggleMobileUserPanel }) => {
                     <FontAwesomeIcon icon={faSliders} />
                 </div>
             </motion.button>
+            <div className="hidden md:block w-full">
+                <WeatherStation />
+            </div>
+            
         </div>
     )
 }
