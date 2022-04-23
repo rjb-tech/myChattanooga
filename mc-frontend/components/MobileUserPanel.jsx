@@ -18,7 +18,7 @@ export const MobileUserPanel = ({ panelExpanded, toggleDarkMode }) => {
                 transition={{ duration: .25, type: "tween"}}
                 variants={variants}
             >  
-                <div className='h-fit w-full divide-y-2 flex-col flex-auto text-center bg-slate-100 shadow-xl rounded-xl'>
+                <div className='h-fit w-full divide-y-2 flex-col flex-auto text-center bg-slate-100 shadow-xl rounded-t-xl'>
                     <div className='h-24'>
                         <button className='bg-white h-2/3' onClick={() => toggleDarkMode()}>
                             <FontAwesomeIcon className='h-full' icon={faFilter} />
