@@ -19,8 +19,8 @@ export const RightPanel = ({ toggleMobileUserPanel, isDark }) => {
                     <FontAwesomeIcon icon={faSliders} style={{color: `${iconColor}`}}/>
                 </div>
             </motion.button>
-            <div className="hidden md:block w-full">
-                <WeatherStation />
+            <div className="hidden md:block w-full bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF]">
+                <WeatherStation isDark={isDark}/>
             </div>
             
         </div>

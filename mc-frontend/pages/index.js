@@ -36,7 +36,7 @@ export default function Home(pageProps) {
           <h1 className="text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF]">All Local Articles</h1>
         </div>
         
-        <div className="flex-auto grid sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 w-full h-fit z-auto sticky top-0">
+        <div className="flex-auto grid sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 w-full h-fit z-auto sticky top-0 bg-[#FFF] dark:bg-[#222]">
           {articles.map((story) => {
             return (
               <div className="py-2 md:px-2" key={story.headline}>
