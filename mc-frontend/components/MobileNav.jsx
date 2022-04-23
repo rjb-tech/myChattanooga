@@ -13,11 +13,9 @@ const variants = {
 }
 
 export const MobileNav = ({ menuExpanded, isDark }) => {  
-    const baseClassString = "items-center w-full shadow-xl mx-auto rounded-xl "
-    const dynamicClassString = isDark ? baseClassString + "bg-black" : baseClassString + "bg-white"
     return (
             <motion.nav 
-                className={dynamicClassString} 
+                className="items-center w-full shadow-xl mx-auto rounded-b-xl bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF]"
                 animate={menuExpanded ? "open" : "closed"}
                 transition={{ duration: .25, type: "tween"}}
                 variants={variants}

@@ -2,24 +2,9 @@ import Image from "next/image"
 import Link from "next/link"
 import { calculateTimeSincePosted } from "./helpers"
 
-const publisherBaseString = "text-xs font-bold"
-const headlineBaseString = "pt-2 text-xl"
-
 export const Article = ({ publisher, headline, timePosted, image, isDark, link }) => {
-    const publisherClassString = isDark 
-                                ? publisherBaseString + " text-[#F39887]" 
-                                : publisherBaseString
-    const headlineClassString = isDark 
-                                ? headlineBaseString + " text-white" 
-                                : headlineBaseString
-    const timeClassString = isDark 
-                            ? "pt-2 text-md italic text-stone-600" 
-                            : "pt-2 text-md italic text-[#F39887]"
-    const articleWrapperString = isDark 
-                                 ? "relative flex-auto h-fit md:h-full md:w-full lg:w-full shadow-sm bg-black hover:bg-slate-100 rounded-sm shadow-md rounded-lg" 
-                                 : "relative flex-auto h-fit md:h-full md:w-full lg:w-full shadow-sm bg-white hover:bg-slate-100 rounded-sm shadow-md rounded-lg"
     return (
-    <div className={articleWrapperString}>
+    <div className="relative flex-auto h-fit md:h-full md:w-full lg:w-full shadow-sm bg-[#FFF] dark:bg-[#222] rounded-sm shadow-md rounded-lg">
         <Link href={link} >
             <a target="_blank">
                 <div className="p-4">
@@ -33,13 +18,13 @@ export const Article = ({ publisher, headline, timePosted, image, isDark, link }
                         />
                     </div>
                     <div className="pt-4 flex-col items-center">
-                        <p className={publisherClassString}>
+                        <p className="text-xs font-bold text-black dark:text-[#F39887]">
                             &copy; {publisher.toUpperCase()}
                         </p>
-                        <p className={headlineClassString}>
+                        <p className="pt-2 text-xl text-[#222] dark:text-[#FFF]">
                             {headline}
                         </p>
-                        <p className="pt-2 text-md italic text-[#F39887]">
+                        <p className="pt-2 text-md italic text-[#F39887] dark:text-[#BBB]">
                             {calculateTimeSincePosted(timePosted)}
                         </p>
                         <p className="hidden">

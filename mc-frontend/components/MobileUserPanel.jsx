@@ -9,7 +9,7 @@ const variants = {
     closed: { opacity: 0, x: "0%" },
 }
 
-export const MobileUserPanel = ({ panelExpanded }) => {  
+export const MobileUserPanel = ({ panelExpanded, toggleDarkMode }) => {  
     const [ filtersApplied, setFiltersApplied ] = useState([])
     return (
             <motion.nav 
@@ -20,9 +20,9 @@ export const MobileUserPanel = ({ panelExpanded }) => {
             >  
                 <div className='h-fit w-full divide-y-2 flex-col flex-auto text-center bg-slate-100 shadow-xl rounded-xl'>
                     <div className='h-24'>
-                        <div className='bg-white h-2/3'>
+                        <button className='bg-white h-2/3' onClick={() => toggleDarkMode()}>
                             <FontAwesomeIcon className='h-full' icon={faFilter} />
-                        </div>
+                        </button>
                     </div>
                 </div>                
                 

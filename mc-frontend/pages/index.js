@@ -33,10 +33,10 @@ export default function Home(pageProps) {
 
       <div className="h-full w-full flex-col px-6">
         <div className="sticky w-full h-fit top-0 md:pl-2 mb-2 md:mb-6">
-          <h1 className="text-center md:text-left font-bold text-3xl md:text-4xl z-30">All Local Articles</h1>
+          <h1 className="text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF]">All Local Articles</h1>
         </div>
         
-        <div className="flex-auto grid bg-white sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 w-full h-fit z-auto sticky top-0">
+        <div className="flex-auto grid sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 w-full h-fit z-auto sticky top-0">
           {articles.map((story) => {
             return (
               <div className="py-2 md:px-2" key={story.headline}>
