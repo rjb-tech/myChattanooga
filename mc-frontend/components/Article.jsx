@@ -4,7 +4,7 @@ import { calculateTimeSincePosted } from "./helpers"
 
 export const Article = ({ publisher, headline, timePosted, image, isDark, link }) => {
     return (
-    <div className="relative flex-auto h-fit md:h-full md:w-full lg:w-full shadow-sm bg-[#FFF] dark:bg-[#222] rounded-sm shadow-md rounded-lg">
+    <div className="relative flex-auto h-fit md:h-full md:w-full lg:w-full shadow-sm bg-[#FFF] dark:bg-[#323232] rounded-sm shadow-md rounded-lg">
         <Link href={link} >
             <a target="_blank">
                 <div className="p-4">
@@ -18,10 +18,10 @@ export const Article = ({ publisher, headline, timePosted, image, isDark, link }
                         />
                     </div>
                     <div className="pt-4 flex-col items-center">
-                        <p className="text-xs font-bold text-black dark:text-[#F39887]">
+                        <p className="text-xs font-bold text-[#222] dark:text-[#F39887]">
                             &copy; {publisher.toUpperCase()}
                         </p>
-                        <p className="pt-2 text-xl text-[#222] dark:text-[#FFF]">
+                        <p className="pt-2 text-xl text-[#333] dark:text-[#FFF]">
                             {headline}
                         </p>
                         <p className="pt-2 text-md italic text-[#F39887] dark:text-[#BBB]">
