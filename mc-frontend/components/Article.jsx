@@ -2,7 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { calculateTimeSincePosted } from "./helpers"
 
-export const Article = ({ publisher, headline, timePosted, image, isDark, link }) => {
+export const Article = ({ publisher, headline, timePosted, image, link }) => {
     return (
     <div className="relative flex-auto h-fit md:h-full md:w-full lg:w-full shadow-sm bg-[#fff] dark:bg-[#1f1f1f] rounded-sm shadow-md rounded-lg">
         <Link href={link} >
