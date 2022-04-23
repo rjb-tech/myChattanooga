@@ -39,7 +39,7 @@ export default function Home(pageProps) {
         <div className="flex-auto grid sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 w-full h-fit z-auto sticky top-0 bg-[#FFF] dark:bg-[#222]">
           {articles.map((story) => {
             return (
-              <div className="py-2 md:px-2" key={story.headline}>
+              <div className="py-2 sm:px-2" key={story.headline}>
                 <Article 
                   headline={story.headline}
                   timePosted={story.time_posted}
