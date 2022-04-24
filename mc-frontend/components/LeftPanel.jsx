@@ -1,6 +1,7 @@
 import { motion } from "framer-motion"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faBars } from "@fortawesome/free-solid-svg-icons"
+import { WeatherStation } from "./WeatherStation"
 
 export const LeftPanel = ({ toggleMobileNav, isDark }) => {
     const iconColor = isDark === true ? "#FFF" : "#222"
@@ -15,6 +16,9 @@ export const LeftPanel = ({ toggleMobileNav, isDark }) => {
                     <FontAwesomeIcon icon={faBars} style={{color: `${iconColor}`}}/>
                 </div>
             </motion.button>
+            <div className="hidden md:block w-full bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF]">
+                Stuff goes here
+            </div>
         </div>
     )
 }
