@@ -61,7 +61,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                     <div className="sm:hidden fixed w-full h-fit object-center -right-full bottom-0 z-50 mx-auto">
                         <MobileUserPanel panelExpanded={panelExpanded} toggleDarkMode={toggleDarkMode} />
                     </div>
-                    <div className="overscroll-auto scroll-smooth p-6 lg:px-8 lg:pt-8 bg-[#FFF] dark:bg-[#222]">
+                    <div className="overscroll-contain scroll-smooth p-6 lg:px-8 lg:pt-8 bg-[#FFF] dark:bg-[#222]">
                         {children}
                     </div>
                 </main>
