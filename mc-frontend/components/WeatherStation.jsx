@@ -3,6 +3,8 @@ import { ReactSkycon, SkyconType } from 'react-skycons-extended';
 import { faArrowAltCircleLeft, faArrowAltCircleRight } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+const axios = require('axios');
+
 export const WeatherStation = ({ isDark }) => {
 
     // https://openweathermap.org/weather-conditions#Weather-Condition-Codes-2
@@ -383,8 +385,11 @@ export const WeatherStation = ({ isDark }) => {
             const latitude = locations[`${currentLocation}`]['latitude'];
             const longitude = locations[`${currentLocation}`]['longitude'];
             setIsLoading(true);
-            const response = await fetch(`/api/weather?latitude=${latitude}&longitude=${longitude}`);
-            const data = await response.json();
+            const response = await axios.get(`/api/weather?latitude=${latitude}&longitude=${longitude}`)
+            .then(data = await response.data)
+            .catch(function(error) {
+                console.log(error);
+            })
             
             setCurrentTemp(data.current.temp.toFixed());
             setCurrentWeatherCode(data.current.weather[0].id);

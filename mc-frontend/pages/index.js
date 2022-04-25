@@ -3,23 +3,26 @@ import { Article } from "../components/Article"
 import { motion } from "framer-motion"
 import MyChattanoogaContext from "../components/MyChattanoogaProvider"
 import { useContext } from "react"
+const axios = require('axios');
 
 export default function Home(pageProps) {
-  const [ articles, setArticles ] = useState(() => []);
+  const [ articles, setArticles ] = useState([]);
   const [articlesLoading, setArticlesLoading ] = useState(false)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await fetch('/api/articles')
-        .then(async (response) => {
-          const data = await response.json();
-          setArticles(Object.values(data));
-        })
+  const fetchData = async () => {
+    const result = await axios.get('/api/articles')
+      .then((response) => {
+        const data = response.data;
+        setArticles(Object.values(data));
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  };
 
-    };
-    setArticlesLoading(articlesLoading => !articlesLoading)
+  useEffect(() => {
+    console.log("zip zop zooey")
     fetchData();
-    setArticlesLoading(articlesLoading => !articlesLoading)
   }, [])
 
   return (
