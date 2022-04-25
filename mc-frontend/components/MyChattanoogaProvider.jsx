@@ -40,6 +40,10 @@ export const MyChattanoogaProvider = ({ children }) => {
         toggleDarkMode: {toggleDarkMode}
     }
 
+    const childrenComponentClassString = menuExpanded === true 
+        ? "overscroll-contain scroll-smooth p-6 lg:px-8 lg:pt-8 bg-[#FFF] dark:bg-[#222] transition duration-[350ms] blur-sm ease-out"
+        : "overscroll-contain scroll-smooth p-6 lg:px-8 lg:pt-8 bg-[#FFF] dark:bg-[#222]"
+
     return (
         <MyChattanoogaContext.Provider value={value}>
             <div className="flex flex-col h-screen overscroll-contain">
@@ -61,7 +65,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                     <div className="sm:hidden fixed w-full h-fit object-center -right-full bottom-0 z-50 mx-auto">
                         <MobileUserPanel isDark={isDark} panelExpanded={panelExpanded} toggleDarkMode={toggleDarkMode} />
                     </div>
-                    <div className="overscroll-contain scroll-smooth p-6 lg:px-8 lg:pt-8 bg-[#FFF] dark:bg-[#222]">
+                    <div className={childrenComponentClassString}>
                         {children}
                     </div>
                 </main>
