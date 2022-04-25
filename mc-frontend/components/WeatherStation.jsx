@@ -453,7 +453,7 @@ export const WeatherStation = ({ isDark }) => {
                     <button className='w-1/12 h-full flex-auto sm:hidden' onClick={() => switchWeatherLocation(false)}>
                         <FontAwesomeIcon icon={faArrowAltCircleLeft} style={{color: `${weatherConfig.color}`}} className='w-full h-full flex-auto'/>
                     </button>
-                    <div className='flex-auto text-2xl md:text-xl text-center font-bold pb-2 w-5/6'>
+                    <div className='flex-auto text-2xl md:text-xl text-center font-bold pb-2 sm:pt-2 w-5/6'>
                         {locations[`${currentLocation}`].name}
                     </div>
                     <button className='w-1/12 h-full flex-auto sm:hidden' onClick={() => switchWeatherLocation(true)}>
