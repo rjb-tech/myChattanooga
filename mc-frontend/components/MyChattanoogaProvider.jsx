@@ -60,7 +60,7 @@ export const MyChattanoogaProvider = ({ children }) => {
 
                 <main className="w-screen h-screen align-center relative overflow-y-scroll" key="siteContent">
                     <div className="sm:hidden fixed w-full h-fit object-center -left-full z-50 flex mx-auto" key="MobileNav">
-                        <MobileNav isDark={isDark} menuExpanded={menuExpanded} />
+                        <MobileNav isDark={isDark} menuExpanded={menuExpanded} setMenuExpanded={setMenuExpanded}/>
                     </div>
                     <div className="sm:hidden fixed w-full h-fit object-center -bottom-16 z-50 mx-auto" key="MobileUserPanel">
                         <MobileUserPanel isDark={isDark} panelExpanded={panelExpanded} toggleDarkMode={toggleDarkMode} />

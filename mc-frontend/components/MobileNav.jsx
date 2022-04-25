@@ -12,7 +12,7 @@ const variants = {
     closed: { opacity: 0, x: "0%" },
 }
 
-export const MobileNav = ({ menuExpanded, isDark }) => {  
+export const MobileNav = ({ menuExpanded, isDark, setMenuExpanded }) => {  
     return (
             <motion.nav 
                 className="items-center w-full shadow-lg mx-auto bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] rounded-b-xl"
@@ -25,29 +25,29 @@ export const MobileNav = ({ menuExpanded, isDark }) => {
                         <WeatherStation  isDark={isDark}/>
                     </div>
                     <div className='h-12 w-full p-1 flex items-center'>
-                        <Link href='/'>
+                        <Link href='/brews'>
                             <a>
-                                <div className='w-screen h-5/6'>
+                                <button className='w-screen h-5/6' onClick={() => setMenuExpanded(false)}>
                                     Brews
-                                </div>
+                                </button>
                             </a>
                         </Link>
                     </div>
                     <div className='h-12 w-full p-1 flex items-center'>
                         <Link href='/'>
                             <a>
-                                <div className='w-screen h-5/6'>
+                                <button className='w-screen h-5/6' onClick={() => setMenuExpanded(false)}>
                                     News
-                                </div>
+                                </button>
                             </a>
                         </Link>
                     </div>
                     <div className='h-12 w-full p-1 flex items-center'>
                         <Link href='/'>
                             <a>
-                                <div className='w-screen h-5/6'>
+                                <button className='w-screen h-5/6' onClick={() => setMenuExpanded(false)}>
                                     FAQ
-                                </div>
+                                </button>
                             </a>
                         </Link>
                     </div>
