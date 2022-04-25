@@ -41,7 +41,7 @@ export const MyChattanoogaProvider = ({ children }) => {
     }
 
     const childrenComponentClassString = menuExpanded === true 
-        ? "overscroll-contain scroll-smooth p-6 lg:px-8 lg:pt-8 bg-[#FFF] dark:bg-[#222] transition duration-[250ms] blur-sm ease-in"
+        ? "overscroll-contain scroll-smooth p-6 lg:px-8 lg:pt-8 bg-[#FFF] dark:bg-[#222] transition duration-[250ms] blur-sm ease-in-out"
         : "overscroll-contain scroll-smooth p-6 lg:px-8 lg:pt-8 bg-[#FFF] dark:bg-[#222]"
 
     return (
