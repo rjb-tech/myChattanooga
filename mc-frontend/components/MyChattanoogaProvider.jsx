@@ -58,11 +58,11 @@ export const MyChattanoogaProvider = ({ children }) => {
                     <StickyHeader isDark={isDark} />
                 </header>
 
-                <main className="w-screen h-screen align-center relative overflow-y-scroll" >
-                    <div className="sm:hidden fixed w-full h-fit object-center -left-full z-50 flex mx-auto">
+                <main className="w-screen h-screen align-center relative overflow-y-scroll" key="siteContent">
+                    <div className="sm:hidden fixed w-full h-fit object-center -left-full z-50 flex mx-auto" key="MobileNav">
                         <MobileNav isDark={isDark} menuExpanded={menuExpanded} />
                     </div>
-                    <div className="sm:hidden fixed w-full h-fit object-center -right-full bottom-0 z-50 mx-auto">
+                    <div className="sm:hidden fixed w-full h-fit object-center -right-full bottom-0 z-50 mx-auto" key="MobileUserPanel">
                         <MobileUserPanel isDark={isDark} panelExpanded={panelExpanded} toggleDarkMode={toggleDarkMode} />
                     </div>
                     <div className={childrenComponentClassString}>
