@@ -65,7 +65,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                     <div className="sm:hidden fixed w-full h-fit object-center -right-full bottom-0 z-50 mx-auto" key="MobileUserPanel">
                         <MobileUserPanel isDark={isDark} panelExpanded={panelExpanded} toggleDarkMode={toggleDarkMode} />
                     </div>
-                    <div className={childrenComponentClassString}>
+                    <div className={childrenComponentClassString} key="siteContent">
                         {children}
                     </div>
                 </main>
