@@ -19,18 +19,18 @@ export const MobileUserPanel = ({ panelExpanded, toggleDarkMode, isDark }) => {
                 transition={{ duration: .25, type: "tween"}}
                 variants={variants}
             >  
-                <div className='h-fit w-full divide-y-2 flex-col flex-auto text-center shadow-xl rounded-t-xl bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF]'>
+                <div className='h-fit w-full divide-y-2 flex-col flex-auto text-center shadow-xl rounded-t-xl bg-[#FFF] text-[#222] dark:bg-[#F39887] dark:text-[#FFF] opacity-90 dark:opacity-95'>
                     <div className='h-16 flex justify-evenly items-center'>
-                        <button className='bg-slate-100 dark:bg-[#1f1f1f] h-3/6 rounded-full shadow-xl' onClick={() => toggleDarkMode()}>
+                        <button className='bg-slate-100 dark:bg-[#F39887] h-3/6 rounded-full shadow-xl' onClick={() => toggleDarkMode()}>
                             <FontAwesomeIcon className='h-full w-3/4 mx-auto' icon={darkModeIcon} style={{color: `${iconColor}`}} />
                         </button>
-                        <button className='bg-slate-100 dark:bg-[#1f1f1f] h-3/6 rounded-full shadow-xl'>
+                        <button className='bg-slate-100 dark:bg-[#F39887] h-3/6 rounded-full shadow-xl'>
                             <FontAwesomeIcon className='h-full w-3/4 mx-auto' icon={faFilter} style={{color: `${iconColor}`}} />
                         </button>
-                        <button className='bg-slate-100 dark:bg-[#1f1f1f] h-3/6 rounded-full shadow-xl'>
+                        <button className='bg-slate-100 dark:bg-[#F39887] h-3/6 rounded-full shadow-xl'>
                             <FontAwesomeIcon className='h-full w-3/4 mx-auto' icon={faGear} style={{color: `${iconColor}`}} />
                         </button>
-                        <button className='bg-slate-100 dark:bg-[#1f1f1f] h-3/6 rounded-full shadow-xl'>
+                        <button className='bg-slate-100 dark:bg-[#F39887] h-3/6 rounded-full shadow-xl'>
                             <FontAwesomeIcon className='h-full w-3/4 mx-auto' icon={faUser} style={{color: `${iconColor}`}} />
                         </button>
                     </div>
