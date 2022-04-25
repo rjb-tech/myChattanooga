@@ -18,13 +18,13 @@ export const Article = ({ publisher, headline, timePosted, image, link }) => {
                         />
                     </div>
                     <div className="pt-4 flex-col items-center">
-                        <p className="text-xs font-bold text-[#222] dark:text-[#F39887]">
+                        <p className="text-xs font-bold text-[#222] dark:text-[#F7BCB1]">
                             &copy; {publisher.toUpperCase()}
                         </p>
                         <p className="pt-2 text-xl text-[#333] dark:text-[#FFF]">
                             {headline}
                         </p>
-                        <p className="pt-2 text-md italic text-[#F39887] dark:text-[#BBB]">
+                        <p className="pt-2 text-md italic text-[#F7BCB1] dark:text-[#BBB]">
                             {calculateTimeSincePosted(timePosted)}
                         </p>
                         <p className="hidden">
