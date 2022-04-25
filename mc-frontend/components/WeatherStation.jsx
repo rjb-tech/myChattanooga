@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import Image from 'next/image'
 import { ReactSkycon, SkyconType } from 'react-skycons-extended';
-import { icon } from '@fortawesome/fontawesome-svg-core';
+import { faArrowAltCircleLeft, faArrowAltCircleRight } from '@fortawesome/free-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const WeatherStation = ({ isDark }) => {
 
@@ -317,16 +317,21 @@ export const WeatherStation = ({ isDark }) => {
             longitude: -85.229127,
             "name": "East Ridge"
         },
+        harrison: {
+            latitude: 35.114548,
+            longitude: -85.138063,
+            "name": "Harrison"
+        },
         hixson: {
             latitude: 35.130611,
             longitude: -85.241446,
             "name": "Hixson"
         },
-        lookoutMountain: {
-            latitude: 35.019072,
-            longitude: -85.339596,
-            "name": "Lookout Mountain"
-        },
+        // lookoutMountain: {
+        //     latitude: 35.019072,
+        //     longitude: -85.339596,
+        //     "name": "Lookout Mountain"
+        // },
         northChattanooga: {
             latitude: 35.069496,
             longitude: -85.289329,
@@ -337,12 +342,24 @@ export const WeatherStation = ({ isDark }) => {
             longitude: -85.295099,
             "name": "Red Bank"
         },
+        signalMountain: {
+            latitude: 35.142164,
+            longitude: -85.342200,
+            "name": "Signal Mountain"
+        },
+        soddyDaisy: {
+            latitude: 35.237057, 
+            longitude: -85.183266,
+            "name": "Soddy Daisy"
+        },
         southside: {
             latitude: 35.037511,
             longitude: -85.307215,
             "name": "Southside"
         }
     }
+
+    const locationsIterHelper = Object.keys(locations)
 
     function isDay(sunrise, sunset) {
         const currentDate = new Date();
@@ -358,12 +375,14 @@ export const WeatherStation = ({ isDark }) => {
     const [ currentSunrise, setCurrentSunrise ] = useState(0);
     const [ currentSunset, setCurrentSunset ] = useState(0);
     const [ currentHumidity, setCurrentHumidity ] = useState(0);
+    const [ isLoading, setIsLoading ] = useState(false);
 
     // Source: https://sherryhsu.medium.com/react-async-data-fetch-f5ccb107d02b
     useEffect(() => {
         const fetchData = async () => {
             const latitude = locations[`${currentLocation}`]['latitude'];
             const longitude = locations[`${currentLocation}`]['longitude'];
+            setIsLoading(true);
             const response = await fetch(`/api/weather?latitude=${latitude}&longitude=${longitude}`);
             const data = await response.json();
             
@@ -372,7 +391,8 @@ export const WeatherStation = ({ isDark }) => {
             setWeatherDescription(data.current.weather[0].description);
             setCurrentSunrise(data.current.sunrise);
             setCurrentSunset(data.current.sunset);
-            setCurrentHumidity(data.current.humidity)
+            setCurrentHumidity(data.current.humidity);
+            setIsLoading(false);
         };
 
         fetchData();
@@ -387,14 +407,45 @@ export const WeatherStation = ({ isDark }) => {
         color: isDark===true ? '#FFF' : '#222'
     }
 
+    const switchWeatherLocation = (increasing) => {
+        if (increasing===true) {
+            const index = locationsIterHelper.indexOf(currentLocation) + 1;
+            if (index > locationsIterHelper.length - 1) {
+                // set index to 0 if the max length of the locations list is reached
+                index = 0;
+            }
+            const newLocation = locationsIterHelper[index];
+            setCurrentLocation(newLocation);
+            // save to localstorage here
+        }
+        else {
+            const index = locationsIterHelper.indexOf(currentLocation) - 1;
+            if (index < 0) {
+                // Get last items if the index counter goes under 0
+                index = locationsIterHelper.length - 1;
+            }
+            const newLocation = locationsIterHelper[index];
+            setCurrentLocation(newLocation);
+            // save to localstorage here
+        }
+    }
+
     return (
         <div className='w-10/12 md:w-5/6 mx-auto'>
-            <div className='flex-col w-full h-fit'>
-                <div className='flex-col h-fit'>
-                    <div className='flex-auto text-3xl md:text-xl text-center font-bold pb-2'>
+            <div className='flex-col w-full h-40'>
+                <div className='flex place-items-center'>
+                    <button className='w-1/12 h-full flex-auto' onClick={() => switchWeatherLocation(false)}>
+                        <FontAwesomeIcon icon={faArrowAltCircleLeft} style={{color: `${weatherConfig.color}`}} className='w-full h-full flex-auto'/>
+                    </button>
+                    <div className='flex-auto text-2xl md:text-xl text-center font-bold pb-2 w-5/6'>
                         {locations[`${currentLocation}`].name}
                     </div>
-                    <div className='flex w-full place-items-center'> 
+                    <button className='w-1/12 h-full flex-auto' onClick={() => switchWeatherLocation(true)}>
+                        <FontAwesomeIcon icon={faArrowAltCircleRight} style={{color: `${weatherConfig.color}`}} className='w-full h-full flex-auto'/>
+                    </button>
+                </div>
+                <div className='flex w-full'>
+                    <div className='flex place-items-center w-full'>
                         <div className='w-1/2 flex-auto flex justify-end'>
                             <ReactSkycon 
                                 className='w-fit h-fit'
