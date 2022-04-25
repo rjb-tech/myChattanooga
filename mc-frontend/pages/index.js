@@ -9,20 +9,20 @@ export default function Home(pageProps) {
   const [ articles, setArticles ] = useState([]);
   const [articlesLoading, setArticlesLoading ] = useState(false)
 
-  const fetchData = async () => {
-    const result = await axios.get('/api/articles')
-      .then((response) => {
-        const data = response.data;
-        setArticles(Object.values(data));
-      })
-      .catch(function (error) {
-        console.log(error)
-      })
-  };
-
   useEffect(() => {
-    console.log("zip zop zooey")
+    const fetchData = async () => {
+      const result = await axios.get('/api/articles')
+        .then((response) => {
+          const data = response.data;
+          setArticles(Object.values(data));
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    };
+    setArticlesLoading(true);
     fetchData();
+    setArticlesLoading(false);
   }, [])
 
   return (
