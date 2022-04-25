@@ -21,19 +21,18 @@ export const MobileUserPanel = ({ panelExpanded, toggleDarkMode, isDark, current
             >  
                 <div className='h-fit w-full divide-y-2 flex-col flex-auto text-center shadow-xl bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] opacity-90'>
                     <div className='h-16 w-full flex justify-evenly items-center'>
-                        <motion.button whileTap={{ scale: 0.85 }} className='bg-slate-100 dark:bg-[#222] h-3/6 rounded-full shadow-xl flex-auto' onClick={() => toggleDarkMode()}>
+                        <motion.button whileTap={{ scale: 0.85 }} className='bg-slate-100 dark:bg-[#222] h-2/3 rounded-full shadow-xl flex-initial' onClick={() => toggleDarkMode()}>
                             <FontAwesomeIcon className='h-full w-1/2 mx-auto' icon={darkModeIcon} style={{color: `${iconColor}`}} />
                         </motion.button>
-                        <motion.button whileTap={{ scale: 0.85 }} className='bg-slate-100 dark:bg-[#222] h-3/6 rounded-full shadow-xl flex-auto'>
+                        <motion.button whileTap={{ scale: 0.85 }} className='bg-slate-100 dark:bg-[#222] h-2/3 rounded-full shadow-xl flex-initial'>
                             <FontAwesomeIcon className='h-full w-1/2 mx-auto' icon={faFilter} style={{color: `${iconColor}`}} />
                         </motion.button>
-                        <motion.button whileTap={{ scale: 0.85 }} className='bg-slate-100 dark:bg-[#222] h-3/6 rounded-full shadow-xl flex-auto'>
+                        <motion.button whileTap={{ scale: 0.85 }} className='bg-slate-100 dark:bg-[#222] h-2/3 rounded-full shadow-xl flex-initial'>
                             <FontAwesomeIcon className='h-full w-1/2 mx-auto' icon={faGear} style={{color: `${iconColor}`}} />
                         </motion.button>
-                        <motion.button whileTap={{ scale: 0.85 }} className='bg-slate-100 dark:bg-[#222] h-3/6 rounded-full shadow-xl flex-auto'>
+                        <motion.button whileTap={{ scale: 0.85 }} className='bg-slate-100 dark:bg-[#222] h-2/3 rounded-full shadow-xl flex-initial'>
                             <FontAwesomeIcon className='h-full w-1/2 mx-auto' icon={faUser} style={{color: `${iconColor}`}} />
                         </motion.button>
-                        <line />
                     </div>
                 </div>                
                 
