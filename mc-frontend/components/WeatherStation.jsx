@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { ReactSkycon, SkyconType } from 'react-skycons-extended';
 import { faArrowAltCircleLeft, faArrowAltCircleRight } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { motion } from 'framer-motion';
 
 const axios = require('axios');
 
@@ -398,7 +399,6 @@ export const WeatherStation = ({ isDark }) => {
             })
             const data = await response.data
             
-            
             setCurrentTemp(data.main.temp.toFixed());
             setCurrentWeatherCode(data.weather[0].id);
             setWeatherDescription(data.weather[0].description);
@@ -450,15 +450,15 @@ export const WeatherStation = ({ isDark }) => {
         <div className='w-10/12 md:w-5/6 mx-auto'>
             <div className='flex-col w-full h-40'>
                 <div className='flex place-items-center'>
-                    <button className='w-1/12 h-full flex-auto sm:hidden' onClick={() => switchWeatherLocation(false)}>
+                    <motion.button whileTap={{ scale: 0.8 }} className='w-1/12 h-full flex-auto sm:hidden' onClick={() => switchWeatherLocation(false)}>
                         <FontAwesomeIcon icon={faArrowAltCircleLeft} style={{color: `${weatherConfig.color}`}} className='w-full h-full flex-auto'/>
-                    </button>
+                    </motion.button>
                     <div className='flex-auto text-2xl md:text-xl text-center font-bold pb-2 sm:pt-2 w-5/6'>
                         {locations[`${currentLocation}`].name}
                     </div>
-                    <button className='w-1/12 h-full flex-auto sm:hidden' onClick={() => switchWeatherLocation(true)}>
+                    <motion.button whileTap={{ scale: 0.8 }} className='w-1/12 h-full flex-auto sm:hidden' onClick={() => switchWeatherLocation(true)}>
                         <FontAwesomeIcon icon={faArrowAltCircleRight} style={{color: `${weatherConfig.color}`}} className='w-full h-full flex-auto'/>
-                    </button>
+                    </motion.button>
                 </div>
                 <div className='flex w-full'>
                     <div className='flex w-full'>

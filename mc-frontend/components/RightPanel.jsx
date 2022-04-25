@@ -10,11 +10,12 @@ import { WeatherStation } from "./WeatherStation"
 export const RightPanel = ({ toggleMobileUserPanel, isDark }) => {
     const iconColor = isDark === true ? "#FFF" : "#222"
     return (
-        <div className="flex w-1/4 md:w-1/12 flex-auto">
+        <div className="flex w-1/4 md:w-1/12 flex-auto h-full">
             <motion.button 
-                    className="sm:hidden flex-auto pt-3" type="button" 
-                    onClick={() => toggleMobileUserPanel()}
-                >
+                whileTap={{ scale: 0.9 }}
+                className="sm:hidden flex-auto pt-3" type="button" 
+                onClick={() => toggleMobileUserPanel()}
+            >
                 <div className="p-6">
                     <FontAwesomeIcon icon={faSliders} style={{color: `${iconColor}`}}/>
                 </div>
