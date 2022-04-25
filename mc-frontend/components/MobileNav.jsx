@@ -24,24 +24,30 @@ export const MobileNav = ({ menuExpanded, isDark }) => {
                     <div className='h-fit mx-auto py-6'>
                         <WeatherStation  isDark={isDark}/>
                     </div>
-                    <div className='h-8 w-full p-1'>
+                    <div className='h-12 w-full p-1 flex items-center'>
                         <Link href='/'>
                             <a>
-                                Brews
+                                <div className='w-screen h-5/6'>
+                                    Brews
+                                </div>
                             </a>
                         </Link>
                     </div>
-                    <div className='h-8 w-full p-1'>
+                    <div className='h-12 w-full p-1 flex items-center'>
                         <Link href='/'>
                             <a>
-                                News
+                                <div className='w-screen h-5/6'>
+                                    News
+                                </div>
                             </a>
                         </Link>
                     </div>
-                    <div className='h-8 w-full p-1'>
+                    <div className='h-12 w-full p-1 flex items-center'>
                         <Link href='/'>
                             <a>
-                                FAQ
+                                <div className='w-screen h-5/6'>
+                                    FAQ
+                                </div>
                             </a>
                         </Link>
                     </div>
