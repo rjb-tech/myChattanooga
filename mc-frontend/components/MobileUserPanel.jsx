@@ -8,7 +8,7 @@ const variants = {
     closed: { opacity: 0, y: "0%" },
 }
 
-export const MobileUserPanel = ({ panelExpanded, toggleDarkMode, isDark }) => {  
+export const MobileUserPanel = ({ panelExpanded, toggleDarkMode, isDark, currentPage }) => {  
     const [ filtersApplied, setFiltersApplied ] = useState([])
     const iconColor = isDark===true ? '#FFF' : '#222'
     const darkModeIcon = isDark===true ? faSun : faMoon
