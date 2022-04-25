@@ -15,7 +15,8 @@ module.exports = {
       "noogatoday.6amcity.com",
       "bloximages.newyork1.vip.townnews.com",
       "wpcdn.us-east-1.vip.tn-cloud.net",
-      "openweathermap.org"
+      "www.wdef.com",
+      
     ],
   },
   reactStrictMode: true
