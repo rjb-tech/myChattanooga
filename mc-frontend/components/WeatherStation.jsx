@@ -434,38 +434,46 @@ export const WeatherStation = ({ isDark }) => {
         <div className='w-10/12 md:w-5/6 mx-auto'>
             <div className='flex-col w-full h-40'>
                 <div className='flex place-items-center'>
-                    <button className='w-1/12 h-full flex-auto sm:hidden' onClick={() => switchWeatherLocation(false)}>
+                    {/* <button className='w-1/12 h-full flex-auto sm:hidden' onClick={() => switchWeatherLocation(false)}>
                         <FontAwesomeIcon icon={faArrowAltCircleLeft} style={{color: `${weatherConfig.color}`}} className='w-full h-full flex-auto'/>
-                    </button>
+                    </button> */}
                     <div className='flex-auto text-2xl md:text-xl text-center font-bold pb-2 w-5/6'>
                         {locations[`${currentLocation}`].name}
                     </div>
-                    <button className='w-1/12 h-full flex-auto sm:hidden' onClick={() => switchWeatherLocation(true)}>
+                    {/* <button className='w-1/12 h-full flex-auto sm:hidden' onClick={() => switchWeatherLocation(true)}>
                         <FontAwesomeIcon icon={faArrowAltCircleRight} style={{color: `${weatherConfig.color}`}} className='w-full h-full flex-auto'/>
-                    </button>
+                    </button> */}
                 </div>
                 <div className='flex w-full'>
                     <div className='flex place-items-center w-full'>
-                        <div className='w-1/2 flex-auto flex justify-end'>
-                            <ReactSkycon 
-                                className='w-fit h-fit'
-                                icon={weatherConfig.icon}
-                                size={weatherConfig.size}
-                                animate={weatherConfig.animate}
-                                color={weatherConfig.color}
-                            />                        
-                        </div>
-                        <div className='w-1/2 container pl-4'>
-                            <div className='justify-start flex text-center text-5xl md:text-3xl'>
-                                {currentTemp}<p className='text-2xl mt-1 text-left'>&#176;F</p>
+                        <button className='w-1/12 h-full flex-auto sm:hidden' onClick={() => switchWeatherLocation(false)}>
+                            <FontAwesomeIcon icon={faArrowAltCircleLeft} style={{color: `${weatherConfig.color}`}} className='w-full h-full flex-auto'/>
+                        </button>
+                        <div className='flex w-5/6'>
+                            <div className='w-1/2 flex-auto flex justify-end items-center'>
+                                <ReactSkycon 
+                                    className='w-fit h-fit'
+                                    icon={weatherConfig.icon}
+                                    size={weatherConfig.size}
+                                    animate={weatherConfig.animate}
+                                    color={weatherConfig.color}
+                                />                        
                             </div>
-                            <p className='text-lg md:text-base justify-center py-2 text-left italic'>
-                                {weatherDescription}
-                            </p>
-                            <p className='text-base md:text-sm justify-center text-left'>
-                                {currentHumidity}% Humidity
-                            </p>
+                            <div className='w-1/2 container pl-4'>
+                                <div className='justify-start flex text-center text-5xl md:text-3xl'>
+                                    {currentTemp}<p className='text-2xl mt-1 text-left'>&#176;F</p>
+                                </div>
+                                <p className='text-lg md:text-base justify-center py-2 text-left italic'>
+                                    {weatherDescription}
+                                </p>
+                                <p className='text-base md:text-sm justify-center text-left'>
+                                    {currentHumidity}% Humidity
+                                </p>
+                            </div>
                         </div>
+                        <button className='w-1/12 h-full flex-auto sm:hidden' onClick={() => switchWeatherLocation(true)}>
+                            <FontAwesomeIcon icon={faArrowAltCircleRight} style={{color: `${weatherConfig.color}`}} className='w-full h-full flex-auto'/>
+                        </button>
                     </div>
                 </div>
             </div>
