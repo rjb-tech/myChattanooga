@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
 }
 
 module.exports = {
@@ -19,5 +19,5 @@ module.exports = {
       
     ],
   },
-  reactStrictMode: true
+  reactStrictMode: false
 }
