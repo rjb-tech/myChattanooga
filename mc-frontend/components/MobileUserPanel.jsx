@@ -33,6 +33,7 @@ export const MobileUserPanel = ({ panelExpanded, toggleDarkMode, isDark }) => {
                         <motion.button whileTap={{ scale: 0.85 }} className='bg-slate-100 dark:bg-[#F7BCB1] h-3/6 rounded-full shadow-xl'>
                             <FontAwesomeIcon className='h-full w-3/4 mx-auto' icon={faUser} style={{color: `${iconColor}`}} />
                         </motion.button>
+                        <line />
                     </div>
                 </div>                
                 
