@@ -365,8 +365,8 @@ export const WeatherStation = ({ isDark }) => {
 
     function isDay(sunrise, sunset) {
         const currentDate = new Date();
-        const now = currentDate.getTime();
-    
+        const now = currentDate.getTime() / 1000;
+
         return now > sunrise && now < sunset ? true : false;
     }
 
@@ -414,7 +414,7 @@ export const WeatherStation = ({ isDark }) => {
     }, [currentLocation])
 
     const weatherConfig = {
-        icon: isDay(currentSunrise, currentSunset) 
+        icon: isDay(currentSunrise, currentSunset)===true
                 ? SkyconType[weatherCodeMappings[currentWeatherCode].day] 
                 : SkyconType[weatherCodeMappings[currentWeatherCode].night],
         size: 100,
