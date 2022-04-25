@@ -370,6 +370,10 @@ export const WeatherStation = ({ isDark }) => {
         return now > sunrise && now < sunset ? true : false;
     }
 
+    function windDegreesToDirectoin(degrees) {
+        console.log('hi mom');
+    }
+
     const [ currentLocation, setCurrentLocation ] = useState('northChattanooga');
     const [ currentTemp, setCurrentTemp ] = useState("");
     const [ currentWeatherCode, setCurrentWeatherCode ] = useState("default");
@@ -378,6 +382,9 @@ export const WeatherStation = ({ isDark }) => {
     const [ currentSunset, setCurrentSunset ] = useState(0);
     const [ currentHumidity, setCurrentHumidity ] = useState(0);
     const [ isLoading, setIsLoading ] = useState(false);
+    const [ cloudPercent, setCloudPercent ] = useState(0);
+    const [ windSpeed, setWindSpeed ] = useState(0);
+    const [ windDirectionInDegrees, setWindDirectionInDegrees ] = useState(0);
 
     // Source: https://sherryhsu.medium.com/react-async-data-fetch-f5ccb107d02b
     useEffect(() => {
@@ -386,17 +393,21 @@ export const WeatherStation = ({ isDark }) => {
             const longitude = locations[`${currentLocation}`]['longitude'];
             setIsLoading(true);
             const response = await axios.get(`/api/weather?latitude=${latitude}&longitude=${longitude}`)
-            .then(data = await response.data)
             .catch(function(error) {
                 console.log(error);
             })
+            const data = await response.data
             
-            setCurrentTemp(data.current.temp.toFixed());
-            setCurrentWeatherCode(data.current.weather[0].id);
-            setWeatherDescription(data.current.weather[0].description);
-            setCurrentSunrise(data.current.sunrise);
-            setCurrentSunset(data.current.sunset);
-            setCurrentHumidity(data.current.humidity);
+            
+            setCurrentTemp(data.main.temp.toFixed());
+            setCurrentWeatherCode(data.weather[0].id);
+            setWeatherDescription(data.weather[0].description);
+            setCurrentSunrise(data.sys.sunrise);
+            setCurrentSunset(data.sys.sunset);
+            setCurrentHumidity(data.main.humidity);
+            setCloudPercent(data.clouds.all);
+            setWindSpeed(data.wind.speed);
+            setWindDirectionInDegrees(data.wind.degrees);
             setIsLoading(false);
         };
 
@@ -439,46 +450,38 @@ export const WeatherStation = ({ isDark }) => {
         <div className='w-10/12 md:w-5/6 mx-auto'>
             <div className='flex-col w-full h-40'>
                 <div className='flex place-items-center'>
-                    {/* <button className='w-1/12 h-full flex-auto sm:hidden' onClick={() => switchWeatherLocation(false)}>
+                    <button className='w-1/12 h-full flex-auto sm:hidden' onClick={() => switchWeatherLocation(false)}>
                         <FontAwesomeIcon icon={faArrowAltCircleLeft} style={{color: `${weatherConfig.color}`}} className='w-full h-full flex-auto'/>
-                    </button> */}
+                    </button>
                     <div className='flex-auto text-2xl md:text-xl text-center font-bold pb-2 w-5/6'>
                         {locations[`${currentLocation}`].name}
                     </div>
-                    {/* <button className='w-1/12 h-full flex-auto sm:hidden' onClick={() => switchWeatherLocation(true)}>
+                    <button className='w-1/12 h-full flex-auto sm:hidden' onClick={() => switchWeatherLocation(true)}>
                         <FontAwesomeIcon icon={faArrowAltCircleRight} style={{color: `${weatherConfig.color}`}} className='w-full h-full flex-auto'/>
-                    </button> */}
+                    </button>
                 </div>
                 <div className='flex w-full'>
-                    <div className='flex place-items-center w-full'>
-                        <button className='w-1/12 h-full flex-auto sm:hidden' onClick={() => switchWeatherLocation(false)}>
-                            <FontAwesomeIcon icon={faArrowAltCircleLeft} style={{color: `${weatherConfig.color}`}} className='w-full h-full flex-auto'/>
-                        </button>
-                        <div className='flex w-5/6'>
-                            <div className='w-1/2 flex-auto flex justify-end items-center'>
-                                <ReactSkycon 
-                                    className='w-fit h-fit'
-                                    icon={weatherConfig.icon}
-                                    size={weatherConfig.size}
-                                    animate={weatherConfig.animate}
-                                    color={weatherConfig.color}
-                                />                        
-                            </div>
-                            <div className='w-1/2 container pl-4'>
-                                <div className='justify-start flex text-center text-5xl md:text-3xl'>
-                                    {currentTemp}<p className='text-2xl mt-1 text-left'>&#176;F</p>
-                                </div>
-                                <p className='text-lg md:text-base justify-center py-2 text-left italic'>
-                                    {weatherDescription}
-                                </p>
-                                <p className='text-base md:text-sm justify-center text-left'>
-                                    {currentHumidity}% Humidity
-                                </p>
-                            </div>
+                    <div className='flex w-full'>
+                        <div className='w-1/2 flex-auto flex justify-end items-center'>
+                            <ReactSkycon 
+                                className='w-fit h-fit'
+                                icon={weatherConfig.icon}
+                                size={weatherConfig.size}
+                                animate={weatherConfig.animate}
+                                color={weatherConfig.color}
+                            />                        
                         </div>
-                        <button className='w-1/12 h-full flex-auto sm:hidden' onClick={() => switchWeatherLocation(true)}>
-                            <FontAwesomeIcon icon={faArrowAltCircleRight} style={{color: `${weatherConfig.color}`}} className='w-full h-full flex-auto'/>
-                        </button>
+                        <div className='w-1/2 container pl-4'>
+                            <div className='justify-start flex text-center text-5xl md:text-3xl'>
+                                {currentTemp}<p className='text-2xl mt-1 text-left'>&#176;F</p>
+                            </div>
+                             <p className='text-lg md:text-base justify-center py-2 text-left italic'>
+                                {weatherDescription}
+                            </p>
+                            <p className='text-base md:text-sm justify-center text-left'>
+                                {currentHumidity}% Humidity
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

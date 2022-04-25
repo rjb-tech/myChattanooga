@@ -7,7 +7,7 @@ export default function handler(req, res) {
     if (req.method === 'GET') {
         const parsedURL = url.parse(req.url, true)
         try {
-            const result = fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${parsedURL.query.latitude}&lon=${parsedURL.query.longitude}&appid=${apiKey}&units=imperial&exclude=[minutely,hourly,daily,alerts]`)
+            const result = fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${parsedURL.query.latitude}&lon=${parsedURL.query.longitude}&appid=${apiKey}&units=imperial`)
                 .then(async (response) => {
                     const data = await response.json();
                     res.json(data);
