@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
 import { ReactSkycon, SkyconType } from 'react-skycons-extended';
-import { faArrowAltCircleLeft, faArrowAltCircleRight } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { motion } from 'framer-motion';
-
+import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 const axios = require('axios');
 
 export const WeatherStation = ({ isDark }) => {
@@ -451,13 +450,13 @@ export const WeatherStation = ({ isDark }) => {
             <div className='flex-col w-full h-40'>
                 <div className='flex place-items-center'>
                     <motion.button whileTap={{ scale: 0.8 }} className='w-1/12 h-full flex-auto sm:hidden' onClick={() => switchWeatherLocation(false)}>
-                        <FontAwesomeIcon icon={faArrowAltCircleLeft} style={{color: `${weatherConfig.color}`}} className='w-full h-full flex-auto'/>
+                        <FontAwesomeIcon icon={faAngleLeft} style={{color: `${weatherConfig.color}`}} className='w-1/2 h-1/2 flex-auto mx-auto'/>
                     </motion.button>
                     <div className='flex-auto text-2xl md:text-xl text-center font-bold pb-2 sm:pt-2 w-5/6'>
                         {locations[`${currentLocation}`].name}
                     </div>
                     <motion.button whileTap={{ scale: 0.8 }} className='w-1/12 h-full flex-auto sm:hidden' onClick={() => switchWeatherLocation(true)}>
-                        <FontAwesomeIcon icon={faArrowAltCircleRight} style={{color: `${weatherConfig.color}`}} className='w-full h-full flex-auto'/>
+                        <FontAwesomeIcon icon={faAngleRight} style={{color: `${weatherConfig.color}`}} className='w-1/2 h-1/2 flex-auto mx-auto'/>
                     </motion.button>
                 </div>
                 <div className='flex w-full'>
