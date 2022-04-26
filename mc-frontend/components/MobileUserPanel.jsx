@@ -23,11 +23,17 @@ export const MobileUserPanel = ({ panelExpanded, toggleDarkMode, isDark, current
     const darkModeIcon = isDark===true ? faSun : faMoon
     function handleAuxPanel(incomingSection) {
         if (auxPanelExpanded === false) {
-            setAuxPanelExpanded(true)
+            setAuxPanelExpanded(true);
             setCurrentAuxSection(incomingSection);
         }
-        if (incomingSection === currentAuxSection) {
-            setAuxPanelExpanded(false)
+        else {
+            if (incomingSection === currentAuxSection) {
+                setAuxPanelExpanded(false);
+                setCurrentAuxSection("");
+            }
+            else {
+                setCurrentAuxSection(incomingSection);
+            }
         }
         // setAuxPanelExpanded(auxPanelExpanded => !auxPanelExpanded)
     }
