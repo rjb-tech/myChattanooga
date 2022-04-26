@@ -22,14 +22,14 @@ export const MobileUserPanel = ({ panelExpanded, toggleDarkMode, isDark, current
     const iconColor = isDark===true ? '#FFF' : '#222'
     const darkModeIcon = isDark===true ? faSun : faMoon
     function handleAuxPanel(incomingSection) {
-        // if (auxPanelExpanded === false) {
-        //     setAuxPanelExpanded(true)
-        //     setCurrentAuxSection(incomingSection);
-        // }
-        // if (incomingSection === currentAuxSection) {
-        //     setAuxPanelExpanded(auxPanelExpanded => !auxPanelExpanded)
-        // }
-        setAuxPanelExpanded(auxPanelExpanded => !auxPanelExpanded)
+        if (auxPanelExpanded === false) {
+            setAuxPanelExpanded(true)
+            setCurrentAuxSection(incomingSection);
+        }
+        if (incomingSection === currentAuxSection) {
+            setAuxPanelExpanded(false)
+        }
+        // setAuxPanelExpanded(auxPanelExpanded => !auxPanelExpanded)
     }
     return (
         <div className='flex-col items-center'>
