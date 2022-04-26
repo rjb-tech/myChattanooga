@@ -16,11 +16,19 @@ const auxVariants = {
 }
 
 export const MobileUserPanel = ({ panelExpanded, toggleDarkMode, isDark, currentPage }) => {  
-    const [ filtersApplied, setFiltersApplied ] = useState([])
-    const [ auxPanelExpanded, setAuxPanelExpanded ] = useState(false)
+    const [ filtersApplied, setFiltersApplied ] = useState([]);
+    const [ auxPanelExpanded, setAuxPanelExpanded ] = useState(false);
+    const [ currentAuxSection, setCurrentAuxSection ] = useState("");
     const iconColor = isDark===true ? '#FFF' : '#222'
     const darkModeIcon = isDark===true ? faSun : faMoon
-    function handleAuxPanel(section) {
+    function handleAuxPanel(incomingSection) {
+        // if (auxPanelExpanded === false) {
+        //     setAuxPanelExpanded(true)
+        //     setCurrentAuxSection(incomingSection);
+        // }
+        // if (incomingSection === currentAuxSection) {
+        //     setAuxPanelExpanded(auxPanelExpanded => !auxPanelExpanded)
+        // }
         setAuxPanelExpanded(auxPanelExpanded => !auxPanelExpanded)
     }
     return (
@@ -43,10 +51,18 @@ export const MobileUserPanel = ({ panelExpanded, toggleDarkMode, isDark, current
                         >
                             <FontAwesomeIcon className='h-full w-1/2 mx-auto' icon={faFilter} style={{color: `${iconColor}`}} />
                         </motion.button>
-                        <motion.button whileTap={{ scale: 0.85 }} className='bg-slate-100 dark:bg-[#222] h-2/3 rounded-full shadow-xl flex-initial'>
+                        <motion.button 
+                            whileTap={{ scale: 0.85 }} 
+                            className='bg-slate-100 dark:bg-[#222] h-2/3 rounded-full shadow-xl flex-initial'
+                            onClick={() => {handleAuxPanel("settings")}}
+                        >
                             <FontAwesomeIcon className='h-full w-1/2 mx-auto' icon={faGear} style={{color: `${iconColor}`}} />
                         </motion.button>
-                        <motion.button whileTap={{ scale: 0.85 }} className='bg-slate-100 dark:bg-[#222] h-2/3 rounded-full shadow-xl flex-initial'>
+                        <motion.button 
+                            whileTap={{ scale: 0.85 }} 
+                            className='bg-slate-100 dark:bg-[#222] h-2/3 rounded-full shadow-xl flex-initial'
+                            onClick={() => {handleAuxPanel("account")}}
+                        >
                             <FontAwesomeIcon className='h-full w-1/2 mx-auto' icon={faUser} style={{color: `${iconColor}`}} />
                         </motion.button>
                     </div>
