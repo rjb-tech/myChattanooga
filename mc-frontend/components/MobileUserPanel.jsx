@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { animate, motion } from "framer-motion"
 import { useState } from 'react';
-import { faSolid, faFilter, faGear, faSun, faMoon, faUser } from "@fortawesome/free-solid-svg-icons"
+import { faFilter, faGear, faSun, faMoon, faUser } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
 import { AuxillaryPanel } from './AuxillaryPanel';
 
@@ -81,7 +81,7 @@ export const MobileUserPanel = ({ panelExpanded, toggleDarkMode, isDark, current
                 transition={{ duration: .25, type: "tween"}}
                 variants={auxVariants}
             >
-
+                <AuxillaryPanel section={currentAuxSection}/>
             </motion.div>            
         </div>
     );
