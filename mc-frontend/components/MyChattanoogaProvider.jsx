@@ -18,7 +18,7 @@ const childrenComponentVariants = {
 }
 
 const userPanelVariants = {
-    open: { opacity: .9, y: "0%" },
+    open: { opacity: .9, y: "500%" },
     closed: { opacity: 0, y: "0%"  },
 }
 
@@ -77,7 +77,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                         <MobileNav isDark={isDark} menuExpanded={menuExpanded} setMenuExpanded={setMenuExpanded}/>
                     </div>
                     <motion.div 
-                        className="sm:hidden w-full h-0 object-center sticky -top-0 z-30 mx-auto" 
+                        className="sm:hidden w-full h-0 object-center relative sticky top-0 z-50 mx-auto" 
                         key="MobileUserPanel"
                         animate={panelExpanded===true ? 'open' : 'closed'}
                         transition={{ 
