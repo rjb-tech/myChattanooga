@@ -18,7 +18,7 @@ const childrenComponentVariants = {
 }
 
 const userPanelVariants = {
-    open: { opacity: .9, y: "100%" },
+    open: { opacity: .9, y: "0%" },
     closed: { opacity: 0, y: "0%"  },
 }
 
@@ -55,8 +55,8 @@ export const MyChattanoogaProvider = ({ children }) => {
     }
 
     const childrenWrapperClassString = (menuExpanded === true) 
-        ? "transition duration-[250ms] blur-sm ease-linear"
-        : "transition duration-[500ms]"
+        ? "transition duration-[250ms] blur-sm ease-linear h-fit"
+        : "transition duration-[500ms] h-fit"
 
     return (
         <MyChattanoogaContext.Provider value={value}>
@@ -77,7 +77,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                         <MobileNav isDark={isDark} menuExpanded={menuExpanded} setMenuExpanded={setMenuExpanded}/>
                     </div>
                     <motion.div 
-                        className="sm:hidden w-full h-fit object-center fixed top-20 z-30 mx-auto" 
+                        className="sm:hidden w-full h-0 object-center sticky -top-0 z-30 mx-auto" 
                         key="MobileUserPanel"
                         animate={panelExpanded===true ? 'open' : 'closed'}
                         transition={{ 
