@@ -18,8 +18,8 @@ const childrenComponentVariants = {
 }
 
 const userPanelVariants = {
-    open: { opacity: .9, y: "500%" },
-    closed: { opacity: 0, y: "0%"  },
+    open: { opacity: .9, y: "0%" },
+    closed: { opacity: 0, y: "-100%"  },
 }
 
 export const MyChattanoogaProvider = ({ children }) => {
@@ -55,8 +55,8 @@ export const MyChattanoogaProvider = ({ children }) => {
     }
 
     const childrenWrapperClassString = (menuExpanded === true) 
-        ? "transition duration-[250ms] blur-sm ease-linear h-fit"
-        : "transition duration-[500ms] h-fit"
+        ? "overscroll-contain transition duration-[250ms] blur-sm ease-linear"
+        : "overscroll-contain transition duration-[500ms]"
 
     return (
         <MyChattanoogaContext.Provider value={value}>
@@ -76,8 +76,9 @@ export const MyChattanoogaProvider = ({ children }) => {
                     <div className="sm:hidden fixed w-full h-fit object-center -left-full z-50 flex mx-auto" key="MobileNav">
                         <MobileNav isDark={isDark} menuExpanded={menuExpanded} setMenuExpanded={setMenuExpanded}/>
                     </div>
+                    {/* There's some weird jitter going on weirdly */}
                     <motion.div 
-                        className="sm:hidden w-full h-0 object-center relative sticky top-0 z-50 mx-auto" 
+                        className="sm:hidden w-full h-fit object-center fixed z-40 mx-auto" 
                         key="MobileUserPanel"
                         animate={panelExpanded===true ? 'open' : 'closed'}
                         transition={{ 
@@ -95,7 +96,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                     <div className={childrenWrapperClassString}>
                         <motion.div 
                             animate={panelExpanded===true ? 'extended' : 'normal'}
-                            className="overscroll-contain scroll-smooth p-6 lg:px-8 lg:pt-8"
+                            className="scroll-smooth p-6 lg:px-8 lg:pt-8"
                             transition={{ 
                                 duration: panelExpanded===true ? .3 : .5,
                                 type: "tween"
