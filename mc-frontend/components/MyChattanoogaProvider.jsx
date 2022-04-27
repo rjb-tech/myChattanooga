@@ -19,7 +19,7 @@ const childrenComponentVariants = {
 
 const userPanelVariants = {
     open: { opacity: .9, y: "0%" },
-    closed: { opacity: 0, y: "-100%"  },
+    closed: { opacity: 0, y: "-100%" },
 }
 
 export const MyChattanoogaProvider = ({ children }) => {
@@ -67,7 +67,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                         <link rel="icon" href="/favicon.ico" /> 
                 </Head>
 
-                <header className="w-screen shadow-sm bg-[#FFF] dark:bg-[#222] z-50">
+                <header className="w-screen border-b-2 shadow-sm bg-[#FFF] dark:bg-[#222] z-50">
                     <StickyHeader isDark={isDark} />
                 </header>
 
@@ -78,7 +78,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                     </div>
                     {/* There's some weird jitter going on weirdly */}
                     <motion.div 
-                        className="sm:hidden w-full h-fit object-center fixed z-40 mx-auto" 
+                        className="sm:hidden shadow-md w-full h-fit object-center fixed z-40 mx-auto" 
                         key="MobileUserPanel"
                         animate={panelExpanded===true ? 'open' : 'closed'}
                         transition={{ 
