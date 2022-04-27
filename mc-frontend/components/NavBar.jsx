@@ -4,7 +4,7 @@ export const NavBar = () => {
     return (
         <div className="flex justify-around w-full h-12 content-center items-center bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF]">
             <div className="text-center content-center items-center">
-                <Link href='/'>
+                <Link href='/brews'>
                     <a className='text-center'>
                         Brews
                     </a>
@@ -18,7 +18,7 @@ export const NavBar = () => {
                 </Link>
             </div>
             <div className="text-center content-center items-center">
-                <Link href='/'>
+                <Link href='/faq'>
                     <a className='text-center'>
                         FAQ
                     </a>

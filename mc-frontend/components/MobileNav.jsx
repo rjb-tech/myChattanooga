@@ -43,7 +43,7 @@ export const MobileNav = ({ menuExpanded, isDark, setMenuExpanded }) => {
                         </Link>
                     </div>
                     <div className='h-12 w-full p-1 flex items-center'>
-                        <Link href='/'>
+                        <Link href='/faq'>
                             <a>
                                 <button className='w-screen h-5/6' onClick={() => setMenuExpanded(false)}>
                                     FAQ
