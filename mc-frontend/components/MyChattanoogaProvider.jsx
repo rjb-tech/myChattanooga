@@ -14,7 +14,7 @@ const MyChattanoogaContext = createContext();
 
 const childrenComponentVariants = {
     normal: {y: "0%"},
-    extended: {y: "4rem"}
+    extended: {y: "5rem"}
 }
 
 const userPanelVariants = {
