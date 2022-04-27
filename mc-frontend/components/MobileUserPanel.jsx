@@ -5,10 +5,6 @@ import { faFilter, faGear, faSun, faMoon, faUser } from "@fortawesome/free-solid
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
 import { AuxillaryPanel } from './AuxillaryPanel';
 
-const mainVariants = {
-    open: { opacity: 1, y: "-99%" },
-    closed: { opacity: 0, y: "0%" },
-}
 
 const auxVariants = {
     shown: { opacity: .9, y: "14%", scale: 1},
@@ -39,34 +35,31 @@ export const MobileUserPanel = ({ panelExpanded, toggleDarkMode, isDark, current
     }
     return (
         <div className='flex-col items-center'>
-            <motion.div 
-                className="items-center w-full shadow-xl" 
-                animate={panelExpanded ? "open" : "closed"}
-                transition={{ duration: .25, type: "tween"}}
-                variants={mainVariants}
+            <div 
+                className="items-center w-full" 
             >
-                <div className='h-fit w-full divide-y-2 flex-col flex-auto text-center shadow-xl bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] opacity-90'>
+                <div className='h-fit w-full divide-y-2 flex-col flex-auto text-center shadow-md bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] z-30'>
                     <div className='h-16 w-full flex justify-evenly items-center sticky bottom-0'>
-                        <motion.button whileTap={{ scale: 0.85 }} className='bg-slate-100 dark:bg-[#222] h-2/3 rounded-full shadow-xl flex-initial' onClick={() => toggleDarkMode()}>
+                        <motion.button whileTap={{ scale: 0.85 }} className='bg-slate-100 dark:bg-[#222] h-2/3 rounded-full shadow-xl flex-initial z-30' onClick={() => toggleDarkMode()}>
                             <FontAwesomeIcon className='h-full w-1/2 mx-auto' icon={darkModeIcon} style={{color: `${iconColor}`}} />
                         </motion.button>
                         <motion.button 
                             whileTap={{ scale: 0.85 }} 
-                            className='bg-slate-100 dark:bg-[#222] h-2/3 rounded-full shadow-xl flex-initial'
+                            className='bg-slate-100 dark:bg-[#222] h-2/3 rounded-full shadow-xl flex-initial z-30'
                             onClick={() => {handleAuxPanel("filters")}}
                         >
                             <FontAwesomeIcon className='h-full w-1/2 mx-auto' icon={faFilter} style={{color: `${iconColor}`}} />
                         </motion.button>
                         <motion.button 
                             whileTap={{ scale: 0.85 }} 
-                            className='bg-slate-100 dark:bg-[#222] h-2/3 rounded-full shadow-xl flex-initial'
+                            className='bg-slate-100 dark:bg-[#222] h-2/3 rounded-full shadow-xl flex-initial z-30'
                             onClick={() => {handleAuxPanel("settings")}}
                         >
                             <FontAwesomeIcon className='h-full w-1/2 mx-auto' icon={faGear} style={{color: `${iconColor}`}} />
                         </motion.button>
                         <motion.button 
                             whileTap={{ scale: 0.85 }} 
-                            className='bg-slate-100 dark:bg-[#222] h-2/3 rounded-full shadow-xl flex-initial'
+                            className='bg-slate-100 dark:bg-[#222] h-2/3 rounded-full shadow-xl flex-initial z-30'
                             onClick={() => {handleAuxPanel("account")}}
                         >
                             <FontAwesomeIcon className='h-full w-1/2 mx-auto' icon={faUser} style={{color: `${iconColor}`}} />
@@ -74,7 +67,7 @@ export const MobileUserPanel = ({ panelExpanded, toggleDarkMode, isDark, current
                     </div>
                 </div>                
                     
-            </motion.div>
+            </div>
             <motion.div
                 className='h-32 w-screen absolute bottom-36 bg-[#FFF] dark:bg-[#222] overscroll-auto'
                 animate={auxPanelExpanded ? "shown" : "hidden"}
