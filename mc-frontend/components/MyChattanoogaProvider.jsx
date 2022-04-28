@@ -38,8 +38,13 @@ export const MyChattanoogaProvider = ({ children }) => {
     function toggleMobileUserPanel() {
         if (auxPanelExpanded===true) {
             setAuxPanelExpanded(auxPanelExpanded => !auxPanelExpanded);
+            setTimeout(function(){
+                setPanelExpanded(panelExpanded => !panelExpanded)         
+            }, 125);
         }
-        setPanelExpanded(panelExpanded => !panelExpanded)
+        else{
+            setPanelExpanded(panelExpanded => !panelExpanded);
+        }
     }
     function toggleDarkMode() {
         setDark(isDark => !isDark);
