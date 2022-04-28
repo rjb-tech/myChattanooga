@@ -24,12 +24,12 @@ const userPanelVariants = {
 
 export const MyChattanoogaProvider = ({ children }) => {
 
-    const [menuExpanded, setMenuExpanded] = useState(false);
-    const [panelExpanded, setPanelExpanded] = useState(false);
-    const [isDark, setDark] = useState(false);
-    const [weatherData, setWeatherData] = useState(null);
-    const [defaultWeatherLocation, setDefaultWeatherLocation] = useState(null);
-    const [settingsPannelExpanded, setSettingsPanelExpanded] = useState(false);
+    const [ menuExpanded, setMenuExpanded ] = useState(false);
+    const [ panelExpanded, setPanelExpanded ] = useState(false);
+    const [ isDark, setDark ] = useState(false);
+    const [ weatherData, setWeatherData ] = useState(null);
+    const [ defaultWeatherLocation, setDefaultWeatherLocation ] = useState(null);
+    const [ settingsPannelExpanded, setSettingsPanelExpanded ] = useState(false);
     const [ auxPanelExpanded, setAuxPanelExpanded ] = useState(false);
 
     function toggleMobileNav() {
@@ -62,7 +62,8 @@ export const MyChattanoogaProvider = ({ children }) => {
         settingsPannelExpanded: {settingsPannelExpanded},
         setSettingsPanelExpanded: {setSettingsPanelExpanded},
         auxPanelExpanded: {auxPanelExpanded},
-        setAuxPanelExpanded: {setAuxPanelExpanded}
+        setAuxPanelExpanded: {setAuxPanelExpanded},
+
     }
 
     const childrenWrapperClassString = (menuExpanded === true) 
