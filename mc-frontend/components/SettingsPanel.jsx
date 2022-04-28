@@ -1,6 +1,6 @@
 export const SettingsPanel = () => {
     return (
-        <div className="h-full w-full p-4">
+        <div className="w-5/6 mx-auto">
             Hi
         </div>
     )

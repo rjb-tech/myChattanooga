@@ -10,7 +10,7 @@ export const AuxillaryPanel = ({ section }) => {
     }
     const sectionToRender = sections[`${section}`];
     return (
-        <div>
+        <div className="w-5/6 mx-auto">
             {sectionToRender}
         </div>
     )
