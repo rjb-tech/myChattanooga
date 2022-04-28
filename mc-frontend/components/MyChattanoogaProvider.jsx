@@ -61,8 +61,8 @@ export const MyChattanoogaProvider = ({ children }) => {
     }
 
     const childrenWrapperClassString = (menuExpanded === true) 
-        ? "overscroll-contain transition duration-[250ms] blur-sm ease-linear"
-        : "overscroll-contain transition duration-[500ms]"
+        ? "overscroll-contain transition duration-[300ms] blur-sm ease-linear"
+        : "overscroll-contain transition duration-[300ms]"
 
     return (
         <MyChattanoogaContext.Provider value={value}>
