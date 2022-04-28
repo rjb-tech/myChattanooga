@@ -4,16 +4,16 @@ import { useState } from 'react';
 import { faFilter, faGear, faSun, faMoon, faUser } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
 import { AuxillaryPanel } from './AuxillaryPanel';
-
+import MyChattanoogaContext from './MyChattanoogaProvider';
+import { useContext } from 'react';
 
 const auxVariants = {
-    shown: { opacity: .9, y: "14%", scale: 1},
-    hidden: { opacity: 0, y: "50%", scale: 0},
+    shown: { opacity: 1, y: "0%"},
+    hidden: { opacity: 1, y: "-100%"},
 }
 
-export const MobileUserPanel = ({ panelExpanded, toggleDarkMode, isDark, currentPage }) => {  
+export const MobileUserPanel = ({ panelExpanded, toggleDarkMode, isDark, currentPage, setAuxPanelExpanded, auxPanelExpanded }) => {  
     const [ filtersApplied, setFiltersApplied ] = useState([]);
-    const [ auxPanelExpanded, setAuxPanelExpanded ] = useState(false);
     const [ currentAuxSection, setCurrentAuxSection ] = useState("");
     const iconColor = isDark===true ? '#FFF' : '#222'
     const darkModeIcon = isDark===true ? faSun : faMoon
@@ -69,7 +69,7 @@ export const MobileUserPanel = ({ panelExpanded, toggleDarkMode, isDark, current
                     
             </div>
             <motion.div
-                className='h-32 w-screen absolute bottom-36 bg-[#FFF] dark:bg-[#222] overscroll-auto'
+                className='h-64 w-screen absolute bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] shadow-md overscroll-auto'
                 animate={auxPanelExpanded ? "shown" : "hidden"}
                 transition={{ duration: .25, type: "tween"}}
                 variants={auxVariants}

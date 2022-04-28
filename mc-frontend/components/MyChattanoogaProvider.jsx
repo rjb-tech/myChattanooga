@@ -30,11 +30,15 @@ export const MyChattanoogaProvider = ({ children }) => {
     const [weatherData, setWeatherData] = useState(null);
     const [defaultWeatherLocation, setDefaultWeatherLocation] = useState(null);
     const [settingsPannelExpanded, setSettingsPanelExpanded] = useState(false);
+    const [ auxPanelExpanded, setAuxPanelExpanded ] = useState(false);
 
     function toggleMobileNav() {
         setMenuExpanded(menuExpanded => !menuExpanded)
     }
     function toggleMobileUserPanel() {
+        if (auxPanelExpanded===true) {
+            setAuxPanelExpanded(auxPanelExpanded => !auxPanelExpanded);
+        }
         setPanelExpanded(panelExpanded => !panelExpanded)
     }
     function toggleDarkMode() {
@@ -51,7 +55,9 @@ export const MyChattanoogaProvider = ({ children }) => {
         toggleMobileUserPanel: {toggleMobileUserPanel},
         toggleDarkMode: {toggleDarkMode},
         settingsPannelExpanded: {settingsPannelExpanded},
-        setSettingsPanelExpanded: {setSettingsPanelExpanded}
+        setSettingsPanelExpanded: {setSettingsPanelExpanded},
+        auxPanelExpanded: {auxPanelExpanded},
+        setAuxPanelExpanded: {setAuxPanelExpanded}
     }
 
     const childrenWrapperClassString = (menuExpanded === true) 
@@ -78,7 +84,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                     </div>
                     {/* There's some weird jitter going on weirdly */}
                     <motion.div 
-                        className="sm:hidden shadow-md w-full h-fit object-center fixed z-40 mx-auto" 
+                        className="sm:hidden w-full h-fit object-center fixed z-40 mx-auto" 
                         key="MobileUserPanel"
                         animate={panelExpanded===true ? 'open' : 'closed'}
                         transition={{ 
@@ -91,6 +97,8 @@ export const MyChattanoogaProvider = ({ children }) => {
                             isDark={isDark} 
                             panelExpanded={panelExpanded} 
                             toggleDarkMode={toggleDarkMode}
+                            setAuxPanelExpanded={setAuxPanelExpanded}
+                            auxPanelExpanded={auxPanelExpanded}
                         />
                     </motion.div>
                     <div className={childrenWrapperClassString}>
