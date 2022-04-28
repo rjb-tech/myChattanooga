@@ -8,7 +8,7 @@ import MyChattanoogaContext from './MyChattanoogaProvider';
 import { useContext } from 'react';
 
 const auxVariants = {
-    shown: { opacity: 1, y: "0%"},
+    shown: { opacity: 1, y: "-1%"},
     hidden: { opacity: 1, y: "-100%"},
 }
 
@@ -33,6 +33,10 @@ export const MobileUserPanel = ({ panelExpanded, toggleDarkMode, isDark, current
         }
         // setAuxPanelExpanded(auxPanelExpanded => !auxPanelExpanded)
     }
+
+    const userPanelClassString = auxPanelExpanded===true ? 'h-fit w-full divide-y-2 py-2 flex-col flex-auto text-center bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] z-50' 
+                                                         : 'h-fit w-full divide-y-2 py-2 flex-col flex-auto text-center bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] z-50 opacity-90'
+
     return (
         <div className='flex-col items-center'>
             <div 
@@ -69,7 +73,7 @@ export const MobileUserPanel = ({ panelExpanded, toggleDarkMode, isDark, current
                     
             </div>
             <motion.div
-                className='h-64 w-screen absolute bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] shadow-md overscroll-auto'
+                className='h-32 w-screen absolute bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] shadow-md overscroll-auto'
                 animate={auxPanelExpanded ? "shown" : "hidden"}
                 transition={{ duration: .25, type: "tween"}}
                 variants={auxVariants}
