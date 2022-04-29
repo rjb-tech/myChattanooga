@@ -119,7 +119,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                             }}
                             variants={childrenComponentVariants}
                         >
-                            {cloneElement(children, {contentItems: contentItems})}
+                            {cloneElement(children, {contentItems: contentItems, setContentItems: setContentItems})}
                         </motion.div>
                     </div>
                 </main>
