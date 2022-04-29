@@ -1,16 +1,11 @@
 import { useEffect, useState } from "react"
 import { Article } from "../components/Article"
 import { motion } from "framer-motion"
-import MyChattanoogaContext from "../components/MyChattanoogaProvider"
-import { useContext } from "react"
 const axios = require('axios');
 
 export default function Home(pageProps) {
-  const { contentItems, setContentItems } = useContext(MyChattanoogaContext);
   const [ articles, setArticles ] = useState([]);
-  const [ articlesLoading, setArticlesLoading ] = useState(false)
-  console.log(contentItems);
-  console.log(setContentItems);
+  const [ articlesLoading, setArticlesLoading ] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,9 +20,14 @@ export default function Home(pageProps) {
     };
     setArticlesLoading(true);
     fetchData();
-    setContentItems(articles);
     setArticlesLoading(false);
   }, [])
+
+  // const setContent = () => {
+  //   setContentItems(articles);
+  // }
+
+  // setContent()
 
   return (
     <div className="flex mx-auto">
