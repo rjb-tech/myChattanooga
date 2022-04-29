@@ -7,7 +7,7 @@ const axios = require('axios');
 
 export default function Home(pageProps) {
   const [ articles, setArticles ] = useState([]);
-  const [articlesLoading, setArticlesLoading ] = useState(false)
+  const [articlesLoading, setArticlesLoading ] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
