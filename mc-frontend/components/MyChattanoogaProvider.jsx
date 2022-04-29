@@ -29,11 +29,12 @@ export const MyChattanoogaProvider = ({ children }) => {
     const [ isDark, setDark ] = useState(false);
     const [ weatherData, setWeatherData ] = useState(null);
     const [ defaultWeatherLocation, setDefaultWeatherLocation ] = useState(null);
-    const [ settingsPannelExpanded, setSettingsPanelExpanded ] = useState(false);
+    const [ settingsPanelExpanded, setSettingsPanelExpanded ] = useState(false);
     const [ auxPanelExpanded, setAuxPanelExpanded ] = useState(false);
+    const [ contentItems, setContentItems ] = useState([]);
 
     function toggleMobileNav() {
-        setMenuExpanded(menuExpanded => !menuExpanded)
+        setMenuExpanded(menuExpanded => !menuExpanded);
     }
     function toggleMobileUserPanel() {
         if (auxPanelExpanded===true) {
@@ -59,11 +60,12 @@ export const MyChattanoogaProvider = ({ children }) => {
         panelExpanded: {panelExpanded},
         toggleMobileUserPanel: {toggleMobileUserPanel},
         toggleDarkMode: {toggleDarkMode},
-        settingsPannelExpanded: {settingsPannelExpanded},
+        settingsPanelExpanded: {settingsPanelExpanded},
         setSettingsPanelExpanded: {setSettingsPanelExpanded},
         auxPanelExpanded: {auxPanelExpanded},
         setAuxPanelExpanded: {setAuxPanelExpanded},
-
+        contentItems: {contentItems},
+        setContentItems: {setContentItems}
     }
 
     const childrenWrapperClassString = (menuExpanded === true) 
@@ -105,6 +107,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                             toggleDarkMode={toggleDarkMode}
                             setAuxPanelExpanded={setAuxPanelExpanded}
                             auxPanelExpanded={auxPanelExpanded}
+                            contentItems={contentItems}
                         />
                     </motion.div>
                     <div className={childrenWrapperClassString}>

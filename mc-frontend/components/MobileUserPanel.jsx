@@ -12,7 +12,15 @@ const auxVariants = {
     hidden: { opacity: 1, y: "-100%"},
 }
 
-export const MobileUserPanel = ({ panelExpanded, toggleDarkMode, isDark, currentPage, setAuxPanelExpanded, auxPanelExpanded }) => {  
+export const MobileUserPanel = ({ 
+    panelExpanded, 
+    toggleDarkMode, 
+    isDark, 
+    currentPage, 
+    setAuxPanelExpanded,
+    auxPanelExpanded,
+    contentItems
+}) => {  
     const [ filtersApplied, setFiltersApplied ] = useState([]);
     const [ currentAuxSection, setCurrentAuxSection ] = useState("");
     const iconColor = isDark===true ? '#FFF' : '#222'
@@ -78,7 +86,7 @@ export const MobileUserPanel = ({ panelExpanded, toggleDarkMode, isDark, current
                 transition={{ duration: .25, type: "tween"}}
                 variants={auxVariants}
             >
-                <AuxillaryPanel section={currentAuxSection} isDark={isDark}/>
+                <AuxillaryPanel section={currentAuxSection} isDark={isDark} contentToFilter={contentItems}/>
             </motion.div>            
         </div>
     );

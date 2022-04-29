@@ -6,8 +6,11 @@ import { useContext } from "react"
 const axios = require('axios');
 
 export default function Home(pageProps) {
+  const { contentItems, setContentItems } = useContext(MyChattanoogaContext);
   const [ articles, setArticles ] = useState([]);
-  const [articlesLoading, setArticlesLoading ] = useState(false);
+  const [ articlesLoading, setArticlesLoading ] = useState(false)
+  console.log(contentItems);
+  console.log(setContentItems);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,6 +25,7 @@ export default function Home(pageProps) {
     };
     setArticlesLoading(true);
     fetchData();
+    setContentItems(articles);
     setArticlesLoading(false);
   }, [])
 
