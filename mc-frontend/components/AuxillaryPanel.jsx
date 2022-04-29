@@ -2,9 +2,9 @@ import { SettingsPanel } from "./SettingsPanel"
 import { AccountPanel } from "./AccountPanel"
 import { FiltersPanel } from "./FiltersPanel"
 
-export const AuxillaryPanel = ({ section, isDark, contentToFilter }) => {
+export const AuxillaryPanel = ({ section, isDark }) => {
     const sections = {
-        "filters": FiltersPanel(contentToFilter={contentToFilter}),
+        "filters": FiltersPanel(),
         "settings": SettingsPanel(isDark={isDark}),
         "account": AccountPanel()
     }

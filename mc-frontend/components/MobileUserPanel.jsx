@@ -1,11 +1,10 @@
 import Link from 'next/link'
 import { animate, motion } from "framer-motion"
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { faFilter, faGear, faSun, faMoon, faUser } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
 import { AuxillaryPanel } from './AuxillaryPanel';
-import MyChattanoogaContext from './MyChattanoogaProvider';
-import { useContext } from 'react';
+const axios = require('axios');
 
 const auxVariants = {
     shown: { opacity: 1, y: "-1%"},
@@ -16,16 +15,24 @@ export const MobileUserPanel = ({
     panelExpanded, 
     toggleDarkMode, 
     isDark, 
-    currentPage, 
     setAuxPanelExpanded,
     auxPanelExpanded,
 }) => {  
     const [ filtersApplied, setFiltersApplied ] = useState([]);
     const [ currentAuxSection, setCurrentAuxSection ] = useState("");
+    const [ currentPage, setCurrentPage ] = useState("");
     const iconColor = isDark===true ? '#FFF' : '#222'
     const darkModeIcon = isDark===true ? faSun : faMoon
+
     function handleAuxPanel(incomingSection) {
+        function setFilters(page) {
+            // Use this function to call the appropriate endpoint and gather filter options based on that
+            // if page is '/' => fetch('api/articles')
+            // if page is '/brews/ => fetch('api/brews')
+            console.log(currentPage)
+        }
         if (auxPanelExpanded === false) {
+            if (incomingSection==="filters") {setFilters(currentPage)}
             setAuxPanelExpanded(true);
             setCurrentAuxSection(incomingSection);
         }
@@ -35,11 +42,18 @@ export const MobileUserPanel = ({
                 setCurrentAuxSection("");
             }
             else {
+                // This may be unnecessary sometime in the future
+                if (incomingSection==="filters") {setFilters(currentPage)}
                 setCurrentAuxSection(incomingSection);
             }
         }
         // setAuxPanelExpanded(auxPanelExpanded => !auxPanelExpanded)
     }
+
+    useEffect(() => {
+        const windowPathname = window.location.pathname;
+        setCurrentPage(windowPathname);
+    }, [])
 
     const userPanelClassString = auxPanelExpanded===true ? 'h-fit w-full divide-y-2 py-2 flex-col flex-auto text-center bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] z-50' 
                                                          : 'h-fit w-full divide-y-2 py-2 flex-col flex-auto text-center bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] z-50 opacity-90'
@@ -85,7 +99,7 @@ export const MobileUserPanel = ({
                 transition={{ duration: .25, type: "tween"}}
                 variants={auxVariants}
             >
-                <AuxillaryPanel section={currentAuxSection} isDark={isDark}/>
+                <AuxillaryPanel section={currentAuxSection} isDark={isDark} currentPage={currentPage}/>
             </motion.div>            
         </div>
     );
