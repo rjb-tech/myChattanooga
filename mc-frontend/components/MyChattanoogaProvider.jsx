@@ -32,7 +32,6 @@ export const MyChattanoogaProvider = ({ children }) => {
     const [ defaultWeatherLocation, setDefaultWeatherLocation ] = useState(null);
     const [ settingsPanelExpanded, setSettingsPanelExpanded ] = useState(false);
     const [ auxPanelExpanded, setAuxPanelExpanded ] = useState(false);
-    const [ contentItems, setContentItems ] = useState([]);
 
     function toggleMobileNav() {
         setMenuExpanded(menuExpanded => !menuExpanded);
@@ -106,7 +105,6 @@ export const MyChattanoogaProvider = ({ children }) => {
                             toggleDarkMode={toggleDarkMode}
                             setAuxPanelExpanded={setAuxPanelExpanded}
                             auxPanelExpanded={auxPanelExpanded}
-                            contentItems={contentItems}
                         />
                     </motion.div>
                     <div className={childrenWrapperClassString}>
@@ -119,7 +117,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                             }}
                             variants={childrenComponentVariants}
                         >
-                            {cloneElement(children, {contentItems: contentItems, setContentItems: setContentItems})}
+                            {children}
                         </motion.div>
                     </div>
                 </main>

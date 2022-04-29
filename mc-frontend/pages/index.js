@@ -3,7 +3,7 @@ import { Article } from "../components/Article"
 import { motion } from "framer-motion"
 const axios = require('axios');
 
-export default function Home(pageProps) {
+export default function Home(props) {
   const [ articles, setArticles ] = useState([]);
   const [ articlesLoading, setArticlesLoading ] = useState(false);
 
@@ -22,12 +22,6 @@ export default function Home(pageProps) {
     fetchData();
     setArticlesLoading(false);
   }, [])
-
-  // const setContent = () => {
-  //   setContentItems(articles);
-  // }
-
-  // setContent()
 
   return (
     <div className="flex mx-auto">

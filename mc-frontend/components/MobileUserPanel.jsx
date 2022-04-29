@@ -19,7 +19,6 @@ export const MobileUserPanel = ({
     currentPage, 
     setAuxPanelExpanded,
     auxPanelExpanded,
-    contentItems
 }) => {  
     const [ filtersApplied, setFiltersApplied ] = useState([]);
     const [ currentAuxSection, setCurrentAuxSection ] = useState("");
