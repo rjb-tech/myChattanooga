@@ -9,7 +9,6 @@ import { MobileUserPanel } from "./MobileUserPanel"
 import { faAngleUp } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { motion } from "framer-motion"
-import { cloneElement } from "react"
 
 const MyChattanoogaContext = createContext();
 
