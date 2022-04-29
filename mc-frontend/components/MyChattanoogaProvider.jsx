@@ -9,6 +9,7 @@ import { MobileUserPanel } from "./MobileUserPanel"
 import { faAngleUp } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { motion } from "framer-motion"
+import { cloneElement } from "react"
 
 const MyChattanoogaContext = createContext();
 
@@ -64,8 +65,6 @@ export const MyChattanoogaProvider = ({ children }) => {
         setSettingsPanelExpanded: {setSettingsPanelExpanded},
         auxPanelExpanded: {auxPanelExpanded},
         setAuxPanelExpanded: {setAuxPanelExpanded},
-        contentItems: {contentItems},
-        setContentItems: {setContentItems}
     }
 
     const childrenWrapperClassString = (menuExpanded === true) 
@@ -120,7 +119,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                             }}
                             variants={childrenComponentVariants}
                         >
-                            {children}
+                            {cloneElement(children, {contentItems: contentItems})}
                         </motion.div>
                     </div>
                 </main>
