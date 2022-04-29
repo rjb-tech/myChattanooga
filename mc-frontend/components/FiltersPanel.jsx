@@ -1,8 +1,6 @@
-export const FiltersPanel = ({ contentToFilter }) => {
-    const filterOptions = [...new Set(contentToFilter.map((content) => content.publisher))];
+export const FiltersPanel = ({}) => {
     return (
         <div className="h-full w-full">
-            {filterOptions[0]}
         </div>
     )
 }

@@ -85,7 +85,7 @@ export const MobileUserPanel = ({
                 transition={{ duration: .25, type: "tween"}}
                 variants={auxVariants}
             >
-                <AuxillaryPanel section={currentAuxSection} isDark={isDark} contentToFilter={contentItems}/>
+                <AuxillaryPanel section={currentAuxSection} isDark={isDark}/>
             </motion.div>            
         </div>
     );
