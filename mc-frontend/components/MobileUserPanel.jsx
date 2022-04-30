@@ -58,7 +58,7 @@ export const MobileUserPanel = ({
         else {
             if (incomingSection === currentAuxSection) {
                 setAuxPanelExpanded(false);
-                setCurrentAuxSection("");
+                setTimeout(() => setCurrentAuxSection(""), 150)
             }
             else {
                 // This may be unnecessary sometime in the future
@@ -74,15 +74,12 @@ export const MobileUserPanel = ({
         setCurrentPage(windowPathname);
     }, [])
 
-    const userPanelClassString = auxPanelExpanded===true ? 'h-fit w-full divide-y-2 py-2 flex-col flex-auto text-center bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] z-50' 
-                                                         : 'h-fit w-full divide-y-2 py-2 flex-col flex-auto text-center bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] z-50 opacity-90'
-
     return (
         <div className='flex-col items-center'>
             <div 
                 className="items-center w-full" 
             >
-                <div className='h-fit w-full divide-y-2 py-2 flex-col flex-auto text-center bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] z-30'>
+                <div className='h-fit w-full divide-y-2 py-2 flex-col flex-auto text-center bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] z-50'>
                     <div className='h-16 w-full flex justify-evenly items-center'>
                         <motion.button whileTap={{ scale: 0.85 }} className='bg-[#FFF] dark:bg-[#222] h-2/3 rounded-full flex-1 z-30' onClick={() => toggleDarkMode()}>
                             <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={darkModeIcon} style={{color: `${iconColor}`}} />
@@ -113,7 +110,7 @@ export const MobileUserPanel = ({
                     
             </div>
             <motion.div
-                className='h-40 w-screen absolute bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] shadow-md overscroll-auto'
+                className='h-40 w-screen absolute bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] shadow-md overscroll-auto z-10'
                 animate={auxPanelExpanded ? "shown" : "hidden"}
                 transition={{ duration: .25, type: "tween"}}
                 variants={auxVariants}
@@ -124,6 +121,7 @@ export const MobileUserPanel = ({
                     currentPage={currentPage} 
                     filterOptions={filterOptions}
                     setFiltersApplied={setFiltersApplied}
+                    auxPanelExpanded={auxPanelExpanded}
                 />
             </motion.div>            
         </div>
