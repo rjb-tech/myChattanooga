@@ -2,10 +2,10 @@ import {useState, useEffect} from "react"
 
 export const FiltersPanel = ({ filterOptions, setFiltersApplied }) => {
     return (
-        <div className="h-full w-full overflow-y-scroll">
+        <div className="h-full w-full">
             {filterOptions.map((currentOption) => {
                 return (
-                    <div>
+                    <div className="" key={currentOption}>
                         {currentOption}
                     </div>
                 )

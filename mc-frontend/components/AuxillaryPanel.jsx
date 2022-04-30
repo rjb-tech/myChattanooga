@@ -15,10 +15,11 @@ export const AuxillaryPanel = ({ section, isDark, currentPage, filterOptions, se
         "account": AccountPanel()
     }
     const sectionToRender = sections[`${section}`];
+    const auxPanelBaseClass = "w-5/6 mx-auto h-5/6 overflow-y-scroll flex items-center justify-center"
     return (
         <motion.div 
             //  This dynamic className string makes auxPanel transitions all pretty based on open/close
-            className={auxPanelExpanded===true ? "w-5/6 mx-auto h-full transition-[350ms] ease-linear" : "w-5/6 mx-auto h-full"}
+            className={auxPanelExpanded===true ? auxPanelBaseClass + " transition-[350ms] ease-linear" : auxPanelBaseClass}
             animate={auxPanelExpanded===true ? 'open' : 'closed'}
             transition={{ 
                 duration: auxPanelExpanded===true ? .3 : .1, 
