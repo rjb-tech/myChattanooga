@@ -2,7 +2,7 @@ import { StickyHeader } from "./StickyHeader"
 import { ContentZone } from "./ContentZone"
 import Head from 'next/head'
 import Image from 'next/image'
-import { useState, createContext, useRef, useEffect } from "react"
+import { useState, createContext, useRef, useEffect, cloneElement } from "react"
 import { MobileNav } from "./MobileNav"
 import Script from "next/script"
 import { MobileUserPanel } from "./MobileUserPanel"
@@ -31,6 +31,7 @@ export const MyChattanoogaProvider = ({ children }) => {
     const [ defaultWeatherLocation, setDefaultWeatherLocation ] = useState(null);
     const [ settingsPanelExpanded, setSettingsPanelExpanded ] = useState(false);
     const [ auxPanelExpanded, setAuxPanelExpanded ] = useState(false);
+    const [ filtersApplied, setFiltersApplied ] = useState([]);
 
     function toggleMobileNav() {
         setMenuExpanded(menuExpanded => !menuExpanded);
@@ -63,6 +64,8 @@ export const MyChattanoogaProvider = ({ children }) => {
         setSettingsPanelExpanded: {setSettingsPanelExpanded},
         auxPanelExpanded: {auxPanelExpanded},
         setAuxPanelExpanded: {setAuxPanelExpanded},
+        filtersApplied: {filtersApplied},
+        setFiltersApplied: {setFiltersApplied}
     }
 
     const childrenWrapperClassString = (menuExpanded === true) 
@@ -116,7 +119,8 @@ export const MyChattanoogaProvider = ({ children }) => {
                             }}
                             variants={childrenComponentVariants}
                         >
-                            {children}
+                            {cloneElement(children, {filtersApplied: filtersApplied, setFiltersApplied: setFiltersApplied})}
+                            {/* {children} */}
                         </motion.div>
                     </div>
                 </main>

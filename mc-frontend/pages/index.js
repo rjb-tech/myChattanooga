@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react"
 import { Article } from "../components/Article"
 import { motion } from "framer-motion"
+import MyChattanoogaContext from "../components/MyChattanoogaProvider";
+import { useContext } from "react";
 const axios = require('axios');
 
-export default function Home(props) {
+export default function Home({ filtersApplied, setFiltersApplied }) {
   const [ articles, setArticles ] = useState([]);
   const [ articlesLoading, setArticlesLoading ] = useState(false);
 
@@ -13,6 +15,7 @@ export default function Home(props) {
         .then((response) => {
           const data = response.data;
           setArticles(Object.values(data));
+          console.log(filtersApplied);
         })
         .catch(function (error) {
           console.log(error)
@@ -21,7 +24,7 @@ export default function Home(props) {
     setArticlesLoading(true);
     fetchData();
     setArticlesLoading(false);
-  }, [])
+  }, [filtersApplied])
 
   return (
     <div className="flex mx-auto">
