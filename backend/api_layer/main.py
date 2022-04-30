@@ -49,13 +49,11 @@ async def today_articles(publishers: list = Query(["all"])):
         if isinstance(query_table, Ok):
             table = query_table.unwrap()
             full_query = table.select()
-            # This needs testing when there are actually articles in the db
             filtered_query = select(table).where(table.c.publisher.in_(publishers))
-            print(filtered_query)
             if publishers[0] == "all":    
                 data = await database.get_db_obj().fetch_all(full_query)
-            # else:
-            #     data = await database.get_db_obj().fetch_all(filtered_query)
+            else:
+                data = await database.get_db_obj().fetch_all(filtered_query)
             return [row for row in data]
 
     query_results = await get_query_results(get_articles)
