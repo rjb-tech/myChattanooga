@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { faFilter, faGear, faSun, faMoon, faUser } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
 import { AuxillaryPanel } from './AuxillaryPanel';
+import { getFilteredQueryString } from './helpers';
+
 const axios = require('axios');
 
 const auxVariants = {
@@ -22,15 +24,31 @@ export const MobileUserPanel = ({
 }) => {  
     const [ currentAuxSection, setCurrentAuxSection ] = useState("");
     const [ currentPage, setCurrentPage ] = useState("");
+    const [ filterOptions, setFilterOptions ] = useState([]);
     const iconColor = isDark===true ? '#FFF' : '#222'
     const darkModeIcon = isDark===true ? faSun : faMoon
 
     function handleAuxPanel(incomingSection) {
         function setFilters(page) {
-            // Use this function to call the appropriate endpoint and gather filter options based on that
-            // if page is '/' => fetch('api/articles')
-            // if page is '/brews/ => fetch('api/brews')
-            console.log(currentPage)
+            // This isn't done, still figuring out the data.map
+            if (currentPage === "/") {
+                const result = axios.get("api/articles")
+                    .then((response) => {
+                        const data = response.data;
+                        // https://www.freecodecamp.org/news/how-to-make-a-filter-component-in-react/
+                        const publishers = [...new Set(data.map((contentItem) => contentItem.publisher))];
+                        setFilterOptions(publishers); // This isn't setting filter options until second refresh for some reason
+                        
+                        // START HERE WORK ON FILTERS YOU GOT THIS
+                    })
+                    console.log(filterOptions);
+                    console.log(getFilteredQueryString(filterOptions, currentPage));
+                    // setFiltersApplied(^)
+
+            }
+            else if (currentPage === "/brews") {
+
+            }
         }
         if (auxPanelExpanded === false) {
             if (incomingSection==="filters") {setFilters(currentPage)}
@@ -100,7 +118,13 @@ export const MobileUserPanel = ({
                 transition={{ duration: .25, type: "tween"}}
                 variants={auxVariants}
             >
-                <AuxillaryPanel section={currentAuxSection} isDark={isDark} currentPage={currentPage}/>
+                <AuxillaryPanel 
+                    section={currentAuxSection} 
+                    isDark={isDark} 
+                    currentPage={currentPage} 
+                    filterOptions={filterOptions}
+                    setFiltersApplied={setFiltersApplied}
+                />
             </motion.div>            
         </div>
     );
