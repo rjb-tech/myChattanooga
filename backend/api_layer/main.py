@@ -55,6 +55,8 @@ async def today_articles(publishers: list = Query(["all"])):
             else:
                 data = await database.get_db_obj().fetch_all(filtered_query)
             return [row for row in data]
+        else:
+            return "DB Module error"
 
     query_results = await get_query_results(get_articles)
     return query_results
