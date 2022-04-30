@@ -1,7 +1,7 @@
 import logging
 import asyncio
-
-from fastapi import FastAPI
+from sqlalchemy.sql import select
+from fastapi import FastAPI, Query
 from database_module import (
     Article, 
     Stat,
@@ -13,7 +13,8 @@ from result import (
     Err
 )
 from typing import (
-    List
+    List,
+    Optional
 )
 
 
@@ -40,16 +41,23 @@ async def shutdown():
 
 
 @app.get("/articles", response_model=List[Article], response_model_exclude_none=True)
-async def today_articles():
+async def today_articles(publishers: list = Query(["all"])):
     async def get_articles(conn):
         # Get result from the MC_Connection method and check for validity
         #   before sending payload
-        query_base = database.get_table("articles")
-        if isinstance(query_base, Ok):
-            full_query = query_base.unwrap().select()
-            data = await database.get_db_obj().fetch_all(full_query)
+        query_table = database.get_table("articles")
+        if isinstance(query_table, Ok):
+            table = query_table.unwrap()
+            full_query = table.select()
+            # This needs testing when there are actually articles in the db
+            filtered_query = select(table).where(table.c.publisher.in_(publishers))
+            print(filtered_query)
+            if publishers[0] == "all":    
+                data = await database.get_db_obj().fetch_all(full_query)
+            # else:
+            #     data = await database.get_db_obj().fetch_all(filtered_query)
             return [row for row in data]
-    
+
     query_results = await get_query_results(get_articles)
     return query_results
 
