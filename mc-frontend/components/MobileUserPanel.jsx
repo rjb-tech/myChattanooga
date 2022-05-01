@@ -36,7 +36,7 @@ export const MobileUserPanel = ({
                     .then((response) => {
                         const data = response.data;
                         // https://www.freecodecamp.org/news/how-to-make-a-filter-component-in-react/
-                        const publishers = [...new Set(data.map((contentItem) => contentItem.publisher))];
+                        const publishers = [...new Set(data.map((contentItem) => contentItem.publisher))].sort();
                         setFilterOptions(publishers); // This isn't setting filter options until second refresh for some reason
                         
                         // START HERE WORK ON FILTERS YOU GOT THIS
