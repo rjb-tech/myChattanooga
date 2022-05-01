@@ -39,6 +39,7 @@ export function getFilteredQueryString(filtersToApply, currentPage) {
         urlToReturn = urlToReturn + 'publishers=' + filtersToApply[i] + '&'
     }
 
-    return urlToReturn;
+    // The slice takes out the trailing & character left by the loop logic
+    return urlToReturn.slice(0,-1);
 
 }
