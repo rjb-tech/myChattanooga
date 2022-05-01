@@ -26,6 +26,18 @@ export default function Home({ filtersApplied, setFiltersApplied }) {
     setArticlesLoading(false);
   }, [filtersApplied])
 
+  var headlineString = ""
+  if (filtersApplied.length === 0) {
+    headlineString = "All Local Articles"
+  }
+  else if (filtersApplied.length === 1) {
+    headlineString = filtersApplied[0] + " Articles"
+  }
+  else {
+    headlineString = "Filtered articles"
+  }
+
+
   return (
     <div className="flex mx-auto">
       <div className="hidden md:block md:h-fit w-4/12 lg:w-2/12 flex-auto md:mr-2 lg:mr-4 border-r-2 sticky top-8">
@@ -37,7 +49,7 @@ export default function Home({ filtersApplied, setFiltersApplied }) {
 
       <div className="h-full w-full flex-col px-6">
         <div className="sticky w-full h-fit top-0 md:pl-2 mb-2 md:mb-6">
-          <h1 className="text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF]">All Local Articles</h1>
+          <h1 className="text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF]">{headlineString}</h1>
         </div>
         
         <div className="flex-auto grid sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 w-full h-fit z-auto sticky top-0 bg-[#FFF] dark:bg-[#222]">
