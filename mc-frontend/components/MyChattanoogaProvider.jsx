@@ -112,7 +112,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                     <div className={childrenWrapperClassString}>
                         <motion.div 
                             animate={panelExpanded===true ? 'extended' : 'normal'}
-                            className="scroll-smooth p-6 lg:px-8 lg:pt-8"
+                            className="scroll-smooth p-2 lg:px-8 lg:pt-8"
                             transition={{ 
                                 duration: panelExpanded===true ? .3 : .5,
                                 type: "tween"

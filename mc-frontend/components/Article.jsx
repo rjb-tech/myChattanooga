@@ -13,8 +13,8 @@ export const Article = ({ publisher, headline, timePosted, image, link }) => {
                         <Image
                             className="rounded-md"
                             src={image}
-                            height={1} // This will have to be tinkered with, probs needs a ternary operator thingy
-                            width={1}
+                            height={10} // This will have to be tinkered with, probs needs a ternary operator thingy
+                            width={16}
                             layout="responsive"
                         />
                     </div>
