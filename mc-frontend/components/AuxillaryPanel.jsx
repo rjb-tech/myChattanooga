@@ -19,10 +19,10 @@ export const AuxillaryPanel = ({ section, isDark, currentPage, filterOptions, se
     return (
         <motion.div 
             //  This dynamic className string makes auxPanel transitions all pretty based on open/close
-            className={auxPanelExpanded===true ? auxPanelBaseClass + " transition-[350ms] ease-linear" : auxPanelBaseClass}
+            className={auxPanelExpanded===true ? auxPanelBaseClass + " transition-[300ms] ease-linear" : auxPanelBaseClass}
             animate={auxPanelExpanded===true ? 'open' : 'closed'}
             transition={{ 
-                duration: auxPanelExpanded===true ? .3 : .1, 
+                duration: auxPanelExpanded===true ? .25 : .1, 
                 type: "tween"
             }}
             variants={variants}

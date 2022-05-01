@@ -72,6 +72,13 @@ export const MobileUserPanel = ({
     useEffect(() => {
         const windowPathname = window.location.pathname;
         setCurrentPage(windowPathname);
+        const result = axios.get("api/articles")
+                    .then((response) => {
+                        const data = response.data;
+                        // https://www.freecodecamp.org/news/how-to-make-a-filter-component-in-react/
+                        const publishers = [...new Set(data.map((contentItem) => contentItem.publisher))].sort();
+                        setFilterOptions(publishers);
+                    })
     }, [])
 
     return (
