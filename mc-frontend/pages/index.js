@@ -23,8 +23,7 @@ export default function Home({ filterApplied, toggleMobileUserPanel, pageContent
     setArticlesLoading(true);
     fetchData();
     setArticlesLoading(false);
-  }, [filterApplied])
-  // Maybe change the useEffect hook to only grab articles at mount time and just show filtered articles
+  }, [])
 
   var headlineString = ""
   if (filterApplied === "all") {
