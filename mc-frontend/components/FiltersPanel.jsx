@@ -8,7 +8,7 @@ export const FiltersPanel = ({ filterOptions, setFilterApplied }) => {
                     <div className="py-1" key={currentOption}>
                         <button 
                             className="flex-auto mx-auto border p-2 rounded-lg w-full"
-                            onClick={() => console.log(setFilterApplied)}
+                            onClick={() => setFilterApplied(`${currentOption}`)}
                         >
                             {currentOption}
                         </button>

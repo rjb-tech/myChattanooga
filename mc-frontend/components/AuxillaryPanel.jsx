@@ -17,9 +17,9 @@ export const AuxillaryPanel = ({
     auxPanelExpanded 
 }) => {
     const sections = {
-        "filters": FiltersPanel({filterOptions}, {setFilterApplied}),
-        "settings": SettingsPanel(isDark={isDark}),
-        "account": AccountPanel()
+        "filters": <FiltersPanel filterOptions={filterOptions} setFilterApplied={setFilterApplied} />,
+        "settings": <SettingsPanel isDark={isDark} />,
+        "account": <AccountPanel />
     }
     
     const sectionToRender = sections[`${section}`];
