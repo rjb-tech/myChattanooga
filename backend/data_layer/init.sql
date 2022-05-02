@@ -13,14 +13,14 @@ CREATE TABLE stats
                         publisher   TEXT    PRIMARY KEY     NOT NULL,
                         scraped     TEXT                    NOT NULL,
                         relevant    TEXT                    NOT NULL,
-                        date        TIMESTAMP               NOT NULL                       
+                        date        TIMESTAMPTZ             NOT NULL                       
                     );
             
 CREATE TABLE tfp
                     (
                         id          TEXT    PRIMARY KEY     NOT NULL,
                         headline    TEXT                    NOT NULL,
-                        time_posted TIMESTAMP               NOT NULL                
+                        time_posted TIMESTAMPTZ             NOT NULL                
                     );
 
 CREATE TABLE weather
