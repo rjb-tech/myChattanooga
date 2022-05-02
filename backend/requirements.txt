@@ -14,3 +14,4 @@ asyncpg
 result==0.7.0
 django
 psycopg2
+prefect
