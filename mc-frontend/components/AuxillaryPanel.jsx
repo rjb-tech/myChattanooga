@@ -12,12 +12,13 @@ export const AuxillaryPanel = ({
     section, 
     isDark, 
     currentPage, 
-    filterOptions, 
+    filterOptions,
+    filterApplied, 
     setFilterApplied, 
     auxPanelExpanded 
 }) => {
     const sections = {
-        "filters": <FiltersPanel filterOptions={filterOptions} setFilterApplied={setFilterApplied} />,
+        "filters": <FiltersPanel filterOptions={filterOptions} filterApplied={filterApplied} setFilterApplied={setFilterApplied} />,
         "settings": <SettingsPanel isDark={isDark} />,
         "account": <AccountPanel />
     }

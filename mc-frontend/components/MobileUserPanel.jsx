@@ -19,6 +19,7 @@ export const MobileUserPanel = ({
     toggleDarkMode, 
     setAuxPanelExpanded,
     auxPanelExpanded,
+    filterApplied,
     setFilterApplied
 }) => {  
     const [ currentAuxSection, setCurrentAuxSection ] = useState("");
@@ -126,6 +127,7 @@ export const MobileUserPanel = ({
                     isDark={isDark} 
                     currentPage={currentPage} 
                     filterOptions={filterOptions}
+                    filterApplied={filterApplied}
                     setFilterApplied={setFilterApplied}
                     auxPanelExpanded={auxPanelExpanded}
                 />

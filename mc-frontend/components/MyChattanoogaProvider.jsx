@@ -113,6 +113,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                             toggleDarkMode={toggleDarkMode}
                             setAuxPanelExpanded={setAuxPanelExpanded}
                             auxPanelExpanded={auxPanelExpanded}
+                            filterApplied={filterApplied}
                             setFilterApplied={setFilterApplied}
                         />
                     </motion.div>
