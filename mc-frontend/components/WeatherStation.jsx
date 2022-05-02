@@ -382,7 +382,6 @@ export const WeatherStation = ({ isDark }) => {
     const [ currentSunset, setCurrentSunset ] = useState(0);
     const [ currentHumidity, setCurrentHumidity ] = useState(0);
     const [ isLoading, setIsLoading ] = useState(false);
-    const [ cloudPercent, setCloudPercent ] = useState(0);
     const [ windSpeed, setWindSpeed ] = useState(0);
     const [ windDirectionInDegrees, setWindDirectionInDegrees ] = useState(0);
 
@@ -404,7 +403,6 @@ export const WeatherStation = ({ isDark }) => {
             setCurrentSunrise(data.sys.sunrise);
             setCurrentSunset(data.sys.sunset);
             setCurrentHumidity(data.main.humidity);
-            setCloudPercent(data.clouds.all);
             setWindSpeed(data.wind.speed);
             setWindDirectionInDegrees(data.wind.degrees);
             setIsLoading(false);
