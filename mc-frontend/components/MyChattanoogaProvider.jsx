@@ -32,6 +32,7 @@ export const MyChattanoogaProvider = ({ children }) => {
     const [ settingsPanelExpanded, setSettingsPanelExpanded ] = useState(false);
     const [ auxPanelExpanded, setAuxPanelExpanded ] = useState(false);
     const [ filterApplied, setFilterApplied ] = useState("all");
+    const [ pageContent, setPageContent ] = useState([]);
 
     function toggleMobileNav() {
         setMenuExpanded(menuExpanded => !menuExpanded);
@@ -115,6 +116,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                             auxPanelExpanded={auxPanelExpanded}
                             filterApplied={filterApplied}
                             setFilterApplied={setFilterApplied}
+                            pageContent={pageContent}
                         />
                     </motion.div>
                     <div className={childrenWrapperClassString}>
@@ -129,7 +131,9 @@ export const MyChattanoogaProvider = ({ children }) => {
                         >
                             {cloneElement(children, {filterApplied: filterApplied, 
                                                      setFilterApplied: setFilterApplied,
-                                                     toggleMobileUserPanel: toggleMobileUserPanel
+                                                     toggleMobileUserPanel: toggleMobileUserPanel,
+                                                     pageContent: pageContent,
+                                                     setPageContent: setPageContent
                                                     })}
                             {/* {children} */}
                         </motion.div>

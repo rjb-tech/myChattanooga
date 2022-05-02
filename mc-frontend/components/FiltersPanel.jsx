@@ -2,9 +2,9 @@ import {useState, useEffect} from "react"
 
 export const FiltersPanel = ({ filterOptions, filterApplied, setFilterApplied }) => {
     return (
-        <div className="h-full w-full flex-col">
+        <div className="h-full w-full px-4 flex-col">
             <div>
-                <button className="flex-auto mx-auto border p-2 rounded-lg w-full"
+                <button className="flex-auto mx-auto border py-2 rounded-lg w-full"
                             onClick={() => {
                                 setFilterApplied("all");
                             }}
@@ -16,7 +16,7 @@ export const FiltersPanel = ({ filterOptions, filterApplied, setFilterApplied })
                 return (
                     <div className="py-1" key={currentOption}>
                         <button 
-                            className="flex-auto mx-auto border p-2 rounded-lg w-full"
+                            className="flex-auto mx-auto border py-2 rounded-lg w-full"
                             onClick={() => {
                                 if (filterApplied != `${currentOption}`) {
                                     setFilterApplied(`${currentOption}`);

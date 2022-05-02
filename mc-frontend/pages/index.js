@@ -5,7 +5,7 @@ import MyChattanoogaContext from "../components/MyChattanoogaProvider";
 import { useContext } from "react";
 const axios = require('axios');
 
-export default function Home({ filterApplied, toggleMobileUserPanel }) {
+export default function Home({ filterApplied, toggleMobileUserPanel, pageContent, setPageContent }) {
   const [ articles, setArticles ] = useState([]);
   const [ articlesLoading, setArticlesLoading ] = useState(false);
 
@@ -14,8 +14,7 @@ export default function Home({ filterApplied, toggleMobileUserPanel }) {
       const result = await axios.get('/api/articles')
         .then((response) => {
           const data = response.data;
-          setArticles(Object.values(data));
-          console.log(filterApplied);
+          setPageContent(Object.values(data));
         })
         .catch(function (error) {
           console.log(error)
@@ -51,7 +50,7 @@ export default function Home({ filterApplied, toggleMobileUserPanel }) {
         </div>
         
         <div className="flex-auto grid sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 w-full h-fit z-auto sticky top-0 bg-[#FFF] dark:bg-[#222]">
-          {articles.map((story) => {
+          {pageContent.map((story) => {
             if (filterApplied === "all") {
               return (
                 <div className="py-2 sm:px-2" key={story.headline}>
