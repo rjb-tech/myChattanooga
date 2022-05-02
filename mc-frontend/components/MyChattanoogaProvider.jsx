@@ -31,7 +31,7 @@ export const MyChattanoogaProvider = ({ children }) => {
     const [ defaultWeatherLocation, setDefaultWeatherLocation ] = useState(null);
     const [ settingsPanelExpanded, setSettingsPanelExpanded ] = useState(false);
     const [ auxPanelExpanded, setAuxPanelExpanded ] = useState(false);
-    const [ filtersApplied, setFiltersApplied ] = useState([]);
+    const [ filterApplied, setFilterApplied ] = useState("");
 
     function toggleMobileNav() {
         setMenuExpanded(menuExpanded => !menuExpanded);
@@ -64,8 +64,8 @@ export const MyChattanoogaProvider = ({ children }) => {
         setSettingsPanelExpanded: {setSettingsPanelExpanded},
         auxPanelExpanded: {auxPanelExpanded},
         setAuxPanelExpanded: {setAuxPanelExpanded},
-        filtersApplied: {filtersApplied},
-        setFiltersApplied: {setFiltersApplied}
+        filterApplied: {filterApplied},
+        setFilterApplied: {setFilterApplied}
     }
 
     const childrenWrapperClassString = (menuExpanded === true) 
@@ -125,8 +125,8 @@ export const MyChattanoogaProvider = ({ children }) => {
                             }}
                             variants={childrenComponentVariants}
                         >
-                            {cloneElement(children, {filtersApplied: filtersApplied, 
-                                                     setFiltersApplied: setFiltersApplied,
+                            {cloneElement(children, {filterApplied: filterApplied, 
+                                                     setFilterApplied: setFilterApplied,
                                                      toggleMobileUserPanel: toggleMobileUserPanel
                                                     })}
                             {/* {children} */}

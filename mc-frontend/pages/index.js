@@ -5,7 +5,7 @@ import MyChattanoogaContext from "../components/MyChattanoogaProvider";
 import { useContext } from "react";
 const axios = require('axios');
 
-export default function Home({ filtersApplied, setFiltersApplied, toggleMobileUserPanel }) {
+export default function Home({ filterApplied, setFilterApplied, toggleMobileUserPanel }) {
   const [ articles, setArticles ] = useState([]);
   const [ articlesLoading, setArticlesLoading ] = useState(false);
 
@@ -15,7 +15,7 @@ export default function Home({ filtersApplied, setFiltersApplied, toggleMobileUs
         .then((response) => {
           const data = response.data;
           setArticles(Object.values(data));
-          console.log(filtersApplied);
+          console.log(filterApplied);
         })
         .catch(function (error) {
           console.log(error)
@@ -24,14 +24,15 @@ export default function Home({ filtersApplied, setFiltersApplied, toggleMobileUs
     setArticlesLoading(true);
     fetchData();
     setArticlesLoading(false);
-  }, [filtersApplied])
+  }, [filterApplied])
+  // Maybe change the useEffect hook to only grab articles at mount time and just show filtered articles
 
   var headlineString = ""
-  if (filtersApplied.length === 0) {
+  if (filterApplied.length === 0) {
     headlineString = "All Local Articles"
   }
-  else if (filtersApplied.length === 1) {
-    headlineString = filtersApplied[0] + " Articles"
+  else if (filterApplied.length === 1) {
+    headlineString = filterApplied[0] + " Articles"
   }
   else {
     headlineString = "Filtered articles"

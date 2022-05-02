@@ -1,14 +1,14 @@
 import {useState, useEffect} from "react"
 
-export const FiltersPanel = ({ filterOptions, setFiltersApplied }) => {
+export const FiltersPanel = ({ filterOptions, setFilterApplied }) => {
     return (
         <div className="h-full w-full flex-col">
             {filterOptions.map((currentOption) => {
                 return (
                     <div className="py-1" key={currentOption}>
-                        <div className="flex-auto mx-auto border p-2 rounded-lg">
+                        <button className="flex-auto mx-auto border p-2 rounded-lg w-full">
                             {currentOption}
-                        </div>
+                        </button>
                     </div>
                 )
             })}
