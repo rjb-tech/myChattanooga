@@ -3,7 +3,7 @@ import logging
 from typing import Any, Optional
 import databases
 import sqlalchemy
-from sqlalchemy.pool import QueuePool
+from sqlalchemy.dialects.postgresql import REAL
 from datetime import datetime
 from pydantic import BaseModel
 from databases import Database
@@ -79,7 +79,21 @@ class MC_Connection:
         sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
         sqlalchemy.Column("headline", sqlalchemy.Text),
         sqlalchemy.Column("time_posted", sqlalchemy.TIMESTAMP)
-    )    
+    )  
+
+    tables["weather_table"] = sqlalchemy.Table(
+        "weather",
+        local_metadata,
+        sqlalchemy.Column("weather_location", sqlalchemy.String(50), primary_key=True),
+        sqlalchemy.Column("temp", REAL),
+        sqlalchemy.Column("humidity", REAL),
+        sqlalchemy.Column("weather_code", sqlalchemy.Integer),
+        sqlalchemy.Column("weather_description", sqlalchemy.Text),
+        sqlalchemy.Column("sunrise", sqlalchemy.TIMESTAMP),
+        sqlalchemy.Column("sunset", sqlalchemy.TIMESTAMP),
+        sqlalchemy.Column("wind_speed", sqlalchemy.Integer),
+        sqlalchemy.Column("wind_direction", sqlalchemy.Integer)
+    )  
     
     # Constructor
     def __init__(self) -> None:
