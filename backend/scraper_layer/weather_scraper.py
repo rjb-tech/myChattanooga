@@ -76,9 +76,11 @@ locations = {
 }
 
 def main():
+    db_conn = MC_Connection().plug_in()
+    weather_table = MC_Connection.get_table("weather")
     for location in locations:
-        weather_url = f"https://api.openweathermap.org/data/2.5/weather?lat={location['latitude']}&lon={location['longitude']}&appid={os.environ['OWM_API_KEY']}&units=imperial"
-        data = requests.get(weather_url)
+        current_endpoint = f"https://api.openweathermap.org/data/2.5/weather?lat={location['latitude']}&lon={location['longitude']}&appid={os.environ['OWM_API_KEY']}&units=imperial"
+        current_weather_data = requests.get(current_endpoint)
         # Put in db here
 
 print("Hi from the weather scraper :)")
