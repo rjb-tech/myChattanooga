@@ -93,6 +93,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                             menuExpanded={menuExpanded} 
                             setMenuExpanded={setMenuExpanded}
                             toggleMobileUserPanel={toggleMobileUserPanel}
+                            panelExpanded={panelExpanded}
                         />
                     </div>
                     {/* There's some weird jitter going on weirdly */}

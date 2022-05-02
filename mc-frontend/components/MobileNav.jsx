@@ -12,7 +12,7 @@ const variants = {
     closed: { opacity: 0, x: "0%" },
 }
 
-export const MobileNav = ({ menuExpanded, isDark, setMenuExpanded }) => {  
+export const MobileNav = ({ menuExpanded, isDark, setMenuExpanded, toggleMobileUserPanel, panelExpanded }) => {  
     return (
             <motion.nav 
                 className="items-center w-full shadow-lg mx-auto bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] rounded-b-xl"
@@ -27,7 +27,9 @@ export const MobileNav = ({ menuExpanded, isDark, setMenuExpanded }) => {
                     <div className='h-12 w-full p-1 flex items-center'>
                         <Link href='/brews'>
                             <a>
-                                <button className='w-screen h-5/6' onClick={() => setMenuExpanded(false)}>
+                                <button className='w-screen h-5/6' onClick={() => {setMenuExpanded(false); 
+                                                                                    if (panelExpanded===true) {toggleMobileUserPanel()}
+                                                                                }}>
                                     Brews
                                 </button>
                             </a>
@@ -36,7 +38,9 @@ export const MobileNav = ({ menuExpanded, isDark, setMenuExpanded }) => {
                     <div className='h-12 w-full p-1 flex items-center'>
                         <Link href='/'>
                             <a>
-                                <button className='w-screen h-5/6' onClick={() => setMenuExpanded(false)}>
+                                <button className='w-screen h-5/6' onClick={() => {setMenuExpanded(false); 
+                                                                                    if (panelExpanded===true) {toggleMobileUserPanel()}
+                                                                                }}>
                                     News
                                 </button>
                             </a>
@@ -45,7 +49,9 @@ export const MobileNav = ({ menuExpanded, isDark, setMenuExpanded }) => {
                     <div className='h-12 w-full p-1 flex items-center'>
                         <Link href='/faq'>
                             <a>
-                                <button className='w-screen h-5/6' onClick={() => setMenuExpanded(false)}>
+                                <button className='w-screen h-5/6' onClick={() => {setMenuExpanded(false); 
+                                                                                    if (panelExpanded===true) {toggleMobileUserPanel()}
+                                                                                }}>
                                     FAQ
                                 </button>
                             </a>
