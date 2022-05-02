@@ -28,14 +28,11 @@ export default function Home({ filterApplied, setFilterApplied, toggleMobileUser
   // Maybe change the useEffect hook to only grab articles at mount time and just show filtered articles
 
   var headlineString = ""
-  if (filterApplied.length === 0) {
+  if (filterApplied === "") {
     headlineString = "All Local Articles"
   }
-  else if (filterApplied.length === 1) {
-    headlineString = filterApplied[0] + " Articles"
-  }
   else {
-    headlineString = "Filtered articles"
+    headlineString = filterApplied + " Articles"
   }
 
 
