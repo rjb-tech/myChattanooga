@@ -33,19 +33,8 @@ export const MobileUserPanel = ({
         function setFilters(page) {
             // This isn't done, still figuring out the data.map
             if (currentPage === "/") {
-                const result = axios.get("api/articles")
-                    .then((response) => {
-                        const data = response.data;
-                        // https://www.freecodecamp.org/news/how-to-make-a-filter-component-in-react/
-                        const publishers = [...new Set(data.map((contentItem) => contentItem.publisher))].sort();
-                        setFilterOptions(publishers); // This isn't setting filter options until second refresh for some reason
-                        
-                        // START HERE WORK ON FILTERS YOU GOT THIS
-                    })
-                    console.log(filterOptions);
-                    console.log(getFilteredQueryString(filterOptions, currentPage));
-                    // setFiltersApplied(^)
-
+                const publishers = [...new Set(pageContent.map((contentItem) => contentItem.publisher))].sort();
+                setFilterOptions(publishers);
             }
             else if (currentPage === "/brews") {
 
@@ -71,10 +60,7 @@ export const MobileUserPanel = ({
     }
 
     useEffect(() => {
-        const windowPathname = window.location.pathname;
-        setCurrentPage(windowPathname);
-        const publishers = [...new Set(pageContent.map((contentItem) => contentItem.publisher))].sort();
-        setFilterOptions(publishers);
+        setCurrentPage(window.location.pathname);
     }, [])
 
     return (
