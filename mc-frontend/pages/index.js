@@ -48,7 +48,7 @@ export default function Home({ filterApplied, toggleMobileUserPanel, pageContent
           <h1 className="text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF]">{headlineString}</h1>
         </div>
         
-        <div className="flex-auto grid sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 w-full h-fit z-auto sticky top-0 bg-[#FFF] dark:bg-[#222]">
+        <div className="flex-auto grid sm:grid-cols-2 xl:grid-cols-4 w-full h-fit z-auto sticky top-0 bg-[#FFF] dark:bg-[#222]">
           {pageContent.map((story) => {
             if (filterApplied === "all") {
               return (
