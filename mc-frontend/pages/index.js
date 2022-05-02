@@ -5,7 +5,7 @@ import MyChattanoogaContext from "../components/MyChattanoogaProvider";
 import { useContext } from "react";
 const axios = require('axios');
 
-export default function Home({ filtersApplied, setFiltersApplied }) {
+export default function Home({ filtersApplied, setFiltersApplied, toggleMobileUserPanel }) {
   const [ articles, setArticles ] = useState([]);
   const [ articlesLoading, setArticlesLoading ] = useState(false);
 
