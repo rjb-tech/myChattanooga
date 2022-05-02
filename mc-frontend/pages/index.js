@@ -5,7 +5,7 @@ import MyChattanoogaContext from "../components/MyChattanoogaProvider";
 import { useContext } from "react";
 const axios = require('axios');
 
-export default function Home({ filterApplied, setFilterApplied, toggleMobileUserPanel }) {
+export default function Home({ filterApplied, toggleMobileUserPanel }) {
   const [ articles, setArticles ] = useState([]);
   const [ articlesLoading, setArticlesLoading ] = useState(false);
 
@@ -52,17 +52,34 @@ export default function Home({ filterApplied, setFilterApplied, toggleMobileUser
         
         <div className="flex-auto grid sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 w-full h-fit z-auto sticky top-0 bg-[#FFF] dark:bg-[#222]">
           {articles.map((story) => {
-            return (
-              <div className="py-2 sm:px-2" key={story.headline}>
-                <Article 
-                  headline={story.headline}
-                  timePosted={story.time_posted}
-                  publisher={story.publisher}
-                  image={story.image} 
-                  link={story.link}
-                />
-              </div>
-            )  
+            if (filterApplied === "") {
+              return (
+                <div className="py-2 sm:px-2" key={story.headline}>
+                  <Article 
+                    headline={story.headline}
+                    timePosted={story.time_posted}
+                    publisher={story.publisher}
+                    image={story.image} 
+                    link={story.link}
+                  />
+                </div>
+              )
+            }
+            else {
+              if (story.publisher === filterApplied) {
+                return (
+                  <div className="py-2 sm:px-2" key={story.headline}>
+                    <Article 
+                      headline={story.headline}
+                      timePosted={story.time_posted}
+                      publisher={story.publisher}
+                      image={story.image} 
+                      link={story.link}
+                    />
+                  </div>
+                )
+              }
+            }
           })} 
         </div>
       </div>

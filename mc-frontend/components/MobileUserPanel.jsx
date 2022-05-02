@@ -14,13 +14,12 @@ const auxVariants = {
 }
 
 export const MobileUserPanel = ({ 
+    isDark,
     panelExpanded, 
     toggleDarkMode, 
-    isDark, 
     setAuxPanelExpanded,
     auxPanelExpanded,
-    filtersApplied,
-    setFiltersApplied
+    setFilterApplied
 }) => {  
     const [ currentAuxSection, setCurrentAuxSection ] = useState("");
     const [ currentPage, setCurrentPage ] = useState("");
@@ -127,7 +126,7 @@ export const MobileUserPanel = ({
                     isDark={isDark} 
                     currentPage={currentPage} 
                     filterOptions={filterOptions}
-                    setFiltersApplied={setFiltersApplied}
+                    setFilterApplied={setFilterApplied}
                     auxPanelExpanded={auxPanelExpanded}
                 />
             </motion.div>            
