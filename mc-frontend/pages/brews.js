@@ -1,4 +1,4 @@
-export default function News(pageProps) {
+export default function Brews({ filtersApplied, setFiltersApplied, toggleMobileUserPanel }) {
     return (
       <div>
         HI MOM
