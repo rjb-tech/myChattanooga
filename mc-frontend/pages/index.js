@@ -28,7 +28,7 @@ export default function Home({ filterApplied, toggleMobileUserPanel }) {
   // Maybe change the useEffect hook to only grab articles at mount time and just show filtered articles
 
   var headlineString = ""
-  if (filterApplied === "") {
+  if (filterApplied === "all") {
     headlineString = "All Local Articles"
   }
   else {
@@ -52,7 +52,7 @@ export default function Home({ filterApplied, toggleMobileUserPanel }) {
         
         <div className="flex-auto grid sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 w-full h-fit z-auto sticky top-0 bg-[#FFF] dark:bg-[#222]">
           {articles.map((story) => {
-            if (filterApplied === "") {
+            if (filterApplied === "all") {
               return (
                 <div className="py-2 sm:px-2" key={story.headline}>
                   <Article 

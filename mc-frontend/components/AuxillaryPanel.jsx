@@ -13,7 +13,7 @@ export const AuxillaryPanel = ({
     isDark, 
     currentPage, 
     filterOptions,
-    filterApplied, 
+    filterApplied,
     setFilterApplied, 
     auxPanelExpanded 
 }) => {

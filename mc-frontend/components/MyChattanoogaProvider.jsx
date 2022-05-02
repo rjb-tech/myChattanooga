@@ -31,7 +31,7 @@ export const MyChattanoogaProvider = ({ children }) => {
     const [ defaultWeatherLocation, setDefaultWeatherLocation ] = useState(null);
     const [ settingsPanelExpanded, setSettingsPanelExpanded ] = useState(false);
     const [ auxPanelExpanded, setAuxPanelExpanded ] = useState(false);
-    const [ filterApplied, setFilterApplied ] = useState("");
+    const [ filterApplied, setFilterApplied ] = useState("all");
 
     function toggleMobileNav() {
         setMenuExpanded(menuExpanded => !menuExpanded);
