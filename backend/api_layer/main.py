@@ -3,7 +3,8 @@ import asyncio
 from sqlalchemy.sql import select
 from fastapi import FastAPI, Query
 from database_module import (
-    Article, 
+    Article,
+    Weather, 
     Stat,
     MC_Connection
 )
@@ -42,7 +43,7 @@ async def shutdown():
 
 @app.get("/articles", response_model=List[Article], response_model_exclude_none=True)
 async def today_articles(publishers: list = Query(["all"])):
-    async def get_articles(conn):
+    async def get_articles():
         # Get result from the MC_Connection method and check for validity
         #   before sending payload
         query_table = database.get_table("articles")
@@ -62,9 +63,22 @@ async def today_articles(publishers: list = Query(["all"])):
     return query_results
 
 
+@app.get("/weather", response_model=List[Weather], response_model_exclude_none=True)
+async def today_weather():
+    async def get_weather(conn):
+        query_table = database.get_table("weather")
+        if isinstance(query_table, Ok):
+            table = query_table.unwrap()
+            full_query = table.select()
+            data = await database.get_db_obj().fetch_all(full_query)
+            return [row for row in data]
+
+    query_results = await get_query_results(get_weather)
+    return query_results
+
 @app.get("/stats", response_model=List[Stat], response_model_exclude_none=True)
 async def today_stats():
-    async def get_stats(conn):
+    async def get_stats():
         # Get result from the MC_Connection method and check for validity
         #   before sending payload
         query_base = database.get_table("stats")
