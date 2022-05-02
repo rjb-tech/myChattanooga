@@ -108,7 +108,7 @@ class MC_Connection:
         return self.local_metadata
     
     # Plug in, connect if needed, return existing attribute if it exists
-    async def plug_in(self):
+    async def plug_in(self) -> None:
         if not self.db_connected:
             await self.db_obj.connect()
             self.db_connected = True
