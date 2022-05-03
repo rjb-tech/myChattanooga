@@ -441,14 +441,14 @@ export const WeatherStation = ({ isDark }) => {
         <div className='w-10/12 md:w-5/6 mx-auto'>
             <div className='flex-col w-full h-40'>
                 <div className='flex place-items-center'>
-                    <motion.button whileTap={{ scale: 0.8 }} className='w-1/12 h-full flex-auto sm:hidden' onClick={() => switchWeatherLocation(false)}>
-                        <FontAwesomeIcon icon={faAngleLeft} style={{color: `${weatherConfig.color}`}} className='w-1/2 h-1/2 flex-auto mx-auto'/>
+                    <motion.button whileTap={{ scale: 0.8 }} className='w-1/12 h-full flex-auto' onClick={() => switchWeatherLocation(false)}>
+                        <FontAwesomeIcon icon={faAngleLeft} style={{color: `${weatherConfig.color}`}} className='w-1/2 h-1/2 xl:w-1/3 xl:h-1/3 flex-auto mx-auto'/>
                     </motion.button>
-                    <div className='flex-auto text-2xl md:text-xl text-center font-bold pb-2 sm:pt-2 w-5/6'>
+                    <div className='flex-auto text-2xl md:text-2xl lg:text-3xl text-center font-bold pb-2 sm:pt-2 w-5/6'>
                         {locations[`${currentLocation}`].name}
                     </div>
-                    <motion.button whileTap={{ scale: 0.8 }} className='w-1/12 h-full flex-auto sm:hidden' onClick={() => switchWeatherLocation(true)}>
-                        <FontAwesomeIcon icon={faAngleRight} style={{color: `${weatherConfig.color}`}} className='w-1/2 h-1/2 flex-auto mx-auto'/>
+                    <motion.button whileTap={{ scale: 0.8 }} className='w-1/12 h-full flex-auto' onClick={() => switchWeatherLocation(true)}>
+                        <FontAwesomeIcon icon={faAngleRight} style={{color: `${weatherConfig.color}`}} className='w-1/2 h-1/2 xl:w-1/3 xl:h-1/3 flex-auto mx-auto'/>
                     </motion.button>
                 </div>
                 <div className='flex w-full'>
