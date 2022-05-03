@@ -39,7 +39,7 @@ export default function Home({ filterApplied, toggleMobileUserPanel, pageContent
 
   return (
     <div className="flex mx-auto">
-      <div className="hidden md:block md:h-80 w-4/12 lg:w-2/12 flex-auto md:mr-2 lg:mr-4 border-r-2 sticky top-8">
+      <div className="hidden md:block md:h-80 w-4/12 md:w-5/12 xl:w-4/12 flex-auto md:mr-2 lg:mr-4 border-r-2 sticky top-8">
         <UserPanel />
         <WeatherStation />
         <Socials />
@@ -50,7 +50,7 @@ export default function Home({ filterApplied, toggleMobileUserPanel, pageContent
           <h1 className="text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF]">{headlineString}</h1>
         </div>
         
-        <div className="flex-auto grid sm:grid-cols-2 xl:grid-cols-4 w-full h-fit z-auto sticky top-0 bg-[#FFF] dark:bg-[#222]">
+        <div className="flex-auto grid sm:grid-cols-2 xl:grid-cols-3 w-full h-fit z-auto sticky top-0 bg-[#FFF] dark:bg-[#222]">
           {pageContent.map((story) => {
             if (filterApplied === "all") {
               return (
