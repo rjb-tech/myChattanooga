@@ -6,6 +6,7 @@ import { animate, motion } from "framer-motion"
 import { useContext } from 'react';
 import MyChattanoogaContext from './MyChattanoogaProvider';
 import { WeatherStation } from './WeatherStation';
+import { Socials } from './Socials';
 
 const variants = {
     open: { opacity: 1, x: "100%" },
@@ -23,6 +24,7 @@ export const MobileNav = ({ menuExpanded, isDark, setMenuExpanded, toggleMobileU
                 <div className='h-fit w-full divide-y-2 flex-col flex-auto text-center'>
                     <div className='h-fit mx-auto py-6'>
                         <WeatherStation  isDark={isDark}/>
+                        <Socials />
                     </div>
                     <div className='h-12 w-full p-1 flex items-center'>
                         <Link href='/brews'>
