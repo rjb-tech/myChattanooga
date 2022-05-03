@@ -64,13 +64,17 @@ async def today_articles(publishers: list = Query(["all"])):
 
 
 @app.get("/weather", response_model=List[Weather], response_model_exclude_none=True)
-async def today_weather():
+async def today_weather(location: str = "all"):
     async def get_weather():
         query_table = database.get_table("weather")
         if isinstance(query_table, Ok):
             table = query_table.unwrap()
             full_query = table.select()
-            data = await database.get_db_obj().fetch_all(full_query)
+            filtered_query = select(table).where(table.c.weather_location == location)
+            if location == "all":
+                data = await database.get_db_obj().fetch_all(full_query)
+            else:
+                data = await database.get_db_obj().fetch_all(filtered_query)
             return [row for row in data]
 
     query_results = await get_query_results(get_weather)
