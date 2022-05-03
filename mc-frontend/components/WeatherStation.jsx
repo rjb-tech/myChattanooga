@@ -440,7 +440,7 @@ export const WeatherStation = ({ isDark }) => {
 
     return (
         <div className='w-10/12 md:w-5/6 mx-auto'>
-            <div className='flex-col w-full h-40'>
+            <div className='flex-col w-full h-fit'>
                 <div className='flex place-items-center'>
                     <motion.button whileTap={{ scale: 0.8 }} className='w-1/12 h-full flex-auto' onClick={() => switchWeatherLocation(false)}>
                         <FontAwesomeIcon icon={faAngleLeft} style={{color: `${weatherConfig.color}`}} className='w-1/2 h-1/2 md:w-1/3 md:h-1/3 xl:w-1/5 xl:h-1/5 flex-auto mx-auto'/>
