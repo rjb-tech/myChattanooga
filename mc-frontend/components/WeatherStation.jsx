@@ -370,10 +370,6 @@ export const WeatherStation = ({ isDark }) => {
         return now > sunrise && now < sunset ? true : false;
     }
 
-    function windDegreesToDirectoin(degrees) {
-        console.log('hi mom');
-    }
-
     const [ currentLocation, setCurrentLocation ] = useState('northChattanooga');
     const [ currentTemp, setCurrentTemp ] = useState("");
     const [ currentWeatherCode, setCurrentWeatherCode ] = useState("default");
@@ -388,23 +384,21 @@ export const WeatherStation = ({ isDark }) => {
     // Source: https://sherryhsu.medium.com/react-async-data-fetch-f5ccb107d02b
     useEffect(() => {
         const fetchData = async () => {
-            const latitude = locations[`${currentLocation}`]['latitude'];
-            const longitude = locations[`${currentLocation}`]['longitude'];
             setIsLoading(true);
-            const response = await axios.get(`/api/weather?latitude=${latitude}&longitude=${longitude}`)
+            const response = await axios.get(`/api/weather?location=${locations[currentLocation]['name']}`)
             .catch(function(error) {
                 console.log(error);
             })
-            const data = await response.data
+            const data = await response.data[0]
             
-            setCurrentTemp(data.main.temp.toFixed());
-            setCurrentWeatherCode(data.weather[0].id);
-            setWeatherDescription(data.weather[0].description);
-            setCurrentSunrise(data.sys.sunrise);
-            setCurrentSunset(data.sys.sunset);
-            setCurrentHumidity(data.main.humidity);
-            setWindSpeed(data.wind.speed);
-            setWindDirectionInDegrees(data.wind.degrees);
+            setCurrentTemp(data["temp"].toFixed());
+            setCurrentWeatherCode(data["weather_code"]);
+            setWeatherDescription(data["weather_description"]);
+            setCurrentSunrise(data["sunrise"]);
+            setCurrentSunset(data["sunset"]);
+            setCurrentHumidity(data["humidity"]);
+            setWindSpeed(data["wind_speed"]);
+            setWindDirectionInDegrees(data["wind_direction"]);
             setIsLoading(false);
         };
 
