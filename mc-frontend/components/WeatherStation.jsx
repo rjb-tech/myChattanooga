@@ -363,6 +363,7 @@ export const WeatherStation = ({ isDark }) => {
 
     const locationsIterHelper = Object.keys(locations)
 
+    // The sunrise and sunset
     function isDay(sunrise, sunset) {
         const currentDate = new Date();
         const now = currentDate.getTime() / 1000;

@@ -30,8 +30,8 @@ CREATE TABLE weather
                         humidity            REAL                            NOT NULL,
                         weather_code        INTEGER                         NOT NULL,
                         weather_description TEXT                            NOT NULL,
-                        sunrise             TIMESTAMPTZ                     NOT NULL,
-                        sunset              TIMESTAMPTZ                     NOT NULL,
+                        sunrise             INTEGER                         NOT NULL,
+                        sunset              INTEGER                         NOT NULL,
                         wind_speed          INTEGER                         NOT NULL,
                         wind_direction      VARCHAR(3)                      NOT NULL
                     );

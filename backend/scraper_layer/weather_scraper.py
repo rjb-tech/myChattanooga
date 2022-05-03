@@ -104,8 +104,8 @@ async def main():
                     "humidity": current_weather_data["main"]["humidity"],
                     "weather_code": current_weather_data["weather"][0]["id"],
                     "weather_description": current_weather_data["weather"][0]["description"],
-                    "sunrise": datetime.datetime.fromtimestamp(current_weather_data["sys"]["sunrise"], tz=datetime.timezone.utc),
-                    "sunset": datetime.datetime.fromtimestamp(current_weather_data["sys"]["sunset"], tz=datetime.timezone.utc),
+                    "sunrise": current_weather_data["sys"]["sunrise"],
+                    "sunset": current_weather_data["sys"]["sunset"],
                     "wind_speed": current_weather_data["wind"]["speed"],
                     "wind_direction": degrees_to_cardinal(current_weather_data["wind"]["deg"])
                 }
@@ -115,7 +115,7 @@ async def main():
                     humidity=insert_values["humidity"],
                     weather_code=insert_values["weather_code"],
                     weather_description=insert_values["weather_description"],
-                    sunrise=insert_values["sunrise"], # Postgres will convert tz for me yay
+                    sunrise=insert_values["sunrise"], 
                     sunset=insert_values["sunset"],
                     wind_speed=insert_values["wind_speed"],
                     wind_direction=insert_values["wind_direction"]

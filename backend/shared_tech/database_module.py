@@ -42,8 +42,8 @@ class Weather(BaseModel):
     humidity: Optional[float]
     weather_code: Optional[int]
     weather_description: Optional[str]
-    sunrise: Optional[datetime]
-    sunset: Optional[datetime]
+    sunrise: Optional[int]
+    sunset: Optional[int]
     wind_speed: Optional[int]
     wind_direction: Optional[str]
 
@@ -102,8 +102,8 @@ class MC_Connection:
         sqlalchemy.Column("humidity", REAL),
         sqlalchemy.Column("weather_code", sqlalchemy.Integer),
         sqlalchemy.Column("weather_description", sqlalchemy.Text),
-        sqlalchemy.Column("sunrise", sqlalchemy.TIMESTAMP),
-        sqlalchemy.Column("sunset", sqlalchemy.TIMESTAMP),
+        sqlalchemy.Column("sunrise", sqlalchemy.Integer),
+        sqlalchemy.Column("sunset", sqlalchemy.Integer),
         sqlalchemy.Column("wind_speed", sqlalchemy.Integer),
         sqlalchemy.Column("wind_direction", sqlalchemy.Integer)
     )  
