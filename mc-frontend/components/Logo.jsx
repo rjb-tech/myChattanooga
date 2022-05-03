@@ -4,12 +4,12 @@ import logo_dark from '../public/myChattanooga_long-light.png'
 import Link from 'next/link'
 
 export const Logo = ({ isDark }) => {
-    const actualLogo = isDark===true ? logo_dark : logo
+    const dynamicLogo = isDark===true ? logo_dark : logo
     return (
-        <div className='w-2/3 sm:w-1/4 lg:w-1/4'>
+        <div className='w-2/3 sm:w-1/4 lg:w-1/5'>
             <Link href="/">
                 <a>
-                    <Image src={actualLogo} layout='responsive' priority />
+                    <Image src={dynamicLogo} layout='responsive' priority />
                 </a>
             </Link>
         </div>
