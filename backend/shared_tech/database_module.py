@@ -1,7 +1,6 @@
 import os
 import logging
 from typing import Any, Optional
-import databases
 import sqlalchemy
 from datetime import datetime
 from sqlalchemy.dialects.postgresql import REAL
