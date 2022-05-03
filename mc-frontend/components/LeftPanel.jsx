@@ -19,9 +19,8 @@ export const LeftPanel = ({ toggleMobileNav, isDark, toggleDarkMode }) => {
                     <FontAwesomeIcon icon={faBars} style={{color: `${iconColor}`}}/>
                 </div>
             </motion.button>
-            <div className="hidden md:block w-full bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF]">
-                <UserPanel />
-                <Socials />
+            <div className="hidden flex-col md:block w-full bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF]">
+
             </div>
         </div>
     )

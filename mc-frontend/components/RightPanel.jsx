@@ -21,7 +21,6 @@ export const RightPanel = ({ toggleMobileUserPanel, isDark }) => {
                 </div>
             </motion.button>
             <div className="hidden md:block w-full bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF]">
-                <WeatherStation isDark={isDark}/>
             </div>
         </div>
     )

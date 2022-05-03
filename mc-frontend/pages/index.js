@@ -3,6 +3,9 @@ import { Article } from "../components/Article"
 import { motion } from "framer-motion"
 import MyChattanoogaContext from "../components/MyChattanoogaProvider";
 import { useContext } from "react";
+import { WeatherStation } from "../components/WeatherStation";
+import { UserPanel } from "../components/UserPanel";
+import { Socials } from "../components/Socials";
 const axios = require('axios');
 
 export default function Home({ filterApplied, toggleMobileUserPanel, pageContent, setPageContent }) {
@@ -37,10 +40,9 @@ export default function Home({ filterApplied, toggleMobileUserPanel, pageContent
   return (
     <div className="flex mx-auto">
       <div className="hidden md:block md:h-fit w-4/12 lg:w-2/12 flex-auto md:mr-2 lg:mr-4 border-r-2 sticky top-8">
-        <p className="pr-8 sticky top-0">
-          Make this the UserPanel component and import and such. should be sticky and only show on medium screen and up.
-          Otherwise the left panel up top will be the toggle for the menu. Do fancy borders and outlines next. Make it look nice
-        </p>
+        <UserPanel />
+        <WeatherStation />
+        <Socials />
       </div>
 
       <div className="h-full w-full flex-col px-6">
