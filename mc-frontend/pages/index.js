@@ -39,7 +39,7 @@ export default function Home({ filterApplied, toggleMobileUserPanel, pageContent
 
   return (
     <div className="flex mx-auto">
-      <div className="hidden md:block md:h-fit w-4/12 lg:w-2/12 flex-auto md:mr-2 lg:mr-4 border-r-2 sticky top-8">
+      <div className="hidden md:block md:h-80 w-4/12 lg:w-2/12 flex-auto md:mr-2 lg:mr-4 border-r-2 sticky top-8">
         <UserPanel />
         <WeatherStation />
         <Socials />
