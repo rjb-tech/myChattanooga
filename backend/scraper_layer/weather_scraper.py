@@ -1,7 +1,9 @@
 import os
+import asyncio
 import requests
 import sqlalchemy
-from datetime import datetime
+from sqlalchemy.dialects.postgresql import insert
+import datetime
 from database_module import (
     MC_Connection,
     Article
@@ -75,12 +77,61 @@ locations = {
     }
 }
 
-def main():
-    db_conn = MC_Connection().plug_in()
-    weather_table = MC_Connection.get_table("weather")
-    for location in locations:
-        current_endpoint = f"https://api.openweathermap.org/data/2.5/weather?lat={location['latitude']}&lon={location['longitude']}&appid={os.environ['OWM_API_KEY']}&units=imperial"
-        current_weather_data = requests.get(current_endpoint)
-        # Put in db here
 
-print("Hi from the weather scraper :)")
+# https://gist.github.com/RobertSudwarts/acf8df23a16afdb5837f
+def degrees_to_cardinal(degrees: int):
+    dirs = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW']
+    ix = round(degrees / (360. / len(dirs)))
+    return dirs[ix % len(dirs)]
+
+async def main():
+    db_conn = MC_Connection()
+    weather_table = db_conn.get_table("weather").unwrap()
+    task = asyncio.create_task(db_conn.plug_in())
+    done, pending = await asyncio.wait({task})
+    if task in done:
+        db_object = db_conn.get_db_obj()
+        try:
+            for location_key in locations:
+                current_location = locations[location_key]
+                print("Scraping " + current_location['name'] + " weather")
+                current_endpoint = f"https://api.openweathermap.org/data/2.5/weather?lat={current_location['latitude']}&lon={current_location['longitude']}&appid={os.environ['OWM_API_KEY']}&units=imperial"
+                current_weather_data = requests.get(current_endpoint).json()
+                # Put in db here
+                insert_values = {
+                    "weather_location": current_location["name"],
+                    "temp": current_weather_data["main"]["temp"],
+                    "humidity": current_weather_data["main"]["humidity"],
+                    "weather_code": current_weather_data["weather"][0]["id"],
+                    "weather_description": current_weather_data["weather"][0]["description"],
+                    "sunrise": datetime.datetime.fromtimestamp(current_weather_data["sys"]["sunrise"], tz=datetime.timezone.utc),
+                    "sunset": datetime.datetime.fromtimestamp(current_weather_data["sys"]["sunset"], tz=datetime.timezone.utc),
+                    "wind_speed": current_weather_data["wind"]["speed"],
+                    "wind_direction": degrees_to_cardinal(current_weather_data["wind"]["deg"])
+                }
+                stmt = insert(weather_table).values(
+                    weather_location=insert_values["weather_location"],
+                    temp=insert_values["temp"],
+                    humidity=insert_values["humidity"],
+                    weather_code=insert_values["weather_code"],
+                    weather_description=insert_values["weather_description"],
+                    sunrise=insert_values["sunrise"], # Postgres will convert tz for me yay
+                    sunset=insert_values["sunset"],
+                    wind_speed=insert_values["wind_speed"],
+                    wind_direction=insert_values["wind_direction"]
+                )
+                stmt = stmt.on_conflict_do_update(
+                    index_elements=["weather_location"],
+                    set_=insert_values
+                )
+                await db_object.execute(stmt)
+        except Exception as e:
+            print("Exception caught: ", end="")
+            print(e)
+        finally:
+            # Close db connection
+            await db_conn.unplug()
+
+if __name__ == "__main__":
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())

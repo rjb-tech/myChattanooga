@@ -33,5 +33,5 @@ CREATE TABLE weather
                         sunrise             TIMESTAMPTZ                     NOT NULL,
                         sunset              TIMESTAMPTZ                     NOT NULL,
                         wind_speed          INTEGER                         NOT NULL,
-                        wind_direction      INTEGER                         NOT NULL
+                        wind_direction      VARCHAR(3)                      NOT NULL
                     );

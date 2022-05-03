@@ -66,7 +66,7 @@ RUN apt update && apt upgrade -y && \
     rm -rf /var/lib/apt/lists/* && \
     pip3 install --no-cache-dir --upgrade -r requirements.txt && \
     mkdir data
-ENTRYPOINT bash -c "echo scraper started && python3 weather_scraper.py && python3 news_scraper.py && cat myChattanooga.log 2>&1"
+ENTRYPOINT bash -c "sleep 15 && python3 weather_scraper.py && python3 news_scraper.py && cat myChattanooga.log 2>&1"
 
 # ----------------------------------------------------------------------------#
 # NODE CONTAINER

@@ -3,6 +3,7 @@ import logging
 from typing import Any, Optional
 import databases
 import sqlalchemy
+from datetime import datetime
 from sqlalchemy.dialects.postgresql import REAL
 from datetime import datetime
 from pydantic import BaseModel
@@ -33,6 +34,18 @@ class Article(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class Weather(BaseModel):
+    weather_location: Optional[str]
+    temp: Optional[float]
+    humidity: Optional[float]
+    weather_code: Optional[int]
+    weather_description: Optional[str]
+    sunrise: Optional[datetime]
+    sunset: Optional[datetime]
+    wind_speed: Optional[int]
+    wind_direction: Optional[str]
 
 
 class Stat(BaseModel):
@@ -135,4 +148,6 @@ class MC_Connection:
     def get_db_obj(self):
         if self.db_connected:
             return self.db_obj
+        else:
+            raise ConnectionError
         
