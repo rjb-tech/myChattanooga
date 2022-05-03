@@ -16,7 +16,7 @@ export const StickyHeader = ({ isDark }) => {
                 <Logo isDark={isDark} />
                 <RightPanel {...toggleMobileUserPanel} isDark={isDark} />
             </div>
-            <div className="hidden sm:block w-full border-b-2">
+            <div className="hidden sm:block w-full">
                 <NavBar />
             </div>
             
