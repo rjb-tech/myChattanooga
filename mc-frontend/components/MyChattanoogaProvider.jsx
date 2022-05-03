@@ -19,7 +19,7 @@ const childrenComponentVariants = {
 
 const userPanelVariants = {
     open: { opacity: 1, y: "0%" },
-    closed: { opacity: 0, y: "-100%" },
+    closed: { opacity: 1, y: "-100%" },
 }
 
 export const MyChattanoogaProvider = ({ children }) => {
@@ -82,13 +82,15 @@ export const MyChattanoogaProvider = ({ children }) => {
                         <link rel="icon" href="/favicon.ico" /> 
                 </Head>
 
-                <header className="w-screen shadow-sm bg-[#FFF] dark:bg-[#222] z-50">
+                <header className="w-screen bg-[#FFF] dark:bg-[#222] z-50">
                     <StickyHeader isDark={isDark} />
                 </header>
 
                 <main className="w-screen h-screen align-center relative overflow-y-scroll" key="siteContent">
                     {/* TECH DEBT: Put motion element here instead of in MobileNav component */}
-                    <div className="sm:hidden fixed w-full h-fit object-center -left-full z-50 flex mx-auto" key="MobileNav">
+                    <div className="sm:hidden fixed w-full h-fit object-center -left-full z-50 flex mx-auto" 
+                        key="MobileNav"
+                    >
                         <MobileNav 
                             isDark={isDark} 
                             menuExpanded={menuExpanded} 
