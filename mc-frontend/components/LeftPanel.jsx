@@ -3,8 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faBars } from "@fortawesome/free-solid-svg-icons"
 import { WeatherStation } from "./WeatherStation"
 import { Socials } from "./Socials"
+import { UserPanel } from "./UserPanel"
 
-export const LeftPanel = ({ toggleMobileNav, isDark }) => {
+export const LeftPanel = ({ toggleMobileNav, isDark, toggleDarkMode }) => {
     const iconColor = isDark === true ? "#FFF" : "#222"
     return (
         <div className="flex w-1/4 md:w-1/12 flex-auto h-full">
@@ -19,6 +20,7 @@ export const LeftPanel = ({ toggleMobileNav, isDark }) => {
                 </div>
             </motion.button>
             <div className="hidden md:block w-full bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF]">
+                <UserPanel />
                 <Socials />
             </div>
         </div>

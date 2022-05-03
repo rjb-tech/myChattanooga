@@ -83,7 +83,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                 </Head>
 
                 <header className="w-screen bg-[#FFF] dark:bg-[#222] z-50">
-                    <StickyHeader isDark={isDark} />
+                    <StickyHeader isDark={isDark} toggleDarkMode={toggleDarkMode} />
                 </header>
 
                 <main className="w-screen h-screen align-center relative overflow-y-scroll" key="siteContent">
