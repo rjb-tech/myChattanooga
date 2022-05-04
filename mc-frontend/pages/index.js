@@ -8,7 +8,17 @@ import { UserPanel } from "../components/UserPanel";
 import { Socials } from "../components/Socials";
 const axios = require('axios');
 
-export default function Home({ filterApplied, toggleMobileUserPanel, pageContent, setPageContent }) {
+export default function Home({ 
+  filterApplied, 
+  setFilterApplied,
+  toggleMobileUserPanel, 
+  pageContent, 
+  setPageContent, 
+  isDark, 
+  toggleDarkMode,
+  filterOptions,
+  setFilterOptions
+}) {
   const [ articles, setArticles ] = useState([]);
   const [ articlesLoading, setArticlesLoading ] = useState(false);
 
@@ -39,14 +49,18 @@ export default function Home({ filterApplied, toggleMobileUserPanel, pageContent
 
   return (
     <div className="flex mx-auto">
-      <div className="hidden md:block md:h-80 w-4/12 md:w-5/12 xl:w-4/12 flex-auto md:mr-2 lg:mr-4 border-r-2 sticky top-8">
-        <UserPanel />
-        <WeatherStation />
-        <Socials />
+      <div className="hidden flex-col md:block md:h-96 w-4/12 md:w-5/12 xl:w-2/12 flex-auto border-r-2 sticky top-8 pr-2">
+        <UserPanel 
+          isDark={isDark} 
+          toggleDarkMode={toggleDarkMode}  
+          filterOptions={filterOptions}
+          filterApplied={filterApplied}
+          setFilterApplied={setFilterApplied}
+        />
       </div>
 
       <div className="h-full w-full flex-col px-6">
-        <div className="sticky w-full h-fit top-0 md:pl-2 mb-2 md:mb-6">
+        <div className="sticky w-full h-fit top-0 md:pl-2 md:mt-2 mb-2">
           <h1 className="text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF]">{headlineString}</h1>
         </div>
         

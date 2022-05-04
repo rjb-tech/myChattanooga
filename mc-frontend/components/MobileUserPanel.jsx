@@ -21,11 +21,12 @@ export const MobileUserPanel = ({
     auxPanelExpanded,
     filterApplied,
     setFilterApplied,
+    filterOptions,
+    setFilterOptions,
     pageContent
 }) => {  
     const [ currentAuxSection, setCurrentAuxSection ] = useState("");
     const [ currentPage, setCurrentPage ] = useState("");
-    const [ filterOptions, setFilterOptions ] = useState([]);
     const iconColor = isDark===true ? '#FFF' : '#222'
     const darkModeIcon = isDark===true ? faSun : faMoon
 

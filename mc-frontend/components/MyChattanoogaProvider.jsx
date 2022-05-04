@@ -33,6 +33,7 @@ export const MyChattanoogaProvider = ({ children }) => {
     const [ auxPanelExpanded, setAuxPanelExpanded ] = useState(false);
     const [ filterApplied, setFilterApplied ] = useState("all");
     const [ pageContent, setPageContent ] = useState([]);
+    const [ filterOptions, setFilterOptions ] = useState([]);
 
     function toggleMobileNav() {
         setMenuExpanded(menuExpanded => !menuExpanded);
@@ -118,13 +119,15 @@ export const MyChattanoogaProvider = ({ children }) => {
                             auxPanelExpanded={auxPanelExpanded}
                             filterApplied={filterApplied}
                             setFilterApplied={setFilterApplied}
+                            filterOptions={filterOptions}
+                            setFilterOptions={setFilterOptions}
                             pageContent={pageContent}
                         />
                     </motion.div>
                     <div className={childrenWrapperClassString}>
                         <motion.div 
                             animate={panelExpanded===true ? 'extended' : 'normal'}
-                            className="scroll-smooth p-2 py-4 lg:px-8 lg:pt-8"
+                            className="scroll-smooth p-2 py-4 lg:px-0 lg:pt-8"
                             transition={{ 
                                 duration: panelExpanded===true ? .3 : .5,
                                 type: "tween"
@@ -135,7 +138,11 @@ export const MyChattanoogaProvider = ({ children }) => {
                                                      setFilterApplied: setFilterApplied,
                                                      toggleMobileUserPanel: toggleMobileUserPanel,
                                                      pageContent: pageContent,
-                                                     setPageContent: setPageContent
+                                                     setPageContent: setPageContent,
+                                                     isDark: isDark,
+                                                     toggleDarkMode: toggleDarkMode,
+                                                     filterOptions: filterOptions,
+                                                     setFilterOptions: setFilterOptions
                                                     })}
                             {/* {children} */}
                         </motion.div>

@@ -1,6 +1,10 @@
 import { motion } from "framer-motion";
 
-export const FiltersPanel = ({ filterOptions, filterApplied, setFilterApplied }) => {
+export const FiltersPanel = ({ 
+    filterOptions, 
+    filterApplied, 
+    setFilterApplied 
+}) => {
     return (
         <div className="h-full w-full px-4 flex-col">
             <div>
