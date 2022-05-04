@@ -4,9 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { FiltersPanel } from "./FiltersPanel"
 import { Socials } from "./Socials"
 
-export const UserPanel = ({ isDark, toggleDarkMode, filterOptions, filterApplied, setFilterApplied }) => {
+export const UserPanel = ({ isDark, toggleDarkMode, filterOptions, filterApplied, setFilterApplied, currentPage }) => {
     const iconColor = isDark===true ? '#FFF' : '#222'
     const darkModeIcon = isDark===true ? faSun : faMoon
+    const showFilters = (currentPage==='/' || currentPage==='/brews') ? true : false
     return (
         <div className='flex-auto h-fit w-5/6 flex-col flex-auto text-center bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] mx-auto z-50'>
             <div className='h-12 w-full flex justify-evenly items-start '>
@@ -33,9 +34,16 @@ export const UserPanel = ({ isDark, toggleDarkMode, filterOptions, filterApplied
                     <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faUser} style={{color: `${iconColor}`}} />
                 </motion.button>
             </div>
+            {showFilters && 
             <div>
-                <FiltersPanel filterOptions={filterOptions} filterApplied={filterApplied} setFilterApplied={setFilterApplied}/>
+                <FiltersPanel 
+                    currentPage={currentPage} 
+                    filterOptions={filterOptions} 
+                    filterApplied={filterApplied} 
+                    setFilterApplied={setFilterApplied}
+                />
             </div>
+            }
             <div>
                 <Socials />
             </div>

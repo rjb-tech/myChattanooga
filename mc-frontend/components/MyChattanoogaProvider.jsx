@@ -150,6 +150,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                                     filterOptions={filterOptions}
                                     filterApplied={filterApplied}
                                     setFilterApplied={setFilterApplied}
+                                    currentPage={currentPage}
                                 />
                             </div>
                             <div className="md:w-9/12">
