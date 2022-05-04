@@ -1054,7 +1054,7 @@ def scrape_times_free_press(url, date, session):
     current_time_posted = None
 
     # Publisher tag for temp_list
-    publisher = "Chattanooga Times Free Press"
+    publisher = "Times Free Press"
 
     # Output file for writing TFP article post times
     times_file_name = os.path.dirname(os.path.realpath('__file__')) + '/data/tfp-article-times-' + get_date(

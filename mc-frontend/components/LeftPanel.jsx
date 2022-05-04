@@ -20,7 +20,7 @@ export const LeftPanel = ({ toggleMobileNav, isDark, toggleDarkMode }) => {
                 </div>
             </motion.button>
             <div className="hidden flex justify-start md:block w-full bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF]">
-                <Socials />
+                
             </div>
         </div>
     )

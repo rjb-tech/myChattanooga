@@ -34,6 +34,7 @@ export const MyChattanoogaProvider = ({ children }) => {
     const [ filterApplied, setFilterApplied ] = useState("all");
     const [ pageContent, setPageContent ] = useState([]);
     const [ filterOptions, setFilterOptions ] = useState([]);
+    const [ currentPage, setCurrentPage ] = useState("");
 
     function toggleMobileNav() {
         setMenuExpanded(menuExpanded => !menuExpanded);
@@ -122,6 +123,8 @@ export const MyChattanoogaProvider = ({ children }) => {
                             filterOptions={filterOptions}
                             setFilterOptions={setFilterOptions}
                             pageContent={pageContent}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
                         />
                     </motion.div>
                     <div className={childrenWrapperClassString}>
@@ -142,7 +145,9 @@ export const MyChattanoogaProvider = ({ children }) => {
                                                      isDark: isDark,
                                                      toggleDarkMode: toggleDarkMode,
                                                      filterOptions: filterOptions,
-                                                     setFilterOptions: setFilterOptions
+                                                     setFilterOptions: setFilterOptions,
+                                                     currentPage: currentPage,
+                                                     setCurrentPage: setCurrentPage
                                                     })}
                             {/* {children} */}
                         </motion.div>

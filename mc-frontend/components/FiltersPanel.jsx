@@ -6,9 +6,9 @@ export const FiltersPanel = ({
     setFilterApplied 
 }) => {
     return (
-        <div className="h-full w-full px-4 flex-col">
-            <div>
-                <motion.button whileTap={{ scale: 0.9 }} className="flex-auto mx-auto border py-2 rounded-lg w-full hover:border-[#F7BCB1]"
+        <div className="h-full w-full px-4 md:px-0 flex-col">
+            <div className="py-1 md:py-2">
+                <motion.button whileTap={{ scale: 0.9 }} className="flex-auto mx-auto border py-2 rounded-full w-full hover:border-[#F7BCB1]"
                             onClick={() => {
                                 setFilterApplied("all");
                             }}
@@ -18,10 +18,10 @@ export const FiltersPanel = ({
             </div>
             {filterOptions.map((currentOption) => {
                 return (
-                    <div className="py-1" key={currentOption}>
+                    <div className="py-1 md:py-2" key={currentOption}>
                         <motion.button 
                             whileTap={{ scale: 0.9 }}
-                            className="flex-auto mx-auto border py-2 rounded-lg w-full hover:border-[#F7BCB1]"
+                            className="flex-auto mx-auto border py-2 rounded-full w-full hover:border-[#F7BCB1]"
                             onClick={() => {
                                 if (filterApplied != `${currentOption}`) {
                                     setFilterApplied(`${currentOption}`);
