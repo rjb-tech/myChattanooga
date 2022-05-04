@@ -304,10 +304,10 @@ export const WeatherStation = ({ isDark }) => {
             longitude: -85.307835,
             "name": "Coolidge Park"
         },
-        downtownAquarium : {
+        downtown : {
             latitude: 35.055072,
             longitude: -85.311388,
-            "name": "Downtown (Aquarium)"
+            "name": "Downtown"
         },
         eastBrainerd: {
             latitude: 35.035135,

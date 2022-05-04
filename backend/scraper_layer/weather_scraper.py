@@ -25,10 +25,10 @@ locations = {
         "longitude": -85.307835,
         "name": "Coolidge Park"
     },
-    "downtown_aquarium" : {
+    "downtown" : {
         "latitude": 35.055072,
         "longitude": -85.311388,
-        "name": "Downtown (Aquarium)"
+        "name": "Downtown"
     },
     "east_brainerd": {
         "latitude": 35.035135,
