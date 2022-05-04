@@ -445,7 +445,7 @@ export const WeatherStation = ({ isDark }) => {
                     <motion.button whileTap={{ scale: 0.8 }} className='w-1/12 h-full flex-auto' onClick={() => switchWeatherLocation(false)}>
                         <FontAwesomeIcon icon={faAngleLeft} style={{color: `${weatherConfig.color}`}} className='w-1/2 h-1/2 md:w-1/3 md:h-1/3 xl:w-1/5 xl:h-1/5 flex-auto mx-auto'/>
                     </motion.button>
-                    <div className='flex-auto text-2xl md:text-xl lg:text-3xl text-center font-bold pb-2 sm:pt-2 w-5/6 md:w-4/6'>
+                    <div className='flex-auto text-2xl md:text-xl xl:text-3xl text-center font-bold pb-2 sm:pt-2 w-5/6 md:w-4/6'>
                         {locations[`${currentLocation}`].name}
                     </div>
                     <motion.button whileTap={{ scale: 0.8 }} className='w-1/12 h-full flex-auto' onClick={() => switchWeatherLocation(true)}>

@@ -143,7 +143,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                             }}
                             variants={childrenComponentVariants}
                         >
-                            <div className="hidden flex-col md:block w-1/3 lg:w-1/5 w-full h-fit border-r-2 sticky top-4 pr-2">
+                            <div className="hidden flex-col md:block w-1/3 xl:w-1/5 w-full h-fit border-r-2 sticky top-4 pr-2">
                                 <UserPanel 
                                     isDark={isDark} 
                                     toggleDarkMode={toggleDarkMode}  
