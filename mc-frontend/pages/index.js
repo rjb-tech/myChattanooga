@@ -57,7 +57,7 @@ export default function Home({
 
   return (
     <div className="flex mx-auto">
-      <div className="hidden flex-col md:block md:h-fit w-4/12 md:w-5/12 xl:w-2/12 flex-auto border-r-2 sticky top-8 pr-2">
+      <div className="hidden flex-col md:block h-fit w-4/12 md:w-5/12 xl:w-3/12 flex-auto border-r-2 sticky top-4 pr-2">
         <UserPanel 
           isDark={isDark} 
           toggleDarkMode={toggleDarkMode}  
@@ -68,7 +68,7 @@ export default function Home({
       </div>
 
       <div className="h-full w-full flex-col px-6">
-        <div className="sticky w-full h-fit top-0 md:pl-2 md:mt-4 lg:mt-0 mb-2">
+        <div className="sticky w-full h-fit top-0 md:pl-2 md:mt-0 lg:mt-0 mb-2">
           <h1 className="text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF]">{headlineString}</h1>
         </div>
         
