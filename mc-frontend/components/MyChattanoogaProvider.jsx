@@ -9,6 +9,7 @@ import { MobileUserPanel } from "./MobileUserPanel"
 import { faAngleUp } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { motion } from "framer-motion"
+import { UserPanel } from "./UserPanel"
 
 const MyChattanoogaContext = createContext();
 
@@ -71,6 +72,11 @@ export const MyChattanoogaProvider = ({ children }) => {
         setFilterApplied: {setFilterApplied}
     }
 
+    useEffect(() => {
+        const publishers = [...new Set(pageContent.map((contentItem) => contentItem.publisher))].sort();
+        setFilterOptions(publishers);
+    }, [pageContent])
+
     const childrenWrapperClassString = (menuExpanded === true) 
         ? "overscroll-contain transition duration-[300ms] blur-sm ease-linear"
         : "overscroll-contain transition duration-[300ms]"
@@ -130,25 +136,30 @@ export const MyChattanoogaProvider = ({ children }) => {
                     <div className={childrenWrapperClassString}>
                         <motion.div 
                             animate={panelExpanded===true ? 'extended' : 'normal'}
-                            className="scroll-smooth p-2 py-4 lg:px-0 lg:pt-8"
+                            className="scroll-smooth p-2 py-4 lg:px-0 lg:pt-8 flex w-screen"
                             transition={{ 
                                 duration: panelExpanded===true ? .3 : .5,
                                 type: "tween"
                             }}
                             variants={childrenComponentVariants}
                         >
-                            {cloneElement(children, {filterApplied: filterApplied, 
-                                                     setFilterApplied: setFilterApplied,
-                                                     toggleMobileUserPanel: toggleMobileUserPanel,
-                                                     pageContent: pageContent,
-                                                     setPageContent: setPageContent,
-                                                     isDark: isDark,
-                                                     toggleDarkMode: toggleDarkMode,
-                                                     filterOptions: filterOptions,
-                                                     setFilterOptions: setFilterOptions,
-                                                     currentPage: currentPage,
-                                                     setCurrentPage: setCurrentPage
-                                                    })}
+                            <div className="hidden flex-col md:block w-1/3 lg:w-1/5 w-full h-fit border-r-2 sticky top-4 pr-2">
+                                <UserPanel 
+                                    isDark={isDark} 
+                                    toggleDarkMode={toggleDarkMode}  
+                                    filterOptions={filterOptions}
+                                    filterApplied={filterApplied}
+                                    setFilterApplied={setFilterApplied}
+                                />
+                            </div>
+                            <div className="md:w-9/12">
+                                {cloneElement(children, {
+                                                            filterApplied: filterApplied, 
+                                                            pageContent: pageContent,
+                                                            setPageContent: setPageContent,
+                                                            setCurrentPage: setCurrentPage
+                                                        })}
+                            </div>
                             {/* {children} */}
                         </motion.div>
                     </div>

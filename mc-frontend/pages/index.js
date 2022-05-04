@@ -10,15 +10,8 @@ const axios = require('axios');
 
 export default function Home({ 
   filterApplied, 
-  setFilterApplied,
-  toggleMobileUserPanel, 
   pageContent, 
   setPageContent, 
-  isDark, 
-  toggleDarkMode,
-  filterOptions,
-  setFilterOptions,
-  currentPage,
   setCurrentPage
 }) {
   const [ articles, setArticles ] = useState([]);
@@ -41,11 +34,6 @@ export default function Home({
     setArticlesLoading(false);
   }, [])
 
-  useEffect(() => {
-    const publishers = [...new Set(pageContent.map((contentItem) => contentItem.publisher))].sort();
-    setFilterOptions(publishers);
-  }, [pageContent])
-
   var headlineString = ""
   if (filterApplied === "all") {
     headlineString = "All Local Articles"
@@ -56,17 +44,7 @@ export default function Home({
 
 
   return (
-    <div className="flex mx-auto">
-      <div className="hidden flex-col md:block h-fit w-4/12 md:w-5/12 xl:w-3/12 flex-auto border-r-2 sticky top-4 pr-2">
-        <UserPanel 
-          isDark={isDark} 
-          toggleDarkMode={toggleDarkMode}  
-          filterOptions={filterOptions}
-          filterApplied={filterApplied}
-          setFilterApplied={setFilterApplied}
-        />
-      </div>
-
+    <div className="mx-auto">
       <div className="h-full w-full flex-col px-6">
         <div className="sticky w-full h-fit top-0 md:pl-2 md:mt-0 lg:mt-0 mb-2">
           <h1 className="text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF]">{headlineString}</h1>
