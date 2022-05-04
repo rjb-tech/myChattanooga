@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 
 export const Socials = () => {
     return (
-        <div className='h-fit w-4/6 mx-auto flex justify-evenly md:justify-between py-4'>
+        <div className='h-fit w-4/6 mx-auto flex justify-evenly md:justify-between pt-4 pb-2'>
             <Link href="https://www.facebook.com/ChattanoogaApp/">
                 <a target="_blank">
                     <motion.div whileTap={{ scale: 0.85 }} className="w-10 h-10 bg-[#4267B2] flex items-center justify-center rounded-full">
