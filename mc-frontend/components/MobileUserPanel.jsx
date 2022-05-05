@@ -3,7 +3,7 @@ import { animate, motion } from "framer-motion"
 import { useState, useEffect } from 'react';
 import { faFilter, faGear, faSun, faMoon, faUser } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
-import { AuxillaryPanel } from './AuxillaryPanel';
+import { MobileAuxillaryPanel } from './MobileAuxillaryPanel';
 import { getFilteredQueryString } from './helpers';
 
 const axios = require('axios');
@@ -106,7 +106,7 @@ export const MobileUserPanel = ({
                 transition={{ duration: .25, type: "tween"}}
                 variants={auxVariants}
             >
-                <AuxillaryPanel 
+                <MobileAuxillaryPanel 
                     section={currentAuxSection} 
                     isDark={isDark} 
                     currentPage={currentPage} 
