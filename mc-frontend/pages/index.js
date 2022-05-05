@@ -14,7 +14,6 @@ export default function Home({
   setPageContent, 
   setCurrentPage
 }) {
-  const [ articles, setArticles ] = useState([]);
   const [ articlesLoading, setArticlesLoading ] = useState(false);
 
   useEffect(() => {
