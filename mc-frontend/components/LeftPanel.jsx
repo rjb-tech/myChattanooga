@@ -4,7 +4,7 @@ import { faBars } from "@fortawesome/free-solid-svg-icons"
 import { WeatherStation } from "./WeatherStation"
 import { Socials } from "./Socials"
 import { UserPanel } from "./UserPanel"
-import { SummaryPanel } from "./SummaryPanel"
+import { AuxillaryPanel } from "./AuxillaryPanel"
 
 export const LeftPanel = ({ toggleMobileNav, isDark, toggleDarkMode }) => {
     const iconColor = isDark === true ? "#FFF" : "#222"
@@ -21,7 +21,7 @@ export const LeftPanel = ({ toggleMobileNav, isDark, toggleDarkMode }) => {
                 </div>
             </motion.button>
             <div className="hidden md:block w-full bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF]">
-                
+                <AuxillaryPanel />
             </div>
         </div>
     )
