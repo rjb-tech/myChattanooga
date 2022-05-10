@@ -371,7 +371,7 @@ export const WeatherStation = ({ isDark }) => {
         return now > sunrise && now < sunset ? true : false;
     }
 
-    const [ currentLocation, setCurrentLocation ] = useState('northChattanooga');
+    const [ currentWeatherLocation, setCurrentWeatherLocation ] = useState('northChattanooga');
     const [ currentTemp, setCurrentTemp ] = useState("");
     const [ currentWeatherCode, setCurrentWeatherCode ] = useState("default");
     const [ weatherDescription, setWeatherDescription ] = useState("");
@@ -386,7 +386,7 @@ export const WeatherStation = ({ isDark }) => {
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
-            const response = await axios.get(`/api/weather?location=${locations[currentLocation]['name']}`)
+            const response = await axios.get(`/api/weather?location=${locations[currentWeatherLocation]['name']}`)
             .catch(function(error) {
                 console.log(error);
             })
@@ -404,7 +404,7 @@ export const WeatherStation = ({ isDark }) => {
         };
 
         fetchData();
-    }, [currentLocation])
+    }, [currentWeatherLocation])
 
     const weatherConfig = {
         icon: isDay(currentSunrise, currentSunset)===true
@@ -417,23 +417,23 @@ export const WeatherStation = ({ isDark }) => {
 
     const switchWeatherLocation = (increasing) => {
         if (increasing===true) {
-            const index = locationsIterHelper.indexOf(currentLocation) + 1;
+            const index = locationsIterHelper.indexOf(currentWeatherLocation) + 1;
             if (index > locationsIterHelper.length - 1) {
                 // set index to 0 if the max length of the locations list is reached
                 index = 0;
             }
             const newLocation = locationsIterHelper[index];
-            setCurrentLocation(newLocation);
+            setCurrentWeatherLocation(newLocation);
             // save to localstorage here
         }
         else {
-            const index = locationsIterHelper.indexOf(currentLocation) - 1;
+            const index = locationsIterHelper.indexOf(currentWeatherLocation) - 1;
             if (index < 0) {
                 // Get last items if the index counter goes under 0
                 index = locationsIterHelper.length - 1;
             }
             const newLocation = locationsIterHelper[index];
-            setCurrentLocation(newLocation);
+            setCurrentWeatherLocation(newLocation);
             // save to localstorage here
         }
     }
@@ -446,7 +446,7 @@ export const WeatherStation = ({ isDark }) => {
                         <FontAwesomeIcon icon={faAngleLeft} style={{color: `${weatherConfig.color}`}} className='w-1/2 h-1/2 md:w-1/3 md:h-1/3 xl:w-1/5 xl:h-1/5 flex-auto mx-auto'/>
                     </motion.button>
                     <div className='flex-auto text-2xl md:text-xl xl:text-3xl text-center font-bold pb-2 sm:pt-2 w-5/6 md:w-4/6'>
-                        {locations[`${currentLocation}`].name}
+                        {locations[`${currentWeatherLocation}`].name}
                     </div>
                     <motion.button whileTap={{ scale: 0.8 }} className='w-1/12 h-full flex-auto' onClick={() => switchWeatherLocation(true)}>
                         <FontAwesomeIcon icon={faAngleRight} style={{color: `${weatherConfig.color}`}} className='w-1/2 h-1/2 md:w-1/3 md:h-1/3 xl:w-1/5 xl:h-1/5 flex-auto mx-auto'/>
