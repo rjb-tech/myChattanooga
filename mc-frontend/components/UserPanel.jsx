@@ -3,6 +3,7 @@ import { faFilter, faGear, faSun, faMoon, faUser } from "@fortawesome/free-solid
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { FiltersPanel } from "./FiltersPanel"
 import { Socials } from "./Socials"
+import { AuxillaryPanel } from "./AuxillaryPanel"
 
 const auxVariants = {
     shown: { opacity: 1, y: "12rem"},
@@ -89,6 +90,18 @@ export const UserPanel = ({
                 transition={{ duration: .25, type: "tween"}}
                 variants={auxVariants}
             >
+                
+                <div className="absolute -top-48 h-48 w-full flex">
+                    <AuxillaryPanel 
+                        section={currentAuxSection} 
+                        isDark={isDark} 
+                        currentPage={currentPage} 
+                        filterOptions={filterOptions}
+                        filterApplied={filterApplied}
+                        setFilterApplied={setFilterApplied}
+                        auxPanelExpanded={auxPanelExpanded}
+                    />
+                </div>
                 {showFilters && 
                 <div>
                     <FiltersPanel 
