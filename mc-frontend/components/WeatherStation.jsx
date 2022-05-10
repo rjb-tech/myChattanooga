@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 const axios = require('axios');
 
-export const WeatherStation = ({ isDark }) => {
+export const WeatherStation = ({ isDark, currentWeatherLocation, setCurrentWeatherLocation }) => {
 
     // https://openweathermap.org/weather-conditions#Weather-Condition-Codes-2
     // https://www.npmjs.com/package/react-skycons-extended
@@ -371,7 +371,6 @@ export const WeatherStation = ({ isDark }) => {
         return now > sunrise && now < sunset ? true : false;
     }
 
-    const [ currentWeatherLocation, setCurrentWeatherLocation ] = useState('northChattanooga');
     const [ currentTemp, setCurrentTemp ] = useState("");
     const [ currentWeatherCode, setCurrentWeatherCode ] = useState("default");
     const [ weatherDescription, setWeatherDescription ] = useState("");

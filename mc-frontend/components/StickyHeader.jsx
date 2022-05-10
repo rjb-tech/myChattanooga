@@ -6,7 +6,12 @@ import { TimeClock } from "./TimeClock"
 import MyChattanoogaContext from './MyChattanoogaProvider'
 import { useContext } from "react"
 
-export const StickyHeader = ({ isDark, toggleDarkMode }) => {
+export const StickyHeader = ({ 
+    isDark, 
+    toggleDarkMode,
+    currentWeatherLocation,
+    setCurrentWeatherLocation
+}) => {
     const { toggleMobileNav, toggleMobileUserPanel } = useContext(MyChattanoogaContext);
     return (
         <div className="flex flex-col w-full md:sticky">
@@ -14,7 +19,12 @@ export const StickyHeader = ({ isDark, toggleDarkMode }) => {
             <div className="flex flex-auto w-full h-fit content-center items-center py-4 border-b md:border-b-0">
                 <LeftPanel {...toggleMobileNav} isDark={isDark} toggleDarkMode={toggleDarkMode} />
                 <Logo isDark={isDark} />
-                <RightPanel {...toggleMobileUserPanel} isDark={isDark} />
+                <RightPanel 
+                    {...toggleMobileUserPanel} 
+                    isDark={isDark}
+                    currentWeatherLocation={currentWeatherLocation}
+                    setCurrentWeatherLocation={setCurrentWeatherLocation}
+                />
             </div>
             <div className="hidden sm:block w-full border-y-2">
                 <NavBar />

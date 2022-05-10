@@ -7,7 +7,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSliders } from "@fortawesome/free-solid-svg-icons"
 import { WeatherStation } from "./WeatherStation"
 
-export const RightPanel = ({ toggleMobileUserPanel, isDark }) => {
+export const RightPanel = ({ 
+    toggleMobileUserPanel, 
+    isDark,
+    currentWeatherLocation,
+    setCurrentWeatherLocation
+}) => {
     const iconColor = isDark === true ? "#FFF" : "#222"
     return (
         <div className="flex w-1/4 md:w-1/12 flex-auto h-full">
@@ -21,7 +26,11 @@ export const RightPanel = ({ toggleMobileUserPanel, isDark }) => {
                 </div>
             </motion.button>
             <div className="hidden md:block w-full bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF]">
-                <WeatherStation isDark={isDark} />
+                <WeatherStation 
+                    isDark={isDark}
+                    currentWeatherLocation={currentWeatherLocation}
+                    setCurrentWeatherLocation={setCurrentWeatherLocation}
+                />
             </div>
         </div>
     )

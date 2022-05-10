@@ -37,6 +37,7 @@ export const MyChattanoogaProvider = ({ children }) => {
     const [ filterOptions, setFilterOptions ] = useState([]);
     const [ currentPage, setCurrentPage ] = useState("");
     const [ currentAuxSection, setCurrentAuxSection ] = useState("");
+    const [ currentWeatherLocation, setCurrentWeatherLocation ] = useState('northChattanooga');
 
     function toggleMobileNav() {
         setMenuExpanded(menuExpanded => !menuExpanded);
@@ -92,7 +93,12 @@ export const MyChattanoogaProvider = ({ children }) => {
                 </Head>
 
                 <header className="w-screen bg-[#FFF] dark:bg-[#222] z-50">
-                    <StickyHeader isDark={isDark} toggleDarkMode={toggleDarkMode} />
+                    <StickyHeader 
+                        isDark={isDark} 
+                        toggleDarkMode={toggleDarkMode} 
+                        currentWeatherLocation={currentWeatherLocation}
+                        setCurrentWeatherLocation={setCurrentWeatherLocation} 
+                    />
                 </header>
 
                 <main className="w-screen h-screen align-center relative overflow-y-scroll" key="siteContent">
@@ -106,6 +112,8 @@ export const MyChattanoogaProvider = ({ children }) => {
                             setMenuExpanded={setMenuExpanded}
                             toggleMobileUserPanel={toggleMobileUserPanel}
                             panelExpanded={panelExpanded}
+                            currentWeatherLocation={currentWeatherLocation}
+                            setCurrentWeatherLocation={setCurrentWeatherLocation}
                         />
                     </div>
                     {/* There's some weird jitter going on weirdly */}
