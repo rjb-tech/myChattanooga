@@ -36,6 +36,7 @@ export const MyChattanoogaProvider = ({ children }) => {
     const [ pageContent, setPageContent ] = useState([]);
     const [ filterOptions, setFilterOptions ] = useState([]);
     const [ currentPage, setCurrentPage ] = useState("");
+    const [ currentAuxSection, setCurrentAuxSection ] = useState("");
 
     function toggleMobileNav() {
         setMenuExpanded(menuExpanded => !menuExpanded);
@@ -131,6 +132,8 @@ export const MyChattanoogaProvider = ({ children }) => {
                             pageContent={pageContent}
                             currentPage={currentPage}
                             setCurrentPage={setCurrentPage}
+                            currentAuxSection={currentAuxSection}
+                            setCurrentAuxSection={setCurrentAuxSection}
                         />
                     </motion.div>
                     <div className={childrenWrapperClassString}>
@@ -145,12 +148,20 @@ export const MyChattanoogaProvider = ({ children }) => {
                         >
                             <div className="hidden flex-col md:block w-1/3 xl:w-1/5 w-full h-fit border-r-2 sticky top-4 pr-2">
                                 <UserPanel 
-                                    isDark={isDark}  
+                                    isDark={isDark} 
+                                    panelExpanded={panelExpanded} 
                                     toggleDarkMode={toggleDarkMode}
-                                    filterOptions={filterOptions}
+                                    setAuxPanelExpanded={setAuxPanelExpanded}
+                                    auxPanelExpanded={auxPanelExpanded}
                                     filterApplied={filterApplied}
                                     setFilterApplied={setFilterApplied}
+                                    filterOptions={filterOptions}
+                                    setFilterOptions={setFilterOptions}
+                                    pageContent={pageContent}
                                     currentPage={currentPage}
+                                    setCurrentPage={setCurrentPage}
+                                    currentAuxSection={currentAuxSection}
+                                    setCurrentAuxSection={setCurrentAuxSection}
                                 />
                             </div>
                             <div className="md:w-9/12">
