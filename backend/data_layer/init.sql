@@ -35,3 +35,13 @@ CREATE TABLE weather
                         wind_speed          INTEGER                         NOT NULL,
                         wind_direction      VARCHAR(3)                      NOT NULL
                     );
+
+CREATE TABLE brews
+                    (
+                        title           TEXT        PRIMARY KEY     NOT NULL,
+                        body            TEXT                        NOT NULL,
+                        publisher       VARCHAR(256)                NOT NULL,
+                        date_posted     TIMESTAMPTZ                 NOT NULL,
+                        date_approved   TIMESTAMPTZ                 NOT NULL,
+                        expired         BOOLEAN                     NOT NULL, 
+                    );
