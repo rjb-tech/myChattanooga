@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useAuth0 } from "@auth0/auth0-react";
+const axios = require('axios');
 
 export const AccountPanel = () => {
     const { user, logout, isLoading } = useAuth0();
@@ -11,6 +12,7 @@ export const AccountPanel = () => {
                 <motion.button 
                     whileTap={{ scale: 0.9 }}
                     className="flex-auto mx-auto border py-2 rounded-lg md:rounded-full w-full hover:border-[#F7BCB1]"
+                    onClick={() => axios.post('/dbconnection/change_password', {client_id: "4NgPjfGCvSDepKmHvjX3s28OY6QT69RP", email: user.email, connection: "con_FODCb114SIehuPRz"})}
                 >
                     Change Password
                 </motion.button>
