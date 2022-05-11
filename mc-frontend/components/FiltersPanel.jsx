@@ -6,7 +6,7 @@ export const FiltersPanel = ({
     setFilterApplied 
 }) => {
     return (
-        <div className="h-full w-full px-4 md:px-0 flex-col">
+        <div className="h-full w-full px-4 md:px-0 md;py-4 flex-col">
             <div className="py-1 md:py-2">
                 <motion.button whileTap={{ scale: 0.9 }} className="flex-auto mx-auto border py-2 rounded-lg md:rounded-full w-full hover:border-[#F7BCB1]"
                             onClick={() => {
