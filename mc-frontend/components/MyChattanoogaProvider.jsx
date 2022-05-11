@@ -79,6 +79,14 @@ export const MyChattanoogaProvider = ({ children }) => {
         setFilterOptions(publishers);
     }, [pageContent])
 
+    useEffect(() => {
+        localStorage.setItem("weatherLocation", currentWeatherLocation)
+    }, [currentWeatherLocation])
+
+    useEffect(() => {
+        localStorage.setItem("dark", isDark)
+    }, [isDark])
+
     const childrenWrapperClassString = (menuExpanded === true) 
         ? "overscroll-contain transition duration-[300ms] blur-sm ease-linear"
         : "overscroll-contain transition duration-[300ms]"
