@@ -1,5 +1,5 @@
 import { motion } from "framer-motion"
-import { faFilter, faGear, faSun, faMoon, faUser, faCalendar } from "@fortawesome/free-solid-svg-icons"
+import { faFilter, faGear, faSun, faMoon, faUser, faCalendar, faPencil } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { FiltersPanel } from "./FiltersPanel"
 import { Socials } from "./Socials"
@@ -71,13 +71,13 @@ export const UserPanel = ({
                     <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={darkModeIcon} style={{color: `${iconColor}`}} />
                 </motion.button>
                 
-                {/* <motion.button 
+                <motion.button 
                     whileTap={{ scale: 0.85 }} 
                     className='bg-[#FFF] dark:bg-[#222] h-5/6 rounded-full flex-1 z-30'
-                    onClick={() => {handleAuxPanel("settings")}}
+                    onClick={() => {handleAuxPanel("create")}}
                 >
-                    <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faCalendar} style={{color: `${iconColor}`}} />
-                </motion.button> */}
+                    <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faPencil} style={{color: `${iconColor}`}} />
+                </motion.button>
                 <motion.button 
                     whileTap={{ scale: 0.85 }} 
                     className='bg-[#FFF] dark:bg-[#222] h-5/6 rounded-full flex-1 z-30'

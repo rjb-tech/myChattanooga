@@ -20,6 +20,7 @@ export const MobileAuxillaryPanel = ({
     const sections = {
         "filters": <FiltersPanel filterOptions={filterOptions} filterApplied={filterApplied} setFilterApplied={setFilterApplied} />,
         "settings": <SettingsPanel isDark={isDark} />,
+        "create": <></>,
         "account": <AccountPanel />
     }
     

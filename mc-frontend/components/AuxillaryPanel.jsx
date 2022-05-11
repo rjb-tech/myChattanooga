@@ -17,7 +17,7 @@ export const AuxillaryPanel = ({
     auxPanelExpanded 
 }) => {
     const sections = {
-        "settings": <SettingsPanel isDark={isDark} />,
+        "create": <></>,
         "account": <AccountPanel />
     }
     const sectionToRender = sections[`${section}`];

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import { animate, motion } from "framer-motion"
 import { useState, useEffect } from 'react';
-import { faFilter, faGear, faSun, faMoon, faUser, faCalendar } from "@fortawesome/free-solid-svg-icons"
+import { faFilter, faGear, faSun, faMoon, faUser, faCalendar, faPencil } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
 import { MobileAuxillaryPanel } from './MobileAuxillaryPanel';
 import { getFilteredQueryString } from './helpers';
@@ -85,13 +85,13 @@ export const MobileUserPanel = ({
                         >
                             <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faFilter} style={{color: `${iconColor}`}} />
                         </motion.button>
-                        {/* <motion.button 
+                        <motion.button 
                             whileTap={{ scale: 0.85 }} 
                             className='bg-[#FFF] dark:bg-[#222] h-2/3 rounded-full flex-1 z-30'
-                            onClick={() => {handleAuxPanel("settings")}}
+                            onClick={() => {handleAuxPanel("create")}}
                         >
-                            <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faCalendar} style={{color: `${iconColor}`}} />
-                        </motion.button> */}
+                            <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faPencil} style={{color: `${iconColor}`}} />
+                        </motion.button>
                         <motion.button 
                             whileTap={{ scale: 0.85 }} 
                             className='bg-[#FFF] dark:bg-[#222] h-2/3 rounded-full flex-1 z-30'
