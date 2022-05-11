@@ -1,10 +1,12 @@
-import Link from 'next/link'
+import Link from 'next/link';
+import React from 'react';
 import { animate, motion } from "framer-motion"
 import { useState, useEffect } from 'react';
 import { faFilter, faGear, faSun, faMoon, faUser, faCalendar } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
 import { MobileAuxillaryPanel } from './MobileAuxillaryPanel';
 import { getFilteredQueryString } from './helpers';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const axios = require('axios');
 
@@ -31,7 +33,7 @@ export const MobileUserPanel = ({
 }) => {  
     const iconColor = isDark===true ? '#FFF' : '#222'
     const darkModeIcon = isDark===true ? faSun : faMoon
-
+    const { loginWithRedirect, user, isAuthenticated, isLoading } = useAuth0();
     function handleAuxPanel(incomingSection) {
         function setFilters(page) {
             // This isn't done, still figuring out the data.map
@@ -93,7 +95,8 @@ export const MobileUserPanel = ({
                         <motion.button 
                             whileTap={{ scale: 0.85 }} 
                             className='bg-[#FFF] dark:bg-[#222] h-2/3 rounded-full flex-1 z-30'
-                            onClick={() => {handleAuxPanel("account")}}
+                            // onClick={() => {handleAuxPanel("account")}}
+                            onClick={() => isAuthenticated===false ? loginWithRedirect() : handleAuxPanel("account")}
                         >
                             <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faUser} style={{color: `${iconColor}`}} />
                         </motion.button>

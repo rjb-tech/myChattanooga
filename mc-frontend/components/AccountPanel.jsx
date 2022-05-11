@@ -1,4 +1,8 @@
+import React from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+
 export const AccountPanel = () => {
+    const { user, isAuthenticated, isLoading } = useAuth0();
     // There will need to be some sort of check here for if a user is already logged in, etc.
     return (
         <form>
