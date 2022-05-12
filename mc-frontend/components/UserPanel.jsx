@@ -7,7 +7,7 @@ import { AuxillaryPanel } from "./AuxillaryPanel"
 import { useAuth0 } from '@auth0/auth0-react';
 
 const auxVariants = {
-    shown: { opacity: 1, y: "12rem"},
+    shown: { opacity: 1, y: "10rem"},
     hidden: { opacity: 1, y: "0rem"},
 }
 
@@ -93,7 +93,7 @@ export const UserPanel = ({
                 variants={auxVariants}
             >
                 
-                <div className="absolute -top-48 h-48 w-full flex">
+                <div className="absolute -top-40 h-40 w-full flex">
                     <AuxillaryPanel 
                         section={currentAuxSection} 
                         isDark={isDark} 
