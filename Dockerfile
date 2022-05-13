@@ -36,11 +36,7 @@ ENV CONTAINER "${CONTAINER}"
 # Copy SQL init file to make tables
 COPY ./backend/shared_tech .
 COPY ./backend/data_layer .
-RUN apt update && apt upgrade -y && \
-    apt install -y --no-install-recommends \
-        gcc && \
-    rm -rf /var/lib/apt/lists/* && \
-    mv ./init.sql /docker-entrypoint-initdb.d/init.sql
+RUN mv ./init.sql /docker-entrypoint-initdb.d/init.sql
 EXPOSE 5432
 
 # ----------------------------------------------------------------------------#
