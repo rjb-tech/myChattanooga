@@ -29,7 +29,7 @@ export const MyChattanoogaProvider = ({ children }) => {
     const [ panelExpanded, setPanelExpanded ] = useState(false);
     const [ isDark, setDark ] = useState(false);
     const [ weatherData, setWeatherData ] = useState(null);
-    const [ defaultWeatherLocation, setDefaultWeatherLocation ] = useState(null);
+    const [ defaultWeatherLocation, setDefaultWeatherLocation ] = useState("northChattanooga");
     const [ settingsPanelExpanded, setSettingsPanelExpanded ] = useState(false);
     const [ auxPanelExpanded, setAuxPanelExpanded ] = useState(false);
     const [ filterApplied, setFilterApplied ] = useState("all");
@@ -53,11 +53,10 @@ export const MyChattanoogaProvider = ({ children }) => {
             setPanelExpanded(panelExpanded => !panelExpanded);
         }
     }
+
     function toggleDarkMode() {
-        setDark(isDark => !isDark);
-        document.body.classList.contains('dark') 
-            ? document.body.classList.remove("dark") 
-            : document.body.classList.add("dark");
+        setDark(isDark => !isDark)
+        localStorage.setItem("dark", isDark)
     }
 
     const value = {
@@ -75,6 +74,12 @@ export const MyChattanoogaProvider = ({ children }) => {
     }
 
     useEffect(() => {
+        const lsDark = localStorage.getItem('dark') === 'true'
+        setDark(lsDark);
+        if (isDark===true && !document.body.classList.contains('dark')) {document.body.classList.add("dark")}
+    }, [])
+
+    useEffect(() => {
         const publishers = [...new Set(pageContent.map((contentItem) => contentItem.publisher))].sort();
         setFilterOptions(publishers);
     }, [pageContent])
@@ -85,6 +90,9 @@ export const MyChattanoogaProvider = ({ children }) => {
 
     useEffect(() => {
         localStorage.setItem("dark", isDark)
+        !document.body.classList.contains('dark') && isDark === true
+            ? (document.body.classList.add("dark"))
+            : (document.body.classList.remove("dark"))
     }, [isDark])
 
     const childrenWrapperClassString = (menuExpanded === true) 
