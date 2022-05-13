@@ -20,7 +20,7 @@ const childrenComponentVariants = {
 
 const userPanelVariants = {
     open: { opacity: 1, y: "0%" },
-    closed: { opacity: 1, y: "-100%" },
+    closed: { opacity: 0, y: "-100%" },
 }
 
 export const MyChattanoogaProvider = ({ children }) => {
@@ -134,7 +134,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                     </div>
                     {/* There's some weird jitter going on weirdly */}
                     <motion.div 
-                        className="sm:hidden w-full h-fit object-center fixed z-40 mx-auto" 
+                        className="sm:hidden w-full h-fit object-center fixed z-40 mx-auto opacity-0" 
                         key="MobileUserPanel"
                         animate={panelExpanded===true ? 'open' : 'closed'}
                         transition={{ 
