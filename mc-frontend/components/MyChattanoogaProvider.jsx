@@ -25,9 +25,17 @@ const userPanelVariants = {
 
 export const MyChattanoogaProvider = ({ children }) => {
 
+    const getDarkModePreference = () => {
+        useEffect(() => {
+            const lsDark = localStorage.getItem('dark') === 'true'
+            setDark(lsDark);
+            if (isDark===true && !document.body.classList.contains('dark')) {document.body.classList.add("dark")}
+        }, [])
+    }
+
     const [ menuExpanded, setMenuExpanded ] = useState(false);
     const [ panelExpanded, setPanelExpanded ] = useState(false);
-    const [ isDark, setDark ] = useState(false);
+    const [ isDark, setDark ] = useState(getDarkModePreference());
     const [ weatherData, setWeatherData ] = useState(null);
     const [ defaultWeatherLocation, setDefaultWeatherLocation ] = useState("northChattanooga");
     const [ settingsPanelExpanded, setSettingsPanelExpanded ] = useState(false);
@@ -72,12 +80,6 @@ export const MyChattanoogaProvider = ({ children }) => {
         filterApplied: {filterApplied},
         setFilterApplied: {setFilterApplied}
     }
-
-    useEffect(() => {
-        const lsDark = localStorage.getItem('dark') === 'true'
-        setDark(lsDark);
-        if (isDark===true && !document.body.classList.contains('dark')) {document.body.classList.add("dark")}
-    }, [])
 
     useEffect(() => {
         const publishers = [...new Set(pageContent.map((contentItem) => contentItem.publisher))].sort();
