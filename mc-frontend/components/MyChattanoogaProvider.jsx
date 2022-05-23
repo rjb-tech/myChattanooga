@@ -36,8 +36,6 @@ export const MyChattanoogaProvider = ({ children }) => {
     const [ menuExpanded, setMenuExpanded ] = useState(false);
     const [ panelExpanded, setPanelExpanded ] = useState(false);
     const [ isDark, setDark ] = useState(getDarkModePreference());
-    const [ weatherData, setWeatherData ] = useState(null);
-    const [ defaultWeatherLocation, setDefaultWeatherLocation ] = useState("northChattanooga");
     const [ settingsPanelExpanded, setSettingsPanelExpanded ] = useState(false);
     const [ auxPanelExpanded, setAuxPanelExpanded ] = useState(false);
     const [ filterApplied, setFilterApplied ] = useState("all");
