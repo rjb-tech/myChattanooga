@@ -3,10 +3,11 @@ import { ReactSkycon, SkyconType } from 'react-skycons-extended';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { motion } from 'framer-motion';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { TailSpin } from  'react-loader-spinner'
 const axios = require('axios');
 
 export const WeatherStation = ({ isDark, currentWeatherLocation, setCurrentWeatherLocation }) => {
-
+    console.log(currentWeatherLocation)
     // https://openweathermap.org/weather-conditions#Weather-Condition-Codes-2
     // https://www.npmjs.com/package/react-skycons-extended
     const weatherCodeMappings = {
@@ -358,6 +359,9 @@ export const WeatherStation = ({ isDark, currentWeatherLocation, setCurrentWeath
             latitude: 35.037511,
             longitude: -85.307215,
             "name": "Southside"
+        },
+        undefined: {
+            "name": "loading..."
         }
     }
 
@@ -377,29 +381,31 @@ export const WeatherStation = ({ isDark, currentWeatherLocation, setCurrentWeath
     const [ currentSunrise, setCurrentSunrise ] = useState(0);
     const [ currentSunset, setCurrentSunset ] = useState(0);
     const [ currentHumidity, setCurrentHumidity ] = useState(0);
-    const [ isLoading, setIsLoading ] = useState(false);
+    const [ isLoading, setIsLoading ] = useState(true);
     const [ windSpeed, setWindSpeed ] = useState(0);
     const [ windDirectionInDegrees, setWindDirectionInDegrees ] = useState(0);
 
     // Source: https://sherryhsu.medium.com/react-async-data-fetch-f5ccb107d02b
     useEffect(() => {
         const fetchData = async () => {
-            setIsLoading(true);
-            const response = await axios.get(`/api/weather?location=${weatherLocations[currentWeatherLocation]['name']}`)
-            .catch(function(error) {
-                console.log(error);
-            })
-            const data = await response.data[0]
-            
-            setCurrentTemp(data["temp"].toFixed());
-            setCurrentWeatherCode(data["weather_code"]);
-            setWeatherDescription(data["weather_description"]);
-            setCurrentSunrise(data["sunrise"]);
-            setCurrentSunset(data["sunset"]);
-            setCurrentHumidity(data["humidity"]);
-            setWindSpeed(data["wind_speed"]);
-            setWindDirectionInDegrees(data["wind_direction"]);
-            setIsLoading(false);
+            if (currentWeatherLocation != null) {
+                setIsLoading(true);
+                const response = await axios.get(`/api/weather?location=${weatherLocations[currentWeatherLocation]['name']}`)
+                .catch(function(error) {
+                    console.log(error);
+                })
+                const data = await response.data[0]
+                
+                setCurrentTemp(data["temp"].toFixed());
+                setCurrentWeatherCode(data["weather_code"]);
+                setWeatherDescription(data["weather_description"]);
+                setCurrentSunrise(data["sunrise"]);
+                setCurrentSunset(data["sunset"]);
+                setCurrentHumidity(data["humidity"]);
+                setWindSpeed(data["wind_speed"]);
+                setWindDirectionInDegrees(data["wind_direction"]);
+                setIsLoading(false);
+            }
         };
 
         fetchData();
@@ -423,7 +429,7 @@ export const WeatherStation = ({ isDark, currentWeatherLocation, setCurrentWeath
             }
             const newLocation = locationsIterHelper[index];
             setCurrentWeatherLocation(newLocation);
-            // save to localstorage here
+            localStorage.setItem("weatherLocation", newLocation)
         }
         else {
             const index = locationsIterHelper.indexOf(currentWeatherLocation) - 1;
@@ -433,13 +439,14 @@ export const WeatherStation = ({ isDark, currentWeatherLocation, setCurrentWeath
             }
             const newLocation = locationsIterHelper[index];
             setCurrentWeatherLocation(newLocation);
-            // save to localstorage here
+            localStorage.setItem("weatherLocation", newLocation)
         }
     }
 
     return (
         <div className='w-10/12 md:w-5/6 mx-auto'>
-            <div className='flex-col w-full h-fit'>
+            {isLoading && <div className='flex items-center justify-center'><TailSpin color={isDark ? "#FFF" : "#222"} height={80} width={80} /></div>}
+            {!isLoading && <div className='flex-col w-full h-fit'>
                 <div className='flex place-items-center'>
                     <motion.button whileTap={{ scale: 0.8 }} className='w-1/12 h-full flex-auto' onClick={() => switchWeatherLocation(false)}>
                         <FontAwesomeIcon icon={faAngleLeft} style={{color: `${weatherConfig.color}`}} className='w-1/2 h-1/2 md:w-1/3 md:h-1/3 xl:w-1/5 xl:h-1/5 flex-auto mx-auto'/>
@@ -475,7 +482,7 @@ export const WeatherStation = ({ isDark, currentWeatherLocation, setCurrentWeath
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>}
         </div>
     )
 }
