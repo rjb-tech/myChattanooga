@@ -7,7 +7,6 @@ import { TailSpin } from  'react-loader-spinner'
 const axios = require('axios');
 
 export const WeatherStation = ({ isDark, currentWeatherLocation, setCurrentWeatherLocation }) => {
-    console.log(currentWeatherLocation)
     // https://openweathermap.org/weather-conditions#Weather-Condition-Codes-2
     // https://www.npmjs.com/package/react-skycons-extended
     const weatherCodeMappings = {
