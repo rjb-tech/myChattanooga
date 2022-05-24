@@ -359,6 +359,7 @@ export const WeatherStation = ({ isDark, currentWeatherLocation, setCurrentWeath
             longitude: -85.307215,
             "name": "Southside"
         },
+        // ALways make sure this is last
         undefined: {
             "name": "loading..."
         }
@@ -385,34 +386,9 @@ export const WeatherStation = ({ isDark, currentWeatherLocation, setCurrentWeath
     const [ windDirectionInDegrees, setWindDirectionInDegrees ] = useState(0);
 
     // Source: https://sherryhsu.medium.com/react-async-data-fetch-f5ccb107d02b
-    // The two hooks here handle the initial load with loading spinner and without for user toggle
     useEffect(() => {
         const fetchData = async () => {
             if (currentWeatherLocation != null) {
-                const response = await axios.get(`/api/weather?location=${weatherLocations[currentWeatherLocation]['name']}`)
-                .catch(function(error) {
-                    console.log(error);
-                })
-                const data = await response.data[0]
-                
-                setCurrentTemp(data["temp"].toFixed());
-                setCurrentWeatherCode(data["weather_code"]);
-                setWeatherDescription(data["weather_description"]);
-                setCurrentSunrise(data["sunrise"]);
-                setCurrentSunset(data["sunset"]);
-                setCurrentHumidity(data["humidity"]);
-                setWindSpeed(data["wind_speed"]);
-                setWindDirectionInDegrees(data["wind_direction"]);
-            }
-        };
-
-        fetchData();
-    }, [currentWeatherLocation])
-
-    useEffect(() => {
-        const fetchData = async () => {
-            if (currentWeatherLocation != null) {
-                setIsLoading(true);
                 const response = await axios.get(`/api/weather?location=${weatherLocations[currentWeatherLocation]['name']}`)
                 .catch(function(error) {
                     console.log(error);
@@ -432,7 +408,7 @@ export const WeatherStation = ({ isDark, currentWeatherLocation, setCurrentWeath
         };
 
         fetchData();
-    }, [])
+    }, [currentWeatherLocation])
 
     const weatherConfig = {
         icon: isDay(currentSunrise, currentSunset)===true
@@ -444,9 +420,10 @@ export const WeatherStation = ({ isDark, currentWeatherLocation, setCurrentWeath
     }
 
     const switchWeatherLocation = (increasing) => {
+        // The -2 in the following code ignores the undefined key in the weatherLocations object
         if (increasing===true) {
             const index = locationsIterHelper.indexOf(currentWeatherLocation) + 1;
-            if (index > locationsIterHelper.length - 1) {
+            if (index > locationsIterHelper.length - 2) {
                 // set index to 0 if the max length of the locations list is reached
                 index = 0;
             }
@@ -458,7 +435,7 @@ export const WeatherStation = ({ isDark, currentWeatherLocation, setCurrentWeath
             const index = locationsIterHelper.indexOf(currentWeatherLocation) - 1;
             if (index < 0) {
                 // Get last items if the index counter goes under 0
-                index = locationsIterHelper.length - 1;
+                index = locationsIterHelper.length - 2;
             }
             const newLocation = locationsIterHelper[index];
             setCurrentWeatherLocation(newLocation);
