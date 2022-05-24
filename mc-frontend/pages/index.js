@@ -12,25 +12,27 @@ export default function Home({
   filterApplied, 
   pageContent, 
   setPageContent, 
-  setCurrentPage
+  setCurrentPage,
+  setContentLoading
 }) {
   const [ articlesLoading, setArticlesLoading ] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
+      setContentLoading(true);
       const result = await axios.get('/api/articles')
         .then((response) => {
           const data = response.data;
           setPageContent(Object.values(data));
+          setContentLoading(false);
         })
         .catch(function (error) {
-          console.log(error)
+          console.log(error);
+          setContentLoading(false);
         })
     }
     setCurrentPage(window.location.pathname);
-    setArticlesLoading(true);
     fetchData();
-    setArticlesLoading(false);
   }, [])
 
   var headlineString = ""
