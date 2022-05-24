@@ -10,6 +10,7 @@ import { faAngleUp } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { motion } from "framer-motion"
 import { UserPanel } from "./UserPanel"
+import { TailSpin } from  'react-loader-spinner'
 
 const MyChattanoogaContext = createContext();
 
@@ -33,17 +34,31 @@ export const MyChattanoogaProvider = ({ children }) => {
         }, [])
     }
 
+    const getWeatherLocation = () => {
+        useEffect(() => {
+            const lsWeatherLocation = localStorage.getItem('weatherLocation')
+            if (lsWeatherLocation && lsWeatherLocation !== "undefined") {
+                setCurrentWeatherLocation(lsWeatherLocation)
+            }
+            else {
+                setCurrentWeatherLocation("northChattanooga")
+                localStorage.setItem('weatherLocation', 'northChattanooga')
+            }
+        }, [])
+    }
+
+    const [ isDark, setDark ] = useState(getDarkModePreference());
+    const [ currentWeatherLocation, setCurrentWeatherLocation ] = useState(getWeatherLocation());
     const [ menuExpanded, setMenuExpanded ] = useState(false);
     const [ panelExpanded, setPanelExpanded ] = useState(false);
-    const [ isDark, setDark ] = useState(getDarkModePreference());
     const [ settingsPanelExpanded, setSettingsPanelExpanded ] = useState(false);
     const [ auxPanelExpanded, setAuxPanelExpanded ] = useState(false);
     const [ filterApplied, setFilterApplied ] = useState("all");
     const [ pageContent, setPageContent ] = useState([]);
+    const [ contentLoading, setContentLoading ] = useState(true);
     const [ filterOptions, setFilterOptions ] = useState([]);
     const [ currentPage, setCurrentPage ] = useState("");
     const [ currentAuxSection, setCurrentAuxSection ] = useState("");
-    const [ currentWeatherLocation, setCurrentWeatherLocation ] = useState('northChattanooga');
 
     function toggleMobileNav() {
         setMenuExpanded(menuExpanded => !menuExpanded);
@@ -51,7 +66,7 @@ export const MyChattanoogaProvider = ({ children }) => {
     function toggleMobileUserPanel() {
         if (auxPanelExpanded===true) {
             setAuxPanelExpanded(auxPanelExpanded => !auxPanelExpanded);
-            setTimeout(function(){
+            setTimeout(function() {
                 setPanelExpanded(panelExpanded => !panelExpanded)         
             }, 150);
         }
@@ -193,7 +208,8 @@ export const MyChattanoogaProvider = ({ children }) => {
                                                             filterApplied: filterApplied, 
                                                             pageContent: pageContent,
                                                             setPageContent: setPageContent,
-                                                            setCurrentPage: setCurrentPage
+                                                            setCurrentPage: setCurrentPage,
+                                                            setContentLoading: setContentLoading
                                                         })}
                             </div>
                             {/* {children} */}
