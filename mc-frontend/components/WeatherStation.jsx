@@ -385,6 +385,30 @@ export const WeatherStation = ({ isDark, currentWeatherLocation, setCurrentWeath
     const [ windDirectionInDegrees, setWindDirectionInDegrees ] = useState(0);
 
     // Source: https://sherryhsu.medium.com/react-async-data-fetch-f5ccb107d02b
+    // The two hooks here handle the initial load with loading spinner and without for user toggle
+    useEffect(() => {
+        const fetchData = async () => {
+            if (currentWeatherLocation != null) {
+                const response = await axios.get(`/api/weather?location=${weatherLocations[currentWeatherLocation]['name']}`)
+                .catch(function(error) {
+                    console.log(error);
+                })
+                const data = await response.data[0]
+                
+                setCurrentTemp(data["temp"].toFixed());
+                setCurrentWeatherCode(data["weather_code"]);
+                setWeatherDescription(data["weather_description"]);
+                setCurrentSunrise(data["sunrise"]);
+                setCurrentSunset(data["sunset"]);
+                setCurrentHumidity(data["humidity"]);
+                setWindSpeed(data["wind_speed"]);
+                setWindDirectionInDegrees(data["wind_direction"]);
+            }
+        };
+
+        fetchData();
+    }, [currentWeatherLocation])
+
     useEffect(() => {
         const fetchData = async () => {
             if (currentWeatherLocation != null) {
@@ -408,7 +432,7 @@ export const WeatherStation = ({ isDark, currentWeatherLocation, setCurrentWeath
         };
 
         fetchData();
-    }, [currentWeatherLocation])
+    }, [])
 
     const weatherConfig = {
         icon: isDay(currentSunrise, currentSunset)===true
