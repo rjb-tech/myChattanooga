@@ -445,7 +445,7 @@ export const WeatherStation = ({ isDark, currentWeatherLocation, setCurrentWeath
 
     return (
         <div className='w-10/12 md:w-5/6 mx-auto'>
-            {isLoading && <div className='flex items-center justify-center'><TailSpin color={isDark ? "#FFF" : "#222"} height={80} width={80} /></div>}
+            {isLoading && <div className='flex h-full items-center justify-center'><TailSpin color={isDark ? "#FFF" : "#222"} height={60} width={60} /></div>}
             {!isLoading && <div className='flex-col w-full h-fit'>
                 <div className='flex place-items-center'>
                     <motion.button whileTap={{ scale: 0.8 }} className='w-1/12 h-full flex-auto' onClick={() => switchWeatherLocation(false)}>
