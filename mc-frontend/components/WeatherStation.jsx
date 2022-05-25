@@ -6,6 +6,11 @@ import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { TailSpin } from  'react-loader-spinner'
 const axios = require('axios');
 
+const variants = {
+    loading: {opacity: 0},
+    loaded: {opacity: 1}
+}
+
 export const WeatherStation = ({ isDark, currentWeatherLocation, setCurrentWeatherLocation }) => {
     // https://openweathermap.org/weather-conditions#Weather-Condition-Codes-2
     // https://www.npmjs.com/package/react-skycons-extended
@@ -444,9 +449,16 @@ export const WeatherStation = ({ isDark, currentWeatherLocation, setCurrentWeath
     }
 
     return (
-        <div className='w-10/12 md:w-5/6 mx-auto'>
-            {isLoading && <div className='flex h-full items-center justify-center'><TailSpin color={isDark ? "#FFF" : "#222"} height={60} width={60} /></div>}
-            {!isLoading && <div className='flex-col w-full h-fit'>
+        <motion.div 
+            className='w-10/12 md:w-5/6 mx-auto opacity-0'
+            animate={isLoading===true ? "loading" : "loaded"}
+            transition={{ 
+                duration: .5,
+                type: "tween"
+            }}
+            variants={variants}
+        >
+            <div className='flex-col w-full h-fit'>
                 <div className='flex place-items-center'>
                     <motion.button whileTap={{ scale: 0.8 }} className='w-1/12 h-full flex-auto' onClick={() => switchWeatherLocation(false)}>
                         <FontAwesomeIcon icon={faAngleLeft} style={{color: `${weatherConfig.color}`}} className='w-1/2 h-1/2 md:w-1/3 md:h-1/3 xl:w-1/5 xl:h-1/5 flex-auto mx-auto'/>
@@ -482,7 +494,7 @@ export const WeatherStation = ({ isDark, currentWeatherLocation, setCurrentWeath
                         </div>
                     </div>
                 </div>
-            </div>}
-        </div>
+            </div>
+        </motion.div>
     )
 }
