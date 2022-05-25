@@ -1858,13 +1858,13 @@ def scrape_local_three(url, date):
     current_article = current_section
 
     # Get the link to the current card and use the requests session to go there and evaluate
-    current_article = current_article.find_next('article', class_='tnt-section-local-news')
+    current_article = current_article.find_next('article', class_='tnt-asset-type-article')
     current_headline = current_article.find('div', class_='card-headline').a.text.strip()
     current_article_category = current_article.find('div', class_='card-label-section')
     if current_article_category:
         current_article_category = current_article_category.a.text.strip().lower()
-    current_link = links['local_three']['base'] + current_article.find('h3').a['href']
-    current_datetime = current_article.find('li', class_='card-date').time['datetime']
+    current_link = links['local_three']['base'] + current_article.find('a', class_="tnt-asset-link")['href']
+    current_datetime = current_article.find('time', class_='tnt-date')['datetime']
     current_date_posted = current_datetime[:10]
     current_time_posted = current_datetime[11:16]
     # The image srcset has a ton of different sizes, so let's grab the link to the biggest and see if that scales right
@@ -1881,6 +1881,7 @@ def scrape_local_three(url, date):
     # Main scraping loop
     # Their story posting pattern is weird, but the first 7 or 8 are usually recent
     while current_article:
+        print(current_headline)
 
         # if current_date_posted == date and current_article_category == 'local news':
         if current_date_posted == date: # TESTING HERE
@@ -1904,8 +1905,8 @@ def scrape_local_three(url, date):
             current_article_category = current_article.find('div', class_='card-label-section')
             if current_article_category:
                 current_article_category = current_article_category.a.text.strip().lower()
-            current_link = links['local_three']['base'] + current_article.find('h3').a['href']
-            current_datetime = current_article.find('li', class_='card-date').time['datetime']
+            current_link = links['local_three']['base'] + current_article.find('a', class_="tnt-asset-link")['href']
+            current_datetime = current_article.find('time', class_='tnt-date')['datetime']
             current_date_posted = current_datetime[:10]
             current_time_posted = current_datetime[11:16]
             # The image srcset has a ton of different sizes, so let's grab the link to the biggest and see if that scales right
