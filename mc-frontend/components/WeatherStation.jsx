@@ -6,7 +6,7 @@ import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { TailSpin } from  'react-loader-spinner'
 const axios = require('axios');
 
-const variants = {
+const loadingVariants = {
     loading: {opacity: 0},
     loaded: {opacity: 1}
 }
@@ -456,7 +456,7 @@ export const WeatherStation = ({ isDark, currentWeatherLocation, setCurrentWeath
                 duration: .5,
                 type: "tween"
             }}
-            variants={variants}
+            variants={loadingVariants}
         >
             <div className='flex-col w-full h-fit'>
                 <div className='flex place-items-center'>
