@@ -24,6 +24,11 @@ const userPanelVariants = {
     closed: { opacity: 0, y: "-100%" },
 }
 
+const loadingVariants = {
+    loading: {opacity: 0},
+    loaded: {opacity: 1}
+}
+
 export const MyChattanoogaProvider = ({ children }) => {
 
     const getDarkModePreference = () => {
@@ -132,7 +137,16 @@ export const MyChattanoogaProvider = ({ children }) => {
                     />
                 </header>
 
-                <main className="w-screen h-screen align-center relative overflow-y-scroll" key="siteContent">
+                <motion.main
+                    key="siteContent"
+                    className="w-screen h-screen align-center relative overflow-y-scroll opacity-0"
+                    animate={contentLoading===true ? "loading" : "loaded"}
+                    transition={{ 
+                        duration: .5,
+                        type: "tween"
+                    }}
+                    variants={loadingVariants}
+                >
                     {/* TECH DEBT: Put motion element here instead of in MobileNav component */}
                     <div className="sm:hidden fixed w-full h-fit object-center -left-full z-50 flex mx-auto" 
                         key="MobileNav"
@@ -215,7 +229,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                             {/* {children} */}
                         </motion.div>
                     </div>
-                </main>
+                </motion.main>
 
                 {/* <footer className="flex items-center w-screen">
                     
