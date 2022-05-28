@@ -1,15 +1,21 @@
 import { useEffect, useState } from "react"
+import { motion } from "framer-motion";
 import { Article } from "../components/Article"
 const axios = require('axios');
+
+const loadingVariants = {
+  loading: {opacity: 0},
+  loaded: {opacity: 1}
+}
 
 export default function Home({ 
   filterApplied, 
   pageContent, 
   setPageContent, 
   setCurrentPage,
+  contentLoading,
   setContentLoading
 }) {
-  const [ articlesLoading, setArticlesLoading ] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,7 +51,15 @@ export default function Home({
           <h1 className="text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF]">{headlineString}</h1>
         </div>
         
-        <div className="flex-auto grid sm:grid-cols-2 xl:grid-cols-3 w-full h-fit z-auto sticky top-0 bg-[#FFF] dark:bg-[#222]">
+        <motion.div 
+          className="flex-auto grid sm:grid-cols-2 xl:grid-cols-3 w-full h-fit z-auto sticky top-0 bg-[#FFF] dark:bg-[#222]"
+          animate={contentLoading===true ? "loading" : "loaded"}
+          transition={{ 
+            duration: .3, 
+            type: "tween"
+          }}
+          variants={loadingVariants}
+        >
           {pageContent.map((story) => {
             if (filterApplied === "all") {
               return (
@@ -76,7 +90,7 @@ export default function Home({
               }
             }
           })} 
-        </div>
+        </motion.div>
       </div>
     </div>
   )

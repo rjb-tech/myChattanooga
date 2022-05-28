@@ -18,11 +18,6 @@ const userPanelVariants = {
     closed: { opacity: 0, y: "-100%" },
 }
 
-const loadingVariants = {
-    loading: {opacity: 0},
-    loaded: {opacity: 1}
-}
-
 export const MyChattanoogaProvider = ({ children }) => {
 
     const getDarkModePreference = () => {
@@ -131,16 +126,9 @@ export const MyChattanoogaProvider = ({ children }) => {
                     />
                 </header>
 
-                <motion.main
+                <main
                     key="siteContent"
-                    className="w-screen h-screen align-center relative overflow-y-scroll opacity-0"
-                    // Adding the currentPage check here makes sure the content only fades in on intital load
-                    animate={contentLoading===true && currentPage==="" ? "loading" : "loaded"}
-                    transition={{ 
-                        duration: .5,
-                        type: "tween"
-                    }}
-                    variants={loadingVariants}
+                    className="w-screen h-screen align-center relative overflow-y-scroll"
                 >
                     {/* TECH DEBT: Put motion element here instead of in MobileNav component */}
                     <div className="sm:hidden fixed w-full h-fit object-center -left-full z-50 flex mx-auto" 
@@ -218,13 +206,14 @@ export const MyChattanoogaProvider = ({ children }) => {
                                                             pageContent: pageContent,
                                                             setPageContent: setPageContent,
                                                             setCurrentPage: setCurrentPage,
+                                                            contentLoading: contentLoading,
                                                             setContentLoading: setContentLoading
                                                         })}
                             </div>
                             {/* {children} */}
                         </motion.div>
                     </div>
-                </motion.main>
+                </main>
 
                 {/* <footer className="flex items-center w-screen">
                     
