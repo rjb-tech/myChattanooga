@@ -58,7 +58,11 @@ class Stat(BaseModel):
 
 
 class MC_Connection:
-    DATABASE_URL = "postgresql://" + os.environ['POSTGRES_USER'] + ":" + os.environ['POSTGRES_PASSWORD'] + "@host.docker.internal:5432/" + os.environ['POSTGRES_DB']
+    deployment_environment = os.environ['DEPLOYMENT_ENV']
+    if deployment_environment == "dev":
+        DATABASE_URL = f"postgresql://{os.environ['POSTGRES_USER']}:{os.environ['POSTGRES_PASSWORD']}@host.docker.internal:5432/{os.environ['POSTGRES_DB']}"
+    elif deployment_environment == "prod":
+        DATABASE_URL = f"postgresql://{os.environ['POSTGRES_PROD_USER']}:{os.environ['POSTGRES_PROD_PASSWORD']}@mychattanooga-prod-do-user-9032420-0.b.db.ondigitalocean.com:25060/mychattanooga?sslmode=require"
 
     db_obj = None
     db_connected = False
