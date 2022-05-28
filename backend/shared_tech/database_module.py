@@ -1,7 +1,7 @@
 import os
 import logging
 from typing import Any, Optional
-import sqlalchemy
+import sqlalchemy as sa
 from datetime import datetime
 from sqlalchemy.dialects.postgresql import REAL
 from datetime import datetime
@@ -66,49 +66,49 @@ class MC_Connection:
 
     db_obj = None
     db_connected = False
-    local_metadata = sqlalchemy.MetaData()
+    local_metadata = sa.MetaData()
     tables = {}
     
-    tables["articles_table"] = sqlalchemy.Table(
+    tables["articles_table"] = sa.Table(
         "articles",
         local_metadata,
-        sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-        sqlalchemy.Column("headline", sqlalchemy.Text),
-        sqlalchemy.Column("link", sqlalchemy.Text),
-        sqlalchemy.Column("image", sqlalchemy.Text),
-        sqlalchemy.Column("time_posted", sqlalchemy.Text),
-        sqlalchemy.Column("publisher", sqlalchemy.Text),
+        sa.Column("id", sa.Integer, primary_key=True),
+        sa.Column("headline", sa.Text),
+        sa.Column("link", sa.Text),
+        sa.Column("image", sa.Text),
+        sa.Column("time_posted", sa.Text),
+        sa.Column("publisher", sa.Text),
     )
 
-    tables["stats_table"] = sqlalchemy.Table(
+    tables["stats_table"] = sa.Table(
         "stats",
         local_metadata,
-        sqlalchemy.Column("publisher", sqlalchemy.Text, primary_key=True),
-        sqlalchemy.Column("scraped", sqlalchemy.Integer),
-        sqlalchemy.Column("relevant", sqlalchemy.Integer),
-        sqlalchemy.Column("date", sqlalchemy.TIMESTAMP),
+        sa.Column("publisher", sa.Text, primary_key=True),
+        sa.Column("scraped", sa.Integer),
+        sa.Column("relevant", sa.Integer),
+        sa.Column("date", sa.TIMESTAMP),
     )
 
-    tables["tfp_table"] = sqlalchemy.Table(
+    tables["tfp_table"] = sa.Table(
         "tfp",
         local_metadata,
-        sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-        sqlalchemy.Column("headline", sqlalchemy.Text),
-        sqlalchemy.Column("time_posted", sqlalchemy.TIMESTAMP)
+        sa.Column("id", sa.Integer, primary_key=True),
+        sa.Column("headline", sa.Text),
+        sa.Column("time_posted", sa.TIMESTAMP)
     )  
 
-    tables["weather_table"] = sqlalchemy.Table(
+    tables["weather_table"] = sa.Table(
         "weather",
         local_metadata,
-        sqlalchemy.Column("weather_location", sqlalchemy.String(50), primary_key=True),
-        sqlalchemy.Column("temp", REAL),
-        sqlalchemy.Column("humidity", REAL),
-        sqlalchemy.Column("weather_code", sqlalchemy.Integer),
-        sqlalchemy.Column("weather_description", sqlalchemy.Text),
-        sqlalchemy.Column("sunrise", sqlalchemy.Integer),
-        sqlalchemy.Column("sunset", sqlalchemy.Integer),
-        sqlalchemy.Column("wind_speed", sqlalchemy.Integer),
-        sqlalchemy.Column("wind_direction", sqlalchemy.Integer)
+        sa.Column("weather_location", sa.String(50), primary_key=True),
+        sa.Column("temp", REAL),
+        sa.Column("humidity", REAL),
+        sa.Column("weather_code", sa.Integer),
+        sa.Column("weather_description", sa.Text),
+        sa.Column("sunrise", sa.Integer),
+        sa.Column("sunset", sa.Integer),
+        sa.Column("wind_speed", sa.Integer),
+        sa.Column("wind_direction", sa.Integer)
     )  
     
     # Constructor
@@ -120,7 +120,7 @@ class MC_Connection:
             raise Exception(e)
     
 
-    def get_metadata(self) -> sqlalchemy.MetaData:
+    def get_metadata(self) -> sa.MetaData:
         return self.local_metadata
     
     # Plug in, connect if needed, return existing attribute if it exists
@@ -140,7 +140,7 @@ class MC_Connection:
     def is_connected(self) -> bool:
         return self.db_connected
 
-    def get_table(self, classifier: str) -> Result[sqlalchemy.Table, str]:
+    def get_table(self, classifier: str) -> Result[sa.Table, str]:
         try:
             to_return = self.tables[f"{classifier}_table"]
             return Ok(to_return)
