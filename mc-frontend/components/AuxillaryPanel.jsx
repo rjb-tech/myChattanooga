@@ -1,5 +1,4 @@
 import { motion } from "framer-motion"
-import { SettingsPanel } from "./SettingsPanel"
 import { AccountPanel } from "./AccountPanel"
 
 const variants = {

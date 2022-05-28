@@ -1,5 +1,5 @@
 import { motion } from "framer-motion"
-import { faFilter, faGear, faSun, faMoon, faUser, faCalendar, faPencil } from "@fortawesome/free-solid-svg-icons"
+import { faSun, faMoon, faUser, faPencil } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { FiltersPanel } from "./FiltersPanel"
 import { Socials } from "./Socials"

@@ -1,11 +1,9 @@
-import Link from 'next/link';
 import React from 'react';
-import { animate, motion } from "framer-motion"
-import { useState, useEffect } from 'react';
-import { faFilter, faGear, faSun, faMoon, faUser, faCalendar, faPencil } from "@fortawesome/free-solid-svg-icons"
+import { motion } from "framer-motion"
+import { useEffect } from 'react';
+import { faFilter, faSun, faMoon, faUser, faPencil } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
 import { MobileAuxillaryPanel } from './MobileAuxillaryPanel';
-import { getFilteredQueryString } from './helpers';
 import { useAuth0 } from '@auth0/auth0-react';
 
 const axios = require('axios');

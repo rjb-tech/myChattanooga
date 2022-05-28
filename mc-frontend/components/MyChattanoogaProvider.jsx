@@ -1,16 +1,10 @@
 import { StickyHeader } from "./StickyHeader"
-import { ContentZone } from "./ContentZone"
 import Head from 'next/head'
-import Image from 'next/image'
 import { useState, createContext, useRef, useEffect, cloneElement } from "react"
 import { MobileNav } from "./MobileNav"
-import Script from "next/script"
 import { MobileUserPanel } from "./MobileUserPanel"
-import { faAngleUp } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { motion } from "framer-motion"
 import { UserPanel } from "./UserPanel"
-import { TailSpin } from  'react-loader-spinner'
 
 const MyChattanoogaContext = createContext();
 

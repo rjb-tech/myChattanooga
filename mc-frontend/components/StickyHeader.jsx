@@ -2,7 +2,6 @@ import { Logo } from "./Logo"
 import { NavBar } from "./NavBar"
 import { RightPanel } from "./RightPanel"
 import { LeftPanel } from "./LeftPanel"
-import { TimeClock } from "./TimeClock"
 import MyChattanoogaContext from './MyChattanoogaProvider'
 import { useContext } from "react"
 

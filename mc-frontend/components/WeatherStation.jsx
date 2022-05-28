@@ -3,7 +3,6 @@ import { ReactSkycon, SkyconType } from 'react-skycons-extended';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { motion } from 'framer-motion';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
-import { TailSpin } from  'react-loader-spinner'
 const axios = require('axios');
 
 const loadingVariants = {

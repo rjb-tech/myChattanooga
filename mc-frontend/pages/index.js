@@ -1,11 +1,5 @@
 import { useEffect, useState } from "react"
 import { Article } from "../components/Article"
-import { motion } from "framer-motion"
-import MyChattanoogaContext from "../components/MyChattanoogaProvider";
-import { useContext } from "react";
-import { WeatherStation } from "../components/WeatherStation";
-import { UserPanel } from "../components/UserPanel";
-import { Socials } from "../components/Socials";
 const axios = require('axios');
 
 export default function Home({ 

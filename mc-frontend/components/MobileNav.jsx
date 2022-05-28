@@ -1,10 +1,5 @@
-import { useState } from 'react';
-import menu from '../public/menu.svg'
 import Link from 'next/link'
-import Image from 'next/image'
-import { animate, motion } from "framer-motion"
-import { useContext } from 'react';
-import MyChattanoogaContext from './MyChattanoogaProvider';
+import { motion } from "framer-motion"
 import { WeatherStation } from './WeatherStation';
 import { Socials } from './Socials';
 
