@@ -140,7 +140,8 @@ export const MyChattanoogaProvider = ({ children }) => {
                 <motion.main
                     key="siteContent"
                     className="w-screen h-screen align-center relative overflow-y-scroll opacity-0"
-                    animate={contentLoading===true ? "loading" : "loaded"}
+                    // Adding the currentPage check here makes sure the content only fades in on intital load
+                    animate={contentLoading===true && currentPage==="" ? "loading" : "loaded"}
                     transition={{ 
                         duration: .5,
                         type: "tween"
