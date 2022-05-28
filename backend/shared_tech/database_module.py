@@ -1,9 +1,9 @@
 import os
 import logging
 from typing import Any, Optional
-import databases
-import sqlalchemy
-from sqlalchemy.pool import QueuePool
+import sqlalchemy as sa
+from datetime import datetime
+from sqlalchemy.dialects.postgresql import REAL
 from datetime import datetime
 from pydantic import BaseModel
 from databases import Database
@@ -35,6 +35,18 @@ class Article(BaseModel):
         orm_mode = True
 
 
+class Weather(BaseModel):
+    weather_location: Optional[str]
+    temp: Optional[float]
+    humidity: Optional[float]
+    weather_code: Optional[int]
+    weather_description: Optional[str]
+    sunrise: Optional[int]
+    sunset: Optional[int]
+    wind_speed: Optional[int]
+    wind_direction: Optional[str]
+
+
 class Stat(BaseModel):
     publisher: Optional[str]
     scraped: Optional[int]
@@ -46,40 +58,58 @@ class Stat(BaseModel):
 
 
 class MC_Connection:
-    DATABASE_URL = "postgresql://" + os.environ['POSTGRES_USER'] + ":" + os.environ['POSTGRES_PASSWORD'] + "@host.docker.internal:5432/" + os.environ['POSTGRES_DB']
+    deployment_environment = os.environ['DEPLOYMENT_ENV']
+    if deployment_environment == "dev":
+        DATABASE_URL = f"postgresql://{os.environ['POSTGRES_USER']}:{os.environ['POSTGRES_PASSWORD']}@host.docker.internal:5432/{os.environ['POSTGRES_DB']}"
+    elif deployment_environment == "prod":
+        DATABASE_URL = f"postgresql://{os.environ['POSTGRES_PROD_USER']}:{os.environ['POSTGRES_PROD_PASSWORD']}@mychattanooga-prod-do-user-9032420-0.b.db.ondigitalocean.com:25060/mychattanooga?sslmode=require"
 
     db_obj = None
     db_connected = False
-    local_metadata = sqlalchemy.MetaData()
+    local_metadata = sa.MetaData()
     tables = {}
     
-    tables["articles_table"] = sqlalchemy.Table(
+    tables["articles_table"] = sa.Table(
         "articles",
         local_metadata,
-        sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-        sqlalchemy.Column("headline", sqlalchemy.Text),
-        sqlalchemy.Column("link", sqlalchemy.Text),
-        sqlalchemy.Column("image", sqlalchemy.Text),
-        sqlalchemy.Column("time_posted", sqlalchemy.Text),
-        sqlalchemy.Column("publisher", sqlalchemy.Text),
+        sa.Column("id", sa.Integer, primary_key=True),
+        sa.Column("headline", sa.Text),
+        sa.Column("link", sa.Text),
+        sa.Column("image", sa.Text),
+        sa.Column("time_posted", sa.Text),
+        sa.Column("publisher", sa.Text),
     )
 
-    tables["stats_table"] = sqlalchemy.Table(
+    tables["stats_table"] = sa.Table(
         "stats",
         local_metadata,
-        sqlalchemy.Column("publisher", sqlalchemy.Text, primary_key=True),
-        sqlalchemy.Column("scraped", sqlalchemy.Integer),
-        sqlalchemy.Column("relevant", sqlalchemy.Integer),
-        sqlalchemy.Column("date", sqlalchemy.TIMESTAMP),
+        sa.Column("publisher", sa.Text, primary_key=True),
+        sa.Column("scraped", sa.Integer),
+        sa.Column("relevant", sa.Integer),
+        sa.Column("date", sa.TIMESTAMP),
     )
 
-    tables["tfp_table"] = sqlalchemy.Table(
+    tables["tfp_table"] = sa.Table(
         "tfp",
         local_metadata,
-        sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-        sqlalchemy.Column("headline", sqlalchemy.Text),
-        sqlalchemy.Column("time_posted", sqlalchemy.TIMESTAMP)
-    )    
+        sa.Column("id", sa.Integer, primary_key=True),
+        sa.Column("headline", sa.Text),
+        sa.Column("time_posted", sa.TIMESTAMP)
+    )  
+
+    tables["weather_table"] = sa.Table(
+        "weather",
+        local_metadata,
+        sa.Column("weather_location", sa.String(50), primary_key=True),
+        sa.Column("temp", REAL),
+        sa.Column("humidity", REAL),
+        sa.Column("weather_code", sa.Integer),
+        sa.Column("weather_description", sa.Text),
+        sa.Column("sunrise", sa.Integer),
+        sa.Column("sunset", sa.Integer),
+        sa.Column("wind_speed", sa.Integer),
+        sa.Column("wind_direction", sa.Integer)
+    )  
     
     # Constructor
     def __init__(self) -> None:
@@ -90,11 +120,11 @@ class MC_Connection:
             raise Exception(e)
     
 
-    def get_metadata(self) -> sqlalchemy.MetaData:
+    def get_metadata(self) -> sa.MetaData:
         return self.local_metadata
     
     # Plug in, connect if needed, return existing attribute if it exists
-    async def plug_in(self):
+    async def plug_in(self) -> None:
         if not self.db_connected:
             await self.db_obj.connect()
             self.db_connected = True
@@ -110,7 +140,7 @@ class MC_Connection:
     def is_connected(self) -> bool:
         return self.db_connected
 
-    def get_table(self, classifier: str) -> Result[sqlalchemy.Table, str]:
+    def get_table(self, classifier: str) -> Result[sa.Table, str]:
         try:
             to_return = self.tables[f"{classifier}_table"]
             return Ok(to_return)
@@ -121,4 +151,6 @@ class MC_Connection:
     def get_db_obj(self):
         if self.db_connected:
             return self.db_obj
+        else:
+            raise ConnectionError
         

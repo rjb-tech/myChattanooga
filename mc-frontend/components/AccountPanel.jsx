@@ -1,0 +1,22 @@
+import React from "react";
+import { motion } from "framer-motion";
+import { useAuth0 } from "@auth0/auth0-react";
+const axios = require('axios');
+
+export const AccountPanel = () => {
+    const { user, logout, isLoading } = useAuth0();
+    // There will need to be some sort of check here for if a user is already logged in, etc.
+    return (
+        <div className="w-5/6 md:w-full">
+            <div className="py-1 md:py-2">
+                <motion.button 
+                    whileTap={{ scale: 0.9 }}
+                    className="flex-auto mx-auto border py-2 rounded-lg md:rounded-full w-full hover:border-[#F7BCB1]"
+                    onClick={() => logout({ returnTo: window.location.origin })}
+                >
+                    Logout
+                </motion.button>
+            </div>
+        </div>
+    )    
+}

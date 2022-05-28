@@ -1,52 +1,227 @@
 import { StickyHeader } from "./StickyHeader"
-import { ContentZone } from "./ContentZone"
 import Head from 'next/head'
-import Image from 'next/image'
-import { useState, createContext, Children, useContext } from "react"
-import { MobileMenu } from "./MobileMenu"
+import { useState, createContext, useRef, useEffect, cloneElement } from "react"
+import { MobileNav } from "./MobileNav"
+import { MobileUserPanel } from "./MobileUserPanel"
+import { motion } from "framer-motion"
+import { UserPanel } from "./UserPanel"
 
 const MyChattanoogaContext = createContext();
 
+const childrenComponentVariants = {
+    normal: {y: "0%"},
+    extended: {y: "5rem"}
+}
+
+const userPanelVariants = {
+    open: { opacity: 1, y: "0%" },
+    closed: { opacity: 0, y: "-100%" },
+}
+
 export const MyChattanoogaProvider = ({ children }) => {
-    const [isExpanded, setIsExpanded] = useState(false)
-    function toggleMenu() {
-        setIsExpanded(isExpanded => !isExpanded)
-        console.log(isExpanded)
+
+    const getDarkModePreference = () => {
+        useEffect(() => {
+            const lsDark = localStorage.getItem('dark') === 'true'
+            setDark(lsDark);
+            if (isDark===true && !document.body.classList.contains('dark')) {document.body.classList.add("dark")}
+        }, [])
     }
-    const [isDark, setDark] = useState(true)
-    function toggleDark() {
+
+    const getWeatherLocation = () => {
+        useEffect(() => {
+            const lsWeatherLocation = localStorage.getItem('weatherLocation')
+            if (lsWeatherLocation && lsWeatherLocation !== "undefined") {
+                setCurrentWeatherLocation(lsWeatherLocation)
+            }
+            else {
+                setCurrentWeatherLocation("northChattanooga")
+                localStorage.setItem('weatherLocation', 'northChattanooga')
+            }
+        }, [])
+    }
+
+    const [ isDark, setDark ] = useState(getDarkModePreference());
+    const [ currentWeatherLocation, setCurrentWeatherLocation ] = useState(getWeatherLocation());
+    const [ menuExpanded, setMenuExpanded ] = useState(false);
+    const [ panelExpanded, setPanelExpanded ] = useState(false);
+    const [ settingsPanelExpanded, setSettingsPanelExpanded ] = useState(false);
+    const [ auxPanelExpanded, setAuxPanelExpanded ] = useState(false);
+    const [ filterApplied, setFilterApplied ] = useState("all");
+    const [ pageContent, setPageContent ] = useState([]);
+    const [ contentLoading, setContentLoading ] = useState(true);
+    const [ filterOptions, setFilterOptions ] = useState([]);
+    const [ currentPage, setCurrentPage ] = useState("");
+    const [ currentAuxSection, setCurrentAuxSection ] = useState("");
+
+    function toggleMobileNav() {
+        setMenuExpanded(menuExpanded => !menuExpanded);
+    }
+    function toggleMobileUserPanel() {
+        if (auxPanelExpanded===true) {
+            setAuxPanelExpanded(auxPanelExpanded => !auxPanelExpanded);
+            setTimeout(function() {
+                setPanelExpanded(panelExpanded => !panelExpanded)         
+            }, 150);
+        }
+        else{
+            setPanelExpanded(panelExpanded => !panelExpanded);
+        }
+    }
+
+    function toggleDarkMode() {
         setDark(isDark => !isDark)
-        console.log(isDark)
+        localStorage.setItem("dark", isDark)
     }
+
     const value = {
-        isExpanded: {isExpanded},
-        toggleMenu: {toggleMenu}
+        isExpanded: {menuExpanded},
+        toggleMobileNav: {toggleMobileNav},
+        panelExpanded: {panelExpanded},
+        toggleMobileUserPanel: {toggleMobileUserPanel},
+        toggleDarkMode: {toggleDarkMode},
+        settingsPanelExpanded: {settingsPanelExpanded},
+        setSettingsPanelExpanded: {setSettingsPanelExpanded},
+        auxPanelExpanded: {auxPanelExpanded},
+        setAuxPanelExpanded: {setAuxPanelExpanded},
+        filterApplied: {filterApplied},
+        setFilterApplied: {setFilterApplied}
     }
+
+    useEffect(() => {
+        const publishers = [...new Set(pageContent.map((contentItem) => contentItem.publisher))].sort();
+        setFilterOptions(publishers);
+    }, [pageContent])
+
+    useEffect(() => {
+        localStorage.setItem("weatherLocation", currentWeatherLocation)
+    }, [currentWeatherLocation])
+
+    useEffect(() => {
+        localStorage.setItem("dark", isDark)
+        !document.body.classList.contains('dark') && isDark === true
+            ? (document.body.classList.add("dark"))
+            : (document.body.classList.remove("dark"))
+    }, [isDark])
+
+    const childrenWrapperClassString = (menuExpanded === true) 
+        ? "overscroll-contain transition duration-[300ms] blur-sm ease-linear"
+        : "overscroll-contain transition duration-[300ms]"
+
     return (
         <MyChattanoogaContext.Provider value={value}>
-            <div className="flex flex-col h-screen overscroll-contain">
+            <div className="flex flex-col h-screen overscroll-contain bg-[#FFF] dark:bg-[#222]">
                 <Head>
                         <title>myChattanooga</title>
                         <meta name="description" content="Generated by create next app" key="siteDescription"/>
-                        <link rel="icon" href="/favicon.ico" />
+                        <link rel="icon" href="/favicon.ico" /> 
                 </Head>
 
-                <header className="relative w-screen ">
-                    <StickyHeader isDark />
+                <header className="w-screen bg-[#FFF] dark:bg-[#222] z-50">
+                    <StickyHeader 
+                        isDark={isDark} 
+                        toggleDarkMode={toggleDarkMode} 
+                        currentWeatherLocation={currentWeatherLocation}
+                        setCurrentWeatherLocation={setCurrentWeatherLocation} 
+                    />
                 </header>
 
-                <main className="w-screen h-screen bg-green-300 overflow-y-scroll px-8 pb-8 pt-4 align-center" >
-                    <div className="sm:hidden fixed h-fit w-1/2 bg-yellow-500 object-center right-0">
-                        <MobileMenu />
+                <main
+                    key="siteContent"
+                    className="w-screen h-screen align-center relative overflow-y-scroll"
+                >
+                    {/* TECH DEBT: Put motion element here instead of in MobileNav component */}
+                    <div className="sm:hidden fixed w-full h-fit object-center -left-full z-50 flex mx-auto" 
+                        key="MobileNav"
+                    >
+                        <MobileNav 
+                            isDark={isDark} 
+                            menuExpanded={menuExpanded} 
+                            setMenuExpanded={setMenuExpanded}
+                            toggleMobileUserPanel={toggleMobileUserPanel}
+                            panelExpanded={panelExpanded}
+                            currentWeatherLocation={currentWeatherLocation}
+                            setCurrentWeatherLocation={setCurrentWeatherLocation}
+                        />
                     </div>
-                    {children}
+                    {/* There's some weird jitter going on weirdly */}
+                    <motion.div 
+                        className="sm:hidden w-full h-fit object-center fixed z-40 mx-auto opacity-0" 
+                        key="MobileUserPanel"
+                        animate={panelExpanded===true ? 'open' : 'closed'}
+                        transition={{ 
+                            duration: panelExpanded===true ? .3 : .3, 
+                            type: "tween"
+                        }}
+                        variants={userPanelVariants}
+                    >
+                        <MobileUserPanel 
+                            isDark={isDark} 
+                            panelExpanded={panelExpanded} 
+                            toggleDarkMode={toggleDarkMode}
+                            setAuxPanelExpanded={setAuxPanelExpanded}
+                            auxPanelExpanded={auxPanelExpanded}
+                            filterApplied={filterApplied}
+                            setFilterApplied={setFilterApplied}
+                            filterOptions={filterOptions}
+                            setFilterOptions={setFilterOptions}
+                            pageContent={pageContent}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                            currentAuxSection={currentAuxSection}
+                            setCurrentAuxSection={setCurrentAuxSection}
+                        />
+                    </motion.div>
+                    <div className={childrenWrapperClassString}>
+                        <motion.div 
+                            animate={panelExpanded===true ? 'extended' : 'normal'}
+                            className="flex justify-center scroll-smooth p-2 py-4 lg:px-0 lg:pt-8 flex w-screen"
+                            transition={{ 
+                                duration: panelExpanded===true ? .3 : .5,
+                                type: "tween"
+                            }}
+                            variants={childrenComponentVariants}
+                        >
+                            <div className="hidden flex-col md:block w-1/3 xl:w-1/5 w-full h-fit border-r-2 sticky top-4 pr-2">
+                                <UserPanel 
+                                    isDark={isDark} 
+                                    panelExpanded={panelExpanded} 
+                                    toggleDarkMode={toggleDarkMode}
+                                    setAuxPanelExpanded={setAuxPanelExpanded}
+                                    auxPanelExpanded={auxPanelExpanded}
+                                    filterApplied={filterApplied}
+                                    setFilterApplied={setFilterApplied}
+                                    filterOptions={filterOptions}
+                                    setFilterOptions={setFilterOptions}
+                                    pageContent={pageContent}
+                                    currentPage={currentPage}
+                                    setCurrentPage={setCurrentPage}
+                                    currentAuxSection={currentAuxSection}
+                                    setCurrentAuxSection={setCurrentAuxSection}
+                                />
+                            </div>
+                            <div className="md:w-9/12">
+                                {cloneElement(children, {
+                                                            filterApplied: filterApplied, 
+                                                            pageContent: pageContent,
+                                                            setPageContent: setPageContent,
+                                                            setCurrentPage: setCurrentPage,
+                                                            contentLoading: contentLoading,
+                                                            setContentLoading: setContentLoading
+                                                        })}
+                            </div>
+                            {/* {children} */}
+                        </motion.div>
+                    </div>
                 </main>
 
-                <footer >
+                {/* <footer className="flex items-center w-screen">
+                    
+                    <div className="flex-auto">
+                        Hi
+                    </div>
                         
-                    Maybe advertise or somn here
-                        
-                </footer>
+                </footer> */}
             </div>
         </MyChattanoogaContext.Provider>
     )

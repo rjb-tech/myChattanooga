@@ -7,6 +7,7 @@ ENV POSTGRES_USER "${POSTGRES_USER}"
 ENV POSTGRES_PASSWORD "${POSTGRES_PASSWORD}"
 ENV POSTGRES_DB "${POSTGRES_DB}"
 ENV CONTAINER "${CONTAINER}"
+ENV DEPLOYMENT_ENV "${DEPLOYMENT_ENV}"
 COPY ./backend/shared_tech .
 COPY ./backend/api_layer .
 # THIS WILL BE CHANGED WHEN THE FILE IS SPLIT
@@ -33,14 +34,11 @@ ENV POSTGRES_USER "${POSTGRES_USER}"
 ENV POSTGRES_PASSWORD "${POSTGRES_PASSWORD}"
 ENV POSTGRES_DB "${POSTGRES_DB}"
 ENV CONTAINER "${CONTAINER}"
+ENV DEPLOYMENT_ENV "${DEPLOYMENT_ENV}"
 # Copy SQL init file to make tables
 COPY ./backend/shared_tech .
 COPY ./backend/data_layer .
-RUN apt update && apt upgrade -y && \
-    apt install -y --no-install-recommends \
-        gcc && \
-    rm -rf /var/lib/apt/lists/* && \
-    mv ./init.sql /docker-entrypoint-initdb.d/init.sql
+RUN mv ./init.sql /docker-entrypoint-initdb.d/init.sql
 EXPOSE 5432
 
 # ----------------------------------------------------------------------------#
@@ -52,6 +50,7 @@ ENV POSTGRES_USER "${POSTGRES_USER}"
 ENV POSTGRES_PASSWORD "${POSTGRES_PASSWORD}"
 ENV POSTGRES_DB "${POSTGRES_DB}"
 ENV CONTAINER "${CONTAINER}"
+ENV DEPLOYMENT_ENV "${DEPLOYMENT_ENV}"
 COPY ./backend/shared_tech .
 COPY ./backend/scraper_layer .
 COPY ./backend/requirements.txt .
@@ -66,4 +65,13 @@ RUN apt update && apt upgrade -y && \
     rm -rf /var/lib/apt/lists/* && \
     pip3 install --no-cache-dir --upgrade -r requirements.txt && \
     mkdir data
-ENTRYPOINT bash -c "python3 scraper.py && cat myChattanooga.log 2>&1"
+ENTRYPOINT bash -c "sleep 15 && python3 weather_scraper.py && python3 news_scraper.py && cat myChattanooga.log 2>&1"
+
+# ----------------------------------------------------------------------------#
+# NODE CONTAINER
+FROM node:16-alpine as frontend
+WORKDIR /myChattanooga
+ENV TZ="America/New_York"
+RUN apk update && \
+    apk upgrade && \
+    apk add bash
