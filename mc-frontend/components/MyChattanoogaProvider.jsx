@@ -205,6 +205,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                                                             filterApplied: filterApplied, 
                                                             pageContent: pageContent,
                                                             setPageContent: setPageContent,
+                                                            currentPage: currentPage,
                                                             setCurrentPage: setCurrentPage,
                                                             contentLoading: contentLoading,
                                                             setContentLoading: setContentLoading
