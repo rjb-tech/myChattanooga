@@ -11,7 +11,8 @@ const loadingVariants = {
 export default function Home({ 
   filterApplied, 
   pageContent, 
-  setPageContent, 
+  setPageContent,
+  currentPage, 
   setCurrentPage,
   contentLoading,
   setContentLoading
@@ -52,10 +53,10 @@ export default function Home({
         </div>
         
         <motion.div 
-          className="flex-auto grid sm:grid-cols-2 xl:grid-cols-3 w-full h-fit z-auto sticky top-0 bg-[#FFF] dark:bg-[#222]"
+          className="flex-auto grid sm:grid-cols-2 xl:grid-cols-3 w-full h-fit z-auto sticky top-0 bg-[#FFF] dark:bg-[#222] opacity-0"
           animate={contentLoading===true ? "loading" : "loaded"}
           transition={{ 
-            duration: .3, 
+            duration: contentLoading===true ? 0 : .3, 
             type: "tween"
           }}
           variants={loadingVariants}
