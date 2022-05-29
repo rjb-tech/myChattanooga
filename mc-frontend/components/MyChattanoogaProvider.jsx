@@ -20,7 +20,7 @@ const userPanelVariants = {
 
 export const MyChattanoogaProvider = ({ children }) => {
 
-    const getDarkModePreference = () => {
+    const useDarkModePreference = () => {
         useEffect(() => {
             const lsDark = localStorage.getItem('dark') === 'true'
             setDark(lsDark);
@@ -28,7 +28,7 @@ export const MyChattanoogaProvider = ({ children }) => {
         }, [])
     }
 
-    const getWeatherLocation = () => {
+    const useWeatherLocation = () => {
         useEffect(() => {
             const lsWeatherLocation = localStorage.getItem('weatherLocation')
             if (lsWeatherLocation && lsWeatherLocation !== "undefined") {
@@ -41,8 +41,8 @@ export const MyChattanoogaProvider = ({ children }) => {
         }, [])
     }
 
-    const [ isDark, setDark ] = useState(getDarkModePreference());
-    const [ currentWeatherLocation, setCurrentWeatherLocation ] = useState(getWeatherLocation());
+    const [ isDark, setDark ] = useState(useDarkModePreference());
+    const [ currentWeatherLocation, setCurrentWeatherLocation ] = useState(useWeatherLocation());
     const [ menuExpanded, setMenuExpanded ] = useState(false);
     const [ panelExpanded, setPanelExpanded ] = useState(false);
     const [ settingsPanelExpanded, setSettingsPanelExpanded ] = useState(false);
