@@ -11,7 +11,10 @@ from alembic import context
 # access to the values within the .ini file in use.
 config = context.config
 load_dotenv()
-config.set_main_option('sqlalchemy.url', f"postgresql://{os.environ['POSTGRES_PROD_USER']}:{os.environ['POSTGRES_PROD_PASSWORD']}@mychattanooga-prod-do-user-9032420-0.b.db.ondigitalocean.com:25060/mychattanooga?sslmode=require")
+config.set_main_option(
+    "sqlalchemy.url",
+    f"postgresql://{os.environ['POSTGRES_USER_PROD']}:{os.environ['POSTGRES_PASSWORD_PROD']}@mychattanooga-prod-do-user-9032420-0.b.db.ondigitalocean.com:25060/mychattanooga?sslmode=require",
+)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -68,9 +71,7 @@ def run_migrations_online():
     )
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()

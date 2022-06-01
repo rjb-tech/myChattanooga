@@ -11,15 +11,15 @@ from sqlalchemy.dialects.postgresql import REAL
 
 
 # revision identifiers, used by Alembic.
-revision = 'bbcecbc27916'
-down_revision = 'b2faa77c54dc'
+revision = "bbcecbc27916"
+down_revision = "b2faa77c54dc"
 branch_labels = None
 depends_on = None
 
 
 def upgrade():
     op.create_table(
-        'weather',
+        "weather",
         sa.Column("weather_location", sa.String(50), primary_key=True),
         sa.Column("temp", REAL),
         sa.Column("humidity", REAL),
@@ -28,9 +28,9 @@ def upgrade():
         sa.Column("sunrise", sa.Integer),
         sa.Column("sunset", sa.Integer),
         sa.Column("wind_speed", sa.Integer),
-        sa.Column("wind_direction", sa.Integer)
+        sa.Column("wind_direction", sa.Text),
     )
 
 
 def downgrade():
-    op.drop_table('weather')
+    op.drop_table("weather")
