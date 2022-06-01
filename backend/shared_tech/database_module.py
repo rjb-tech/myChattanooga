@@ -7,19 +7,15 @@ from sqlalchemy.dialects.postgresql import REAL
 from datetime import datetime
 from pydantic import BaseModel
 from databases import Database
-from result import (
-    Result,
-    Ok,
-    Err
-)
+from result import Result, Ok, Err
 
 # Configure logger
 logging.basicConfig(
-    filename='myChattanooga.log',
-    filemode='a',
-    format='%(asctime)s - %(message)s',
-    datefmt='%d-%b-%y %H:%M:%S',
-    level=logging.INFO
+    filename="myChattanooga.log",
+    filemode="a",
+    format="%(asctime)s - %(message)s",
+    datefmt="%d-%b-%y %H:%M:%S",
+    level=logging.INFO,
 )
 
 
@@ -58,17 +54,17 @@ class Stat(BaseModel):
 
 
 class MC_Connection:
-    deployment_environment = os.environ['DEPLOYMENT_ENV']
+    deployment_environment = os.environ["DEPLOYMENT_ENV"]
     if deployment_environment == "dev":
         DATABASE_URL = f"postgresql://{os.environ['POSTGRES_USER']}:{os.environ['POSTGRES_PASSWORD']}@host.docker.internal:5432/{os.environ['POSTGRES_DB']}"
     elif deployment_environment == "prod":
-        DATABASE_URL = f"postgresql://{os.environ['POSTGRES_PROD_USER']}:{os.environ['POSTGRES_PROD_PASSWORD']}@mychattanooga-prod-do-user-9032420-0.b.db.ondigitalocean.com:25060/mychattanooga?sslmode=require"
+        DATABASE_URL = f"postgresql://{os.environ['POSTGRES_USER_PROD']}:{os.environ['POSTGRES_PASSWORD_PROD']}@mychattanooga-prod-do-user-9032420-0.b.db.ondigitalocean.com:25060/mychattanooga?sslmode=require"
 
     db_obj = None
     db_connected = False
     local_metadata = sa.MetaData()
     tables = {}
-    
+
     tables["articles_table"] = sa.Table(
         "articles",
         local_metadata,
@@ -94,8 +90,8 @@ class MC_Connection:
         local_metadata,
         sa.Column("id", sa.Integer, primary_key=True),
         sa.Column("headline", sa.Text),
-        sa.Column("time_posted", sa.TIMESTAMP)
-    )  
+        sa.Column("time_posted", sa.TIMESTAMP),
+    )
 
     tables["weather_table"] = sa.Table(
         "weather",
@@ -108,9 +104,9 @@ class MC_Connection:
         sa.Column("sunrise", sa.Integer),
         sa.Column("sunset", sa.Integer),
         sa.Column("wind_speed", sa.Integer),
-        sa.Column("wind_direction", sa.Integer)
-    )  
-    
+        sa.Column("wind_direction", sa.Integer),
+    )
+
     # Constructor
     def __init__(self) -> None:
         try:
@@ -118,24 +114,23 @@ class MC_Connection:
             logging.info("Database object created")
         except Exception as e:
             raise Exception(e)
-    
 
     def get_metadata(self) -> sa.MetaData:
         return self.local_metadata
-    
+
     # Plug in, connect if needed, return existing attribute if it exists
     async def plug_in(self) -> None:
         if not self.db_connected:
             await self.db_obj.connect()
             self.db_connected = True
-             
+
     # Disconnect from database and set class variable to None
     #   db_connection also acts as a state check during is_connected()
     async def unplug(self) -> None:
         if self.db_connected:
             await self.db_obj.disconnect()
             self.db_connected = False
-    
+
     # Simple utility function
     def is_connected(self) -> bool:
         return self.db_connected
@@ -153,4 +148,3 @@ class MC_Connection:
             return self.db_obj
         else:
             raise ConnectionError
-        
