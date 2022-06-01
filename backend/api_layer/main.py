@@ -30,8 +30,7 @@ async def shutdown():
     await database.unplug()
 
 
-# DO Healthcheck pings the root URL and I don't feel like changing spec rn
-@app.get("/", status_code=200)
+@app.get("/healthcheck", status_code=200)
 async def healthcheck():
     return "Ok"
 
