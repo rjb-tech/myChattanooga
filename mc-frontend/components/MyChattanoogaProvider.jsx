@@ -117,7 +117,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                         <link rel="icon" href="/favicon.ico" /> 
                 </Head>
 
-                <header className="w-screen bg-[#FFF] dark:bg-[#222] z-50">
+                <header className="w-screen bg-[#FFF] dark:bg-[#222] z-[100]">
                     <StickyHeader 
                         isDark={isDark} 
                         toggleDarkMode={toggleDarkMode} 
