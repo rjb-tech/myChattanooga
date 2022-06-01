@@ -26,7 +26,7 @@ RUN apt update && apt upgrade -y && \
 ENTRYPOINT bash -c "uvicorn main:app --host 0.0.0.0 --workers 6"
 
 # API SERVER CONTAINER
-FROM python:3.10-slim-bullseye as api_server_prod
+FROM python:3.10-bullseye as api_server_prod
 WORKDIR /myChattanooga
 ENV TZ="America/New_York"
 ENV POSTGRES_USER "${POSTGRES_USER_PROD}"
