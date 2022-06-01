@@ -1,7 +1,7 @@
 export default function handler(req, res) {
     // res.status(200).json({ name: 'John Doe' })
     let apiURL
-    if (process.env.DEPLOYMENT_ENV === "prod") {apiURL="https://mychattanooga-api-q4772.ondigitalocean.app"}
+    if (process.env.DEPLOYMENT_ENV === "prod") {apiURL="https://api.mychattanooga.app"}
     else {apiURL="http://host.docker.internal:8000"}
     if (req.method === 'GET') {
         try {
