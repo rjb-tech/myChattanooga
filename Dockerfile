@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------#
-# API SERVER CONTAINER
+# API SERVER DEV CONTAINER
 FROM python:3.10-slim-bullseye as api_server
 WORKDIR /myChattanooga
 ENV TZ="America/New_York"
@@ -8,6 +8,32 @@ ENV POSTGRES_PASSWORD "${POSTGRES_PASSWORD}"
 ENV POSTGRES_DB "${POSTGRES_DB}"
 ENV CONTAINER "${CONTAINER}"
 ENV DEPLOYMENT_ENV "${DEPLOYMENT_ENV}"
+COPY ./backend/shared_tech .
+COPY ./backend/api_layer .
+# THIS WILL BE CHANGED WHEN THE FILE IS SPLIT
+COPY ./backend/requirements.txt .
+# install dependencies
+RUN apt update && apt upgrade -y && \
+    apt install -y --no-install-recommends \
+        dos2unix \
+        gcc \
+        tk \
+        python3-setuptools \
+        python3-dev \
+        libpq-dev && \
+    rm -rf /var/lib/apt/lists/* && \
+    pip install --no-cache-dir --upgrade -r requirements.txt
+ENTRYPOINT bash -c "uvicorn main:app --host 0.0.0.0 --workers 6"
+
+# API SERVER CONTAINER
+FROM python:3.10-slim-bullseye as api_server_prod
+WORKDIR /myChattanooga
+ENV TZ="America/New_York"
+ENV POSTGRES_USER "${POSTGRES_USER_PROD}"
+ENV POSTGRES_PASSWORD "${POSTGRES_PASSWORD_PROD}"
+ENV POSTGRES_DB "${POSTGRES_DB}"
+ENV CONTAINER "${CONTAINER}"
+ENV DEPLOYMENT_ENV "prod"
 COPY ./backend/shared_tech .
 COPY ./backend/api_layer .
 # THIS WILL BE CHANGED WHEN THE FILE IS SPLIT
