@@ -12,8 +12,6 @@ databases
 databases[asyncpg]
 asyncpg
 result==0.7.0
-django
 psycopg2
-prefect
 black
 pre-commit==2.19.0
