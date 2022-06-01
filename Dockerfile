@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------------#
 # API SERVER CONTAINER
-FROM python:3.9-slim-bullseye as api_server
+FROM python:3.10-slim-bullseye as api_server
 WORKDIR /myChattanooga
 ENV TZ="America/New_York"
 ENV POSTGRES_USER "${POSTGRES_USER}"
@@ -43,7 +43,7 @@ EXPOSE 5432
 
 # ----------------------------------------------------------------------------#
 # SCRAPER CONTAINER
-FROM python:3.9-slim-bullseye as scraper
+FROM python:3.10-slim-bullseye as scraper
 WORKDIR /myChattanooga
 ENV TZ="America/New_York"
 ENV POSTGRES_USER "${POSTGRES_USER}"
