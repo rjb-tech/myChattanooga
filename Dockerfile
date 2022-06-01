@@ -99,6 +99,33 @@ RUN apt update && apt upgrade -y && \
     mkdir data
 ENTRYPOINT bash -c "sleep 15 && python3 weather_scraper.py && python3 news_scraper.py && cat myChattanooga.log 2>&1"
 
+# SCRAPER CONTAINER
+FROM python:3.9-slim-bullseye as scraper_prod
+WORKDIR /myChattanooga
+ENV TZ="America/New_York"
+ENV POSTGRES_USER_PROD "${POSTGRES_USER_PROD}"
+ENV POSTGRES_PASSWORD_PROD "${POSTGRES_PASSWORD_PROD}"
+ENV POSTGRES_DB "${POSTGRES_DB}"
+ENV CONTAINER "${CONTAINER}"
+ENV DEPLOYMENT_ENV "prod"
+COPY ./backend/shared_tech .
+COPY ./backend/scraper_layer .
+COPY ./backend/requirements.txt .
+RUN mv ./geckodriver /usr/bin
+RUN apt update && apt upgrade -y && \
+    apt install -y --no-install-recommends \
+        libxml2-dev \
+        libxslt1-dev \
+        libpq-dev \
+        firefox-esr \
+        gcc \
+        python3-dev \
+        dos2unix && \
+    rm -rf /var/lib/apt/lists/* && \
+    pip3 install --no-cache-dir --upgrade -r requirements.txt && \
+    mkdir data
+ENTRYPOINT bash -c "python3 weather_scraper.py && python3 news_scraper.py && cat myChattanooga.log 2>&1"
+
 # ----------------------------------------------------------------------------#
 # NODE CONTAINER
 FROM node:16-alpine as frontend
