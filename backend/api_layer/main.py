@@ -2,34 +2,23 @@ import logging
 import asyncio
 from sqlalchemy.sql import select
 from fastapi import FastAPI, Query
-from database_module import (
-    Article,
-    Weather, 
-    Stat,
-    MC_Connection
-)
-from result import (
-    Result,
-    Ok,
-    Err
-)
-from typing import (
-    List,
-    Optional
-)
+from database_module import Article, Weather, Stat, MC_Connection
+from result import Result, Ok, Err
+from typing import List, Optional
 
 
 # Configure logger
 logging.basicConfig(
-    filename='myChattanooga.log',
-    filemode='a',
-    format='%(asctime)s - %(message)s',
-    datefmt='%d-%b-%y %H:%M:%S',
-    level=logging.INFO
+    filename="myChattanooga.log",
+    filemode="a",
+    format="%(asctime)s - %(message)s",
+    datefmt="%d-%b-%y %H:%M:%S",
+    level=logging.INFO,
 )
 
 app = FastAPI()
 database = MC_Connection()
+
 
 @app.on_event("startup")
 async def startup():
@@ -39,6 +28,12 @@ async def startup():
 @app.on_event("shutdown")
 async def shutdown():
     await database.unplug()
+
+
+# DO Healthcheck pings the root URL and I don't feel like changing spec rn
+@app.get("/", status_code=200)
+async def healthcheck():
+    return "Ok"
 
 
 @app.get("/articles", response_model=List[Article], response_model_exclude_none=True)
@@ -51,7 +46,7 @@ async def today_articles(publishers: list = Query(["all"])):
             table = query_table.unwrap()
             full_query = table.select()
             filtered_query = select(table).where(table.c.publisher.in_(publishers))
-            if publishers[0] == "all":    
+            if publishers[0] == "all":
                 data = await database.get_db_obj().fetch_all(full_query)
             else:
                 data = await database.get_db_obj().fetch_all(filtered_query)
@@ -80,6 +75,7 @@ async def today_weather(location: str = "all"):
     query_results = await get_query_results(get_weather)
     return query_results
 
+
 @app.get("/stats", response_model=List[Stat], response_model_exclude_none=True)
 async def today_stats():
     async def get_stats():
@@ -90,7 +86,7 @@ async def today_stats():
             full_query = query_base.unwrap().select()
             data = await database.get_db_obj().fetch_all(full_query)
             return [row for row in data]
- 
+
     query_results = await get_query_results(get_stats)
     return query_results
 

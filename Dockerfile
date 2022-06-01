@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------------#
 # API SERVER DEV CONTAINER
-FROM python:3.10-slim-bullseye as api_server
+FROM python:3.10-bullseye as api_server
 WORKDIR /myChattanooga
 ENV TZ="America/New_York"
 ENV POSTGRES_USER "${POSTGRES_USER}"
@@ -15,6 +15,8 @@ COPY ./backend/requirements.txt .
 # install dependencies
 RUN apt update && apt upgrade -y && \
     apt install -y --no-install-recommends \
+        libxml2-dev \
+        libxslt1-dev \
         dos2unix \
         gcc \
         tk \
@@ -23,14 +25,14 @@ RUN apt update && apt upgrade -y && \
         libpq-dev && \
     rm -rf /var/lib/apt/lists/* && \
     pip install --no-cache-dir --upgrade -r requirements.txt
-ENTRYPOINT bash -c "uvicorn main:app --host 0.0.0.0 --workers 6"
+ENTRYPOINT bash -c "uvicorn main:app --host 0.0.0.0 --workers 4"
 
 # API SERVER CONTAINER
 FROM python:3.10-bullseye as api_server_prod
 WORKDIR /myChattanooga
 ENV TZ="America/New_York"
-ENV POSTGRES_USER "${POSTGRES_USER_PROD}"
-ENV POSTGRES_PASSWORD "${POSTGRES_PASSWORD_PROD}"
+ENV POSTGRES_USER_PROD "${POSTGRES_USER_PROD}"
+ENV POSTGRES_PASSWORD_PROD "${POSTGRES_PASSWORD_PROD}"
 ENV POSTGRES_DB "${POSTGRES_DB}"
 ENV CONTAINER "${CONTAINER}"
 ENV DEPLOYMENT_ENV "prod"
@@ -46,10 +48,12 @@ RUN apt update && apt upgrade -y && \
         tk \
         python3-setuptools \
         python3-dev \
+        libxml2-dev \
+        libxslt1-dev \
         libpq-dev && \
     rm -rf /var/lib/apt/lists/* && \
     pip install --no-cache-dir --upgrade -r requirements.txt
-ENTRYPOINT bash -c "uvicorn main:app --host 0.0.0.0 --workers 6"
+ENTRYPOINT bash -c "uvicorn main:app --host 0.0.0.0 --port 8080 --workers 6"
 
 # ----------------------------------------------------------------------------#
 # DATABASE CONTAINER
@@ -83,6 +87,8 @@ COPY ./backend/requirements.txt .
 RUN mv ./geckodriver /usr/bin
 RUN apt update && apt upgrade -y && \
     apt install -y --no-install-recommends \
+        libxml2-dev \
+        libxslt1-dev \
         libpq-dev \
         firefox-esr \
         gcc \

@@ -58,7 +58,7 @@ class MC_Connection:
     if deployment_environment == "dev":
         DATABASE_URL = f"postgresql://{os.environ['POSTGRES_USER']}:{os.environ['POSTGRES_PASSWORD']}@host.docker.internal:5432/{os.environ['POSTGRES_DB']}"
     elif deployment_environment == "prod":
-        DATABASE_URL = f"postgresql://{os.environ['POSTGRES_USER_PROD']}:{os.environ['POSTGRES_PASSWORD_PROD']}@mychattanooga-prod-do-user-9032420-0.b.db.ondigitalocean.com:25060/mychattanooga?sslmode=require"
+        DATABASE_URL = f"postgresql://{os.environ['POSTGRES_USER_PROD']}:{os.environ['POSTGRES_PASSWORD_PROD']}@mychattanooga-prod-do-user-9032420-0.b.db.ondigitalocean.com:25061/mychattanooga-pool?sslmode=require"
 
     db_obj = None
     db_connected = False
