@@ -56,9 +56,9 @@ class Stat(BaseModel):
 class MC_Connection:
     deployment_environment = os.environ["DEPLOYMENT_ENV"]
     if deployment_environment == "dev":
-        DATABASE_URL = f"postgresql://{os.environ['POSTGRES_USER']}:{os.environ['POSTGRES_PASSWORD']}@host.docker.internal:5432/{os.environ['POSTGRES_DB']}"
+        DATABASE_URL = f"postgresql+asyncpg://{os.environ['POSTGRES_USER']}:{os.environ['POSTGRES_PASSWORD']}@host.docker.internal:5432/{os.environ['POSTGRES_DB']}"
     elif deployment_environment == "prod":
-        DATABASE_URL = f"postgresql://{os.environ['POSTGRES_USER_PROD']}:{os.environ['POSTGRES_PASSWORD_PROD']}@mychattanooga-prod-do-user-9032420-0.b.db.ondigitalocean.com:25060/mychattanooga?sslmode=require"
+        DATABASE_URL = f"postgresql+asyncpg://{os.environ['POSTGRES_USER_PROD']}:{os.environ['POSTGRES_PASSWORD_PROD']}@mychattanooga-prod-do-user-9032420-0.b.db.ondigitalocean.com:25061/mychattanooga-pool-main?sslmode=require"
 
     db_obj = None
     db_connected = False
@@ -110,7 +110,7 @@ class MC_Connection:
     # Constructor
     def __init__(self) -> None:
         try:
-            self.db_obj = Database(self.DATABASE_URL)
+            self.db_obj = Database(self.DATABASE_URL, statement_cache_size=0)
             logging.info("Database object created")
         except Exception as e:
             raise Exception(e)
