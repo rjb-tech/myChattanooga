@@ -124,7 +124,7 @@ RUN apt update && apt upgrade -y && \
     rm -rf /var/lib/apt/lists/* && \
     pip3 install --no-cache-dir --upgrade -r requirements.txt && \
     mkdir data
-ENTRYPOINT bash -c "python3 weather_scraper.py && python3 news_scraper.py && cat myChattanooga.log 2>&1"
+# ENTRYPOINT bash -c "python3 weather_scraper.py && python3 news_scraper.py && cat myChattanooga.log 2>&1"
 
 # ----------------------------------------------------------------------------#
 # NODE CONTAINER
