@@ -35,7 +35,15 @@ export function isFromTheFuture(timePosted) {
     const hoursSincePosted = parseInt(currentHour) - parseInt(timePostedHour);
     const minutesSincePosted = parseInt(currentMinute) - parseInt(timePostedMinute);
 
-    return (hoursSincePosted >= 0 && minutesSincePosted >= 0)
+    if (hoursSincePosted < 0) {
+        return true
+    }
+    else if (hoursSincePosted === 0) {
+        if (minutesSincePosted < 0) {
+            return true
+        }
+        return false
+    }
 }
 
 export function getFilteredQueryString(filtersToApply, currentPage) {
