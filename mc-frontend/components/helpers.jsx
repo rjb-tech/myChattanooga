@@ -16,7 +16,7 @@ export function calculateTimeSincePosted (timePosted) {
     }
 
     if (hoursSincePosted === 0) {
-        return `Published about ${minutesSincePosted} minutes ago`
+        return minutesSincePosted===0 ? 'Published just now' : `Published about ${minutesSincePosted} minutes ago`
     }
     else {
         return hoursSincePosted === 1 
