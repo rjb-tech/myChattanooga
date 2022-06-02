@@ -62,21 +62,8 @@ export default function Home({
           variants={loadingVariants}
         >
           {pageContent.map((story) => {
-            if (filterApplied === "all") {
-              return (
-                <div className="py-2 sm:px-2" key={story.headline}>
-                  <Article 
-                    headline={story.headline}
-                    timePosted={story.time_posted}
-                    publisher={story.publisher}
-                    image={story.image} 
-                    link={story.link}
-                  />
-                </div>
-              )
-            }
-            else {
-              if (story.publisher === filterApplied) {
+            if (!isFromTheFuture(story.time_posted)) {  
+              if (filterApplied === "all") {
                 return (
                   <div className="py-2 sm:px-2" key={story.headline}>
                     <Article 
@@ -88,6 +75,21 @@ export default function Home({
                     />
                   </div>
                 )
+              }
+              else {
+                if (story.publisher === filterApplied) {
+                  return (
+                    <div className="py-2 sm:px-2" key={story.headline}>
+                      <Article 
+                        headline={story.headline}
+                        timePosted={story.time_posted}
+                        publisher={story.publisher}
+                        image={story.image} 
+                        link={story.link}
+                      />
+                    </div>
+                  )
+                }
               }
             }
           })} 

@@ -25,6 +25,19 @@ export function calculateTimeSincePosted (timePosted) {
     }
 }
 
+export function isFromTheFuture(timePosted) {
+    const currentDate = new Date();
+    const currentHour = currentDate.getHours();
+    const currentMinute = currentDate.getMinutes();
+    const timePostedHour = timePosted.slice(0,2);
+    const timePostedMinute = timePosted.slice(3,5);
+
+    const hoursSincePosted = parseInt(currentHour) - parseInt(timePostedHour);
+    const minutesSincePosted = parseInt(currentMinute) - parseInt(timePostedMinute);
+
+    return (hoursSincePosted >= 0 && minutesSincePosted >= 0)
+}
+
 export function getFilteredQueryString(filtersToApply, currentPage) {
     // Having the trailing ? here shouldn't affect the query
     //  and it makes it simpler to add on filters
