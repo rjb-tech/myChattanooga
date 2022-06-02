@@ -146,7 +146,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                     </div>
                     {/* There's some weird jitter going on weirdly */}
                     <motion.div 
-                        className="sm:hidden w-full h-fit object-center fixed z-40 mx-auto opacity-0" 
+                        className="sm:hidden w-full h-fit object-center fixed z-20 mx-auto opacity-0" 
                         key="MobileUserPanel"
                         animate={panelExpanded===true ? 'open' : 'closed'}
                         transition={{ 
