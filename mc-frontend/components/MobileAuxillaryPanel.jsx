@@ -4,7 +4,7 @@ import { FiltersPanel } from "./FiltersPanel"
 import { motion } from "framer-motion"
 
 const variants = {
-    open: { opacity: .99 },
+    open: { opacity: 1 },
     closed: { opacity: 0 },
 }
 
