@@ -2200,7 +2200,6 @@ def scrape_local_three(url, date):
     # Main scraping loop
     # Their story posting pattern is weird, but the first 7 or 8 are usually recent
     while current_article:
-        print(current_headline)
 
         # if current_date_posted == date and current_article_category == 'local news':
         if current_date_posted == date:  # TESTING HERE
