@@ -200,7 +200,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                                     setCurrentAuxSection={setCurrentAuxSection}
                                 />
                             </div>
-                            <div className="md:w-9/12">
+                            <div className="md:w-9/12 relative">
                                 {cloneElement(children, {
                                                             filterApplied: filterApplied, 
                                                             pageContent: pageContent,
