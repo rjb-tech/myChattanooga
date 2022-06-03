@@ -8,8 +8,10 @@ async def main():
     done, pending = await asyncio.wait({task})
     if task in done:
         truncate_query = "TRUNCATE TABLE articles;"
+        reset_table_count = "ALTER SEQUENCE articles_id_seq RESTART"
         db_object = db_conn.get_db_obj()
         await db_object.execute(query=truncate_query)
+        await db_object.execute(reset_table_count)
 
 
 if __name__ == "__main__":
