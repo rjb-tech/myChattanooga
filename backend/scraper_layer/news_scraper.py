@@ -3254,7 +3254,7 @@ async def save_articles(conn: MC_Connection, articles: list) -> None:
                 articles_saved += 1
                 list_articles_saved.append(article)
         logging.info(str(articles_saved) + " articles saved")
-    # tweet_new_articles(list_articles_saved)
+    tweet_new_articles(list_articles_saved)
     # post_to_facebook(list_articles_saved)
 
 
