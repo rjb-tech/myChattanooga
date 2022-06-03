@@ -43,8 +43,12 @@ async def today_articles(publishers: list = Query(["all"])):
         query_table = database.get_table("articles")
         if isinstance(query_table, Ok):
             table = query_table.unwrap()
-            full_query = table.select()
-            filtered_query = select(table).where(table.c.publisher.in_(publishers))
+            full_query = table.select().group_by(table.c.time_posted)
+            filtered_query = (
+                select(table)
+                .where(table.c.publisher.in_(publishers))
+                .group_by(table.c.time_posted)
+            )
             if publishers[0] == "all":
                 data = await database.get_db_obj().fetch_all(full_query)
             else:
