@@ -105,8 +105,8 @@ export const MyChattanoogaProvider = ({ children }) => {
     }, [isDark])
 
     const childrenWrapperClassString = (menuExpanded === true) 
-        ? "overscroll-contain transition duration-[300ms] blur-sm ease-linear"
-        : "overscroll-contain transition duration-[300ms]"
+        ? "overscroll-contain transition duration-[300ms] blur-sm ease-linear relative"
+        : "overscroll-contain transition duration-[300ms] relative"
 
     return (
         <MyChattanoogaContext.Provider value={value}>
@@ -117,7 +117,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                         <link rel="icon" href="/favicon.ico" /> 
                 </Head>
 
-                <header className="w-screen bg-[#FFF] dark:bg-[#222] z-[100]">
+                <header className="w-screen bg-[#FFF] dark:bg-[#222] z-[100] relative">
                     <StickyHeader 
                         isDark={isDark} 
                         toggleDarkMode={toggleDarkMode} 
@@ -182,7 +182,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                             }}
                             variants={childrenComponentVariants}
                         >
-                            <div className="hidden flex-col md:block w-1/3 xl:w-1/5 w-full h-fit border-r-2 sticky top-4 pr-2">
+                            <div className="hidden relative flex-col md:block w-1/3 xl:w-1/5 w-full h-fit border-r-2 sticky top-4 pr-2">
                                 <UserPanel 
                                     isDark={isDark} 
                                     panelExpanded={panelExpanded} 
@@ -200,7 +200,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                                     setCurrentAuxSection={setCurrentAuxSection}
                                 />
                             </div>
-                            <div className="md:w-9/12 relative">
+                            <div className="md:w-9/12">
                                 {cloneElement(children, {
                                                             filterApplied: filterApplied, 
                                                             pageContent: pageContent,
