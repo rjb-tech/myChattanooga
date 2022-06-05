@@ -67,7 +67,7 @@ export const MobileUserPanel = ({
     }, [])
 
     return (
-        <div className='flex-col items-center relative'>
+        <div className='flex-col items-center'>
             <div 
                 className="items-center w-full" 
             >
