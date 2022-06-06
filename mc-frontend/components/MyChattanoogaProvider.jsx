@@ -131,7 +131,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                     className="w-screen h-screen align-center relative overflow-y-scroll"
                 >
                     {/* TECH DEBT: Put motion element here instead of in MobileNav component */}
-                    <div className="sm:hidden fixed w-full h-fit object-center -left-full z-50 flex mx-auto" 
+                    <div className="sm:hidden absolute w-full h-fit object-center -left-full z-50 flex mx-auto" 
                         key="MobileNav"
                     >
                         <MobileNav 
@@ -146,7 +146,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                     </div>
                     {/* There's some weird jitter going on weirdly */}
                     <motion.div 
-                        className="sm:hidden w-full h-fit object-center fixed z-20 mx-auto opacity-0" 
+                        className="sm:hidden w-full h-fit object-center fixed z-10 mx-auto opacity-0" 
                         key="MobileUserPanel"
                         animate={panelExpanded===true ? 'open' : 'closed'}
                         transition={{ 
