@@ -117,18 +117,18 @@ export const MyChattanoogaProvider = ({ children }) => {
                         <link rel="icon" href="/favicon.ico" /> 
                 </Head>
 
-                <header className="w-screen fixed z-[99] bg-[#FFF] dark:bg-[#222]">
-                    <StickyHeader 
-                        isDark={isDark} 
-                        toggleDarkMode={toggleDarkMode} 
-                        currentWeatherLocation={currentWeatherLocation}
-                        setCurrentWeatherLocation={setCurrentWeatherLocation} 
-                    />
+                <header className="w-screen relative z-[99] bg-[#FFF] dark:bg-[#222]">
+                        <StickyHeader 
+                            isDark={isDark} 
+                            toggleDarkMode={toggleDarkMode} 
+                            currentWeatherLocation={currentWeatherLocation}
+                            setCurrentWeatherLocation={setCurrentWeatherLocation} 
+                        />
                 </header>
 
                 <main
                     key="siteContent"
-                    className="w-screen h-screen align-center fixed top-[8.75rem] overflow-y-scroll"
+                    className="w-screen h-screen align-center relative overflow-y-scroll"
                 >
                     {/* TECH DEBT: Put motion element here instead of in MobileNav component */}
                     <div className="sm:hidden absolute w-full h-fit object-center -left-full z-50 flex mx-auto" 
