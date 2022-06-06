@@ -117,13 +117,15 @@ export const MyChattanoogaProvider = ({ children }) => {
                         <link rel="icon" href="/favicon.ico" /> 
                 </Head>
 
-                <header className="w-screen bg-[#FFF] dark:bg-[#222] z-[100] relative">
-                    <StickyHeader 
-                        isDark={isDark} 
-                        toggleDarkMode={toggleDarkMode} 
-                        currentWeatherLocation={currentWeatherLocation}
-                        setCurrentWeatherLocation={setCurrentWeatherLocation} 
-                    />
+                <header className="w-screen relative z-[100]">
+                    <div className="w-full bg-[#FFF] dark:bg-[#222]">
+                        <StickyHeader 
+                            isDark={isDark} 
+                            toggleDarkMode={toggleDarkMode} 
+                            currentWeatherLocation={currentWeatherLocation}
+                            setCurrentWeatherLocation={setCurrentWeatherLocation} 
+                        />
+                    </div>
                 </header>
 
                 <main
