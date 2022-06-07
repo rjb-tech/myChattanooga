@@ -5,6 +5,7 @@ import { MobileNav } from "./MobileNav"
 import { MobileUserPanel } from "./MobileUserPanel"
 import { motion } from "framer-motion"
 import { UserPanel } from "./UserPanel"
+import { scrollToTop } from "./scrollToTop"
 
 const MyChattanoogaContext = createContext();
 
@@ -204,7 +205,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                                     setCurrentAuxSection={setCurrentAuxSection}
                                 />
                             </div>
-                            <div className="md:w-9/12">
+                            <div className="md:w-9/12 content">
                                 {cloneElement(children, {
                                                             filterApplied: filterApplied, 
                                                             pageContent: pageContent,
@@ -218,8 +219,9 @@ export const MyChattanoogaProvider = ({ children }) => {
                             {/* {children} */}
                         </motion.div>
                     </div>
+                    
                 </main>
-
+                {/* <scrollToTop /> */}
                 {/* <footer className="flex items-center w-screen">
                     
                     <div className="flex-auto">
@@ -228,6 +230,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                         
                 </footer> */}
             </div>
+            
         </MyChattanoogaContext.Provider>
     )
 }
