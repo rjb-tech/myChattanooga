@@ -16,6 +16,7 @@ export const Article = ({ publisher, headline, timePosted, image, link }) => {
                             height={10} // This will have to be tinkered with, probs needs a ternary operator thingy
                             width={16}
                             layout="responsive"
+                            alt={headline}
                         />
                     </div>
                     <div className="pt-4 flex-col items-center">
