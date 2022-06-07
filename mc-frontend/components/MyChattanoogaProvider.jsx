@@ -5,7 +5,6 @@ import { MobileNav } from "./MobileNav"
 import { MobileUserPanel } from "./MobileUserPanel"
 import { motion } from "framer-motion"
 import { UserPanel } from "./UserPanel"
-import { scrollToTop } from "./scrollToTop"
 
 const MyChattanoogaContext = createContext();
 
