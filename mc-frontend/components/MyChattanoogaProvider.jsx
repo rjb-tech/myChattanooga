@@ -118,7 +118,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                             content="A community hub for the Chattanooga region. Stay up-to-date with the latest local articles and content" 
                             key="siteDescription"
                         />
-                        <link rel="icon" href="/myChattanooga_small-icon.png" /> 
+                        <link rel="icon" href="/myChattanooga_small-icon.png" />
                 </Head>
 
                 <header className="w-screen sticky z-[99] bg-[#FFF] dark:bg-[#222]">
