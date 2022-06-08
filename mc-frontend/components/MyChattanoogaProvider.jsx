@@ -110,7 +110,7 @@ export const MyChattanoogaProvider = ({ children }) => {
 
     return (
         <MyChattanoogaContext.Provider value={value}>
-            <div className="flex flex-col h-screen overscroll-none bg-[#FFF] dark:bg-[#222]">
+            <div className="flex flex-col h-screen bg-[#FFF] dark:bg-[#222]">
                 <Head>
                         <title>myChattanooga</title>
                         <meta 
