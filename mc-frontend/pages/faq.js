@@ -20,11 +20,11 @@ export default function Faq({
           <div className="w-full h-fit top-0 md:pl-2 md:mt-0 lg:mt-0 mb-2 text-[#222] dark:text-[#FFF] text-left">
             <h1 className="font-bold text-3xl md:text-4xl">About myChattanooga</h1>
             <p className="py-4">
-              myChattanooga was made with the goal of keeping Chattanooga-area residents up to date with the local news. Designed as a one-stop shop for Chattanooga news, myChattanooga sifts through each local news site to only show you articles that are relevant to Chattanooga and the surrounding region. No national or statewide news (that doesn't mention Chattanooga) will be shown in an effort to only highlight news from our community. Local news awareness is more important than ever, and we thank you for trusting myChattanooga.
+              myChattanooga was made with the goal of keeping Chattanooga-area residents up to date with the local news. Designed as a one-stop shop for Chattanooga news, myChattanooga sifts through each local news site to only show you articles that are relevant to Chattanooga and the surrounding region. No national or statewide news (that doesn&apost mention Chattanooga) will be shown in an effort to only highlight news from our community. Local news awareness is more important than ever, and we thank you for trusting myChattanooga.
             </p>
             <h1 className="font-bold text-3xl md:text-4xl pt-8">How does it work?</h1>
             <p className="py-4">
-              myChattanooga's news scraping algorithm scans local news sites for all of today's available articles to determine if they are relevant (more on relevancy below). The scraper is run multiple times every hour, so what you see on the homepage is always up-to-date. The sources we scrape are listed below. NOTE: If you know of another reliable site that provides news for the region, please contact us using the email at the bottom of this page.
+              myChattanooga&aposs news scraping algorithm scans local news sites for all of today&aposs available articles to determine if they are relevant (more on relevancy below). The scraper is run multiple times every hour, so what you see on the homepage is always up-to-date. The sources we scrape are listed below. NOTE: If you know of another reliable site that provides news for the region, please contact us using the email at the bottom of this page.
             </p>
             <div className="text-[#F7BCB1]">
               <Link href='https://www.chattanoogan.com/'>
@@ -72,7 +72,7 @@ export default function Faq({
             </div>
             <h1 className="font-bold text-3xl md:text-4xl pt-8">What makes an article relevant?</h1>
             <p className="py-4">
-            The algorithm currently searches articles and headlines for keywords referring to Chattanooga or the surrounding region (in Tennessee). Any match of a keyword results in that article being flagged as relevant, while articles that mention other states or do not have any keyword matches are passed over. We still recommend going to each news source's website to see what else they have published throughout the day.
+            The algorithm currently searches articles and headlines for keywords referring to Chattanooga or the surrounding region (in Tennessee). Any match of a keyword results in that article being flagged as relevant, while articles that mention other states or do not have any keyword matches are passed over. We still recommend going to each news source&aposs website to see what else they have published throughout the day.
             </p>
             <h1 className="font-bold text-3xl md:text-4xl pt-8">Where can I provide feedback and/or suggestions?</h1>
             <p className="py-4">
