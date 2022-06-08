@@ -110,7 +110,7 @@ export const MyChattanoogaProvider = ({ children }) => {
 
     return (
         <MyChattanoogaContext.Provider value={value}>
-            <div className="flex flex-col h-screen overscroll-contain bg-[#FFF] dark:bg-[#222]">
+            <div className="flex flex-col h-screen overscroll-none bg-[#FFF] dark:bg-[#222]">
                 <Head>
                         <title>myChattanooga</title>
                         <meta 
@@ -135,7 +135,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                     className="w-screen h-screen align-center relative overflow-y-scroll"
                 >
                     {/* TECH DEBT: Put motion element here instead of in MobileNav component */}
-                    <div className="sm:hidden fixed w-full h-fit object-center overscroll-none -left-full z-50 flex mx-auto" 
+                    <div className="sm:hidden fixed w-full h-fit object-center -left-full z-50 flex mx-auto" 
                         key="MobileNav"
                     >
                         <MobileNav 
