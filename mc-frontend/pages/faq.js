@@ -76,7 +76,7 @@ export default function Faq({
             </p>
             <h1 className="font-bold text-3xl md:text-4xl pt-8">Where can I provide feedback and/or suggestions?</h1>
             <p className="py-4">
-            Please send all feedback and inquiries to <Link href="mailto:feedback@mychattanooga.app"><a className="text-[#F7BCB1]">feedback@mychattanooga.app</a></Link>
+            Please send all feedback and inquiries to <Link href="mailto:feedback@mychattanooga.app"><a className="text-[#F39887]">feedback@mychattanooga.app</a></Link>
             </p>
           </div>
         </div>
