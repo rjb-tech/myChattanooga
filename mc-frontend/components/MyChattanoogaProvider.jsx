@@ -119,6 +119,7 @@ export const MyChattanoogaProvider = ({ children }) => {
         element.scrollTop = 0
     }, [currentPage])
 
+    // https://www.kindacode.com/article/how-to-create-a-scroll-to-top-button-in-react/
     useEffect(() => {
         const element = document.getElementById("content")
         const handleScroll = (scrollAmount) => {
