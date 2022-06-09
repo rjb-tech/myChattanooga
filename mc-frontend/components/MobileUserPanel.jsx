@@ -71,7 +71,7 @@ export const MobileUserPanel = ({
             <div 
                 className="items-center w-full" 
             >
-                <div className='h-fit w-full divide-y-2 py-2 flex-col flex-auto text-center bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] relative z-10'>
+                <div className='h-fit w-full divide-y-2 py-2 flex-col flex-auto text-center bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] relative z-10 overscroll-none'>
                     <div className='h-16 w-full flex justify-evenly items-center'>
                         <motion.button whileTap={{ scale: 0.85 }} className='bg-[#FFF] dark:bg-[#222] h-2/3 rounded-full flex-1 z-30' onClick={() => toggleDarkMode()}>
                             <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={darkModeIcon} style={{color: `${iconColor}`}} />
