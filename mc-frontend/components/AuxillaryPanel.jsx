@@ -20,7 +20,7 @@ export const AuxillaryPanel = ({
         "account": <AccountPanel />
     }
     const sectionToRender = sections[`${section}`];
-    const auxPanelBaseClass = "mx-auto h-full w-full flex-auto flex items-center justify-center border-y"
+    const auxPanelBaseClass = "mx-auto h-full w-full flex-auto flex items-center justify-center border-y overscroll-contain"
     return (
         <motion.div 
             //  This dynamic className string makes auxPanel transitions all pretty based on open/close

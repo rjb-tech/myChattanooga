@@ -128,7 +128,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                         <link rel="icon" href="/myChattanooga_small-icon.png" />
                 </Head>
 
-                <header className="w-screen bg-[#FFF] dark:bg-[#222] overscroll-none">
+                <header className="w-screen bg-[#FFF] dark:bg-[#222] overscroll-none fixed z-[99]">
                         <StickyHeader 
                             menuExpanded={menuExpanded}
                             isDark={isDark} 
@@ -138,7 +138,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                             panelExpanded={panelExpanded}
                         />
                         {/* TECH DEBT: Put motion element here instead of in MobileNav component */}
-                        <div className="sm:hidden fixed w-full h-fit object-center overscroll-none -left-full z-10 flex mx-auto" 
+                        <div className="sm:hidden fixed w-full h-fit object-center overscroll-none -left-full z-20 flex mx-auto" 
                             key="MobileNav"
                         >
                             <MobileNav 
@@ -185,6 +185,10 @@ export const MyChattanoogaProvider = ({ children }) => {
                     className="w-screen h-screen align-center relative overflow-y-scroll"
                     id="content"
                 >
+                    {/* This is a dummy div to make things appear right */}
+                    <div className="w-screen h-[9rem]">
+
+                    </div>
                     <div className={childrenWrapperClassString}>
                         <motion.div 
                             animate={panelExpanded===true ? 'extended' : 'normal'}
