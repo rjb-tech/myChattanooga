@@ -79,19 +79,19 @@ async def today_weather(location: str = "all"):
     return query_results
 
 
-@app.get("/stats", response_model=List[Stat], response_model_exclude_none=True)
-async def today_stats():
-    async def get_stats():
-        # Get result from the MC_Connection method and check for validity
-        #   before sending payload
-        query_base = database.get_table("stats")
-        if isinstance(query_base, Ok):
-            full_query = query_base.unwrap().select()
-            data = await database.get_db_obj().fetch_all(full_query)
-            return [row for row in data]
+# @app.get("/stats", response_model=List[Stat], response_model_exclude_none=True)
+# async def today_stats():
+#     async def get_stats():
+#         # Get result from the MC_Connection method and check for validity
+#         #   before sending payload
+#         query_base = database.get_table("stats")
+#         if isinstance(query_base, Ok):
+#             full_query = query_base.unwrap().select()
+#             data = await database.get_db_obj().fetch_all(full_query)
+#             return [row for row in data]
 
-    query_results = await get_query_results(get_stats)
-    return query_results
+#     query_results = await get_query_results(get_stats)
+#     return query_results
 
 
 # UTILITY FUNCTION FOR QUERIES
