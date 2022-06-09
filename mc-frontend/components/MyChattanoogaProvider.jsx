@@ -145,7 +145,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                     id="content"
                 >
                     {/* TECH DEBT: Put motion element here instead of in MobileNav component */}
-                    <div className="sm:hidden fixed w-full h-fit object-center -left-full z-50 flex mx-auto" 
+                    <div className="sm:hidden fixed w-full h-fit object-center overscroll-none -left-full z-50 flex mx-auto" 
                         key="MobileNav"
                     >
                         <MobileNav 

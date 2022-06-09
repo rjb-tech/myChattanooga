@@ -103,7 +103,7 @@ export const MobileUserPanel = ({
                     
             </div>
             <motion.div
-                className='h-48 fixed z-[5] w-screen bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] shadow overscroll-auto flex items-center'
+                className='h-48 fixed z-[5] w-screen bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] shadow overscroll-contain flex items-center'
                 animate={auxPanelExpanded ? "shown" : "hidden"}
                 transition={{ duration: .25, type: "tween"}}
                 variants={auxVariants}
