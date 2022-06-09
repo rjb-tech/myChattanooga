@@ -137,6 +137,47 @@ export const MyChattanoogaProvider = ({ children }) => {
                             setCurrentWeatherLocation={setCurrentWeatherLocation}
                             panelExpanded={panelExpanded}
                         />
+                        {/* TECH DEBT: Put motion element here instead of in MobileNav component */}
+                        <div className="sm:hidden fixed w-full h-fit object-center overscroll-none -left-full z-10 flex mx-auto" 
+                            key="MobileNav"
+                        >
+                            <MobileNav 
+                                isDark={isDark} 
+                                menuExpanded={menuExpanded} 
+                                setMenuExpanded={setMenuExpanded}
+                                toggleMobileUserPanel={toggleMobileUserPanel}
+                                panelExpanded={panelExpanded}
+                                currentWeatherLocation={currentWeatherLocation}
+                                setCurrentWeatherLocation={setCurrentWeatherLocation}
+                            />
+                        </div>
+                        <motion.div 
+                            className="sm:hidden w-full h-fit object-center fixed z-10 mx-auto opacity-0 overscroll-contain" 
+                            key="MobileUserPanel"
+                            animate={panelExpanded===true ? 'open' : 'closed'}
+                            transition={{ 
+                                duration: panelExpanded===true ? .3 : .3, 
+                                type: "tween"
+                            }}
+                            variants={userPanelVariants}
+                        >
+                            <MobileUserPanel 
+                                isDark={isDark} 
+                                panelExpanded={panelExpanded} 
+                                toggleDarkMode={toggleDarkMode}
+                                setAuxPanelExpanded={setAuxPanelExpanded}
+                                auxPanelExpanded={auxPanelExpanded}
+                                filterApplied={filterApplied}
+                                setFilterApplied={setFilterApplied}
+                                filterOptions={filterOptions}
+                                setFilterOptions={setFilterOptions}
+                                pageContent={pageContent}
+                                currentPage={currentPage}
+                                setCurrentPage={setCurrentPage}
+                                currentAuxSection={currentAuxSection}
+                                setCurrentAuxSection={setCurrentAuxSection}
+                            />
+                        </motion.div>
                 </header>
 
                 <main
@@ -144,48 +185,6 @@ export const MyChattanoogaProvider = ({ children }) => {
                     className="w-screen h-screen align-center relative overflow-y-scroll"
                     id="content"
                 >
-                    {/* TECH DEBT: Put motion element here instead of in MobileNav component */}
-                    <div className="sm:hidden fixed w-full h-fit object-center overscroll-none -left-full z-50 flex mx-auto" 
-                        key="MobileNav"
-                    >
-                        <MobileNav 
-                            isDark={isDark} 
-                            menuExpanded={menuExpanded} 
-                            setMenuExpanded={setMenuExpanded}
-                            toggleMobileUserPanel={toggleMobileUserPanel}
-                            panelExpanded={panelExpanded}
-                            currentWeatherLocation={currentWeatherLocation}
-                            setCurrentWeatherLocation={setCurrentWeatherLocation}
-                        />
-                    </div>
-                    {/* There's some weird jitter going on weirdly */}
-                    <motion.div 
-                        className="sm:hidden w-full h-fit object-center fixed z-10 mx-auto opacity-0 overscroll-contain" 
-                        key="MobileUserPanel"
-                        animate={panelExpanded===true ? 'open' : 'closed'}
-                        transition={{ 
-                            duration: panelExpanded===true ? .3 : .3, 
-                            type: "tween"
-                        }}
-                        variants={userPanelVariants}
-                    >
-                        <MobileUserPanel 
-                            isDark={isDark} 
-                            panelExpanded={panelExpanded} 
-                            toggleDarkMode={toggleDarkMode}
-                            setAuxPanelExpanded={setAuxPanelExpanded}
-                            auxPanelExpanded={auxPanelExpanded}
-                            filterApplied={filterApplied}
-                            setFilterApplied={setFilterApplied}
-                            filterOptions={filterOptions}
-                            setFilterOptions={setFilterOptions}
-                            pageContent={pageContent}
-                            currentPage={currentPage}
-                            setCurrentPage={setCurrentPage}
-                            currentAuxSection={currentAuxSection}
-                            setCurrentAuxSection={setCurrentAuxSection}
-                        />
-                    </motion.div>
                     <div className={childrenWrapperClassString}>
                         <motion.div 
                             animate={panelExpanded===true ? 'extended' : 'normal'}
