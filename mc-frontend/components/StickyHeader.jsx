@@ -6,10 +6,12 @@ import MyChattanoogaContext from './MyChattanoogaProvider'
 import { useContext } from "react"
 
 export const StickyHeader = ({ 
+    menuExpanded,
     isDark, 
     toggleDarkMode,
     currentWeatherLocation,
-    setCurrentWeatherLocation
+    setCurrentWeatherLocation,
+    panelExpanded
 }) => {
     const { toggleMobileNav, toggleMobileUserPanel } = useContext(MyChattanoogaContext);
     return (
@@ -20,9 +22,12 @@ export const StickyHeader = ({
                 <Logo isDark={isDark} />
                 <RightPanel 
                     {...toggleMobileUserPanel} 
+                    {...toggleMobileNav}
                     isDark={isDark}
                     currentWeatherLocation={currentWeatherLocation}
                     setCurrentWeatherLocation={setCurrentWeatherLocation}
+                    menuExpanded={menuExpanded}
+                    panelExpanded={panelExpanded}
                 />
             </div>
             <div className="hidden sm:block w-full border-y-2">

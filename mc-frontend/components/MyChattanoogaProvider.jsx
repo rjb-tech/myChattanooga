@@ -104,6 +104,13 @@ export const MyChattanoogaProvider = ({ children }) => {
             : (document.body.classList.remove("dark"))
     }, [isDark])
 
+    // Scroll window to top on page change
+    // USE THIS ELEMENT FOR SCROLL TO TOP BUTTON
+    useEffect(() => {
+        const element = document.getElementById("content")
+        element.scrollTop = 0
+    }, [currentPage])
+
     const childrenWrapperClassString = (menuExpanded === true) 
         ? "overscroll-contain transition duration-[300ms] blur-sm ease-linear relative"
         : "overscroll-contain transition duration-[300ms] relative"
@@ -121,18 +128,21 @@ export const MyChattanoogaProvider = ({ children }) => {
                         <link rel="icon" href="/myChattanooga_small-icon.png" />
                 </Head>
 
-                <header className="w-screen sticky z-[99] bg-[#FFF] dark:bg-[#222]">
+                <header className="w-screen sticky z-[99] bg-[#FFF] dark:bg-[#222] overscroll-none">
                         <StickyHeader 
+                            menuExpanded={menuExpanded}
                             isDark={isDark} 
                             toggleDarkMode={toggleDarkMode} 
                             currentWeatherLocation={currentWeatherLocation}
-                            setCurrentWeatherLocation={setCurrentWeatherLocation} 
+                            setCurrentWeatherLocation={setCurrentWeatherLocation}
+                            panelExpanded={panelExpanded}
                         />
                 </header>
 
                 <main
                     key="siteContent"
                     className="w-screen h-screen align-center relative overflow-y-scroll"
+                    id="content"
                 >
                     {/* TECH DEBT: Put motion element here instead of in MobileNav component */}
                     <div className="sm:hidden fixed w-full h-fit object-center -left-full z-50 flex mx-auto" 
@@ -150,7 +160,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                     </div>
                     {/* There's some weird jitter going on weirdly */}
                     <motion.div 
-                        className="sm:hidden w-full h-fit object-center fixed z-10 mx-auto opacity-0" 
+                        className="sm:hidden w-full h-fit object-center fixed z-10 mx-auto opacity-0 overscroll-contain" 
                         key="MobileUserPanel"
                         animate={panelExpanded===true ? 'open' : 'closed'}
                         transition={{ 
@@ -204,7 +214,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                                     setCurrentAuxSection={setCurrentAuxSection}
                                 />
                             </div>}
-                            <div className="md:w-9/12 content">
+                            <div className="md:w-9/12">
                                 {cloneElement(children, {
                                                             filterApplied: filterApplied, 
                                                             pageContent: pageContent,
