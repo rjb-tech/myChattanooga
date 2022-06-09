@@ -128,7 +128,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                         <link rel="icon" href="/myChattanooga_small-icon.png" />
                 </Head>
 
-                <header className="w-screen sticky z-[99] bg-[#FFF] dark:bg-[#222] overscroll-none">
+                <header className="w-screen bg-[#FFF] dark:bg-[#222] overscroll-none">
                         <StickyHeader 
                             menuExpanded={menuExpanded}
                             isDark={isDark} 
