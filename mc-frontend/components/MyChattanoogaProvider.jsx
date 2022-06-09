@@ -138,7 +138,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                             panelExpanded={panelExpanded}
                         />
                         {/* TECH DEBT: Put motion element here instead of in MobileNav component */}
-                        <div className="sm:hidden fixed w-full h-fit object-center overscroll-none -left-full z-20 flex mx-auto" 
+                        <div className="sm:hidden absolute w-full h-fit object-center overscroll-none -left-full z-20 flex mx-auto" 
                             key="MobileNav"
                         >
                             <MobileNav 
@@ -152,7 +152,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                             />
                         </div>
                         <motion.div 
-                            className="sm:hidden w-full h-fit object-center fixed z-10 mx-auto opacity-0 overscroll-contain" 
+                            className="sm:hidden w-full h-fit object-center absolute z-10 mx-auto opacity-0 overscroll-contain" 
                             key="MobileUserPanel"
                             animate={panelExpanded===true ? 'open' : 'closed'}
                             transition={{ 
