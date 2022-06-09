@@ -5,6 +5,8 @@ import { MobileNav } from "./MobileNav"
 import { MobileUserPanel } from "./MobileUserPanel"
 import { motion } from "framer-motion"
 import { UserPanel } from "./UserPanel"
+import { faChevronUp } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const MyChattanoogaContext = createContext();
 
@@ -16,6 +18,11 @@ const childrenComponentVariants = {
 const userPanelVariants = {
     open: { opacity: 1, y: "0%" },
     closed: { opacity: 0, y: "-100%" },
+}
+
+const scrollTopButtonVariants = {
+    visible: { opacity: .7 },
+    closed: { opacity: 0 }
 }
 
 export const MyChattanoogaProvider = ({ children }) => {
@@ -53,6 +60,7 @@ export const MyChattanoogaProvider = ({ children }) => {
     const [ filterOptions, setFilterOptions ] = useState([]);
     const [ currentPage, setCurrentPage ] = useState("");
     const [ currentAuxSection, setCurrentAuxSection ] = useState("");
+    const [showTopButton, setShowTopButton] = useState(false);
 
     function toggleMobileNav() {
         setMenuExpanded(menuExpanded => !menuExpanded);
@@ -110,6 +118,29 @@ export const MyChattanoogaProvider = ({ children }) => {
         const element = document.getElementById("content")
         element.scrollTop = 0
     }, [currentPage])
+
+    useEffect(() => {
+        const element = document.getElementById("content")
+        const handleScroll = (scrollAmount) => {
+            const element = document.getElementById("content")
+            if (element.scrollTop > 200) {
+                setShowTopButton(true);
+            } else {
+                setShowTopButton(false);
+            }
+        }
+        element.addEventListener("scroll", () => {
+          handleScroll(element.scrollTop)
+        });
+      }, []);
+
+    const scrollToTop = () => {
+        const element = document.getElementById("content")
+        element.scrollTo({
+          top: 0,
+          behavior: 'smooth' // for smoothly scrolling
+        });
+    };
 
     const childrenWrapperClassString = (menuExpanded === true) 
         ? "overscroll-contain transition duration-[300ms] blur-sm ease-linear relative"
@@ -229,6 +260,15 @@ export const MyChattanoogaProvider = ({ children }) => {
                     </div>
                     
                 </main>
+                <motion.button 
+                    className="rounded-full w-10 h-10 bg-[#222] dark:bg-[#fff] fixed bottom-8 right-8 flex items-center opacity-0"
+                    onClick={scrollToTop}
+                    animate={showTopButton===true ? "visible" : "notVisible"}
+                    variants={scrollTopButtonVariants}
+                    whileTap={{ scale: .85 }}
+                >
+                    <FontAwesomeIcon icon={faChevronUp} height={20} width={20} className="mx-auto" color={isDark===true ? "#222" : "#FFF"}/>
+                </motion.button>
                 {/* <scrollToTop /> */}
                 {/* <footer className="flex items-center w-screen">
                     
