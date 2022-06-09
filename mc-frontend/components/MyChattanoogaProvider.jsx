@@ -182,7 +182,7 @@ export const MyChattanoogaProvider = ({ children }) => {
 
                 <main
                     key="siteContent"
-                    className="w-screen h-screen align-center relative overflow-y-scroll overscroll-none"
+                    className="w-screen h-screen align-center relative"
                     id="content"
                 >
                     {/* This is a dummy div to make things appear right */}
