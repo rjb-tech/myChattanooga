@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 
 export const FiltersPanel = ({ 
     currentPage,
@@ -6,6 +7,9 @@ export const FiltersPanel = ({
     filterApplied, 
     setFilterApplied 
 }) => {
+    useEffect(() => {
+        setFilterApplied("all")
+    }, [currentPage])
     return (
         <div className="h-full w-full px-4 md:px-0 md;py-4 flex-col">
             {filterOptions.length > 0 && <div className="py-1 md:py-2">
