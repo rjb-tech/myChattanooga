@@ -158,6 +158,12 @@ export const MyChattanoogaProvider = ({ children }) => {
                             key="siteDescription"
                         />
                         <link rel="icon" href="/myChattanooga_small-icon.png" />
+                        <script
+                            async
+                            defer
+                            data-domain="mychattanooga.app"
+                            src="https://plausible.io/js/plausible.js"
+                        />
                 </Head>
 
                 <header className="w-screen bg-[#FFF] dark:bg-[#222] overscroll-none sticky z-[99]">
