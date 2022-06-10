@@ -37,20 +37,21 @@ export default function Home({
     fetchData();
   }, [])
 
-  var headlineString = ""
+  var headerString = ""
   if (filterApplied === "all") {
-    headlineString = "All Local Articles"
+    headerString = "All Local Articles"
   }
   else {
-    headlineString = filterApplied + " Articles"
+    headerString = filterApplied + " Articles"
   }
 
+  const headerClassString = contentLoading===true ? "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF] animate-pulse" : "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF]"
 
   return (
     <div className="mx-auto">
       <div className="h-full w-full flex-col px-6">
         <div className="sticky w-full h-fit top-0 md:pl-2 md:mt-0 lg:mt-0 mb-2">
-          <h1 className="text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF]">{headlineString}</h1>
+          <h1 className={headerClassString}>{headerString}</h1>
         </div>
         
         <motion.div 
