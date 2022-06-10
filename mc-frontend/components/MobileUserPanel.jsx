@@ -90,14 +90,14 @@ export const MobileUserPanel = ({
                         >
                             <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faPencil} style={{color: `${iconColor}`}} />
                         </motion.button>)}
-                        <motion.button 
+                        {/* <motion.button 
                             whileTap={{ scale: 0.85 }} 
                             className='bg-[#FFF] dark:bg-[#222] h-2/3 rounded-full flex-1 z-10'
                             // onClick={() => {handleAuxPanel("account")}}
                             onClick={() => isAuthenticated===false ? loginWithRedirect() : handleAuxPanel("account")}
                         >
                             <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faUser} style={{color: `${iconColor}`}} />
-                        </motion.button>
+                        </motion.button> */}
                     </div>
                 </div>                
                     
