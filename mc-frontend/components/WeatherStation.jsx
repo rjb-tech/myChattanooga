@@ -459,13 +459,13 @@ export const WeatherStation = ({ isDark, currentWeatherLocation, setCurrentWeath
         >
             <div className='flex-col w-full h-fit'>
                 <div className='flex place-items-center'>
-                    <motion.button whileTap={{ scale: 0.8 }} className='w-1/12 h-full flex-auto' onClick={() => switchWeatherLocation(false)}>
+                    <motion.button aria-label='Toggle Weather Location Backward' whileTap={{ scale: 0.8 }} className='w-1/12 h-full flex-auto' onClick={() => switchWeatherLocation(false)}>
                         <FontAwesomeIcon icon={faAngleLeft} style={{color: `${weatherConfig.color}`}} className='w-1/2 h-1/2 md:w-1/3 md:h-1/3 xl:w-1/5 xl:h-1/5 flex-auto mx-auto'/>
                     </motion.button>
                     <div className='flex-auto text-2xl md:text-xl xl:text-3xl text-center font-bold pb-2 sm:pt-2 w-5/6 md:w-4/6'>
                         {weatherLocations[`${currentWeatherLocation}`].name}
                     </div>
-                    <motion.button whileTap={{ scale: 0.8 }} className='w-1/12 h-full flex-auto' onClick={() => switchWeatherLocation(true)}>
+                    <motion.button aria-label='Toggle Weather Location Forward' whileTap={{ scale: 0.8 }} className='w-1/12 h-full flex-auto' onClick={() => switchWeatherLocation(true)}>
                         <FontAwesomeIcon icon={faAngleRight} style={{color: `${weatherConfig.color}`}} className='w-1/2 h-1/2 md:w-1/3 md:h-1/3 xl:w-1/5 xl:h-1/5 flex-auto mx-auto'/>
                     </motion.button>
                 </div>
