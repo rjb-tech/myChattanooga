@@ -11,6 +11,7 @@ export const LeftPanel = ({ toggleMobileNav, isDark, toggleDarkMode }) => {
     return (
         <div className="flex w-1/4 md:w-1/12 flex-auto h-full relative z-[100]">
             <motion.button
+                aria-label="Mobile Navigation Menu"
                 whileTap={{ scale: 0.8 }}
                 className="sm:hidden flex-auto pt-3" type="button" 
                 onClick={() => toggleMobileNav()}

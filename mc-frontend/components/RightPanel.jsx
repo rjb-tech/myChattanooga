@@ -21,7 +21,8 @@ export const RightPanel = ({
     }
     return (
         <div className="flex w-1/4 md:w-1/12 flex-auto h-full relative z-[100]">
-            <motion.button 
+            <motion.button
+                aria-label="Mobile User Panel"
                 whileTap={{ scale: 0.9 }}
                 className="sm:hidden flex-auto pt-3" type="button" 
                 onClick={() => {userPanelAction()}}

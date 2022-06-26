@@ -267,7 +267,8 @@ export const MyChattanoogaProvider = ({ children }) => {
                     </div>
                     
                 </main>
-                <motion.button 
+                <motion.button
+                    aria-label="Go To Top Button"
                     className="rounded-full w-10 h-10 bg-[#222] dark:bg-[#fff] fixed bottom-8 right-8 flex items-center opacity-0"
                     onClick={scrollToTop}
                     animate={showTopButton===true ? "visible" : "notVisible"}
