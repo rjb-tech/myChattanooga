@@ -29,9 +29,9 @@ export const MyChattanoogaProvider = ({ children }) => {
 
     const useDarkModePreference = () => {
         useEffect(() => {
-            const lsDark = localStorage.getItem('dark') === 'true'
-            setDark(lsDark);
-            if (isDark===true && !document.body.classList.contains('dark')) {document.body.classList.add("dark")}
+            const isDarkMode = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+            setDark(isDarkMode);
+            // if (isDark===true && !document.body.classList.contains('dark')) {document.body.classList.add("dark")}
         }, [])
     }
 

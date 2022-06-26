@@ -71,7 +71,7 @@ export const UserPanel = ({
     }
     return (
         <div className='flex-auto h-fit w-5/6 flex-col flex-auto text-center bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] mx-auto z-50'>
-            <div className='h-12 w-full flex justify-evenly items-start '>
+            {/* <div className='h-12 w-full flex justify-evenly items-start '>
                 <motion.button 
                     whileTap={{ scale: 0.85 }} 
                     className='bg-[#FFF] dark:bg-[#222] h-5/6 rounded-full flex-1 z-30' 
@@ -87,14 +87,14 @@ export const UserPanel = ({
                 >
                     <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faPencil} style={{color: `${iconColor}`}} />
                 </motion.button>)}
-                {/* <motion.button 
+                <motion.button 
                     whileTap={{ scale: 0.85 }} 
                     className='bg-[#FFF] dark:bg-[#222] h-5/6 rounded-full flex-1 z-30'
                     onClick={() => isAuthenticated===false ? loginWithRedirect() : handleAuxPanel("account")}
                 >
                     <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faUser} style={{color: `${iconColor}`}} />
-                </motion.button> */}
-            </div>
+                </motion.button>
+            </div> */}
             <motion.div
                 className='h-fit w-full relativ bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] overscroll-auto flex-col items-center z-10'
                 animate={auxPanelExpanded ? "shown" : "hidden"}
