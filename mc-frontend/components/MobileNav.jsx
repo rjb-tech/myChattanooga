@@ -4,7 +4,7 @@ import { WeatherStation } from './WeatherStation';
 import { Socials } from './Socials';
 
 const variants = {
-    open: { opacity: 1, x: "99.4%" },
+    open: { opacity: 1, x: "99%" },
     closed: { opacity: 0, x: "-5%" },
 }
 
