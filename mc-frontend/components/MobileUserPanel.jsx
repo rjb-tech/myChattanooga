@@ -76,7 +76,8 @@ export const MobileUserPanel = ({
                         {/* <motion.button whileTap={{ scale: 0.85 }} className='bg-[#FFF] dark:bg-[#222] h-2/3 rounded-full flex-1 z-10' onClick={() => toggleDarkMode()}>
                             <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={darkModeIcon} style={{color: `${iconColor}`}} />
                         </motion.button> */}
-                        <motion.button 
+                        <motion.button
+                            aria-label='Article Filters' 
                             whileTap={{ scale: 0.85 }} 
                             className='bg-[#FFF] dark:bg-[#222] h-2/3 rounded-full flex-1 z-10'
                             onClick={() => {handleAuxPanel("filters")}}
@@ -84,6 +85,7 @@ export const MobileUserPanel = ({
                             <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faFilter} style={{color: `${iconColor}`}} />
                         </motion.button>
                         {isAuthenticated &&(<motion.button 
+                            aria-label='Account Button'
                             whileTap={{ scale: 0.85 }} 
                             className='bg-[#FFF] dark:bg-[#222] h-2/3 rounded-full flex-1 z-10'
                             onClick={() => {handleAuxPanel("create")}}
