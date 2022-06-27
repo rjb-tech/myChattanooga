@@ -10,7 +10,6 @@ module.exports = {
   },
   images: {
     domains: [
-      'soldierfield.net',
       "res-1.cloudinary.com",
       "pbs.twimg.com",
       "www.chattanoogapulse.com",
