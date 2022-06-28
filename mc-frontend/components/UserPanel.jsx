@@ -102,7 +102,7 @@ export const UserPanel = ({
                 variants={auxVariants}
             >
                 
-                <div className="absolute -top-20 h-20 w-full flex">
+                <div className="absolute -top-20 h-20 w-full flex pb-2">
                     <AuxillaryPanel 
                         section={currentAuxSection} 
                         isDark={isDark} 
