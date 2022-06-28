@@ -286,6 +286,9 @@ export const MyChattanoogaProvider = ({ children }) => {
                         
                 </footer> */}
             </div>
+            <div className="h-16 w-screen">
+
+            </div>
             
         </MyChattanoogaContext.Provider>
     )
