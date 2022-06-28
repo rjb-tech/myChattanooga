@@ -7,7 +7,7 @@ export const AccountPanel = () => {
     const { user, logout, isLoading } = useAuth0();
     // There will need to be some sort of check here for if a user is already logged in, etc.
     return (
-        <div className="w-4/6 md:5/6">
+        <div className="w-4/6 md:w-5/6">
             <div className="py-1 md:py-2">
                 <motion.button 
                     whileTap={{ scale: 0.9 }}
