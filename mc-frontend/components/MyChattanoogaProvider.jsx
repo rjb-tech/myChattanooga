@@ -265,6 +265,9 @@ export const MyChattanoogaProvider = ({ children }) => {
                             {/* {children} */}
                         </motion.div>
                     </div>
+                    <div className="sm:hidden h-16 w-screen">
+
+                    </div>
                     
                 </main>
                 <motion.button
@@ -285,9 +288,6 @@ export const MyChattanoogaProvider = ({ children }) => {
                     </div>
                         
                 </footer> */}
-            </div>
-            <div className="h-16 w-screen">
-
             </div>
             
         </MyChattanoogaContext.Provider>
