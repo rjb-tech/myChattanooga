@@ -6,7 +6,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <Auth0Provider
       domain='mychattanooga.us.auth0.com'
-      clientId='PDzkyuUA4Se6FhrH7tUmnSJkxL040S48'
+      clientId='0CqipATVlTDNWLBOjJrCQqeQSFJvhKm5'
       redirectUri={process.env.DEPLOYMENT_ENV==='prod' ? 'https://mychattanooga.app' : 'http://localhost:3000'}
     >
       <MyChattanoogaProvider>
