@@ -3,13 +3,13 @@ import Link from "next/link"
 export const NavBar = () => {
     return (
         <div className="flex shadow justify-around w-full h-12 content-center items-center bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF]">
-            {/* <div className="text-center content-center items-center">
+            <div className="text-center content-center items-center">
                 <Link href='/brews'>
                     <a className='text-center'>
                         Brews
                     </a>
                 </Link>
-            </div> */}
+            </div>
             <div className="text-center content-center items-center">
                 <Link href='/'>
                     <a className='text-center'>
