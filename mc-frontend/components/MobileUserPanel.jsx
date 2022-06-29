@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from "framer-motion"
 import { useEffect } from 'react';
-import { faFilter, faSun, faMoon, faUser, faPencil } from "@fortawesome/free-solid-svg-icons"
+import { faFilter, faSun, faMoon, faUser, faBeer } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
 import { MobileAuxillaryPanel } from './MobileAuxillaryPanel';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -90,7 +90,7 @@ export const MobileUserPanel = ({
                             className='bg-[#FFF] dark:bg-[#222] h-2/3 rounded-full flex-1 z-10'
                             onClick={() => {handleAuxPanel("create")}}
                         >
-                            <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faPencil} style={{color: `${iconColor}`}} />
+                            <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faBeer} style={{color: `${iconColor}`}} />
                         </motion.button>)}
                         <motion.button 
                             whileTap={{ scale: 0.85 }} 
@@ -105,7 +105,7 @@ export const MobileUserPanel = ({
                     
             </div>
             <motion.div
-                className='h-48 absolute z-[5] w-screen bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] shadow overscroll-contain flex items-center'
+                className='py-4 absolute z-[5] w-screen bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] shadow overscroll-contain flex items-center'
                 animate={auxPanelExpanded ? "shown" : "hidden"}
                 transition={{ duration: .25, type: "tween"}}
                 variants={auxVariants}
