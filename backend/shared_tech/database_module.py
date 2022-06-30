@@ -53,6 +53,18 @@ class Stat(BaseModel):
         orm_mode = True
 
 
+class BrewsRelease(BaseModel):
+    title: str
+    body: str
+    publisher: str
+    date_posted: datetime
+    date_approved: Optional[datetime]
+    expired: bool
+
+    class Config:
+        orm_mode = True
+
+
 class MC_Connection:
     deployment_environment = os.environ["DEPLOYMENT_ENV"]
     if deployment_environment == "dev":
@@ -107,6 +119,17 @@ class MC_Connection:
         sa.Column("sunset", sa.Integer),
         sa.Column("wind_speed", sa.Integer),
         sa.Column("wind_direction", sa.Integer),
+    )
+
+    tables["brews_table"] = sa.Table(
+        "brews",
+        local_metadata,
+        sa.Column("title", sa.Text, primary_key=True),
+        sa.Column("body", sa.Text),
+        sa.Column("publisher", sa.String(256)),
+        sa.Column("date_posted", sa.TIMESTAMP),
+        sa.Column("date_approved", sa.TIMESTAMP),
+        sa.Column("expired", sa.Boolean),
     )
 
     # Constructor
