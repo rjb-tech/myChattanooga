@@ -48,7 +48,7 @@ async def get_brews_releases(publishers: list = Query(["all"])):
             filtered_query = (
                 select(table)
                 .where(table.c.publisher.in_(publishers))
-                .order_by(table.c.time_posted.desc())
+                .order_by(table.c.date_posted.desc())
             )
             if publishers[0] == "all":
                 data = await database.get_db_obj().fetch_all(full_query)
@@ -57,6 +57,9 @@ async def get_brews_releases(publishers: list = Query(["all"])):
             return [row for row in data]
         else:
             return "DB Module error"
+
+    query_results = await get_query_results(get_brews)
+    return query_results
 
 
 @app.get("/articles", response_model=List[Article], response_model_exclude_none=True)
