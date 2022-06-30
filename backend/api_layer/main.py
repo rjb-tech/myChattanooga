@@ -1,8 +1,9 @@
 import logging
 import asyncio
+from urllib import response
 from sqlalchemy.sql import select
 from fastapi import FastAPI, Query
-from database_module import Article, Weather, Stat, MC_Connection
+from database_module import Article, Weather, Stat, BrewsRelease, MC_Connection
 from result import Result, Ok, Err
 from typing import List, Optional
 
@@ -33,6 +34,29 @@ async def shutdown():
 @app.get("/healthcheck", status_code=200)
 async def healthcheck():
     return "Ok"
+
+
+@app.get("/brews_releases", response_model=List[BrewsRelease], response_model_exclude_none=True)
+async def get_brews_releases(publishers: list = Query(["all"])):
+    async def get_brews():
+        # Get result from the MC_Connection method and check for validity
+        #   before sending payload
+        query_table = database.get_table("brews")
+        if isinstance(query_table, Ok):
+            table = query_table.unwrap()
+            full_query = table.select().order_by(table.c.date_posted.desc())
+            filtered_query = (
+                select(table)
+                .where(table.c.publisher.in_(publishers))
+                .order_by(table.c.time_posted.desc())
+            )
+            if publishers[0] == "all":
+                data = await database.get_db_obj().fetch_all(full_query)
+            else:
+                data = await database.get_db_obj().fetch_all(filtered_query)
+            return [row for row in data]
+        else:
+            return "DB Module error"
 
 
 @app.get("/articles", response_model=List[Article], response_model_exclude_none=True)
