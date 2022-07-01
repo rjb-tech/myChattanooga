@@ -79,7 +79,7 @@ async def create_brews_release(token: str = Depends(token_auth_scheme)):
     return result
 
 
-# TODO
+# This should be only for me to use
 @app.post("/brews/approve")
 async def create_brews_release(token: str = Depends(token_auth_scheme)):
     result = token.credentials
