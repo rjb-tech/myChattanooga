@@ -69,13 +69,17 @@ async def get_brews_releases(publishers: list = Query(["all"])):
 # TODO
 @app.post("/brews/create")
 async def create_brews_release(token: str = Depends(token_auth_scheme)):
-    return
+    result = token.credentials
+
+    return result
 
 
 # TODO
 @app.post("/brews/approve")
 async def create_brews_release(token: str = Depends(token_auth_scheme)):
-    return
+    result = token.credentials
+
+    return result
 
 
 @app.get("/articles", response_model=List[Article], response_model_exclude_none=True)
