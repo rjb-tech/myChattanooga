@@ -1,8 +1,9 @@
 import logging
 import asyncio
+from utils import VerifyToken
 from urllib import response
 from sqlalchemy.sql import select
-from fastapi import FastAPI, Query, Depends
+from fastapi import FastAPI, Query, Depends, Response, status
 from fastapi.security import HTTPBearer
 from database_module import Article, Weather, Stat, BrewsRelease, MC_Connection
 from result import Result, Ok, Err
@@ -69,7 +70,11 @@ async def get_brews_releases(publishers: list = Query(["all"])):
 # TODO
 @app.post("/brews/create")
 async def create_brews_release(token: str = Depends(token_auth_scheme)):
-    result = token.credentials
+    result = VerifyToken(token.credentials).verify()
+
+    if result.get("status"):
+       response.status_code = status.HTTP_400_BAD_REQUEST
+       return result
 
     return result
 
