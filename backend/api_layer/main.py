@@ -22,7 +22,7 @@ logging.basicConfig(
     level=logging.INFO,
 )
 
-app = FastAPI()
+app = FastAPI(docs_url=None)
 database = MC_Connection()
 
 
