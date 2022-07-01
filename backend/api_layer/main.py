@@ -36,7 +36,7 @@ async def healthcheck():
     return "Ok"
 
 
-@app.get("/brews_releases", response_model=List[BrewsRelease], response_model_exclude_none=True)
+@app.get("/brews", response_model=List[BrewsRelease], response_model_exclude_none=True)
 async def get_brews_releases(publishers: list = Query(["all"])):
     async def get_brews():
         # Get result from the MC_Connection method and check for validity
