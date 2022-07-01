@@ -15,3 +15,4 @@ result==0.7.0
 psycopg2
 black
 pre-commit==2.19.0
+pyjwt[crypto]==2.4.0

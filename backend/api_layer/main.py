@@ -2,10 +2,14 @@ import logging
 import asyncio
 from urllib import response
 from sqlalchemy.sql import select
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, Depends
+from fastapi.security import HTTPBearer
 from database_module import Article, Weather, Stat, BrewsRelease, MC_Connection
 from result import Result, Ok, Err
 from typing import List, Optional
+
+# Scheme for the Authorization header
+token_auth_scheme = HTTPBearer()
 
 
 # Configure logger
@@ -60,6 +64,18 @@ async def get_brews_releases(publishers: list = Query(["all"])):
 
     query_results = await get_query_results(get_brews)
     return query_results
+
+
+# TODO
+@app.post("/brews/create")
+async def create_brews_release(token: str = Depends(token_auth_scheme)):
+    return
+
+
+# TODO
+@app.post("/brews/approve")
+async def create_brews_release(token: str = Depends(token_auth_scheme)):
+    return
 
 
 @app.get("/articles", response_model=List[Article], response_model_exclude_none=True)
