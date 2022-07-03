@@ -1,5 +1,6 @@
 import logging
 import asyncio
+from uuid import UUID
 
 import pytz
 from datetime import datetime
@@ -34,6 +35,7 @@ class BrewsRequestInfo(BaseModel):
     title: str
     body: Union[str, None]
     publisher: str
+    id: Union[str, None]
 
 
 app = FastAPI(docs_url=None)
@@ -88,7 +90,7 @@ async def get_brews_releases(publishers: list = Query(["all"]), expired: str = "
     return query_results
 
 
-@app.post("/brews/create", status_code=status.HTTP_201_CREATED)
+@app.post("/brews/pour", status_code=status.HTTP_201_CREATED)
 async def create_brews_release(brewsInfo: BrewsRequestInfo, response: Response, token: str = Depends(token_auth_scheme)):
     result = VerifyToken(token.credentials).verify()
 
@@ -96,7 +98,7 @@ async def create_brews_release(brewsInfo: BrewsRequestInfo, response: Response, 
        response.status_code = status.HTTP_400_BAD_REQUEST
        return result
 
-    async def create_brews():
+    async def create_brew():
         query_table = database.get_table("brews")
         if isinstance(query_table, Ok):
             table = query_table.unwrap()
@@ -119,12 +121,39 @@ async def create_brews_release(brewsInfo: BrewsRequestInfo, response: Response, 
         response.status_code = status.HTTP_204_NO_CONTENT
         return {"status": "Not created"}
 
-    query_results = await get_query_results(create_brews)
+    query_results = await get_query_results(create_brew)
     return query_results
 
 
-# @app.post("/brews/refresh", status_code=status.HTTP_200_OK)
+# @app.patch("/brews/refill", status_code=status.HTTP_200_OK)
+# async def refill_expired_brews_release(brewsInfo: BrewsRequestInfo, response: Response, token: str = Depends(token_auth_scheme)):
+#     result = VerifyToken(token.credentials).verify()
+    
+#     if result.get("status"):
+#        response.status_code = status.HTTP_400_BAD_REQUEST
+#        return result
 
+#     async def refill_brew():
+#         query_table = database.get_table("brews")
+#         if isinstance(query_table, Ok):
+#             table = query_table.unwrap()
+#             if not await already_saved(brewsInfo, table, database.get_db_obj()):
+#                 query = table.insert().values(
+#                     title=brewsInfo.title,
+#                     body=brewsInfo.body,
+#                     publisher=brewsInfo.publisher,
+#                     date_posted=datetime.now(pytz.timezone('America/New_York')),
+#                     expired=True
+#                 )
+#                 await database.get_db_obj().execute(query)
+#                 search_query = f"SELECT * FROM brews WHERE title='{brewsInfo.title}' AND publisher='{brewsInfo.publisher}'"
+#                 newly_created_object = await database.get_db_obj().fetch_all(search_query)
+#                 return newly_created_object
+
+#         response.status_code = status.HTTP_204_NO_CONTENT
+#         return {"status": "Not created"}
+    
+#     return
 
 @app.get("/articles", response_model=List[Article], response_model_exclude_none=True)
 async def today_articles(publishers: list = Query(["all"])):
