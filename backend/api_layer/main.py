@@ -55,8 +55,8 @@ async def healthcheck():
     return "Ok"
 
 
-@app.get("/brews", response_model=List[BrewsRelease], response_model_exclude_none=True)
-async def get_brews_releases(publishers: list = Query(["all"])):
+@app.get("/brews", response_model=List[BrewsRelease], response_model_exclude_none=False)
+async def get_brews_releases(publishers: list = Query(["all"]), expired: bool = False):
     async def get_brews():
         # Get result from the MC_Connection method and check for validity
         #   before sending payload
@@ -64,11 +64,18 @@ async def get_brews_releases(publishers: list = Query(["all"])):
         if isinstance(query_table, Ok):
             table = query_table.unwrap()
             full_query = table.select().where(table.c.expired==False).order_by(table.c.date_posted.desc())
-            filtered_query = (
-                select(table)
-                .where(table.c.publisher.in_(publishers))
-                .order_by(table.c.date_posted.desc())
-            )
+            if expired: 
+                filtered_query = (
+                    select(table)
+                    .where((table.c.publisher.in_(publishers)))
+                    .order_by(table.c.date_posted.desc())
+                )
+            else:
+                filtered_query = (
+                    select(table)
+                    .where((table.c.publisher.in_(publishers)) & (table.c.expired==False))
+                    .order_by(table.c.date_posted.desc())
+                )
             if publishers[0] == "all":
                 data = await database.get_db_obj().fetch_all(full_query)
             else:
@@ -81,9 +88,6 @@ async def get_brews_releases(publishers: list = Query(["all"])):
     return query_results
 
 
-# TODO
-# This fails out sometimes because of the is_already_saved function
-#   as if the db isn't connected sometimes
 @app.post("/brews/create", status_code=status.HTTP_201_CREATED)
 async def create_brews_release(brewsInfo: BrewsRequestInfo, response: Response, token: str = Depends(token_auth_scheme)):
     result = VerifyToken(token.credentials).verify()
@@ -117,14 +121,6 @@ async def create_brews_release(brewsInfo: BrewsRequestInfo, response: Response, 
 
     query_results = await get_query_results(create_brews)
     return query_results
-
-
-# This should be only for me to use
-@app.post("/brews/approve")
-async def create_brews_release(token: str = Depends(token_auth_scheme)):
-    result = token.credentials
-
-    return result
 
 
 @app.get("/articles", response_model=List[Article], response_model_exclude_none=True)
