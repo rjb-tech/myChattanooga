@@ -1,4 +1,5 @@
 import os
+from uuid import UUID
 import logging
 from typing import Any, Optional
 import sqlalchemy as sa
@@ -55,14 +56,17 @@ class Stat(BaseModel):
 
 class BrewsRelease(BaseModel):
     title: str
-    body: str
+    id: UUID
+    body: Optional[str]
     publisher: str
     date_posted: datetime
     date_approved: Optional[datetime]
+    approved: bool
     expired: bool
 
     class Config:
         orm_mode = True
+        arbitrary_types_allowed = True
 
 
 class MC_Connection:
@@ -125,10 +129,12 @@ class MC_Connection:
         "brews",
         local_metadata,
         sa.Column("title", sa.Text, primary_key=True),
+        sa.Column("id", sa.dialects.postgresql.UUID(as_uuid=True)),
         sa.Column("body", sa.Text),
         sa.Column("publisher", sa.String(256)),
         sa.Column("date_posted", sa.TIMESTAMP),
         sa.Column("date_approved", sa.TIMESTAMP),
+        sa.Column("approved", sa.Boolean),
         sa.Column("expired", sa.Boolean),
     )
 

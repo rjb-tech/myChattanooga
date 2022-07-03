@@ -1,13 +1,19 @@
 import logging
 import asyncio
+
+from datetime import datetime
+from os import stat
+from pydantic import BaseModel
 from utils import VerifyToken
 from urllib import response
+import sqlalchemy as sa
+from databases import Database
 from sqlalchemy.sql import select
 from fastapi import FastAPI, Query, Depends, Response, status
 from fastapi.security import HTTPBearer
 from database_module import Article, Weather, Stat, BrewsRelease, MC_Connection
 from result import Result, Ok, Err
-from typing import List, Optional
+from typing import List, Optional, Union
 
 # Scheme for the Authorization header
 token_auth_scheme = HTTPBearer()
@@ -21,6 +27,13 @@ logging.basicConfig(
     datefmt="%d-%b-%y %H:%M:%S",
     level=logging.INFO,
 )
+
+
+class BrewsRequestInfo(BaseModel):
+    title: str
+    body: Union[str, None]
+    publisher: str
+
 
 app = FastAPI(docs_url=None)
 database = MC_Connection()
@@ -49,16 +62,13 @@ async def get_brews_releases(publishers: list = Query(["all"])):
         query_table = database.get_table("brews")
         if isinstance(query_table, Ok):
             table = query_table.unwrap()
-            full_query = table.select().order_by(table.c.date_posted.desc())
+            full_query = table.select().where(table.c.approved==True).order_by(table.c.date_posted.desc())
             filtered_query = (
                 select(table)
                 .where(table.c.publisher.in_(publishers))
                 .order_by(table.c.date_posted.desc())
             )
-            if publishers[0] == "all":
-                data = await database.get_db_obj().fetch_all(full_query)
-            else:
-                data = await database.get_db_obj().fetch_all(filtered_query)
+            data = await database.get_db_obj().fetch_all(full_query)
             return [row for row in data]
         else:
             return "DB Module error"
@@ -68,15 +78,34 @@ async def get_brews_releases(publishers: list = Query(["all"])):
 
 
 # TODO
-@app.post("/brews/create")
-async def create_brews_release(token: str = Depends(token_auth_scheme)):
+@app.post("/brews/create", status_code=status.HTTP_201_CREATED)
+async def create_brews_release(brewsInfo: BrewsRequestInfo, token: str = Depends(token_auth_scheme)):
     result = VerifyToken(token.credentials).verify()
 
     if result.get("status"):
        response.status_code = status.HTTP_400_BAD_REQUEST
        return result
 
-    return result
+    query_table = database.get_table("brews")
+    if isinstance(query_table, Ok):
+        table = query_table.unwrap()
+        if not await already_saved(brewsInfo, table, database.get_db_obj()):
+            query = table.insert().values(
+                title=brewsInfo.title,
+                body=brewsInfo.body,
+                publisher=brewsInfo.publisher,
+                date_posted=datetime.now(),
+                approved=True,
+                expired=False
+            )
+            to_return = await database.get_db_obj().execute(query)
+            return to_return
+        else:
+            response.status_code = status.HTTP_208_ALREADY_REPORTED
+            return {"status": "already saved"}
+
+    response.status_code = status.HTTP_204_NO_CONTENT
+    return {"Not created"}
 
 
 # This should be only for me to use
@@ -155,3 +184,26 @@ async def get_query_results(input_async_function):
         async_results = await input_async_function()
     await database.unplug()
     return async_results
+
+
+# Utility function to check if a brews release is already saved in the DB
+async def already_saved(brews_release: BrewsRequestInfo, table: sa.Table, db: Database) -> bool:
+    async def get_result(db, query):
+        return await db.execute(query)
+
+    query = (
+        table.select()
+        .exists()
+        .select()
+        .where(
+            (table.c.title == brews_release.title)
+            & (table.c.publisher == brews_release.publisher)
+        )
+    )
+
+    task = asyncio.create_task(get_result(db, query))
+    done, pending = await asyncio.wait({task})
+    # return True if the query has a result
+    #   this returns None when the story being queried doesn't exist
+    if task in done:
+        return True if task.result() else False
