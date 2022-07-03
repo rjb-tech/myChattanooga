@@ -60,8 +60,6 @@ class BrewsRelease(BaseModel):
     body: Optional[str]
     publisher: str
     date_posted: datetime
-    date_approved: Optional[datetime]
-    approved: bool
     expired: bool
 
     class Config:
