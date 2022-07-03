@@ -63,13 +63,16 @@ async def get_brews_releases(publishers: list = Query(["all"])):
         query_table = database.get_table("brews")
         if isinstance(query_table, Ok):
             table = query_table.unwrap()
-            full_query = table.select().where(table.c.approved==True).order_by(table.c.date_posted.desc())
+            full_query = table.select().where(table.c.expired==False).order_by(table.c.date_posted.desc())
             filtered_query = (
                 select(table)
                 .where(table.c.publisher.in_(publishers))
                 .order_by(table.c.date_posted.desc())
             )
-            data = await database.get_db_obj().fetch_all(full_query)
+            if publishers[0] == "all":
+                data = await database.get_db_obj().fetch_all(full_query)
+            else:
+                data = await database.get_db_obj().fetch_all(filtered_query)
             return [row for row in data]
         else:
             return "DB Module error"
