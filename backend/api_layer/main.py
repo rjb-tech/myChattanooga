@@ -82,7 +82,7 @@ async def get_brews_releases(publishers: list = Query(["all"])):
 # This fails out sometimes because of the is_already_saved function
 #   as if the db isn't connected sometimes
 @app.post("/brews/create", status_code=status.HTTP_201_CREATED)
-async def create_brews_release(brewsInfo: BrewsRequestInfo, token: str = Depends(token_auth_scheme)):
+async def create_brews_release(brewsInfo: BrewsRequestInfo, response: Response, token: str = Depends(token_auth_scheme)):
     result = VerifyToken(token.credentials).verify()
 
     if result.get("status"):
@@ -99,13 +99,12 @@ async def create_brews_release(brewsInfo: BrewsRequestInfo, token: str = Depends
                     body=brewsInfo.body,
                     publisher=brewsInfo.publisher,
                     date_posted=datetime.now(pytz.timezone('America/New_York')),
-                    approved=False,
                     expired=False
                 )
                 await database.get_db_obj().execute(query)
                 search_query = f"SELECT * FROM brews WHERE title='{brewsInfo.title}' AND publisher='{brewsInfo.publisher}'"
                 newly_created_object = await database.get_db_obj().fetch_all(search_query)
-                return {"status": "created and saved", "preview": newly_created_object}
+                return newly_created_object
             else:
                 response.status_code = status.HTTP_208_ALREADY_REPORTED
                 return {"status": "already saved"}

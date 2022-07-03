@@ -45,7 +45,5 @@ CREATE TABLE brews
                         body            TEXT                                   ,
                         publisher       VARCHAR(256)                   NOT NULL,
                         date_posted     TIMESTAMPTZ                    NOT NULL,
-                        date_approved   TIMESTAMPTZ                            ,
-                        approved        BOOLEAN                        NOT NULL,
                         expired         BOOLEAN                        NOT NULL
                     );

@@ -133,8 +133,6 @@ class MC_Connection:
         sa.Column("body", sa.Text),
         sa.Column("publisher", sa.String(256)),
         sa.Column("date_posted", sa.TIMESTAMP),
-        sa.Column("date_approved", sa.TIMESTAMP),
-        sa.Column("approved", sa.Boolean),
         sa.Column("expired", sa.Boolean),
     )
 
