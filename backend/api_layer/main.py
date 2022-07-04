@@ -64,11 +64,17 @@ async def get_brews_releases(publishers: list = Query(["all"]), expired: str = "
         query_table = database.get_table("brews")
         if isinstance(query_table, Ok):
             table = query_table.unwrap()
-            full_query = table.select().where(table.c.expired==False).order_by(table.c.date_posted.desc())
-            if expired.lower() == "false": 
+            full_query = (
+                table.select()
+                .where(table.c.expired == False)
+                .order_by(table.c.date_posted.desc())
+            )
+            if expired.lower() == "false":
                 filtered_query = (
                     select(table)
-                    .where((table.c.publisher.in_(publishers)) & (table.c.expired==False))
+                    .where(
+                        (table.c.publisher.in_(publishers)) & (table.c.expired == False)
+                    )
                     .order_by(table.c.date_posted.desc())
                 )
             else:
@@ -90,12 +96,16 @@ async def get_brews_releases(publishers: list = Query(["all"]), expired: str = "
 
 
 @app.post("/brews/pour", status_code=status.HTTP_201_CREATED)
-async def create_brews_release(brewsInfo: BrewsRequestInfo, response: Response, token: str = Depends(token_auth_scheme)):
+async def create_brews_release(
+    brewsInfo: BrewsRequestInfo,
+    response: Response,
+    token: str = Depends(token_auth_scheme),
+):
     result = VerifyToken(token.credentials).verify()
 
     if result.get("status"):
-       response.status_code = status.HTTP_400_BAD_REQUEST
-       return result
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return result
 
     async def create_brew():
         query_table = database.get_table("brews")
@@ -106,12 +116,14 @@ async def create_brews_release(brewsInfo: BrewsRequestInfo, response: Response, 
                     title=brewsInfo.title,
                     body=brewsInfo.body,
                     publisher=brewsInfo.publisher,
-                    date_posted=datetime.now(pytz.timezone('America/New_York')),
-                    expired=True
+                    date_posted=datetime.now(pytz.timezone("America/New_York")),
+                    expired=True,
                 )
                 await database.get_db_obj().execute(query)
                 search_query = f"SELECT * FROM brews WHERE title='{brewsInfo.title}' AND publisher='{brewsInfo.publisher}'"
-                newly_created_object = await database.get_db_obj().fetch_all(search_query)
+                newly_created_object = await database.get_db_obj().fetch_all(
+                    search_query
+                )
                 return newly_created_object
             else:
                 response.status_code = status.HTTP_208_ALREADY_REPORTED
@@ -125,30 +137,29 @@ async def create_brews_release(brewsInfo: BrewsRequestInfo, response: Response, 
 
 
 @app.patch("/brews/refill", status_code=status.HTTP_200_OK)
-async def refill_expired_brews_release(id: str, response: Response, token: str = Depends(token_auth_scheme)):
+async def refill_expired_brews_release(
+    id: str, response: Response, token: str = Depends(token_auth_scheme)
+):
     result = VerifyToken(token.credentials).verify()
-    
+
     if result.get("status"):
-       response.status_code = status.HTTP_400_BAD_REQUEST
-       return result
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return result
 
     async def refill_brew():
         query_table = database.get_table("brews")
         if isinstance(query_table, Ok):
             table = query_table.unwrap()
-            query = update(table).where(
-                table.c.id == id
-            ).values(
-                expired=False
-            )
+            query = update(table).where(table.c.id == id).values(expired=False)
             await database.get_db_obj().execute(query)
             return {"status": f"refilled"}
 
         response.status_code = status.HTTP_204_NO_CONTENT
         return {"status": "Not refilled"}
-    
+
     query_results = await get_query_results(refill_brew)
     return query_results
+
 
 @app.get("/articles", response_model=List[Article], response_model_exclude_none=True)
 async def today_articles(publishers: list = Query(["all"])):
@@ -221,7 +232,9 @@ async def get_query_results(input_async_function):
 
 
 # Utility function to check if a brews release is already saved in the DB
-async def already_saved(brews_release: BrewsRequestInfo, table: sa.Table, db: Database) -> bool:
+async def already_saved(
+    brews_release: BrewsRequestInfo, table: sa.Table, db: Database
+) -> bool:
     async def get_result(db, query):
         return await db.execute(query)
 
