@@ -195,7 +195,7 @@ async def today_weather(location: str = "all"):
 
 
 # @app.get("/stats", response_model=List[Stat], response_model_exclude_none=True)
-# async def today_stats():
+# async def today_stats(response: Response, publishers: list = Query(["all"])):
 #     async def get_stats():
 #         # Get result from the MC_Connection method and check for validity
 #         #   before sending payload
