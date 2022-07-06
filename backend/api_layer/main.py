@@ -33,7 +33,6 @@ logging.basicConfig(
 
 class BrewsRequestInfo(BaseModel):
     title: str
-    body: Union[str, None]
     publisher: str
 
 

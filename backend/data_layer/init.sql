@@ -40,9 +40,8 @@ CREATE TABLE weather
 
 CREATE TABLE brews
                     (
-                        title           TEXT        PRIMARY KEY        NOT NULL,
+                        headline        TEXT        PRIMARY KEY        NOT NULL,
                         id              uuid        DEFAULT  uuid_generate_v4(),
-                        body            TEXT                                   ,
                         publisher       VARCHAR(256)                   NOT NULL,
                         date_posted     TIMESTAMPTZ                    NOT NULL,
                         expired         BOOLEAN                        NOT NULL

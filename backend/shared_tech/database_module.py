@@ -55,9 +55,8 @@ class Stat(BaseModel):
 
 
 class BrewsRelease(BaseModel):
-    title: str
+    headline: str
     id: UUID
-    body: Optional[str]
     publisher: str
     date_posted: datetime
     expired: bool
@@ -126,9 +125,8 @@ class MC_Connection:
     tables["brews_table"] = sa.Table(
         "brews",
         local_metadata,
-        sa.Column("title", sa.Text, primary_key=True),
+        sa.Column("headline", sa.Text, primary_key=True),
         sa.Column("id", sa.dialects.postgresql.UUID(as_uuid=True)),
-        sa.Column("body", sa.Text),
         sa.Column("publisher", sa.String(256)),
         sa.Column("date_posted", sa.TIMESTAMP),
         sa.Column("expired", sa.Boolean),
