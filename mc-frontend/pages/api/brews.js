@@ -1,10 +1,10 @@
 import axios from "axios"
-import { useRouter } from "next/router"
+const url = require('url');
 
 export default function handler(req, res) {
 
-  const router = useRouter()
-  const queryParamsKeys = Object.keys(router.query)
+  const parsedURL = url.parse(req.url, true)
+  const queryParamsKeys = Object.keys(parsedURL.query)
   const emptyQuery = queryParamsKeys.length === 0
 
   let queryString = ""
@@ -19,9 +19,10 @@ export default function handler(req, res) {
   if (req.method === 'GET') {
     if (emptyQuery === true) {
       axios.get(`${apiURL}/brews`)
-        .then(async (response) => {
-          const data = await response.json();
+        .then(response => {
+          const data = response.json();
           res.json(data);
+          res.end()
         })
         .catch(error => {
           res.json(error)
