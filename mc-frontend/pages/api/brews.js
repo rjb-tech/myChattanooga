@@ -4,24 +4,43 @@ import { useRouter } from "next/router"
 export default function handler(req, res) {
 
   const router = useRouter()
-  const queryParams = router.query
-  const emptyQuery = Object.keys(queryParams).length === 0
+  const queryParamsKeys = Object.keys(router.query)
+  const emptyQuery = queryParamsKeys.length === 0
+
+  let queryString = ""
+  for (let i = 0; i < queryParamsKeys.length; i++) {
+    queryString += `${queryParamsKeys[i]}=${router.query[queryParamsKeys[i]]}&`
+  }
 
   let apiURL
   if (process.env.DEPLOYMENT_ENV === "prod") { apiURL = "https://api.mychattanooga.app" }
   else { apiURL = "http://host.docker.internal:8000" }
+
   if (req.method === 'GET') {
-    axios.get(`${apiURL}/brews`)
-      .then(async (response) => {
-        const data = await response.json();
-        res.json(data);
-      })
-      .catch(error => {
-        res.json(error)
-        res.end()
-      })
+    if (emptyQuery === true) {
+      axios.get(`${apiURL}/brews`)
+        .then(async (response) => {
+          const data = await response.json();
+          res.json(data);
+        })
+        .catch(error => {
+          res.json(error)
+          res.end()
+        })
+    }
+    else {
+      axios.get(`${apiURL}/brews?${queryString}`)
+        .then(async (response) => {
+          const data = await response.json();
+          res.json(data);
+        })
+        .catch(error => {
+          res.json(error)
+          res.end()
+        })
+    }
   }
   else {
-    res.status(404).json({ "status": "request method not allowed" })
+    res.status(404).json("request method not allowed")
   }
 }
