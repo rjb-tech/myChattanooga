@@ -20,9 +20,8 @@ export default function handler(req, res) {
     if (emptyQuery === true) {
       axios.get(`${apiURL}/brews`)
         .then(response => {
-          const data = response.json();
-          res.json(data);
-          res.end()
+          res.json(response.data);
+          res.end();
         })
         .catch(error => {
           res.json(error)

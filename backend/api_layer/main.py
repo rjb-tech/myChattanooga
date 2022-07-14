@@ -32,7 +32,7 @@ logging.basicConfig(
 
 
 class BrewsRequestInfo(BaseModel):
-    title: str
+    headline: str
     publisher: str
 
 
@@ -112,14 +112,13 @@ async def create_brews_release(
             table = query_table.unwrap()
             if not await already_saved(brewsInfo, table, database.get_db_obj()):
                 query = table.insert().values(
-                    title=brewsInfo.title,
-                    body=brewsInfo.body,
+                    headline=brewsInfo.headline,
                     publisher=brewsInfo.publisher,
                     date_posted=datetime.now(pytz.timezone("America/New_York")),
-                    expired=True,
+                    expired=False,
                 )
                 await database.get_db_obj().execute(query)
-                search_query = f"SELECT * FROM brews WHERE title='{brewsInfo.title}' AND publisher='{brewsInfo.publisher}'"
+                search_query = f"SELECT * FROM brews WHERE headline='{brewsInfo.headline}' AND publisher='{brewsInfo.publisher}'"
                 newly_created_object = await database.get_db_obj().fetch_all(
                     search_query
                 )
@@ -242,7 +241,7 @@ async def already_saved(
         .exists()
         .select()
         .where(
-            (table.c.title == brews_release.title)
+            (table.c.headline == brews_release.headline)
             & (table.c.publisher == brews_release.publisher)
         )
     )
