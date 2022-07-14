@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 
-export const FiltersPanel = ({ 
+export const FiltersPanel = ({
     currentPage,
-    filterOptions, 
-    filterApplied, 
-    setFilterApplied 
+    filterOptions,
+    filterApplied,
+    setFilterApplied
 }) => {
     useEffect(() => {
         setFilterApplied("all")
@@ -13,14 +13,14 @@ export const FiltersPanel = ({
     return (
         <div className="h-5/6 w-4/6 md:w-5/6 md:px-0 flex-col mx-auto">
             {filterOptions.length > 0 && <div className="py-1 md:py-2">
-                <motion.button whileTap={{ scale: 0.9 }} 
+                <motion.button whileTap={{ scale: 0.9 }}
                     aria-label="Apply All Filters Button"
                     className="flex-auto mx-auto border py-2 rounded-lg md:rounded-full w-full hover:border-[#F7BCB1]"
                     onClick={() => {
                         setFilterApplied("all");
                     }}
                 >
-                    All Local Articles
+                    All Publishers
                 </motion.button>
             </div>}
             {filterOptions.map((currentOption) => {
