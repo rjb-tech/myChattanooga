@@ -214,6 +214,9 @@ export const MyChattanoogaProvider = ({ children }) => {
               setCurrentPage={setCurrentPage}
               currentAuxSection={currentAuxSection}
               setCurrentAuxSection={setCurrentAuxSection}
+              toggleMobileNav={toggleMobileNav}
+              toggleMobileUserPanel={toggleMobileUserPanel}
+              menuExpanded={menuExpanded}
             />
           </motion.div>
         </header>

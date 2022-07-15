@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { BrewsViews } from "../components/BrewsViews";
+import { CreateBrews } from "../components/CreateBrews";
 
 export default function Brews({
   filterApplied,
@@ -33,8 +34,8 @@ export default function Brews({
           filterApplied={filterApplied}
         />
       )}
-      {/* {create && <CreateBrew />}
-      {privateBrews && <MyBrews publisher="{ }" expired />} */}
+      {create && <CreateBrews />}
+      {/* {privateBrews && <MyBrews publisher="{ }" expired />} */}
     </div>
   );
 }

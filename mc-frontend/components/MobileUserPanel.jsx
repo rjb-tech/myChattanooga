@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from "framer-motion"
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { faFilter, faSun, faMoon, faUser, faBeer } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
@@ -27,12 +28,18 @@ export const MobileUserPanel = ({
   currentPage,
   setCurrentPage,
   currentAuxSection,
-  setCurrentAuxSection
+  setCurrentAuxSection,
+  toggleMobileNav,
+  toggleMobileUserPanel,
+  menuExpanded
 }) => {  
-  const iconColor = isDark===true ? '#FFF' : '#222'
+  const router = useRouter()
+  const iconColor = isDark===true ? '#FFF' : "#222"
   const darkModeIcon = isDark===true ? faSun : faMoon
+
   const { loginWithRedirect, user, isAuthenticated, isLoading } = useAuth0();
-  function handleAuxPanel(incomingSection) {
+
+  const handleAuxPanel = (incomingSection) => {
     function setFilters(page) {
       // This isn't done, still figuring out the data.map
       if (currentPage === "/") {
@@ -62,6 +69,13 @@ export const MobileUserPanel = ({
     // setAuxPanelExpanded(auxPanelExpanded => !auxPanelExpanded)
   }
 
+  const userPanelAction = () => {
+    if (menuExpanded===true && panelExpanded===false) {
+      toggleMobileNav()
+    }
+    toggleMobileUserPanel()
+  }
+
   useEffect(() => {
     setCurrentPage(window.location.pathname);
   }, [])
@@ -85,10 +99,15 @@ export const MobileUserPanel = ({
               <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faFilter} style={{color: `${iconColor}`}} />
             </motion.button>
             {isAuthenticated &&(<motion.button 
-              aria-label='Account Button'
+              aria-label='Create Brews Release Button'
               whileTap={{ scale: 0.85 }} 
               className='bg-[#FFF] dark:bg-[#222] h-2/3 rounded-full flex-1 z-10'
-              onClick={() => {handleAuxPanel("create")}}
+              onClick={
+                () => {
+                  router.push('/brews?view=create')
+                  userPanelAction()
+                }
+              }
             >
               <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faBeer} style={{color: `${iconColor}`}} />
             </motion.button>)}
