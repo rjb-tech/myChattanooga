@@ -5,15 +5,15 @@ import { isFromTheFuture } from "../components/helpers";
 const axios = require('axios');
 
 const loadingVariants = {
-  loading: {opacity: 0},
-  loaded: {opacity: 1}
+  loading: { opacity: 0 },
+  loaded: { opacity: 1 }
 }
 
-export default function Home({ 
-  filterApplied, 
-  pageContent, 
+export default function Home({
+  filterApplied,
+  pageContent,
   setPageContent,
-  currentPage, 
+  currentPage,
   setCurrentPage,
   contentLoading,
   setContentLoading
@@ -45,7 +45,7 @@ export default function Home({
     headerString = filterApplied + " Articles"
   }
 
-  const headerClassString = contentLoading===true ? "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF] animate-pulse" : "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF]"
+  const headerClassString = contentLoading === true ? "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF] animate-pulse" : "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF]"
 
   return (
     <div className="mx-auto">
@@ -53,26 +53,26 @@ export default function Home({
         <div className="sticky w-full h-fit top-0 md:pl-2 md:mt-0 lg:mt-0 mb-2">
           <h1 className={headerClassString}>{headerString}</h1>
         </div>
-        
-        <motion.div 
+
+        <motion.div
           className="flex-auto grid sm:grid-cols-2 xl:grid-cols-3 w-full h-fit sticky top-0 bg-[#FFF] dark:bg-[#222] opacity-0"
-          animate={contentLoading===true ? "loading" : "loaded"}
-          transition={{ 
-            duration: contentLoading===true ? 0 : .3, 
+          animate={contentLoading === true ? "loading" : "loaded"}
+          transition={{
+            duration: contentLoading === true ? 0 : .3,
             type: "tween"
           }}
           variants={loadingVariants}
         >
           {pageContent.map((story) => {
-            if (!isFromTheFuture(story.time_posted)) {  
+            if (!isFromTheFuture(story.time_posted)) {
               if (filterApplied === "all") {
                 return (
                   <div className="py-2 sm:px-2" key={story.headline}>
-                    <Article 
+                    <Article
                       headline={story.headline}
                       timePosted={story.time_posted}
                       publisher={story.publisher}
-                      image={story.image} 
+                      image={story.image}
                       link={story.link}
                     />
                   </div>
@@ -82,11 +82,11 @@ export default function Home({
                 if (story.publisher === filterApplied) {
                   return (
                     <div className="py-2 sm:px-2" key={story.headline}>
-                      <Article 
+                      <Article
                         headline={story.headline}
                         timePosted={story.time_posted}
                         publisher={story.publisher}
-                        image={story.image} 
+                        image={story.image}
                         link={story.link}
                       />
                     </div>
@@ -94,7 +94,7 @@ export default function Home({
                 }
               }
             }
-          })} 
+          })}
         </motion.div>
       </div>
     </div>
