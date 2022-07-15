@@ -26,6 +26,10 @@ export function calculateTimeSincePosted (timePosted) {
 }
 
 export function isFromTheFuture(timePosted) {
+  // This is hacky, but it's needed for now to avoid errors when switching between pages
+  if (timePosted === undefined) {
+    return true
+  }
   const currentDate = new Date();
   const currentHour = currentDate.getHours();
   const currentMinute = currentDate.getMinutes();

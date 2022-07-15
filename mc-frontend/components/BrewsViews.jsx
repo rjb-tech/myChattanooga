@@ -1,5 +1,5 @@
 import { BrewsRelease } from "./BrewsRelease"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import axios from "axios"
 

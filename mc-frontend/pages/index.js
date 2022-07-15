@@ -18,8 +18,6 @@ export default function Home({
   contentLoading,
   setContentLoading,
 }) {
-  const [articles, setArticles] = useState([]);
-
   useEffect(() => {
     const fetchData = async () => {
       setContentLoading(true);
@@ -38,10 +36,6 @@ export default function Home({
     setCurrentPage(window.location.pathname);
     fetchData();
   }, []);
-
-  useEffect(() => {
-    setArticles(pageContent);
-  }, [pageContent]);
 
   var headerString = "";
   if (filterApplied === "all") {
@@ -71,7 +65,7 @@ export default function Home({
           }}
           variants={loadingVariants}
         >
-          {articles.map((story) => {
+          {pageContent.map((story) => {
             if (!isFromTheFuture(story.time_posted)) {
               if (filterApplied === "all") {
                 return (
