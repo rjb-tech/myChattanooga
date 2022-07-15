@@ -1,5 +1,5 @@
-import { useEffect } from "react"
-import { useRouter } from "next/router"
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 import { BrewsViews } from "../components/BrewsViews";
 
 export default function Brews({
@@ -9,31 +9,32 @@ export default function Brews({
   currentPage,
   setCurrentPage,
   contentLoading,
-  setContentLoading
+  setContentLoading,
 }) {
   useEffect(() => {
-    setCurrentPage('/brews');
-  }, [])
+    setCurrentPage("/brews");
+  }, []);
 
-  const router = useRouter()
-  const { view } = router.query
+  const router = useRouter();
+  const { view } = router.query;
 
-  const publicBrews = view === "" || view === undefined
-  const create = view === "create"
-  const privateBrews = view === "mine"
+  const publicBrews = view === "" || view === undefined;
+  const create = view === "create";
+  const privateBrews = view === "mine";
 
   return (
     <div className="dark:text-white">
-      {publicBrews &&
+      {publicBrews && (
         <BrewsViews
           setPageContent={setPageContent}
           pageContent={pageContent}
           contentLoading={contentLoading}
           setContentLoading={setContentLoading}
           filterApplied={filterApplied}
-        />}
+        />
+      )}
       {/* {create && <CreateBrew />}
       {privateBrews && <MyBrews publisher="{ }" expired />} */}
     </div>
-  )
+  );
 }
