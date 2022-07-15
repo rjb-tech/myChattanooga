@@ -31,7 +31,8 @@ export const MobileUserPanel = ({
   setCurrentAuxSection,
   toggleMobileNav,
   toggleMobileUserPanel,
-  menuExpanded
+  menuExpanded,
+  showFilters
 }) => {  
   const router = useRouter()
   const iconColor = isDark===true ? '#FFF' : "#222"
@@ -90,22 +91,22 @@ export const MobileUserPanel = ({
             {/* <motion.button whileTap={{ scale: 0.85 }} className='bg-[#FFF] dark:bg-[#222] h-2/3 rounded-full flex-1 z-10' onClick={() => toggleDarkMode()}>
               <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={darkModeIcon} style={{color: `${iconColor}`}} />
             </motion.button> */}
-            <motion.button
+            {showFilters===true && <motion.button
               aria-label='Article Filters' 
               whileTap={{ scale: 0.85 }} 
               className='bg-[#FFF] dark:bg-[#222] h-2/3 rounded-full flex-1 z-10'
               onClick={() => {handleAuxPanel("filters")}}
             >
               <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faFilter} style={{color: `${iconColor}`}} />
-            </motion.button>
+            </motion.button>}
             {isAuthenticated &&(<motion.button 
               aria-label='Create Brews Release Button'
               whileTap={{ scale: 0.85 }} 
               className='bg-[#FFF] dark:bg-[#222] h-2/3 rounded-full flex-1 z-10'
               onClick={
                 () => {
-                  router.push('/brews?view=create')
                   userPanelAction()
+                  setTimeout(() => {router.push('/brews?view=create')}, 400)
                 }
               }
             >

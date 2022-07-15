@@ -7,6 +7,7 @@ import { motion } from "framer-motion"
 import { UserPanel } from "./UserPanel"
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { useRouter } from "next/router"
 
 const MyChattanoogaContext = createContext();
 
@@ -48,6 +49,7 @@ export const MyChattanoogaProvider = ({ children }) => {
     }, [])
   }
 
+  const router = useRouter();
   const [isDark, setDark] = useState(useDarkModePreference());
   const [currentWeatherLocation, setCurrentWeatherLocation] = useState(useWeatherLocation());
   const [menuExpanded, setMenuExpanded] = useState(false);
@@ -61,6 +63,8 @@ export const MyChattanoogaProvider = ({ children }) => {
   const [currentPage, setCurrentPage] = useState("");
   const [currentAuxSection, setCurrentAuxSection] = useState("");
   const [showTopButton, setShowTopButton] = useState(false);
+
+  const showFilters = (currentPage === '/' || currentPage === '/brews') && router.query.view !== "create"
 
   function toggleMobileNav() {
     setMenuExpanded(menuExpanded => !menuExpanded);
@@ -217,6 +221,7 @@ export const MyChattanoogaProvider = ({ children }) => {
               toggleMobileNav={toggleMobileNav}
               toggleMobileUserPanel={toggleMobileUserPanel}
               menuExpanded={menuExpanded}
+              showFilters={showFilters}
             />
           </motion.div>
         </header>
@@ -236,7 +241,7 @@ export const MyChattanoogaProvider = ({ children }) => {
               }}
               variants={childrenComponentVariants}
             >
-              {currentPage !== "/faq" && <div className="hidden relative flex-col md:block w-1/3 xl:w-1/5 w-full h-fit border-r-2 sticky top-4 pr-2">
+              <div className="hidden relative flex-col md:block w-1/3 xl:w-1/5 w-full h-fit border-r-2 sticky top-4 pr-2">
                 <UserPanel
                   isDark={isDark}
                   panelExpanded={panelExpanded}
@@ -252,8 +257,9 @@ export const MyChattanoogaProvider = ({ children }) => {
                   setCurrentPage={setCurrentPage}
                   currentAuxSection={currentAuxSection}
                   setCurrentAuxSection={setCurrentAuxSection}
+                  showFilters={showFilters}
                 />
-              </div>}
+              </div>
               <div className="md:w-7/12">
                 {cloneElement(children, {
                   filterApplied: filterApplied,

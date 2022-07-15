@@ -26,20 +26,13 @@ export const UserPanel = ({
   currentPage,
   setCurrentPage,
   currentAuxSection,
-  setCurrentAuxSection
+  setCurrentAuxSection,
+  showFilters
  }) => {
   const iconColor = isDark===true ? '#FFF' : '#222'
   const darkModeIcon = isDark===true ? faSun : faMoon
-  const [ showFilters, setShowFilters ] = useState(currentPage === '/' || currentPage === '/brews')
+
   const { loginWithRedirect, user, isAuthenticated, isLoading } = useAuth0();
-  useEffect(() => {
-    if (currentPage === '/faq') {
-      setShowFilters(false);
-    }
-    else {
-      setShowFilters(true);
-    }
-  }, [currentPage])
   function handleAuxPanel(incomingSection) {
     function setFilters(page) {
       // This isn't done, still figuring out the data.map
