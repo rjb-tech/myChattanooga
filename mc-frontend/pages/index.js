@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Article } from "../components/Article"
+import { Article } from "../components/Article";
 import { isFromTheFuture } from "../components/helpers";
-const axios = require('axios');
+const axios = require("axios");
 
 const loadingVariants = {
   loading: { opacity: 0 },
-  loaded: { opacity: 1 }
-}
+  loaded: { opacity: 1 },
+};
 
 export default function Home({
   filterApplied,
@@ -16,13 +16,15 @@ export default function Home({
   currentPage,
   setCurrentPage,
   contentLoading,
-  setContentLoading
+  setContentLoading,
 }) {
+  const [articles, setArticles] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       setContentLoading(true);
-      const result = await axios.get('/api/articles')
+      const result = await axios
+        .get("/api/articles")
         .then((response) => {
           const data = response.data;
           setPageContent(Object.values(data));
@@ -31,21 +33,27 @@ export default function Home({
         .catch(function (error) {
           console.log(error);
           setContentLoading(false);
-        })
-    }
+        });
+    };
     setCurrentPage(window.location.pathname);
     fetchData();
-  }, [])
+  }, []);
 
-  var headerString = ""
+  useEffect(() => {
+    setArticles(pageContent);
+  }, [pageContent]);
+
+  var headerString = "";
   if (filterApplied === "all") {
-    headerString = "All Local Articles"
-  }
-  else {
-    headerString = filterApplied + " Articles"
+    headerString = "All Local Articles";
+  } else {
+    headerString = filterApplied + " Articles";
   }
 
-  const headerClassString = contentLoading === true ? "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF] animate-pulse" : "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF]"
+  const headerClassString =
+    contentLoading === true
+      ? "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF] animate-pulse"
+      : "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF]";
 
   return (
     <div className="mx-auto">
@@ -58,12 +66,12 @@ export default function Home({
           className="flex-auto grid sm:grid-cols-2 xl:grid-cols-3 w-full h-fit sticky top-0 bg-[#FFF] dark:bg-[#222] opacity-0"
           animate={contentLoading === true ? "loading" : "loaded"}
           transition={{
-            duration: contentLoading === true ? 0 : .3,
-            type: "tween"
+            duration: contentLoading === true ? 0 : 0.3,
+            type: "tween",
           }}
           variants={loadingVariants}
         >
-          {pageContent.map((story) => {
+          {articles.map((story) => {
             if (!isFromTheFuture(story.time_posted)) {
               if (filterApplied === "all") {
                 return (
@@ -76,9 +84,8 @@ export default function Home({
                       link={story.link}
                     />
                   </div>
-                )
-              }
-              else {
+                );
+              } else {
                 if (story.publisher === filterApplied) {
                   return (
                     <div className="py-2 sm:px-2" key={story.headline}>
@@ -90,7 +97,7 @@ export default function Home({
                         link={story.link}
                       />
                     </div>
-                  )
+                  );
                 }
               }
             }
@@ -98,5 +105,5 @@ export default function Home({
         </motion.div>
       </div>
     </div>
-  )
+  );
 }
