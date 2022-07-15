@@ -11,14 +11,14 @@ export const BrewsRelease = ({ publisher, headline, datePosted, image, link }) =
                 <a target="_blank">
                     <div className="p-4">
                         <div className="">
-                            <Image
+                            {image && <Image
                                 className="rounded-md"
                                 src={image}
                                 height={10} // This will have to be tinkered with, probs needs a ternary operator thingy
                                 width={16}
                                 layout="responsive"
                                 alt={headline}
-                            />
+                            />}
                         </div>
                         <div className="pt-4 flex-col items-center">
                             <p className="text-xs font-bold text-[#222] dark:text-[#F39887]">
@@ -28,7 +28,7 @@ export const BrewsRelease = ({ publisher, headline, datePosted, image, link }) =
                                 {headline}
                             </p>
                             <p className="pt-2 text-md italic text-[#F39887] dark:text-[#BBB]">
-                                {new Date(datePosted)}
+                                Posted on {new Date(datePosted).toLocaleDateString()}
                             </p>
                         </div>
                     </div>

@@ -12,7 +12,7 @@ export default function Brews({
   setContentLoading
 }) {
   useEffect(() => {
-    setCurrentPage(window.location.pathname);
+    setCurrentPage('/brews');
   }, [])
 
   const router = useRouter()
