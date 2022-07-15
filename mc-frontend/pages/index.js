@@ -65,9 +65,14 @@ export default function Home({
           }}
           variants={loadingVariants}
         >
-          {pageContent.map((story) => {
-            if (!isFromTheFuture(story.time_posted)) {
-              if (filterApplied === "all") {
+          {pageContent
+            .filter((story) =>
+              filterApplied !== "all"
+                ? story.publisher === filterApplied
+                : story
+            )
+            .map((story) => {
+              if (!isFromTheFuture(story.time_posted)) {
                 return (
                   <div className="py-2 sm:px-2" key={story.headline}>
                     <Article
@@ -79,23 +84,8 @@ export default function Home({
                     />
                   </div>
                 );
-              } else {
-                if (story.publisher === filterApplied) {
-                  return (
-                    <div className="py-2 sm:px-2" key={story.headline}>
-                      <Article
-                        headline={story.headline}
-                        timePosted={story.time_posted}
-                        publisher={story.publisher}
-                        image={story.image}
-                        link={story.link}
-                      />
-                    </div>
-                  );
-                }
               }
-            }
-          })}
+            })}
         </motion.div>
       </div>
     </div>
