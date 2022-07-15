@@ -48,7 +48,7 @@ export const BrewsViews = ({
         variants={loadingVariants}
       >
         {pageContent
-          // .filter((story) => filterApplied !== "all" ? story.publisher === filterApplied : story.publisher === story.publisher)
+          .filter((story) => filterApplied !== "all" ? story.publisher === filterApplied : story)
           .map((story) => {
             return (
               <div className="py-2 sm:px-2" key={story.headline}>
