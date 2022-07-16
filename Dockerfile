@@ -19,14 +19,14 @@ COPY ./backend/requirements.txt .
 # install dependencies
 RUN apt update && apt upgrade -y && \
     apt install -y --no-install-recommends \
-        libxml2-dev \
-        libxslt1-dev \
-        dos2unix \
-        gcc \
-        tk \
-        python3-setuptools \
-        python3-dev \
-        libpq-dev && \
+    libxml2-dev \
+    libxslt1-dev \
+    dos2unix \
+    gcc \
+    tk \
+    python3-setuptools \
+    python3-dev \
+    libpq-dev && \
     rm -rf /var/lib/apt/lists/* && \
     pip install --no-cache-dir --upgrade -r requirements.txt
 ENTRYPOINT bash -c "uvicorn main:app --host 0.0.0.0 --workers 4"
@@ -47,14 +47,14 @@ COPY ./backend/requirements.txt .
 # install dependencies
 RUN apt update && apt upgrade -y && \
     apt install -y --no-install-recommends \
-        dos2unix \
-        gcc \
-        tk \
-        python3-setuptools \
-        python3-dev \
-        libxml2-dev \
-        libxslt1-dev \
-        libpq-dev && \
+    dos2unix \
+    gcc \
+    tk \
+    python3-setuptools \
+    python3-dev \
+    libxml2-dev \
+    libxslt1-dev \
+    libpq-dev && \
     rm -rf /var/lib/apt/lists/* && \
     pip install --no-cache-dir --upgrade -r requirements.txt
 ENTRYPOINT bash -c "uvicorn main:app --host 0.0.0.0 --port 8000 --workers 6"
@@ -89,15 +89,16 @@ COPY ./backend/shared_tech .
 COPY ./backend/scraper_layer .
 COPY ./backend/requirements.txt .
 RUN mv ./geckodriver /usr/bin
+RUN chmod +x /usr/bin/geckodriver
 RUN apt update && apt upgrade -y && \
     apt install -y --no-install-recommends \
-        libxml2-dev \
-        libxslt1-dev \
-        libpq-dev \
-        firefox-esr \
-        gcc \
-        python3-dev \
-        dos2unix && \
+    libxml2-dev \
+    libxslt1-dev \
+    libpq-dev \
+    firefox-esr \
+    gcc \
+    python3-dev \
+    dos2unix && \
     rm -rf /var/lib/apt/lists/* && \
     pip3 install --no-cache-dir --upgrade -r requirements.txt && \
     mkdir data
@@ -116,15 +117,16 @@ COPY ./backend/shared_tech .
 COPY ./backend/scraper_layer .
 COPY ./backend/requirements.txt .
 RUN mv ./geckodriver /usr/bin
+RUN chmod +x /usr/bin/geckodriver
 RUN apt update && apt upgrade -y && \
     apt install -y --no-install-recommends \
-        libxml2-dev \
-        libxslt1-dev \
-        libpq-dev \
-        firefox-esr \
-        gcc \
-        python3-dev \
-        dos2unix && \
+    libxml2-dev \
+    libxslt1-dev \
+    libpq-dev \
+    firefox-esr \
+    gcc \
+    python3-dev \
+    dos2unix && \
     rm -rf /var/lib/apt/lists/* && \
     pip3 install --no-cache-dir --upgrade -r requirements.txt && \
     mkdir data
