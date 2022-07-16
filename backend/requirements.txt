@@ -1,5 +1,5 @@
 beautifulsoup4==4.9.1
-requests
+requests==2.28.1
 selenium==3.141.0
 lxml==4.6.2
 tweepy==3.10.0
@@ -7,12 +7,10 @@ facebook-sdk==3.1.0
 pytz==2021.1
 sqlalchemy==1.4.27
 fastapi==0.75.1
-uvicorn[standard]
-databases
-databases[asyncpg]
-asyncpg
+uvicorn[standard]==0.18.2
+databases[asyncpg]==0.6.0
 result==0.7.0
-psycopg2
-black
+psycopg2==2.9.3
+black==22.6.0
 pre-commit==2.19.0
 pyjwt[crypto]==2.4.0
