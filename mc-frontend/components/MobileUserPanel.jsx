@@ -105,8 +105,7 @@ export const MobileUserPanel = ({
               className='bg-[#FFF] dark:bg-[#222] h-2/3 rounded-full flex-1 z-10'
               onClick={
                 () => {
-                  userPanelAction()
-                  setTimeout(() => {router.push('/brews?view=create')}, 400)
+                  handleAuxPanel("create_brews")
                 }
               }
             >

@@ -2,6 +2,7 @@ import { SettingsPanel } from "./SettingsPanel"
 import { AccountPanel } from "./AccountPanel"
 import { FiltersPanel } from "./FiltersPanel"
 import { motion } from "framer-motion"
+import { CreateBrews } from "./CreateBrews"
 
 const variants = {
   open: { opacity: .99 },
@@ -20,7 +21,7 @@ export const MobileAuxillaryPanel = ({
   const sections = {
     "filters": <FiltersPanel filterOptions={filterOptions} filterApplied={filterApplied} setFilterApplied={setFilterApplied} />,
     "settings": <SettingsPanel isDark={isDark} />,
-    "create": <></>,
+    "create_brews": <CreateBrews />,
     "account": <AccountPanel />
   }
   
