@@ -34,7 +34,7 @@ export const BrewsViews = ({
   }, [])
 
   return (
-    <div>
+    <div className="h-full w-full flex-col px-6">
       <div className="sticky w-full h-fit top-0 md:pl-2 md:mt-0 lg:mt-0 mb-2">
         <h1 className={headerClassString}>Brews Releases</h1>
       </div>
