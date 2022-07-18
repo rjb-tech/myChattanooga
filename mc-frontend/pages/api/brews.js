@@ -6,17 +6,7 @@ export default function handler(req, res) {
   const queryParamsKeys = Object.keys(parsedURL.query);
   const emptyQuery = queryParamsKeys.length === 0;
 
-  let queryString = "";
-  for (let i = 0; i < queryParamsKeys.length; i++) {
-    queryString += `${queryParamsKeys[i]}=${router.query[queryParamsKeys[i]]}&`;
-  }
-
-  let apiURL;
-  if (process.env.DEPLOYMENT_ENV === "prod") {
-    apiURL = "https://api.mychattanooga.app";
-  } else {
-    apiURL = "http://0.0.0.0:8000";
-  }
+  const apiURL = process.env.API_URL;
 
   if (req.method === "GET") {
     if (emptyQuery === true) {
@@ -31,6 +21,12 @@ export default function handler(req, res) {
           res.end();
         });
     } else {
+      let queryString = "";
+      for (let i = 0; i < queryParamsKeys.length; i++) {
+        queryString += `${queryParamsKeys[i]}=${
+          parsedURL.query[queryParamsKeys[i]]
+        }&`;
+      }
       axios
         .get(`${apiURL}/brews?${queryString}`)
         .then(async (response) => {
@@ -42,6 +38,17 @@ export default function handler(req, res) {
           res.end();
         });
     }
+  } else if (req.method === "POST") {
+    axios
+      .post(`${apiURL}/brews/pour`, req.body, req.headers)
+      .then((response) => {
+        res.json(response.data);
+        res.end();
+      })
+      .catch((error) => {
+        res.json(error);
+        res.end();
+      });
   } else {
     res.status(404).json("request method not allowed");
   }
