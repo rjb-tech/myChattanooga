@@ -67,14 +67,7 @@ class BrewsRelease(BaseModel):
 
 
 class MC_Connection:
-    deployment_environment = os.environ["DEPLOYMENT_ENV"]
-    if deployment_environment == "dev":
-        DATABASE_URL = f"postgresql+asyncpg://{os.environ['POSTGRES_USER']}:{os.environ['POSTGRES_PASSWORD']}@host.docker.internal:5432/{os.environ['POSTGRES_DB']}"
-    elif deployment_environment == "prod":
-        DATABASE_URL = f"postgresql+asyncpg://{os.environ['POSTGRES_USER_PROD']}:{os.environ['POSTGRES_PASSWORD_PROD']}@mychattanooga-prod-do-user-9032420-0.b.db.ondigitalocean.com:25061/mychattanooga-pool-main?sslmode=require"
-    elif deployment_environment == "prod_vpc":
-        DATABASE_URL = f"postgresql+asyncpg://{os.environ['POSTGRES_USER_PROD']}:{os.environ['POSTGRES_PASSWORD_PROD']}@private-mychattanooga-prod-do-user-9032420-0.b.db.ondigitalocean.com:25061/mychattanooga-pool-main?sslmode=require"
-
+    DATABASE_URL = os.environ["DATABASE_URL"]
     db_obj = None
     db_connected = False
     local_metadata = sa.MetaData()
