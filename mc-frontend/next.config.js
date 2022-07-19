@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
-}
+};
 
 module.exports = {
   i18n: {
@@ -19,8 +19,7 @@ module.exports = {
       "bloximages.newyork1.vip.townnews.com",
       "wpcdn.us-east-1.vip.tn-cloud.net",
       "www.wdef.com",
-      
     ],
   },
-  reactStrictMode: false
-}
+  reactStrictMode: false,
+};
