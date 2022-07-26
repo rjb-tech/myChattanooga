@@ -13,6 +13,7 @@ from databases import Database
 from sqlalchemy.sql import select, update
 from fastapi import FastAPI, Query, Depends, Response, status
 from fastapi.security import HTTPBearer
+from fastapi.middleware.cors import CORSMiddleware
 from database_module import Article, Weather, Stat, BrewsRelease, MC_Connection
 from result import Result, Ok, Err
 from typing import List, Optional, Union
@@ -36,7 +37,24 @@ class BrewsRequestInfo(BaseModel):
     publisher: str
 
 
+origins = [
+    "http://localhost:3000",
+    "https://api.mychattanooga.app",
+    "https://mychattanooga.app",
+    "http://0.0.0.0:3000",
+    "http://127.0.0.1:3000",
+]
+
 app = FastAPI(docs_url=None)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PATCH"],
+    allow_headers=["*"],
+)
+
 database = MC_Connection()
 
 
