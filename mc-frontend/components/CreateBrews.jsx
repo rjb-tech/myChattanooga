@@ -1,9 +1,12 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
+import axios from "axios"
+import { useAuth0 } from "@auth0/auth0-react"
 
 export const CreateBrews = () => {
   // Await access token here
+  const { getAccessTokenSilently } = useAuth0()
   return (
     <div className="flex-col w-4/6 mx-auto">
       <div className="sticky w-full h-fit top-0 md:pl-2 md:mt-0 lg:mt-0 mb-2">
@@ -20,12 +23,21 @@ export const CreateBrews = () => {
             .max(255, "Headline too long")
             .required("Required")
         })}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false)
-          }, 400)
+        onSubmit={async (values, { setSubmitting }) => {
           // axios.post to /brews/pour here
+          const token = await getAccessTokenSilently()
+          await axios
+            .post(
+              "/api/brews", 
+              JSON.stringify(values), 
+              {
+                headers: {
+                  'Authorization': `Bearer ${token}`
+                }
+              }
+            )
+            .then(response => console.log(response))
+            .catch(error => console.error(error))
         }}
       >
         <Form className="relative w-full">
