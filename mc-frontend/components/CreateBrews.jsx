@@ -29,7 +29,7 @@ export const CreateBrews = () => {
           await axios
             .post(
               "/api/brews", 
-              JSON.stringify(values), 
+              values, 
               {
                 headers: {
                   'Authorization': `Bearer ${token}`
