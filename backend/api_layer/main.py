@@ -1,13 +1,11 @@
 import logging
 import asyncio
-from uuid import UUID
 
 import pytz
 from datetime import datetime
 from os import stat
 from pydantic import BaseModel
 from utils import VerifyToken
-from urllib import response
 import sqlalchemy as sa
 from databases import Database
 from sqlalchemy.sql import select, update
@@ -254,19 +252,19 @@ async def already_saved(
     async def get_result(db, query):
         return await db.execute(query)
 
-    query = (
-        table.select()
+    subquery = (
+        select(table)
         .exists()
-        .select()
         .where(
             (table.c.headline == brews_release.headline)
             & (table.c.publisher == brews_release.publisher)
         )
     )
 
-    task = asyncio.create_task(get_result(db, query))
+    task = asyncio.create_task(
+        get_result(db, select(table).where(subquery).scalar_subquery())
+    )
     done, pending = await asyncio.wait({task})
-    # return True if the query has a result
-    #   this returns None when the story being queried doesn't exist
+
     if task in done:
-        return True if task.result() else False
+        return False if task.result() == None else True
