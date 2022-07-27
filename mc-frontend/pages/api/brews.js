@@ -40,7 +40,18 @@ export default function handler(req, res) {
     }
   } else if (req.method === "POST") {
     axios
-      .post(`${apiURL}/brews/pour`, req.body, req.headers)
+      .post(
+        `${apiURL}/brews/pour`,
+        {
+          headline: req.body.headline,
+          publisher: "ya mama",
+        },
+        {
+          headers: {
+            Authorization: req.headers.authorization,
+          },
+        }
+      )
       .then((response) => {
         res.json(response.data);
         res.end();
