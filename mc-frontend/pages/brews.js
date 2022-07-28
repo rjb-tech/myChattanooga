@@ -24,7 +24,7 @@ export default function Brews({
   const privateBrews = view === "mine";
 
   return (
-    <div className="dark:text-white">
+    <div className="dark:text-white mx-auto w-full">
       {publicBrews && (
         <BrewsViews
           setPageContent={setPageContent}
