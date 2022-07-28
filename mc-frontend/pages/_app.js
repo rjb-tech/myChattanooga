@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }) {
           : "http://localhost:3000"
       }
       cacheLocation="localstorage"
-      audience="https://api.mychattanooga.app"
+      audience="https://auth.mychattanooga.app"
       scope="create:brews"
     >
       <MyChattanoogaProvider>
