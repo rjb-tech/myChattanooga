@@ -2241,9 +2241,13 @@ def scrape_local_three(url, date):
                 links["local_three"]["base"]
                 + current_article.find("a", class_="tnt-asset-link")["href"]
             )
-            current_datetime = current_article.find("time", class_="tnt-date")[
-                "datetime"
-            ]
+            # Break scraping loop when a story without a datetime is found
+            try:
+                current_datetime = current_article.find("time", class_="tnt-date")[
+                    "datetime"
+                ]
+            except TypeError:
+                break
             current_date_posted = current_datetime[:10]
             current_time_posted = current_datetime[11:16]
             # The image srcset has a ton of different sizes, so let's grab the link to the biggest and see if that scales right
