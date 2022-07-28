@@ -19,6 +19,7 @@ module.exports = {
       "bloximages.newyork1.vip.townnews.com",
       "wpcdn.us-east-1.vip.tn-cloud.net",
       "www.wdef.com",
+      "imgs.search.brave.com",
     ],
   },
   reactStrictMode: false,
