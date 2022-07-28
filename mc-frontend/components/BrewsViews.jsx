@@ -9,7 +9,7 @@ const loadingVariants = {
 }
 
 const images = {
-  'bada bing': 'https://imgs.search.brave.com/0nqjIPKfgm7NTnJoEmfnioBrTM5TbQ-PjyliKfuAYms/rs:fit:844:225:1/g:ce/aHR0cHM6Ly90c2Uz/Lm1tLmJpbmcubmV0/L3RoP2lkPU9JUC5w/eDBJbzJoMzZxVDZN/eFF4SFhmYnBnSGFF/SyZwaWQ9QXBp'
+  'bada bing': 'https://mychattanooga-files.nyc3.digitaloceanspaces.com/myChattanooga_social.png'
 }
 
 export const BrewsViews = ({
@@ -22,7 +22,7 @@ export const BrewsViews = ({
   const headerClassString = contentLoading === true 
     ? "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF] animate-pulse" 
     : "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF]"
-    
+
   useEffect(() => {
     const fetchData = async () => {
       setContentLoading(true);
