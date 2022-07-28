@@ -119,7 +119,7 @@ async def create_brews_release(
     result = VerifyToken(token.credentials).verify()
 
     if result.get("status"):
-        response.status_code = status.HTTP_400_BAD_REQUEST
+        response.status_code = status.HTTP_401_UNAUTHORIZED
         return result
 
     async def create_brew():
