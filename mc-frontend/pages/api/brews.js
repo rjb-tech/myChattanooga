@@ -44,7 +44,7 @@ export default function handler(req, res) {
         `${apiURL}/brews/pour`,
         {
           headline: req.body.headline,
-          publisher: "ya mama",
+          publisher: req.body.publisher,
         },
         {
           headers: {
