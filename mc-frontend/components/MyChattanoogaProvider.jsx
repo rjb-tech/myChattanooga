@@ -260,7 +260,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                   showFilters={showFilters}
                 />
               </div>
-              <div className="md:w-7/12">
+              <div className="w-full md:w-10/12">
                 {cloneElement(children, {
                   filterApplied: filterApplied,
                   pageContent: pageContent,
