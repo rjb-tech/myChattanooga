@@ -8,6 +8,10 @@ const loadingVariants = {
   loaded: { opacity: 1 }
 }
 
+const images = {
+  'bada bing': 'https://imgs.search.brave.com/0nqjIPKfgm7NTnJoEmfnioBrTM5TbQ-PjyliKfuAYms/rs:fit:844:225:1/g:ce/aHR0cHM6Ly90c2Uz/Lm1tLmJpbmcubmV0/L3RoP2lkPU9JUC5w/eDBJbzJoMzZxVDZN/eFF4SFhmYnBnSGFF/SyZwaWQ9QXBp'
+}
+
 export const BrewsViews = ({
   setPageContent,
   pageContent,
@@ -15,7 +19,10 @@ export const BrewsViews = ({
   setContentLoading,
   filterApplied
 }) => {
-  const headerClassString = contentLoading === true ? "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF] animate-pulse" : "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF]"
+  const headerClassString = contentLoading === true 
+    ? "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF] animate-pulse" 
+    : "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF]"
+    
   useEffect(() => {
     const fetchData = async () => {
       setContentLoading(true);
@@ -60,7 +67,7 @@ export const BrewsViews = ({
                   publisher={story.publisher}
                   headline={story.headline}
                   datePosted={story.date_posted}
-                // image={image}
+                  image={images[`${story.publisher}`]}
                 />
               </div>
             )
