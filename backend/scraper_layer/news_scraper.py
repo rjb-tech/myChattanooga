@@ -608,7 +608,9 @@ def scrape_chattanoogan(url, date, session, category=None):
     # publisher name to be returned and used for sorting on website and newsletter
     publisher = "Chattanoogan"
     # image link for chattanoogan articles
-    chattanoogan_logo = "https://res-1.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_170,w_170,f_auto,b_white,q_auto:eco/v1419646557/tkf8rnu2zxzn3l1nyd2h.png"
+    chattanoogan_logo = (
+        "https://mychattanooga-files.nyc3.digitaloceanspaces.com/chattanoogan_logo.webp"
+    )
 
     # try statement to account for the website being down
     try:
@@ -2186,7 +2188,7 @@ def scrape_local_three(url, date):
     except:
         # saving this just in case
         # current_image_link = "https://pbs.twimg.com/profile_banners/25735151/1642103542/1500x500"
-        current_image_link = "https://pbs.twimg.com/profile_images/1481715996469735425/bKvaJx6s_400x400.jpg"
+        current_image_link = "https://mychattanooga-files.nyc3.digitaloceanspaces.com/local_three_logo.jpeg"
 
     # Reformat date
     current_date_posted = (
