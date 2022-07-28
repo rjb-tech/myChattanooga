@@ -5,8 +5,7 @@ import axios from "axios"
 import { useAuth0 } from "@auth0/auth0-react"
 
 export const CreateBrews = () => {
-  // Await access token here
-  const { getAccessTokenSilently } = useAuth0()
+  const { user, getAccessTokenSilently } = useAuth0()
   return (
     <div className="flex-col w-4/6 mx-auto">
       <div className="sticky w-full h-fit top-0 md:pl-2 md:mt-0 lg:mt-0 mb-2">
@@ -25,11 +24,15 @@ export const CreateBrews = () => {
         })}
         onSubmit={async (values, { setSubmitting }) => {
           // axios.post to /brews/pour here
-          const token = await getAccessTokenSilently()
+          const token = await getAccessTokenSilently();
+          const publisherData = await axios.get(`/api/publisher?user=${user.sub}`);
           await axios
             .post(
               "/api/brews", 
-              values, 
+              {
+                ...values,
+                publisher: publisherData.data.publisher
+              }, 
               {
                 headers: {
                   'Authorization': `Bearer ${token}`
@@ -38,6 +41,7 @@ export const CreateBrews = () => {
             )
             .then(response => console.log(response))
             .catch(error => console.error(error))
+            .finally() //set state here
         }}
       >
         <Form className="relative w-full">
