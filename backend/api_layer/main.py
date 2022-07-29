@@ -256,7 +256,7 @@ async def already_saved(
         select(table)
         .exists()
         .where(
-            (table.c.headline == brews_release.headline)
+            (table.c.headline == brews_release.headline.strip())
             & (table.c.publisher == brews_release.publisher)
         )
     )
