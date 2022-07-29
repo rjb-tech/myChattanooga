@@ -26,7 +26,7 @@ export const CreateBrews = () => {
           onSubmit={async (values, { setSubmitting }) => {
             // axios.post to /brews/pour here
             const token = await getAccessTokenSilently();
-            const publisherData = await axios.get(`/api/publisher?user=${user.sub}`);
+            const publisherData = await axios.get(`/api/get-publisher?user=${user.sub}`);
             await axios
               .post(
                 "/api/brews", 
