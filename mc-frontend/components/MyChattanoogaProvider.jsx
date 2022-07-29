@@ -74,6 +74,7 @@ export const MyChattanoogaProvider = ({ children }) => {
       setAuxPanelExpanded(auxPanelExpanded => !auxPanelExpanded);
       setTimeout(function () {
         setPanelExpanded(panelExpanded => !panelExpanded)
+        setCurrentAuxSection("")
       }, 150);
     }
     else {
