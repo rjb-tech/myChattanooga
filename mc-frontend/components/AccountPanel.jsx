@@ -14,6 +14,16 @@ export const AccountPanel = () => {
       >
         Account
       </h3>
+      <div className="pb-6 h-1/3 w-1/3 mx-auto">
+        <Image 
+          className="rounded-full"
+          src={user.picture}
+          height={1}
+          width={1}
+          layout="responsive"
+          alt={user.name}
+        />
+      </div>
       <div className="py-1 md:py-2">
         <motion.button 
           whileTap={{ scale: 0.9 }}
