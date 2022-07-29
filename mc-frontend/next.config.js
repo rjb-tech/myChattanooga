@@ -20,6 +20,7 @@ module.exports = {
       "wpcdn.us-east-1.vip.tn-cloud.net",
       "www.wdef.com",
       "mychattanooga-files.nyc3.digitaloceanspaces.com",
+      "s.gravatar.com",
     ],
   },
   reactStrictMode: false,
