@@ -1,11 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useAuth0 } from "@auth0/auth0-react";
 import Image from 'next/image'
 const axios = require('axios');
 
+const variants = {
+  loading: {opacity: 0},
+  loaded: {opacity: 1}
+}
+
 export const AccountPanel = () => {
+  // This is very bloated state, but oh well we here
   const { user, logout, isLoading } = useAuth0();
+  const [ confirmingPasswordReset, setConfirmingPasswordReset ] = useState(false)
+  const [ emailSent, setEmailSent ] = useState(false)
+  const [ shouldFadeString, setShouldFadeString ] = useState(false)
+  const [ fetchError, setFetchError ] = useState(false)
+
+  var passwordButtonString = "Change Password"
+  if (emailSent === false) {
+    if (confirmingPasswordReset === true) {
+      passwordButtonString = "Click to confirm"
+    }
+    if (fetchError === true) {
+      passwordButtonString = "Error, try again later"
+    }
+  }
+  else {
+    passwordButtonString = "Check your email!"
+  }
+
   // There will need to be some sort of check here for if a user is already logged in, etc.
   return (
     <div className="w-4/6 md:w-5/6 mx-auto pb-4">
@@ -28,9 +52,39 @@ export const AccountPanel = () => {
         <motion.button 
           whileTap={{ scale: 0.9 }}
           className="flex-auto mx-auto border py-2 rounded-lg md:rounded-full w-full hover:border-[#F7BCB1]"
-          onClick={() => axios.post(`/api/reset-password?email=${user.email}`).then(response => console.log(response)).catch(error => console.error(error))}
+          onClick={() => 
+            {
+              if (confirmingPasswordReset === true && emailSent === false) {
+                setShouldFadeString(true)
+                axios
+                  .post(
+                    `/api/reset-password?email=${user.email}`
+                  )
+                  .then((response) => 
+                    {
+                      setShouldFadeString(false)
+                      setEmailSent(true)
+                      setConfirmingPasswordReset(false)
+                    }
+                  )
+                  .catch(error => {
+                    setShouldFadeString(false)
+                    setFetchError(true)
+                  })
+              }
+              if (emailSent === false) {
+                setConfirmingPasswordReset(confirmingPasswordReset===true ? false : true) 
+              }
+            }
+          }
         >
-          Change Password
+          <motion.p
+            variants={variants}
+            animate={shouldFadeString===true ? 'loading' : 'loaded'}
+            transition={{ duration: shouldFadeString ? 0 : 0.3 }}
+          >
+            {passwordButtonString}
+          </motion.p>
         </motion.button>
       </div>
       <div className="py-1 md:py-2">
