@@ -3,7 +3,7 @@ const url = require("url");
 
 export default function handler(req, res) {
   const managementApiURL = process.env.MANAGEMENT_API_URL;
-  const clientID = process.env.CLIENT_ID;
+  const clientID = process.env.MANAGEMENT_CLIENT_ID;
   const clientSecret = process.env.CLIENT_SECRET;
   const parsedURL = url.parse(req.url, true);
   if (req.method === "GET") {
