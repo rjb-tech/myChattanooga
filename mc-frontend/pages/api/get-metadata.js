@@ -4,11 +4,10 @@ const url = require("url");
 export default function handler(req, res) {
   const managementApiURL = process.env.MANAGEMENT_API_URL;
   const clientID = process.env.MANAGEMENT_CLIENT_ID;
-  const clientSecret = process.env.CLIENT_SECRET;
+  const clientSecret = process.env.MANAGEMENT_CLIENT_SECRET;
   const parsedURL = url.parse(req.url, true);
+  const user = parsedURL.query.user;
   if (req.method === "GET") {
-    const user = parsedURL.query.user;
-
     // Get API key from Auth0
     const managementTokenInfo = axios
       .post(
@@ -36,7 +35,7 @@ export default function handler(req, res) {
             }
           )
           .then((response) => {
-            res.json({ publisher: response.data.app_metadata.publisher });
+            res.json(response.data);
             res.end();
           })
           .catch((error) => {
