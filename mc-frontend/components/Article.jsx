@@ -24,10 +24,10 @@ export const Article = ({ publisher, headline, timePosted, image, link }) => {
             <p className="text-xs font-bold text-[#222] dark:text-[#F39887]">
               &copy; {publisher.toUpperCase()}
             </p>
-            <p className="pt-2 text-xl text-[#333] dark:text-[#FFF]">
+            <p className="pt-4 text-xl text-[#333] dark:text-[#FFF]">
               {headline}
             </p>
-            <p className="pt-2 text-md italic text-[#F39887] dark:text-[#BBB]">
+            <p className="pt-4 text-md italic text-[#F39887] dark:text-[#BBB]">
               {calculateTimeSincePosted(timePosted)}
             </p>
             <p className="hidden">
