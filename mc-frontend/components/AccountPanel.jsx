@@ -28,6 +28,15 @@ export const AccountPanel = () => {
         <motion.button 
           whileTap={{ scale: 0.9 }}
           className="flex-auto mx-auto border py-2 rounded-lg md:rounded-full w-full hover:border-[#F7BCB1]"
+          onClick={() => axios.post(`/api/reset-password?email=${user.email}`).then(response => console.log(response)).catch(error => console.error(error))}
+        >
+          Change Password
+        </motion.button>
+      </div>
+      <div className="py-1 md:py-2">
+        <motion.button 
+          whileTap={{ scale: 0.9 }}
+          className="flex-auto mx-auto border py-2 rounded-lg md:rounded-full w-full hover:border-[#F7BCB1]"
           onClick={() => logout({ returnTo: window.location.origin })}
         >
           Logout
