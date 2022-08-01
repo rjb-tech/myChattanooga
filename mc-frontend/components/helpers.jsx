@@ -6,7 +6,7 @@ export function calculateTimeSincePosted (timePosted) {
   const timePostedHour = timePosted.slice(0,2);
   const timePostedMinute = timePosted.slice(3,5);
 
-  const hoursSincePosted = parseInt(currentHour) - parseInt(timePostedHour);
+  let hoursSincePosted = parseInt(currentHour) - parseInt(timePostedHour);
   const minutesSincePosted = parseInt(currentMinute) - parseInt(timePostedMinute);
 
   // round up if minutes since posted is over 30.
