@@ -6,28 +6,38 @@ export default function handler(req, res) {
     const managementApiURL = process.env.MANAGEMENT_API_URL;
     const clientID = process.env.HUB_CLIENT_ID;
     const parsedURL = url.parse(req.url, true);
+    const apiURL = process.env.API_URL;
     axios
-      .post(
-        `${managementApiURL}/dbconnections/change_password`,
-        {
-          client_id: clientID,
-          email: parsedURL.query.email,
-          connection: "myChattanooga-hub",
+      .get(`${apiURL}/auth-check`, {
+        headers: {
+          authorization: req.headers.authorization,
         },
-        {
-          headers: {
-            "content-type": "application/json",
-          },
-        }
-      )
-      .then((response) => {
-        res.json(response);
-        res.end();
       })
-      .catch((error) => {
-        res.json(error);
-        res.end();
-      });
+      .then((response) => {
+        axios
+          .post(
+            `${managementApiURL}/dbconnections/change_password`,
+            {
+              client_id: clientID,
+              email: parsedURL.query.email,
+              connection: "myChattanooga-hub",
+            },
+            {
+              headers: {
+                "content-type": "application/json",
+              },
+            }
+          )
+          .then((response) => {
+            res.json(response);
+            res.end();
+          })
+          .catch((error) => {
+            res.json(error);
+            res.end();
+          });
+      })
+      .catch((error) => res.json(error));
   } else {
     res.json("Method not allowed");
     res.end();

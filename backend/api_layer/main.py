@@ -45,13 +45,13 @@ origins = [
 
 app = FastAPI(docs_url=None)
 
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=origins,
-#     allow_credentials=True,
-#     allow_methods=["GET", "POST", "PATCH"],
-#     allow_headers=["*"],
-# )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PATCH"],
+    allow_headers=["*"],
+)
 
 database = MC_Connection()
 
@@ -66,9 +66,24 @@ async def shutdown():
     await database.unplug()
 
 
-@app.get("/healthcheck", status_code=200)
+@app.get("/healthcheck", status_code=status.HTTP_200_OK)
 async def healthcheck():
     return "Ok"
+
+
+@app.get("/auth-check", status_code=status.HTTP_202_ACCEPTED)
+async def check_authentication(
+    response: Response,
+    token: str = Depends(token_auth_scheme),
+):
+    result = VerifyToken(token.credentials).verify()
+
+    if result.get("status"):
+        response.status_code = status.HTTP_401_UNAUTHORIZED
+        return result
+
+    # Return that the JWT sent with the request is valid
+    return {"status": "accepted"}
 
 
 @app.get("/brews", response_model=List[BrewsRelease], response_model_exclude_none=False)

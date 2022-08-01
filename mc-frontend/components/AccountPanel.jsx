@@ -11,7 +11,7 @@ const variants = {
 
 export const AccountPanel = () => {
   // This is very bloated state, but oh well we here
-  const { user, logout, isLoading } = useAuth0();
+  const { user, logout, isLoading, getAccessTokenSilently } = useAuth0();
   const [ confirmingPasswordReset, setConfirmingPasswordReset ] = useState(false)
   const [ emailSent, setEmailSent ] = useState(false)
   const [ shouldFadeString, setShouldFadeString ] = useState(false)
@@ -52,13 +52,20 @@ export const AccountPanel = () => {
         <motion.button 
           whileTap={{ scale: 0.9 }}
           className="flex-auto mx-auto border py-2 rounded-lg md:rounded-full w-full hover:border-[#F7BCB1]"
-          onClick={() => 
+          onClick={async () => 
             {
+              const token = await getAccessTokenSilently()
               if (confirmingPasswordReset === true && emailSent === false) {
                 setShouldFadeString(true)
                 axios
                   .post(
-                    `/api/reset-password?email=${user.email}`
+                    `/api/reset-password?email=${user.email}`,
+                    {},
+                    {
+                      headers: {
+                        Authorization: `Bearer ${token}`
+                      }
+                    }
                   )
                   .then((response) => 
                     {
