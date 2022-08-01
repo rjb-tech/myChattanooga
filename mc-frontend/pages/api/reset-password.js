@@ -37,7 +37,7 @@ export default function handler(req, res) {
             res.end();
           });
       })
-      .catch((error) => res.json(error));
+      .catch((error) => res.json("Not authorized"));
   } else {
     res.json("Method not allowed");
     res.end();
