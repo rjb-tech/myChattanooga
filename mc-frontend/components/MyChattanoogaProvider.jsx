@@ -64,7 +64,10 @@ export const MyChattanoogaProvider = ({ children }) => {
   const [currentAuxSection, setCurrentAuxSection] = useState("");
   const [showTopButton, setShowTopButton] = useState(false);
 
-  const showFilters = (currentPage === '/' || currentPage === '/brews') && router.query.view !== "create"
+  const showFilters = 
+    (currentPage === '/' || currentPage === '/brews') 
+    && router.query.view !== "create" 
+    && pageContent.length > 0
 
   function toggleMobileNav() {
     setMenuExpanded(menuExpanded => !menuExpanded);
