@@ -23,7 +23,7 @@ export const AccountPanel = () => {
       passwordButtonString = "Click to confirm"
     }
     if (fetchError === true) {
-      passwordButtonString = "Error, try again later"
+      passwordButtonString = "Error... try again later"
     }
   }
   else {
