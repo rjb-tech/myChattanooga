@@ -1,11 +1,21 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import axios from "axios"
 import { useAuth0 } from "@auth0/auth0-react"
+import { useRouter } from "next/router"
+import { faSpinner } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-export const CreateBrews = () => {
+export const CreateBrews = ({ toggleMobileUserPanel, isDark }) => {
   const { user, getAccessTokenSilently, isAuthenticated } = useAuth0()
+  const [ formSending, setFormSending ] = useState(false)
+  const [ formSent, setFormSent ] = useState(false)
+  const [ postError, setPostError ] = useState(false)
+  const router = useRouter()
+
+  const iconColor = isDark===true ? '#FFF' : "#222"
+
   return (
     <div className="flex-col w-4/6 mx-auto">
       <div className="sticky w-full h-fit top-0 md:pl-2 md:mt-0 lg:mt-0 mb-2">
@@ -24,7 +34,8 @@ export const CreateBrews = () => {
               .required("Required")
           })}
           onSubmit={async (values, { setSubmitting }) => {
-            // axios.post to /brews/pour here
+            // Move this to a seperate function to clean this up eventually
+            setFormSending(true)
             const token = await getAccessTokenSilently();
             const publisherMetadata = await axios.get(`/api/get-metadata?user=${user.sub}`, {headers: {'Authorization': `Bearer ${token}`}});
             await axios
@@ -40,7 +51,14 @@ export const CreateBrews = () => {
                   }
                 }
               )
-              .then(response => console.log(response))
+              .then((response) => {
+                setFormSent(true)
+                toggleMobileUserPanel()
+                setFormSending(false)
+                setTimeout(() => {
+                  router.push("/brews")
+                }, 200)
+              })
               .catch(error => console.error(error))
               .finally() //set state here
           }}
@@ -62,7 +80,15 @@ export const CreateBrews = () => {
               />
               <span className="block p-1"></span>
               <div className="flex w-32 justify-content-end py-1 border rounded-md border-[#222] dark:border-[#fff]">
-                <button className="block flex-auto h-6 px-2 text-md pb-4 bg-[#fff] dark:bg-[#222] rounded-md" type="submit">Submit</button>
+                <button 
+                  className="block flex-auto h-6 px-2 text-md bg-[#fff] dark:bg-[#222] rounded-md" 
+                  type="submit"
+                >
+                  {formSending === true 
+                    ? <FontAwesomeIcon className='h-3/4 w-3/4 mx-auto animate-spin' icon={faSpinner} style={{color: `${iconColor}`}} />
+                    : formSent === true ? '' : 'Submit'
+                  }
+                </button>
               </div>
             </span>
           </Form>

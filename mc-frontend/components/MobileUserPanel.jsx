@@ -137,6 +137,7 @@ export const MobileUserPanel = ({
           filterApplied={filterApplied}
           setFilterApplied={setFilterApplied}
           auxPanelExpanded={auxPanelExpanded}
+          toggleMobileUserPanel={toggleMobileUserPanel}
         />
       </motion.div>      
     </div>

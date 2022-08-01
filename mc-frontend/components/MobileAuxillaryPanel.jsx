@@ -16,12 +16,13 @@ export const MobileAuxillaryPanel = ({
   filterOptions,
   filterApplied,
   setFilterApplied, 
-  auxPanelExpanded 
+  auxPanelExpanded,
+  toggleMobileUserPanel
 }) => {
   const sections = {
     "filters": <FiltersPanel filterOptions={filterOptions} filterApplied={filterApplied} setFilterApplied={setFilterApplied} />,
     "settings": <SettingsPanel isDark={isDark} />,
-    "create_brews": <CreateBrews />,
+    "create_brews": <CreateBrews toggleMobileUserPanel={toggleMobileUserPanel} isDark={isDark} />,
     "account": <AccountPanel />
   }
   
