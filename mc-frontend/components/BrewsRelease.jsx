@@ -19,7 +19,7 @@ export const BrewsRelease = ({ publisher, headline, datePosted, image }) => {
         </div>
         <div className="pt-4 flex-col items-center">
           <p className="text-xs font-bold text-[#222] dark:text-[#F39887]">
-            &copy; {publisher.toUpperCase()}
+            &copy; {publisher.toUpperCase() || ""}
           </p>
           <p className="pt-4 text-xl text-[#333] dark:text-[#FFF]">
             {headline}
