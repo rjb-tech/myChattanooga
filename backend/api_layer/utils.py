@@ -33,9 +33,9 @@ class VerifyToken:
         try:
             self.signing_key = self.jwks_client.get_signing_key_from_jwt(self.token).key
         except jwt.exceptions.PyJWKClientError as error:
-            return {"status": "error", "msg": error.__str__()}
+            return {"status": "error", "message": error.__str__()}
         except jwt.exceptions.DecodeError as error:
-            return {"status": "error", "msg": error.__str__()}
+            return {"status": "error", "message": error.__str__()}
 
         try:
             payload = jwt.decode(
