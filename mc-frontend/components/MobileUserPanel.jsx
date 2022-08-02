@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from "framer-motion"
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { faFilter, faSun, faMoon, faUser, faBeer } from "@fortawesome/free-solid-svg-icons"
+import { faFilter, faPencil, faUser, faBeer } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
 import { MobileAuxillaryPanel } from './MobileAuxillaryPanel';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -38,9 +38,9 @@ export const MobileUserPanel = ({
 }) => {  
   const router = useRouter()
   const iconColor = isDark===true ? '#FFF' : "#222"
-  const darkModeIcon = isDark===true ? faSun : faMoon
 
   const { loginWithRedirect, user, isAuthenticated, isLoading } = useAuth0();
+  const isAdmin = user?.email === "admin@mychattanooga.app"
 
   const handleAuxPanel = (incomingSection) => {
     function setFilters(page) {
@@ -90,9 +90,6 @@ export const MobileUserPanel = ({
       >
         <div className='h-fit w-full divide-y-2 py-2 flex-col flex-auto text-center bg-[#fff] text-[#222] dark:bg-[#222] dark:text-[#FFF] relative z-[15]'>
           <div className='h-16 w-full flex justify-evenly items-center'>
-            {/* <motion.button whileTap={{ scale: 0.85 }} className='bg-[#FFF] dark:bg-[#222] h-2/3 rounded-full flex-1 z-10' onClick={() => toggleDarkMode()}>
-              <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={darkModeIcon} style={{color: `${iconColor}`}} />
-            </motion.button> */}
             {showFilters===true && <motion.button
               aria-label='Article Filters' 
               whileTap={{ scale: 0.85 }} 
@@ -113,6 +110,14 @@ export const MobileUserPanel = ({
             >
               <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faBeer} style={{color: `${iconColor}`}} />
             </motion.button>)}
+            {isAdmin &&
+            <motion.button 
+              whileTap={{ scale: 0.85 }} 
+              className='bg-[#FFF] dark:bg-[#222] h-2/3 rounded-full flex-1 z-10' 
+              onClick={() => handleAuxPanel("admin")}
+            >
+                <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faPencil} style={{color: `${iconColor}`}} />
+            </motion.button>}
             <motion.button 
               whileTap={{ scale: 0.85 }} 
               className='bg-[#FFF] dark:bg-[#222] h-2/3 rounded-full flex-1 z-10'
