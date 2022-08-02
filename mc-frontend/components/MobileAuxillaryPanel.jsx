@@ -3,7 +3,6 @@ import { AccountPanel } from "./AccountPanel"
 import { FiltersPanel } from "./FiltersPanel"
 import { motion } from "framer-motion"
 import { CreateBrews } from "./CreateBrews"
-import { AdminPanel } from "./AdminPanel"
 
 const variants = {
   open: { opacity: .99 },
@@ -26,8 +25,7 @@ export const MobileAuxillaryPanel = ({
     "filters": <FiltersPanel filterOptions={filterOptions} filterApplied={filterApplied} setFilterApplied={setFilterApplied} previousFilter={previousFilter} setPreviousFilter={setPreviousFilter} />,
     "settings": <SettingsPanel isDark={isDark} />,
     "create_brews": <CreateBrews toggleMobileUserPanel={toggleMobileUserPanel} isDark={isDark} />,
-    "account": <AccountPanel isDark={isDark} />,
-    "admin": <AdminPanel isDark={isDark} />
+    "account": <AccountPanel isDark={isDark} />
   }
   
   const sectionToRender = sections[`${section}`];
