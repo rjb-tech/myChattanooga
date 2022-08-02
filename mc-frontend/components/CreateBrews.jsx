@@ -40,7 +40,7 @@ export const CreateBrews = ({ toggleMobileUserPanel, isDark }) => {
         <h3 
           className="text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF]"
         >
-          Create New Release
+          Create Brews Release
         </h3>
       </div>
       {isAuthenticated && 
