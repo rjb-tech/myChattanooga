@@ -9,6 +9,7 @@ export default function handler(req, res) {
   const user = parsedURL.query.user;
   const token = req.headers.authorization;
   const apiURL = process.env.API_URL;
+  const desiredField = parsedURL.query.field;
 
   if (req.method === "GET") {
     axios
@@ -33,7 +34,7 @@ export default function handler(req, res) {
           .then((response) => {
             axios
               .get(
-                `${managementApiURL}/api/v2/users/${user}?fields=app_metadata&include_fields=true`,
+                `${managementApiURL}/api/v2/users/${user}?fields=${desiredField}&include_fields=true`,
                 {
                   headers: {
                     Authorization: `Bearer ${response.data.access_token}`,
@@ -41,7 +42,7 @@ export default function handler(req, res) {
                 }
               )
               .then((response) => {
-                res.json(response.data);
+                res.json(response.data[`${desiredField}`]);
                 res.end();
               })
               .catch((error) => {

@@ -58,7 +58,7 @@ export const CreateBrews = ({ toggleMobileUserPanel, isDark }) => {
             const publisherMetadata = 
               await axios
                 .get(
-                  `/api/get-metadata?user=${user.sub}`, 
+                  `/api/get-metadata?user=${user.sub}&field=app_metadata`, 
                   {headers: {'Authorization': `Bearer ${token}`}}
                 )
                 .catch(error => {
@@ -69,7 +69,7 @@ export const CreateBrews = ({ toggleMobileUserPanel, isDark }) => {
                 "/api/brews", 
                 {
                   ...values,
-                  publisher: publisherMetadata.data.app_metadata.publisher
+                  publisher: publisherMetadata.data.publisher
                 }, 
                 {
                   headers: {
