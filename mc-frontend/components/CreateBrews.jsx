@@ -16,6 +16,24 @@ export const CreateBrews = ({ toggleMobileUserPanel, isDark }) => {
 
   const iconColor = isDark===true ? '#FFF' : "#222"
 
+  var buttonText = ''
+  if (formSending === false) {
+    if (formSent === true) {
+      buttonText = ''
+    }
+    else {
+      if (postError === true) {
+        buttonText = 'Error encountered... try again later'
+      }
+      else {
+        buttonText = 'Submit'
+      }
+    }
+  }
+  else {
+    <FontAwesomeIcon className='h-3/4 w-3/4 mx-auto animate-spin' icon={faSpinner} style={{color: `${iconColor}`}} />
+  }
+
   return (
     <div className="flex-col w-4/6 mx-auto">
       <div className="sticky w-full h-fit top-0 md:pl-2 md:mt-0 lg:mt-0 mb-2">
@@ -37,7 +55,15 @@ export const CreateBrews = ({ toggleMobileUserPanel, isDark }) => {
             // Move this to a seperate function to clean this up eventually
             setFormSending(true)
             const token = await getAccessTokenSilently();
-            const publisherMetadata = await axios.get(`/api/get-metadata?user=${user.sub}`, {headers: {'Authorization': `Bearer ${token}`}});
+            const publisherMetadata = 
+              await axios
+                .get(
+                  `/api/get-metadata?user=${user.sub}`, 
+                  {headers: {'Authorization': `Bearer ${token}`}}
+                )
+                .catch(error => {
+                  postError(true)
+                });
             await axios
               .post(
                 "/api/brews", 
@@ -55,11 +81,21 @@ export const CreateBrews = ({ toggleMobileUserPanel, isDark }) => {
                 setFormSent(true)
                 toggleMobileUserPanel()
                 setFormSending(false)
-                setTimeout(() => {
-                  router.push("/brews")
-                }, 200)
+                if (window.location.pathname === '/brews') {
+                  setTimeout(() => {
+                    router.replace("/brews?view=refresh")
+                  }, 450)
+                }
+                else {
+                  setTimeout(() => {
+                    router.push("/brews")
+                  }, 200)
+                }
               })
-              .catch(error => console.error(error))
+              .catch(error => {
+                setFormSending(false)
+                setPostError(true)
+              })
               .finally() //set state here
           }}
         >

@@ -20,12 +20,23 @@ export default function Brews({
   const { view } = router.query;
 
   const publicBrews = view === "" || view === undefined;
+  const refreshedBrews = view === "refresh";
   const create = view === "create";
   const privateBrews = view === "mine";
 
   return (
     <div className="dark:text-white mx-auto w-full">
       {publicBrews && (
+        <BrewsViews
+          setPageContent={setPageContent}
+          pageContent={pageContent}
+          contentLoading={contentLoading}
+          setContentLoading={setContentLoading}
+          filterApplied={filterApplied}
+        />
+      )}
+      {/* This gives me a refresh state to use after submitting a brews release and prevents page flashing */}
+      {refreshedBrews && (
         <BrewsViews
           setPageContent={setPageContent}
           pageContent={pageContent}
