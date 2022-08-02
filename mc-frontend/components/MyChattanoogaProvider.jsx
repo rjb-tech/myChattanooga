@@ -268,6 +268,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                   currentAuxSection={currentAuxSection}
                   setCurrentAuxSection={setCurrentAuxSection}
                   showFilters={showFilters}
+                  toggleMobileUserPanel={toggleMobileUserPanel}
                 />
               </div>
               <div className="w-full md:w-10/12">

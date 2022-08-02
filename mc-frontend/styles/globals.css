@@ -32,3 +32,6 @@ a {
   box-sizing: border-box;
 }
 
+.aux-panel-header {
+  text-align: center !important;
+}

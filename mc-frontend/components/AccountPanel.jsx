@@ -36,9 +36,9 @@ export const AccountPanel = ({ isDark }) => {
 
   // There will need to be some sort of check here for if a user is already logged in, etc.
   return (
-    <div className="w-4/6 md:w-5/6 mx-auto pb-4">
+    <div className="w-4/6 md:w-5/6 mx-auto pb-4 md:pt-2">
       <h3 
-        className="text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF] pb-6"
+        className="aux-panel-header text-center md:text-left font-bold text-3xl md:text-2xl z-30 text-[#222] dark:text-[#FFF] pb-6 mx-auto w-1/2"
       >
         Account
       </h3>
