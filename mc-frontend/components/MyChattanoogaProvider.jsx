@@ -63,6 +63,7 @@ export const MyChattanoogaProvider = ({ children }) => {
   const [currentPage, setCurrentPage] = useState("");
   const [currentAuxSection, setCurrentAuxSection] = useState("");
   const [showTopButton, setShowTopButton] = useState(false);
+  const [ previousFilter, setPreviousFilter ] = useState("");
 
   const showFilters = 
     (currentPage === '/' || currentPage === '/brews') 
@@ -125,6 +126,7 @@ export const MyChattanoogaProvider = ({ children }) => {
   useEffect(() => {
     const element = document.getElementById("content")
     element.scrollTop = 0
+    setFilterApplied("all")
   }, [currentPage])
 
   // https://www.kindacode.com/article/how-to-create-a-scroll-to-top-button-in-react/
@@ -215,6 +217,8 @@ export const MyChattanoogaProvider = ({ children }) => {
               auxPanelExpanded={auxPanelExpanded}
               filterApplied={filterApplied}
               setFilterApplied={setFilterApplied}
+              previousFilter={previousFilter}
+              setPreviousFilter={setPreviousFilter}
               filterOptions={filterOptions}
               setFilterOptions={setFilterOptions}
               pageContent={pageContent}
@@ -254,6 +258,8 @@ export const MyChattanoogaProvider = ({ children }) => {
                   auxPanelExpanded={auxPanelExpanded}
                   filterApplied={filterApplied}
                   setFilterApplied={setFilterApplied}
+                  previousFilter={previousFilter}
+                  setPreviousFilter={setPreviousFilter}
                   filterOptions={filterOptions}
                   setFilterOptions={setFilterOptions}
                   pageContent={pageContent}

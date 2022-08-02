@@ -20,6 +20,8 @@ export const UserPanel = ({
   auxPanelExpanded,
   filterApplied,
   setFilterApplied,
+  previousFilter,
+  setPreviousFilter,
   filterOptions,
   setFilterOptions,
   pageContent,
@@ -113,6 +115,8 @@ export const UserPanel = ({
             filterOptions={filterOptions} 
             filterApplied={filterApplied} 
             setFilterApplied={setFilterApplied}
+            previousFilter={previousFilter}
+            setPreviousFilter={setPreviousFilter}
           />
         </div>
         }
