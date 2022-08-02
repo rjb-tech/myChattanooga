@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useAuth0 } from "@auth0/auth0-react";
 import Image from 'next/image'
+import { faSpinner } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 const axios = require('axios');
 
 const variants = {
@@ -9,13 +11,15 @@ const variants = {
   loaded: {opacity: 1}
 }
 
-export const AccountPanel = () => {
+export const AccountPanel = ({ isDark }) => {
   // This is very bloated state, but oh well we here
   const { user, logout, isLoading, getAccessTokenSilently } = useAuth0();
   const [ confirmingPasswordReset, setConfirmingPasswordReset ] = useState(false)
   const [ emailSent, setEmailSent ] = useState(false)
   const [ shouldFadeString, setShouldFadeString ] = useState(false)
   const [ fetchError, setFetchError ] = useState(false)
+
+  const iconColor = isDark===true ? '#FFF' : "#222"
 
   var passwordButtonString = "Change Password"
   if (emailSent === false) {
@@ -51,7 +55,7 @@ export const AccountPanel = () => {
       <div className="py-1 md:py-2">
         <motion.button 
           whileTap={{ scale: 0.9 }}
-          className="flex-auto mx-auto border py-2 rounded-lg md:rounded-full w-full hover:border-[#F7BCB1]"
+          className="block flex-auto mx-auto border h-10 rounded-lg md:rounded-full w-full hover:border-[#F7BCB1]"
           onClick={async () => 
             {
               const token = await getAccessTokenSilently()
@@ -85,19 +89,16 @@ export const AccountPanel = () => {
             }
           }
         >
-          <motion.p
-            variants={variants}
-            animate={shouldFadeString===true ? 'loading' : 'loaded'}
-            transition={{ duration: shouldFadeString ? 0 : 0.3 }}
-          >
-            {passwordButtonString}
-          </motion.p>
+            {shouldFadeString===true 
+              ? <FontAwesomeIcon className='h-3/4 w-3/4 mx-auto animate-spin' icon={faSpinner} style={{color: `${iconColor}`}} /> 
+              : passwordButtonString
+            }
         </motion.button>
       </div>
       <div className="py-1 md:py-2">
         <motion.button 
           whileTap={{ scale: 0.9 }}
-          className="flex-auto mx-auto border py-2 rounded-lg md:rounded-full w-full hover:border-[#F7BCB1]"
+          className="flex-auto mx-auto border h-10 rounded-lg md:rounded-full w-full hover:border-[#F7BCB1]"
           onClick={() => logout({ returnTo: window.location.origin })}
         >
           Logout

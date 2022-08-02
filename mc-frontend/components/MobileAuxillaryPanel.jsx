@@ -23,7 +23,7 @@ export const MobileAuxillaryPanel = ({
     "filters": <FiltersPanel filterOptions={filterOptions} filterApplied={filterApplied} setFilterApplied={setFilterApplied} />,
     "settings": <SettingsPanel isDark={isDark} />,
     "create_brews": <CreateBrews toggleMobileUserPanel={toggleMobileUserPanel} isDark={isDark} />,
-    "account": <AccountPanel />
+    "account": <AccountPanel isDark={isDark} />
   }
   
   const sectionToRender = sections[`${section}`];
