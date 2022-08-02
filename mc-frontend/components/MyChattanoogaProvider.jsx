@@ -76,8 +76,14 @@ export const MyChattanoogaProvider = ({ children }) => {
   function toggleMobileUserPanel() {
     if (auxPanelExpanded === true) {
       setAuxPanelExpanded(auxPanelExpanded => !auxPanelExpanded);
+      // This conditional accounts for this function being called from a non mobile view
+      if (panelExpanded === true) {
+        setTimeout(function () {
+          setPanelExpanded(panelExpanded => !panelExpanded)
+          setCurrentAuxSection("")
+        }, 150);
+      }
       setTimeout(function () {
-        setPanelExpanded(panelExpanded => !panelExpanded)
         setCurrentAuxSection("")
       }, 150);
     }
