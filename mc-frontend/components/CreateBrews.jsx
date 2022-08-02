@@ -82,9 +82,16 @@ export const CreateBrews = ({ toggleMobileUserPanel, isDark }) => {
                 toggleMobileUserPanel()
                 setFormSending(false)
                 if (window.location.pathname === '/brews') {
-                  setTimeout(() => {
-                    router.replace("/brews?view=refresh")
-                  }, 450)
+                  if (router.query.view !== undefined) {
+                    setTimeout(() => {
+                      router.push("/brews")
+                    }, 450)
+                  }
+                  else {
+                    setTimeout(() => {
+                      router.replace("/brews?view=refresh")
+                    }, 450)
+                  }
                 }
                 else {
                   setTimeout(() => {
