@@ -306,18 +306,19 @@ def get_user_metadata(user_id: str) -> dict:
 
     token_request_headers = {"content-type": "application/json"}
 
-    token = requests.post(
+    token_response = requests.post(
         url=f"{management_api_url}/oauth/token",
         json=token_request_body,
         headers=token_request_headers,
     )
 
-    metadata_request_headers = {"authorization": f"Bearer {token['access_token']}"}
+    metadata_request_headers = {
+        "authorization": f"Bearer {token_response.json['access_token']}"
+    }
 
-    user_metadata = requests.get(
+    user_metadata_response = requests.get(
         f"{management_api_url}/api/v2/users/{user_id}?fields=user_metadata&include_fields=true",
         headers=metadata_request_headers,
     )
 
-    print(user_metadata)
-    return user_metadata["user_metadata"]
+    return user_metadata_response.json["user_metadata"]
