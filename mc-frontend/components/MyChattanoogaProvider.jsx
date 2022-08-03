@@ -8,6 +8,8 @@ import { UserPanel } from "./UserPanel"
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useRouter } from "next/router"
+import { useAuth0 } from "@auth0/auth0-react"
+import axios from "axios"
 
 const MyChattanoogaContext = createContext();
 
@@ -27,6 +29,8 @@ const scrollTopButtonVariants = {
 }
 
 export const MyChattanoogaProvider = ({ children }) => {
+
+  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
 
   const useDarkModePreference = () => {
     useEffect(() => {
@@ -48,6 +52,22 @@ export const MyChattanoogaProvider = ({ children }) => {
       }
     }, [])
   }
+
+  useEffect(() => {
+    const fetchMetadata = async () => {
+      const token = await getAccessTokenSilently();
+      axios
+        .get(`/api/get-metadata?user=${user.sub}&field=user_metadata`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          setCurrentUserMetadata(response.data);
+        });
+    };
+    if (isAuthenticated) {
+      fetchMetadata();
+    }
+  }, [isAuthenticated]);
 
   const router = useRouter();
   const [isDark, setDark] = useState(useDarkModePreference());

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Article } from "../components/Article";
 import { isFromTheFuture } from "../components/helpers";
@@ -39,22 +39,6 @@ export default function Home({
     setCurrentPage(window.location.pathname);
     fetchData();
   }, []);
-
-  useEffect(() => {
-    const fetchMetadata = async () => {
-      const token = await getAccessTokenSilently();
-      axios
-        .get(`/api/get-metadata?user=${user.sub}&field=user_metadata`, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((response) => {
-          setCurrentUserMetadata(response.data);
-        });
-    };
-    if (isAuthenticated) {
-      fetchMetadata();
-    }
-  }, [isAuthenticated]);
 
   var headerString = "";
   if (filterApplied === "all") {
