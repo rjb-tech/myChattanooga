@@ -15,11 +15,12 @@ export const AuxillaryPanel = ({
   filterApplied,
   setFilterApplied, 
   auxPanelExpanded,
-  toggleMobileUserPanel
+  toggleMobileUserPanel,
+  currentUserMetadata
 }) => {
   const sections = {
     "create": <></>,
-    "account": <AccountPanel isDark={isDark} />,
+    "account": <AccountPanel isDark={isDark} currentUserMetadata={currentUserMetadata} />,
     "create_brews": <CreateBrews toggleMobileUserPanel={toggleMobileUserPanel} isDark={isDark} />
   }
   const sectionToRender = sections[`${section}`];

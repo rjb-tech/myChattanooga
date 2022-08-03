@@ -34,7 +34,8 @@ export const MobileUserPanel = ({
   toggleMobileNav,
   toggleMobileUserPanel,
   menuExpanded,
-  showFilters
+  showFilters,
+  currentUserMetadata
 }) => {  
   const router = useRouter()
   const iconColor = isDark===true ? '#FFF' : "#222"
@@ -143,6 +144,7 @@ export const MobileUserPanel = ({
           setPreviousFilter={setPreviousFilter}
           auxPanelExpanded={auxPanelExpanded}
           toggleMobileUserPanel={toggleMobileUserPanel}
+          currentUserMetadata={currentUserMetadata}
         />
       </motion.div>      
     </div>

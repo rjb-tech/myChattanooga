@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Article } from "../components/Article";
 import { isFromTheFuture } from "../components/helpers";
+import { useAuth0 } from "@auth0/auth0-react";
 const axios = require("axios");
 
 const loadingVariants = {
@@ -17,7 +18,9 @@ export default function Home({
   setCurrentPage,
   contentLoading,
   setContentLoading,
+  setCurrentUserMetadata,
 }) {
+  const { user, getAccessTokenSilently, isAuthenticated } = useAuth0();
   useEffect(() => {
     const fetchData = async () => {
       setContentLoading(true);
@@ -36,6 +39,22 @@ export default function Home({
     setCurrentPage(window.location.pathname);
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchMetadata = async () => {
+      const token = await getAccessTokenSilently();
+      axios
+        .get(`/api/get-metadata?user=${user.sub}&field=user_metadata`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          setCurrentUserMetadata(response.data);
+        });
+    };
+    if (isAuthenticated) {
+      fetchMetadata();
+    }
+  }, [isAuthenticated]);
 
   var headerString = "";
   if (filterApplied === "all") {

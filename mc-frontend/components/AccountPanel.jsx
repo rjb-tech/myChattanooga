@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useAuth0 } from "@auth0/auth0-react";
 import Image from 'next/image'
@@ -11,7 +11,7 @@ const variants = {
   loaded: {opacity: 1}
 }
 
-export const AccountPanel = ({ isDark }) => {
+export const AccountPanel = ({ isDark, currentUserMetadata }) => {
   // This is very bloated state, but oh well we here
   const { user, logout, isLoading, getAccessTokenSilently } = useAuth0();
   const [ confirmingPasswordReset, setConfirmingPasswordReset ] = useState(false)
@@ -42,10 +42,10 @@ export const AccountPanel = ({ isDark }) => {
       >
         Account
       </h3>
-      <div className="pb-6 h-1/3 w-1/3 mx-auto">
+      <div className="pb-6 h-5/12 w-5/12 mx-auto">
         <Image 
           className="rounded-full"
-          src={user.picture}
+          src={currentUserMetadata.profile_picture || user.picture}
           height={1}
           width={1}
           layout="responsive"

@@ -30,7 +30,8 @@ export const UserPanel = ({
   currentAuxSection,
   setCurrentAuxSection,
   showFilters,
-  toggleMobileUserPanel
+  toggleMobileUserPanel,
+  currentUserMetadata
  }) => {
   const iconColor = isDark===true ? '#FFF' : '#222'
   const darkModeIcon = isDark===true ? faSun : faMoon
@@ -108,6 +109,7 @@ export const UserPanel = ({
             setFilterApplied={setFilterApplied}
             auxPanelExpanded={auxPanelExpanded}
             toggleMobileUserPanel={toggleMobileUserPanel}
+            currentUserMetadata={currentUserMetadata}
           />
         </div>
         {showFilters===true && 

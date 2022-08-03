@@ -1,6 +1,6 @@
 import { StickyHeader } from "./StickyHeader"
 import Head from 'next/head'
-import { useState, createContext, useRef, useEffect, cloneElement } from "react"
+import { useState, createContext, useEffect, cloneElement } from "react"
 import { MobileNav } from "./MobileNav"
 import { MobileUserPanel } from "./MobileUserPanel"
 import { motion } from "framer-motion"
@@ -63,7 +63,8 @@ export const MyChattanoogaProvider = ({ children }) => {
   const [currentPage, setCurrentPage] = useState("");
   const [currentAuxSection, setCurrentAuxSection] = useState("");
   const [showTopButton, setShowTopButton] = useState(false);
-  const [ previousFilter, setPreviousFilter ] = useState("");
+  const [previousFilter, setPreviousFilter] = useState("");
+  const [currentUserMetadata, setCurrentUserMetadata] = useState();
 
   const showFilters = 
     (currentPage === '/' || currentPage === '/brews') 
@@ -97,6 +98,7 @@ export const MyChattanoogaProvider = ({ children }) => {
     localStorage.setItem("dark", isDark)
   }
 
+  // This needs to be dealt with
   const value = {
     isExpanded: { menuExpanded },
     toggleMobileNav: { toggleMobileNav },
@@ -108,7 +110,9 @@ export const MyChattanoogaProvider = ({ children }) => {
     auxPanelExpanded: { auxPanelExpanded },
     setAuxPanelExpanded: { setAuxPanelExpanded },
     filterApplied: { filterApplied },
-    setFilterApplied: { setFilterApplied }
+    setFilterApplied: { setFilterApplied },
+    currentUserMetadata: {currentUserMetadata},
+    setCurrentUserMetadata: {setCurrentUserMetadata}
   }
 
   useEffect(() => {
@@ -236,6 +240,7 @@ export const MyChattanoogaProvider = ({ children }) => {
               toggleMobileUserPanel={toggleMobileUserPanel}
               menuExpanded={menuExpanded}
               showFilters={showFilters}
+              currentUserMetadata={currentUserMetadata}
             />
           </motion.div>
         </header>
@@ -275,6 +280,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                   setCurrentAuxSection={setCurrentAuxSection}
                   showFilters={showFilters}
                   toggleMobileUserPanel={toggleMobileUserPanel}
+                  currentUserMetadata={currentUserMetadata}
                 />
               </div>
               <div className="w-full md:w-10/12">
@@ -285,7 +291,8 @@ export const MyChattanoogaProvider = ({ children }) => {
                   currentPage: currentPage,
                   setCurrentPage: setCurrentPage,
                   contentLoading: contentLoading,
-                  setContentLoading: setContentLoading
+                  setContentLoading: setContentLoading,
+                  setCurrentUserMetadata: setCurrentUserMetadata
                 })}
               </div>
               {/* {children} */}
