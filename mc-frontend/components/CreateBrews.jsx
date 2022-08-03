@@ -7,7 +7,7 @@ import { useRouter } from "next/router"
 import { faSpinner } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-export const CreateBrews = ({ toggleMobileUserPanel, isDark }) => {
+export const CreateBrews = ({ toggleMobileUserPanel, isDark, currentUserMetadata }) => {
   const { user, getAccessTokenSilently, isAuthenticated } = useAuth0()
   const [ formSending, setFormSending ] = useState(false)
   const [ formSent, setFormSent ] = useState(false)
@@ -55,21 +55,12 @@ export const CreateBrews = ({ toggleMobileUserPanel, isDark }) => {
             // Move this to a seperate function to clean this up eventually
             setFormSending(true)
             const token = await getAccessTokenSilently();
-            const publisherMetadata = 
-              await axios
-                .get(
-                  `/api/get-metadata?user=${user.sub}&field=app_metadata`, 
-                  {headers: {'Authorization': `Bearer ${token}`}}
-                )
-                .catch(error => {
-                  postError(true)
-                });
             await axios
               .post(
                 "/api/brews", 
                 {
                   ...values,
-                  publisher: publisherMetadata.data.publisher
+                  publisher: currentUserMetadata.publisher
                 }, 
                 {
                   headers: {

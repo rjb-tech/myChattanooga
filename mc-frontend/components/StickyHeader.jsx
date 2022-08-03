@@ -19,7 +19,7 @@ export const StickyHeader = ({
       
       <div className="flex flex-auto w-full h-fit content-center items-center py-4 border-b md:border-b-0">
         <LeftPanel {...toggleMobileNav} isDark={isDark} toggleDarkMode={toggleDarkMode} />
-        <Logo isDark={isDark} {...toggleMobileUserPanel} />
+        <Logo isDark={isDark} {...toggleMobileUserPanel} panelExpanded={panelExpanded} />
         <RightPanel 
           {...toggleMobileUserPanel} 
           {...toggleMobileNav}

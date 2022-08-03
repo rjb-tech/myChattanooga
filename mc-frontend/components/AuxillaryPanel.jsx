@@ -21,7 +21,7 @@ export const AuxillaryPanel = ({
   const sections = {
     "create": <></>,
     "account": <AccountPanel isDark={isDark} currentUserMetadata={currentUserMetadata} />,
-    "create_brews": <CreateBrews toggleMobileUserPanel={toggleMobileUserPanel} isDark={isDark} />
+    "create_brews": <CreateBrews toggleMobileUserPanel={toggleMobileUserPanel} isDark={isDark} currentUserMetadata={currentUserMetadata} />
   }
   const sectionToRender = sections[`${section}`];
   const auxPanelBaseClass = "w-full mx-auto h-full overflow-y-scroll flex items-center border-y"
