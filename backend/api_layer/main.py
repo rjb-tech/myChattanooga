@@ -1,6 +1,7 @@
+import os
 import logging
 import asyncio
-
+import requests
 import pytz
 from datetime import datetime
 from os import stat
@@ -32,7 +33,7 @@ logging.basicConfig(
 
 class BrewsRequestInfo(BaseModel):
     headline: str
-    publisher: str
+    user: str
 
 
 origins = [
@@ -137,6 +138,8 @@ async def create_brews_release(
         response.status_code = status.HTTP_401_UNAUTHORIZED
         return result
 
+    user_metadata = get_user_metadata(user_id=brewsInfo.user)
+
     async def create_brew():
         query_table = database.get_table("brews")
         if isinstance(query_table, Ok):
@@ -144,12 +147,15 @@ async def create_brews_release(
             if not await already_saved(brewsInfo, table, database.get_db_obj()):
                 query = table.insert().values(
                     headline=brewsInfo.headline,
-                    publisher=brewsInfo.publisher,
+                    publisher=user_metadata["publisher"],
                     date_posted=datetime.now(pytz.timezone("America/New_York")),
                     expired=False,
+                    image_url=user_metadata["brews_release_image"],
+                    facebook_profile=user_metadata["facebook_profile"],
+                    instagram_profile=user_metadata["instagram_profile"],
                 )
                 await database.get_db_obj().execute(query)
-                search_query = f"SELECT * FROM brews WHERE headline='{brewsInfo.headline}' AND publisher='{brewsInfo.publisher}'"
+                search_query = f"SELECT * FROM brews WHERE headline='{brewsInfo.headline}' AND publisher='{user_metadata['publisher']}'"
                 newly_created_object = await database.get_db_obj().fetch_all(
                     search_query
                 )
@@ -283,3 +289,35 @@ async def already_saved(
 
     if task in done:
         return False if task.result() == None else True
+
+
+# Define a new helper function here to get user metadata from the auth0 management api
+def get_user_metadata(user_id: str) -> dict:
+    management_api_url = os.environ["MANAGEMENT_API_URL"]
+    management_client_id = os.environ["MANAGEMENT_CLIENT_ID"]
+    management_client_secret = os.environ["MANAGEMENT_CLIENT_SECRET"]
+
+    token_request_body = {
+        "client_id": f"{management_client_id}",
+        "client_secret": f"{management_client_secret}",
+        "audience": f"{management_api_url}/api/v2",
+        "grant_type": "client_credentials",
+    }
+
+    token_request_headers = {"content-type": "application/json"}
+
+    token = requests.post(
+        url=f"{management_api_url}/oauth/token",
+        json=token_request_body,
+        headers=token_request_headers,
+    )
+
+    metadata_request_headers = {"authorization": f"Bearer {token['access_token']}"}
+
+    user_metadata = requests.get(
+        f"{management_api_url}/api/v2/users/{user_id}?fields=user_metadata&include_fields=true",
+        headers=metadata_request_headers,
+    )
+
+    print(user_metadata)
+    return user_metadata["user_metadata"]

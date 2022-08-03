@@ -60,6 +60,9 @@ class BrewsRelease(BaseModel):
     publisher: str
     date_posted: datetime
     expired: bool
+    image_url: str
+    facebook_profile: str
+    instagram_profile: str
 
     class Config:
         orm_mode = True
@@ -123,6 +126,9 @@ class MC_Connection:
         sa.Column("publisher", sa.String(256)),
         sa.Column("date_posted", sa.TIMESTAMP),
         sa.Column("expired", sa.Boolean),
+        sa.Column("image_url", sa.Text),
+        sa.Column("facebook_profile", sa.Text),
+        sa.Column("instagram_profile", sa.Text),
     )
 
     # Constructor
