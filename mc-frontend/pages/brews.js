@@ -11,6 +11,7 @@ export default function Brews({
   setCurrentPage,
   contentLoading,
   setContentLoading,
+  setCurrentUserMetadata,
 }) {
   useEffect(() => {
     setCurrentPage("/brews");
