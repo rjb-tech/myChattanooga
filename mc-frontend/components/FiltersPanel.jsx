@@ -36,7 +36,7 @@ export const FiltersPanel = ({
             <motion.button
               aria-label={`${currentOption} filter selector`}
               whileTap={{ scale: 0.9 }}
-              id={`${currentOption.replace(" ", "-").toLowerCase()}-button`}
+              id={`${currentOption?.replace(" ", "-").toLowerCase()}-button`}
               className= " flex-auto mx-auto border py-2 rounded-lg md:rounded-full w-full hover:ring-1 hover:ring-[#F7BCB1]"
               onClick={() => {
                 if (filterApplied != `${currentOption}`) {
