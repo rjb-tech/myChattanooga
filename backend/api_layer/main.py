@@ -138,13 +138,22 @@ async def create_brews_release(
         response.status_code = status.HTTP_401_UNAUTHORIZED
         return result
 
-    user_metadata = get_user_metadata(user_id=brewsInfo.user)
+    # Catch error thrown if a response isn't received from the Auth0 management API
+    try:
+        user_metadata = get_user_metadata(user_id=brewsInfo.user)
+    except KeyError:
+        return {"External error"}
 
     async def create_brew():
         query_table = database.get_table("brews")
         if isinstance(query_table, Ok):
             table = query_table.unwrap()
-            if not await already_saved(brewsInfo, table, database.get_db_obj()):
+            if not await already_saved(
+                brews_release=brewsInfo,
+                table=table,
+                db=database.get_db_obj(),
+                user_metadata=user_metadata,
+            ):
                 query = table.insert().values(
                     headline=brewsInfo.headline,
                     publisher=user_metadata["publisher"],
@@ -162,10 +171,10 @@ async def create_brews_release(
                 return newly_created_object
             else:
                 response.status_code = status.HTTP_208_ALREADY_REPORTED
-                return {"status": "already saved"}
+                return {"already saved"}
 
-        response.status_code = status.HTTP_204_NO_CONTENT
-        return {"status": "Not created"}
+        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+        return {"Not created, database module error"}
 
     query_results = await get_query_results(create_brew)
     return query_results
@@ -268,7 +277,7 @@ async def get_query_results(input_async_function):
 
 # Utility function to check if a brews release is already saved in the DB
 async def already_saved(
-    brews_release: BrewsRequestInfo, table: sa.Table, db: Database
+    brews_release: BrewsRequestInfo, table: sa.Table, db: Database, user_metadata: dict
 ) -> bool:
     async def get_result(db, query):
         return await db.execute(query)
@@ -278,7 +287,7 @@ async def already_saved(
         .exists()
         .where(
             (table.c.headline == brews_release.headline.strip())
-            & (table.c.publisher == brews_release.publisher)
+            & (table.c.publisher == user_metadata["publisher"])
         )
     )
 
@@ -300,7 +309,7 @@ def get_user_metadata(user_id: str) -> dict:
     token_request_body = {
         "client_id": f"{management_client_id}",
         "client_secret": f"{management_client_secret}",
-        "audience": f"{management_api_url}/api/v2",
+        "audience": f"{management_api_url}/api/v2/",
         "grant_type": "client_credentials",
     }
 
@@ -313,7 +322,7 @@ def get_user_metadata(user_id: str) -> dict:
     )
 
     metadata_request_headers = {
-        "authorization": f"Bearer {token_response.json['access_token']}"
+        "authorization": f"Bearer {token_response.json()['access_token']}"
     }
 
     user_metadata_response = requests.get(
@@ -321,4 +330,4 @@ def get_user_metadata(user_id: str) -> dict:
         headers=metadata_request_headers,
     )
 
-    return user_metadata_response.json["user_metadata"]
+    return user_metadata_response.json()["user_metadata"]
