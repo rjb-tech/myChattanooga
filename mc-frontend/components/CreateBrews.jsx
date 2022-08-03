@@ -60,7 +60,7 @@ export const CreateBrews = ({ toggleMobileUserPanel, isDark, currentUserMetadata
                 "/api/brews", 
                 {
                   ...values,
-                  publisher: currentUserMetadata.publisher
+                  user: `${user.sub}`
                 }, 
                 {
                   headers: {
