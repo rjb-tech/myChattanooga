@@ -55,7 +55,7 @@ export const AccountPanel = ({ isDark, currentUserMetadata }) => {
       <div className="py-1 md:py-2">
         <motion.button 
           whileTap={{ scale: 0.9 }}
-          className="block flex-auto mx-auto border h-10 rounded-lg md:rounded-full w-full hover:border-[#F7BCB1] border-[#222] dark:border-[#fff]"
+          className="block flex-auto mx-auto border-y h-10 rounded-lg md:rounded-full w-full hover:border-[#F7BCB1] border-[#222] dark:border-[#fff]"
           onClick={async () => 
             {
               const token = await getAccessTokenSilently()
@@ -95,10 +95,10 @@ export const AccountPanel = ({ isDark, currentUserMetadata }) => {
             }
         </motion.button>
       </div>
-      <div className="py-1 md:py-2">
+      <div className="py-2">
         <motion.button 
           whileTap={{ scale: 0.9 }}
-          className="flex-auto mx-auto border h-10 rounded-lg md:rounded-full w-full hover:border-[#F7BCB1] border-[#222] dark:border-[#fff]"
+          className="flex-auto mx-auto border-y h-10 rounded-lg md:rounded-full w-full hover:border-[#F7BCB1] border-[#222] dark:border-[#fff]"
           onClick={() => logout({ returnTo: window.location.origin })}
         >
           Logout

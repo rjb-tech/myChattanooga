@@ -14,25 +14,27 @@ export const MyBrewsJournal = ({ brews }) => {
       </div>
       {brews.map((release) => {
         return (
-          <div className="flex mx-auto py-2 rounded w-full border-t border-[#222] dark:border-[#fff]">
-            <div className="p-2 w-4/6">
-              {`${release.headline}`}
-            </div>
-            <div className="flex-auto w-2/6 flex justify-between">
-              <motion.button 
-                whileTap={{ scale: 0.85 }} 
-                className='flex-auto bg-[#FFF] dark:bg-[#222] w-1/3 rounded-full z-10'
-                // onClick={() => {handleAuxPanel("account")}}
-              >
-                <FontAwesomeIcon className='flex-auto w-5/12 mx-auto' icon={faPencil}/>
-              </motion.button>
-              <motion.button 
-                whileTap={{ scale: 0.85 }} 
-                className='flex-auto bg-[#FFF] dark:bg-[#222] w-1/3 rounded-full z-10'
-                // onClick={() => {handleAuxPanel("account")}}
-              >
-                <FontAwesomeIcon className='flex-auto w-4/12 mx-auto' icon={faTrash}/>
-              </motion.button>
+          <div className="py-2">
+            <div className="flex mx-auto rounded-lg py-2 w-full border-y border-[#222] dark:border-[#fff]">
+              <div className="p-2 w-4/6">
+                {`${release.headline}`}
+              </div>
+              <div className="flex-auto w-2/6 flex justify-between">
+                <motion.button 
+                  whileTap={{ scale: 0.85 }} 
+                  className='flex-auto bg-[#FFF] dark:bg-[#222] w-1/3 rounded-full z-10'
+                  // onClick={() => {handleAuxPanel("account")}}
+                >
+                  <FontAwesomeIcon className='flex-auto w-5/12 mx-auto' icon={faPencil}/>
+                </motion.button>
+                <motion.button 
+                  whileTap={{ scale: 0.85 }} 
+                  className='flex-auto bg-[#FFF] dark:bg-[#222] w-1/3 rounded-full z-10'
+                  // onClick={() => {handleAuxPanel("account")}}
+                >
+                  <FontAwesomeIcon className='flex-auto w-4/12 mx-auto' icon={faTrash}/>
+                </motion.button>
+              </div>
             </div>
           </div>
         )

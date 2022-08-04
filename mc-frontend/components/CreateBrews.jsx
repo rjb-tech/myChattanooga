@@ -113,7 +113,7 @@ export const CreateBrews = ({ toggleMobileUserPanel, isDark, currentUserMetadata
                 name="headline"
               />
               <span className="block p-1"></span>
-              <div className="flex w-32 justify-content-end py-1 border rounded-md border-[#222] dark:border-[#fff]">
+              <div className="flex w-32 justify-content-end py-1 border-y rounded-md border-[#222] dark:border-[#fff]">
                 <button 
                   className="block flex-auto h-6 px-2 text-md bg-[#fff] dark:bg-[#222] rounded-md" 
                   type="submit"
