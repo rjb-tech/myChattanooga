@@ -102,7 +102,7 @@ export const CreateBrews = ({ toggleMobileUserPanel, isDark, currentUserMetadata
               <label className="text-lg" htmlFor="headline">Headline</label>
               <span className="block p-1"></span>
               <Field 
-                className="relative p-2 text-black flex-auto w-full resize-none rounded" 
+                className="relative p-2 text-black flex-auto w-full resize-none rounded border border-[#222] dark:border-[#fff]" 
                 as="textarea" 
                 name="headline" 
                 placeholder="Your headline..." 
