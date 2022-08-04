@@ -178,7 +178,6 @@ export const MyChattanoogaProvider = ({ children }) => {
 
   // This useEffect block enables the myBrewsJournal component
   useEffect(() => {
-    // Checking if we're on the brews page refreshes the published releases after creating a release
     if (isAuthenticated === true && currentPage === "/brews") {
       axios
       .get(
@@ -186,7 +185,7 @@ export const MyChattanoogaProvider = ({ children }) => {
       )
       .then(response => setCurrentUserBrews(response.data))
     }
-  }, [currentUserMetadata, pageContent])
+  }, [currentUserMetadata])
 
   const scrollToTop = () => {
     const element = document.getElementById("content")
