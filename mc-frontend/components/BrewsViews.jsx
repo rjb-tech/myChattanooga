@@ -8,10 +8,6 @@ const loadingVariants = {
   loaded: { opacity: 1 }
 }
 
-const images = {
-  'bada bing': 'https://mychattanooga-files.nyc3.digitaloceanspaces.com/myChattanooga_social.png'
-}
-
 export const BrewsViews = ({
   setPageContent,
   pageContent,
@@ -68,14 +64,16 @@ export const BrewsViews = ({
               ? story.publisher === filterApplied 
               : story
           )
-          .map((story) => {
+          .map((release) => {
             return (
-              <div className="py-2 sm:px-2" key={story.headline}>
+              <div className="py-2 sm:px-2" key={release.headline}>
                 <BrewsRelease
-                  publisher={story.publisher}
-                  headline={story.headline}
-                  datePosted={story.date_posted}
-                  image={images[`${story.publisher}`]}
+                  publisher={release.publisher}
+                  headline={release.headline}
+                  datePosted={release.date_posted}
+                  image={release.image_url}
+                  fb={release.facebook_profile}
+                  ig={release.instagram_profile}
                 />
               </div>
             )

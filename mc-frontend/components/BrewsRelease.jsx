@@ -3,7 +3,7 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 const accentColor = '#F39887'
 
-export const BrewsRelease = ({ publisher, headline, datePosted, image }) => {
+export const BrewsRelease = ({ publisher, headline, datePosted, image, ig, fb }) => {
   return (
     <div className="relative flex-auto h-fit md:h-full md:w-full lg:w-full shadow-sm bg-[#fff] dark:bg-[#1f1f1f] rounded-sm shadow-md rounded-lg">
       <div className="p-4">
@@ -29,7 +29,7 @@ export const BrewsRelease = ({ publisher, headline, datePosted, image }) => {
               Posted on {new Date(datePosted).toLocaleDateString()}
             </p>
             <span className="flex flex-auto justify-end">
-              <Link href="https://www.facebook.com/ChattanoogaApp/">
+              <Link href={`${fb}`}>
                 <a target="_blank" className="pr-4">
                   <motion.div whileTap={{ scale: 0.85 }} className="w-8 h-8 bg-[#4267B2] flex items-center justify-center rounded-full">
                     <svg className="fill-white h-4/6 w-4/6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"> 
@@ -38,7 +38,7 @@ export const BrewsRelease = ({ publisher, headline, datePosted, image }) => {
                   </motion.div>
                 </a>
               </Link>
-              <Link href="https://www.instagram.com/chattanooga_headlines/">
+              <Link href={`${ig}`}>
                 <a target="_blank">
                   <motion.div whileTap={{ scale: 0.85 }} className="w-8 h-8 bg-[#C13584] flex items-center justify-center rounded-full">
                     <svg className="fill-white h-4/6 w-4/6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
