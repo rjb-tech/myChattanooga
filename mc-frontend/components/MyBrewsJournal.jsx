@@ -1,7 +1,11 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons"
+import { motion } from "framer-motion"
+
 export const MyBrewsJournal = ({ brews }) => {
   return (
-    <div className="flex-col w-4/6 mx-auto">
-      <div className="sticky w-full h-fit top-0 md:pl-2 md:mt-0 lg:mt-0 mb-2">
+    <div className="flex-col w-4/6 mx-auto h-80">
+      <div className="sticky w-full h-fit top-0 md:pl-2 md:mt-0 lg:mt-0 mb-2 bg-[#FFF] dark:bg-[#222] pb-4 z-50">
         <h3 
           className="aux-panel-header text-center md:text-left font-bold text-3xl md:text-2xl z-30 text-[#222] dark:text-[#FFF]"
         >
@@ -10,8 +14,25 @@ export const MyBrewsJournal = ({ brews }) => {
       </div>
       {brews.map((release) => {
         return (
-          <div className="flex-auto mx-auto border py-2 rounded-lg md:rounded-full w-full hover:ring-1 hover:ring-[#F7BCB1]">
-            <div>
+          <div className="flex mx-auto py-2 rounded w-full border-t border-[#222] dark:border-[#fff]">
+            <div className="p-2 w-4/6">
+              {`${release.headline}`}
+            </div>
+            <div className="flex-auto w-2/6 flex justify-between">
+              <motion.button 
+                whileTap={{ scale: 0.85 }} 
+                className='flex-auto bg-[#FFF] dark:bg-[#222] w-1/3 rounded-full z-10'
+                // onClick={() => {handleAuxPanel("account")}}
+              >
+                <FontAwesomeIcon className='flex-auto w-5/12 mx-auto' icon={faPencil}/>
+              </motion.button>
+              <motion.button 
+                whileTap={{ scale: 0.85 }} 
+                className='flex-auto bg-[#FFF] dark:bg-[#222] w-1/3 rounded-full z-10'
+                // onClick={() => {handleAuxPanel("account")}}
+              >
+                <FontAwesomeIcon className='flex-auto w-4/12 mx-auto' icon={faTrash}/>
+              </motion.button>
             </div>
           </div>
         )
