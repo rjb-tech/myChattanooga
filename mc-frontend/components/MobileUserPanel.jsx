@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from "framer-motion"
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { faFilter, faPencil, faUser, faBeer } from "@fortawesome/free-solid-svg-icons"
+import { faFilter, faUser, faBeer, faPlusCircle } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
 import { MobileAuxillaryPanel } from './MobileAuxillaryPanel';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -35,10 +35,12 @@ export const MobileUserPanel = ({
   toggleMobileUserPanel,
   menuExpanded,
   showFilters,
-  currentUserMetadata
+  currentUserMetadata,
+  currentUserBrews,
 }) => {  
   const router = useRouter()
   const iconColor = isDark===true ? '#FFF' : "#222"
+  const thereAreBrews = currentUserBrews.length > 0
 
   const { loginWithRedirect, user, isAuthenticated, isLoading } = useAuth0();
   const isAdmin = user?.email === "admin@mychattanooga.app"
@@ -99,21 +101,21 @@ export const MobileUserPanel = ({
             >
               <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faFilter} style={{color: `${iconColor}`}} />
             </motion.button>}
-            {/* {isAuthenticated && (<motion.button 
-              aria-label='Create Brews Release Button'
+            {(isAuthenticated && thereAreBrews) && <motion.button 
               whileTap={{ scale: 0.85 }} 
               className='bg-[#FFF] dark:bg-[#222] h-2/3 rounded-full flex-1 z-10'
               onClick={() => handleAuxPanel("my_brews")}
             >
               <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faBeer} style={{color: `${iconColor}`}} />
-            </motion.button>)} */}
+            </motion.button>}
             {isAuthenticated &&
             <motion.button 
+              aria-label='Create Brews Release Button'
               whileTap={{ scale: 0.85 }} 
               className='bg-[#FFF] dark:bg-[#222] h-2/3 rounded-full flex-1 z-10' 
               onClick={() => handleAuxPanel("create_brews")}
             >
-                <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faPencil} style={{color: `${iconColor}`}} />
+                <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faPlusCircle} style={{color: `${iconColor}`}} />
             </motion.button>}
             <motion.button 
               whileTap={{ scale: 0.85 }} 
@@ -145,6 +147,7 @@ export const MobileUserPanel = ({
           auxPanelExpanded={auxPanelExpanded}
           toggleMobileUserPanel={toggleMobileUserPanel}
           currentUserMetadata={currentUserMetadata}
+          currentUserBrews={currentUserBrews}
         />
       </motion.div>      
     </div>

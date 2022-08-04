@@ -85,6 +85,7 @@ export const MyChattanoogaProvider = ({ children }) => {
   const [showTopButton, setShowTopButton] = useState(false);
   const [previousFilter, setPreviousFilter] = useState("");
   const [currentUserMetadata, setCurrentUserMetadata] = useState();
+  const [currentUserBrews, setCurrentUserBrews] = useState([]);
 
   const showFilters = 
     (currentPage === '/' || currentPage === '/brews') 
@@ -175,6 +176,16 @@ export const MyChattanoogaProvider = ({ children }) => {
     });
   }, []);
 
+  useEffect(() => {
+    if (isAuthenticated === true) {
+      axios
+      .get(
+        `/api/brews?publishers=${currentUserMetadata.publisher}`
+      )
+      .then(response => setCurrentUserBrews(response.data))
+    }
+  }, [currentUserMetadata])
+
   const scrollToTop = () => {
     const element = document.getElementById("content")
     element.scrollTo({
@@ -261,6 +272,7 @@ export const MyChattanoogaProvider = ({ children }) => {
               menuExpanded={menuExpanded}
               showFilters={showFilters}
               currentUserMetadata={currentUserMetadata}
+              currentUserBrews={currentUserBrews}
             />
           </motion.div>
         </header>
@@ -301,6 +313,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                   showFilters={showFilters}
                   toggleMobileUserPanel={toggleMobileUserPanel}
                   currentUserMetadata={currentUserMetadata}
+                  currentUserBrews={currentUserBrews}
                 />
               </div>
               <div className="w-full md:w-10/12">

@@ -29,9 +29,8 @@ export default function handler(req, res) {
       }
       axios
         .get(`${apiURL}/brews?${queryString}`)
-        .then(async (response) => {
-          const data = await response.json();
-          res.json(data);
+        .then((response) => {
+          res.json(response.data);
         })
         .catch((error) => {
           res.json(error);
