@@ -267,10 +267,8 @@ async def today_weather(location: str = "all"):
 # UTILITY FUNCTION FOR QUERIES
 # Handles db connect and disconnect
 async def get_query_results(input_async_function):
-    if not database.is_connected():
-        await database.plug_in()
-    if database.is_connected():
-        async_results = await input_async_function()
+    await database.plug_in()
+    async_results = await input_async_function()
     await database.unplug()
     return async_results
 
