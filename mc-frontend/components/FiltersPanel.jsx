@@ -17,7 +17,7 @@ export const FiltersPanel = ({
 
   return (
     <div className="h-5/6 w-4/6 md:w-5/6 md:px-0 flex-col mx-auto pb-4">
-      {filterOptions.length > 0 && <div className="py-1 md:py-2">
+      {filterOptions.length > 1 && <div className="py-1 md:py-2">
         <motion.button whileTap={{ scale: 0.9 }}
           aria-label="Apply All Filters Button"
           id='all-button'
