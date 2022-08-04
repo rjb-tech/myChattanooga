@@ -11,8 +11,8 @@ export const FiltersPanel = ({
 }) => {
 
   useEffect(() => {
-    document.getElementById(`${previousFilter?.replace(" ", "-").toLowerCase()}-button`)?.classList.remove("ring-[#F7BCB1]", "ring-1", "border-[#F7BCB1]", "border-xl")
-    document.getElementById(`${filterApplied?.replace(" ", "-").toLowerCase()}-button`)?.classList.add("ring-[#F7BCB1]", "ring-1", "border-[#F7BCB1]", "border-xl")
+    document.getElementById(`${previousFilter?.replace(" ", "-").toLowerCase()}-button`)?.classList.remove("ring-[#F7BCB1]", "ring-2", "border-xl")
+    document.getElementById(`${filterApplied?.replace(" ", "-").toLowerCase()}-button`)?.classList.add("ring-[#F7BCB1]", "ring-2", "border-xl")
   }, [filterApplied])
 
   return (
@@ -21,7 +21,7 @@ export const FiltersPanel = ({
         <motion.button whileTap={{ scale: 0.9 }}
           aria-label="Apply All Filters Button"
           id='all-button'
-          className="flex-auto mx-auto border-y py-2 rounded-lg md:rounded-full w-full hover:ring-1 hover:ring-[#F7BCB1] border-[#F7BCB1] ring-[#F7BCB1] ring-1 border-[#222] dark:border-[#fff]"
+          className="flex-auto mx-auto border-y py-2 rounded-lg w-full hover:border-[#F7BCB1] border-[#F7BCB1] ring-[#F7BCB1] ring-1 border-[#222] dark:border-[#fff]"
           onClick={() => {
             setPreviousFilter(filterApplied)
             setFilterApplied("all");
@@ -37,7 +37,7 @@ export const FiltersPanel = ({
               aria-label={`${currentOption} filter selector`}
               whileTap={{ scale: 0.9 }}
               id={`${currentOption?.replace(" ", "-").toLowerCase()}-button`}
-              className= "flex-auto mx-auto border-y py-2 rounded-lg md:rounded-full w-full hover:ring-1 hover:ring-[#F7BCB1] border-[#222] dark:border-[#fff]"
+              className= "flex-auto mx-auto border-y py-2 rounded-lg w-full hover:border-[#F7BCB1] border-[#222] dark:border-[#fff]"
               onClick={() => {
                 if (filterApplied != `${currentOption}`) {
                   setPreviousFilter(filterApplied)
