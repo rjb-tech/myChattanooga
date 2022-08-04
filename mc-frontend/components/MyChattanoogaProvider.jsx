@@ -176,15 +176,17 @@ export const MyChattanoogaProvider = ({ children }) => {
     });
   }, []);
 
+  // This useEffect block enables the myBrewsJournal component
   useEffect(() => {
-    if (isAuthenticated === true) {
+    // Checking if we're on the brews page refreshes the published releases after creating a release
+    if (isAuthenticated === true && currentPage === "/brews") {
       axios
       .get(
         `/api/brews?publishers=${currentUserMetadata.publisher}`
       )
       .then(response => setCurrentUserBrews(response.data))
     }
-  }, [currentUserMetadata])
+  }, [currentUserMetadata, pageContent])
 
   const scrollToTop = () => {
     const element = document.getElementById("content")
