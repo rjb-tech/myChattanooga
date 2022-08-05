@@ -15,7 +15,7 @@ export const MyBrewsJournal = ({ brews }) => {
       {brews.map((release) => {
         return (
           <div className="py-2">
-            <div className="flex mx-auto rounded-lg py-2 w-full border-x-2 border-[#222] dark:border-[#fff]">
+            <div className="flex mx-auto rounded-xl py-2 w-full border-t-2 border-[#222] dark:border-[#fff]">
               <div className="px-4 py-2 w-4/6">
                 {`${release.headline}`}
               </div>
