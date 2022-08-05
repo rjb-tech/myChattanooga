@@ -178,7 +178,7 @@ export const MyChattanoogaProvider = ({ children }) => {
 
   // This useEffect block enables the myBrewsJournal component
   useEffect(() => {
-    if (isAuthenticated === true && currentPage === "/brews") {
+    if (isAuthenticated === true) {
       axios
       .get(
         `/api/brews?publishers=${currentUserMetadata.publisher}`
