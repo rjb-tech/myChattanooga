@@ -8,6 +8,12 @@ export default function handler(req, res) {
 
   const apiURL = process.env.API_URL;
 
+  const requestHeadersWithAuth = {
+    headers: {
+      Authorization: req.headers.authorization,
+    },
+  };
+
   if (req.method === "GET") {
     if (emptyQuery === true) {
       axios
@@ -45,11 +51,7 @@ export default function handler(req, res) {
           headline: req.body.headline,
           user: req.body.user,
         },
-        {
-          headers: {
-            Authorization: req.headers.authorization,
-          },
-        }
+        requestHeadersWithAuth
       )
       .then((response) => {
         res.json(response.data);
@@ -59,6 +61,17 @@ export default function handler(req, res) {
         res.json(error);
         res.end();
       });
+  } else if (req.method === "PATCH") {
+    axios
+      .patch(
+        `${apiURL}/brews/expire`,
+        {
+          id: req.body.id,
+        },
+        requestHeadersWithAuth
+      )
+      .then((response) => res.json(response.data))
+      .catch((error) => res.json(error));
   } else {
     res.status(404).json("request method not allowed");
   }
