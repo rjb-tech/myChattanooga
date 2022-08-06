@@ -181,7 +181,7 @@ export const MyChattanoogaProvider = ({ children }) => {
     if (isAuthenticated === true) {
       axios
       .get(
-        `/api/brews?publishers=${currentUserMetadata.publisher}&expired=true`
+        `/api/brews?publishers=${currentUserMetadata.publisher}`
       )
       .then(response => setCurrentUserBrews(response.data))
     }
