@@ -10,11 +10,13 @@ export const MyBrewsJournal = ({ brews, isDark }) => {
   const { getAccessTokenSilently } = useAuth0();
   const [patchError, setPatchError] = useState(false);
   const [deletingRelease, setDeletingRelease] = useState(false);
+  const [idBeingDeleted, setIdBeingDeleted] = useState();
 
   const iconColor = isDark === true ? '#FFF' : '#222'
 
   const expireBrew = async (brewsId) => {
     const token = await getAccessTokenSilently();
+    setIdBeingDeleted(brewsId)
     setDeletingRelease(true)
     axios
       .patch(
@@ -28,7 +30,10 @@ export const MyBrewsJournal = ({ brews, isDark }) => {
           }
         }
       )
-      .then(response => setDeletingRelease(false))
+      .then(response => {
+        setDeletingRelease(false)
+        setIdBeingDeleted()
+      })
       .catch(error => setPatchError(true))
   }
 
@@ -44,9 +49,9 @@ export const MyBrewsJournal = ({ brews, isDark }) => {
       {brews.map((release) => {
         const textColor = release.expired === true ? "text-red-300" : "text-[#222] dark:text-[#FFF]" 
         return (
-          <div key={release.id} className={"py-2 " + textColor}>
+          <div key={release.id} className="py-2">
             <div className="flex mx-auto rounded-xl py-2 w-full border-t-2 border-[#222] dark:border-[#fff]">
-              <div className="px-4 py-2 w-4/6">
+              <div className={"px-4 py-2 w-4/6 " + textColor}>
                 {`${release.headline}`}
               </div>
               <div className="flex-auto w-2/6 flex justify-between">
@@ -63,9 +68,9 @@ export const MyBrewsJournal = ({ brews, isDark }) => {
                   onClick={() => {expireBrew(release.id)}}
                 >
                   {
-                    deletingRelease === false
-                      ? <FontAwesomeIcon className='flex-auto w-4/12 mx-auto' icon={faTrash} style={{color: `${iconColor}`}} />
-                      : <FontAwesomeIcon className='h-3/4 w-3/4 mx-auto animate-spin' icon={faSpinner} style={{color: `${iconColor}`}} />
+                    idBeingDeleted===release.id && deletingRelease === true
+                      ? <FontAwesomeIcon className='h-3/4 w-3/4 mx-auto animate-spin' icon={faSpinner} style={{color: `${iconColor}`}} />
+                      : <FontAwesomeIcon className='flex-auto w-4/12 mx-auto' icon={faTrash} style={{color: `${iconColor}`}} />
                   }
                 </motion.button>
               </div>
