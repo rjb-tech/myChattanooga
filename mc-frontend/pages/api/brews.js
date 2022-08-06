@@ -64,10 +64,8 @@ export default function handler(req, res) {
   } else if (req.method === "PATCH") {
     axios
       .patch(
-        `${apiURL}/brews/expire`,
-        {
-          id: req.body.id,
-        },
+        `${apiURL}/brews/expire?id=${req.body.id}`,
+        {},
         requestHeadersWithAuth
       )
       .then((response) => res.json(response.data))
