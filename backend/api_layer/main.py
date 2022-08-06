@@ -187,7 +187,7 @@ async def refill_expired_brews_release(
     result = VerifyToken(token.credentials).verify()
 
     if result.get("status"):
-        response.status_code = status.HTTP_400_BAD_REQUEST
+        response.status_code = status.HTTP_401_UNAUTHORIZED
         return result
 
     async def refill_brew():
@@ -202,6 +202,31 @@ async def refill_expired_brews_release(
         return {"status": "Not refilled"}
 
     query_results = await get_query_results(refill_brew)
+    return query_results
+
+
+@app.patch("/brews/expire", status_code=status.HTTP_200_OK)
+async def expire_brews_release(
+    id: str, response: Response, token: str = Depends(token_auth_scheme)
+):
+    result = VerifyToken(token.credentials).verify()
+
+    if result.get("status"):
+        response.status_code = status.HTTP_401_UNAUTHORIZED
+        return result
+
+    async def expire_brew():
+        query_table = database.get_table("brews")
+        if isinstance(query_table, Ok):
+            table = query_table.unwrap()
+            query = update(table).where(table.c.id == id).values(expired=True)
+            await database.get_db_obj().execute(query)
+            return {"status": f"refilled"}
+
+        response.status_code = status.HTTP_204_NO_CONTENT
+        return {"status": "Not refilled"}
+
+    query_results = await get_query_results(expire_brew)
     return query_results
 
 
