@@ -13,8 +13,9 @@ export const MyBrewsJournal = ({ brews }) => {
         </h3>
       </div>
       {brews.map((release) => {
+        const textColor = release.expired === true ? "text-red-300" : "text-[#222] dark:text-[#FFF]" 
         return (
-          <div className="py-2">
+          <div className={"py-2 " + textColor}>
             <div className="flex mx-auto rounded-xl py-2 w-full border-t-2 border-[#222] dark:border-[#fff]">
               <div className="px-4 py-2 w-4/6">
                 {`${release.headline}`}
