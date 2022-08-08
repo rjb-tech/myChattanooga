@@ -33,9 +33,12 @@ ENTRYPOINT bash -c "uvicorn main:app --host 0.0.0.0 --workers 4"
 FROM python:3.10-bullseye as api_server_prod
 WORKDIR /myChattanooga
 ENV TZ="America/New_York"
-ENV DATABASE_URL="${DATABASE_URL_PROD}"
+ENV DATABASE_URL="${DATABASE_URL}"
 ENV CONTAINER "${CONTAINER}"
-ENV DEPLOYMENT_ENV "prod"
+ENV DOMAIN "${DOMAIN}"
+ENV API_AUDIENCE "${API_AUDIENCE}"
+ENV ALGORITHMS "${ALGORITHMS}"
+ENV ISSUER "${ISSUER}"
 COPY ./backend/shared_tech .
 COPY ./backend/api_layer .
 # THIS WILL BE CHANGED WHEN THE FILE IS SPLIT
@@ -102,7 +105,7 @@ ENTRYPOINT bash -c "sleep 15 && python3 weather_scraper.py && python3 news_scrap
 FROM python:3.9-slim-bullseye as scraper_prod
 WORKDIR /myChattanooga
 ENV TZ="America/New_York"
-ENV DATABASE_URL="${DATABASE_URL_PROD_VPC}"
+ENV DATABASE_URL="${DATABASE_URL}"
 ENV CONTAINER "${CONTAINER}"
 ENV DEPLOYMENT_ENV "prod_vpc"
 COPY ./backend/shared_tech .
