@@ -43,34 +43,35 @@ export default function handler(req, res) {
           res.end();
         });
     }
-  } else if (req.method === "POST") {
-    axios
-      .post(
-        `${apiURL}/brews/pour`,
-        {
-          headline: req.body.headline,
-          user: req.body.user,
-        },
-        requestHeadersWithAuth
-      )
-      .then((response) => {
-        res.json(response.data);
-        res.end();
-      })
-      .catch((error) => {
-        res.json(error);
-        res.end();
-      });
-  } else if (req.method === "PATCH") {
-    axios
-      .patch(
-        `${apiURL}/brews/expire?id=${req.body.id}`,
-        {},
-        requestHeadersWithAuth
-      )
-      .then((response) => res.json(response.data))
-      .catch((error) => res.json(error));
-  } else {
+  } //else if (req.method === "POST") {
+  //   axios
+  //     .post(
+  //       `${apiURL}/brews/pour`,
+  //       {
+  //         headline: req.body.headline,
+  //         user: req.body.user,
+  //       },
+  //       requestHeadersWithAuth
+  //     )
+  //     .then((response) => {
+  //       res.json(response.data);
+  //       res.end();
+  //     })
+  //     .catch((error) => {
+  //       res.json(error);
+  //       res.end();
+  //     });
+  // } else if (req.method === "PATCH") {
+  //   axios
+  //     .patch(
+  //       `${apiURL}/brews/expire?id=${req.body.id}`,
+  //       {},
+  //       requestHeadersWithAuth
+  //     )
+  //     .then((response) => res.json(response.data))
+  //     .catch((error) => res.json(error));
+  // }
+  else {
     res.status(404).json("request method not allowed");
   }
 }
