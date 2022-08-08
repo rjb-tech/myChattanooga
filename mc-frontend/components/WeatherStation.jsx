@@ -420,7 +420,7 @@ export const WeatherStation = ({ isDark, currentWeatherLocation, setCurrentWeath
         : SkyconType[weatherCodeMappings[currentWeatherCode].night],
     size: 100,
     animate: true,
-    color: isDark===true ? '#FFF' : '#222'
+    color: isDark===true ? '#f0f0f0' : '#222'
   }
 
   const switchWeatherLocation = (increasing) => {

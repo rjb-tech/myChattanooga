@@ -14,7 +14,7 @@ export const CreateBrews = ({ toggleMobileUserPanel, isDark, currentUserMetadata
   const [ postError, setPostError ] = useState(false)
   const router = useRouter()
 
-  const iconColor = isDark===true ? '#FFF' : "#222"
+  const iconColor = isDark===true ? '#f0f0f0' : "#222"
 
   var buttonText = ''
   if (formSending === false) {
@@ -38,7 +38,7 @@ export const CreateBrews = ({ toggleMobileUserPanel, isDark, currentUserMetadata
     <div className="flex-col w-4/6 mx-auto">
       <div className="sticky w-full h-fit top-0 md:pl-2 md:mt-0 lg:mt-0 mb-2">
         <h3 
-          className="aux-panel-header text-center md:text-left font-bold text-3xl md:text-2xl z-30 text-[#222] dark:text-[#FFF]"
+          className="aux-panel-header text-center md:text-left font-bold text-3xl md:text-2xl z-30 text-[#222] dark:text-[#f0f0f0]"
         >
           Create Brews Release
         </h3>
@@ -102,7 +102,7 @@ export const CreateBrews = ({ toggleMobileUserPanel, isDark, currentUserMetadata
               <label className="text-lg" htmlFor="headline">Headline</label>
               <span className="block p-1"></span>
               <Field 
-                className="relative p-2 text-black flex-auto w-full resize-none rounded border border-[#222] dark:border-[#fff]" 
+                className="relative p-2 text-black flex-auto w-full resize-none rounded border border-[#222] dark:border-[#f0f0f0]" 
                 as="textarea" 
                 name="headline" 
                 placeholder="Your headline..." 
@@ -113,9 +113,9 @@ export const CreateBrews = ({ toggleMobileUserPanel, isDark, currentUserMetadata
                 name="headline"
               />
               <span className="block p-1"></span>
-              <div className="flex w-32 justify-content-end py-1 border rounded-xl border-[#222] dark:border-[#fff]">
+              <div className="flex w-32 justify-content-end py-1 border rounded-xl border-[#222] dark:border-[#f0f0f0]">
                 <button 
-                  className="block flex-auto h-6 px-2 text-md bg-[#fff] dark:bg-[#222] rounded-xl" 
+                  className="block flex-auto h-6 px-2 text-md bg-[#f0f0f0] dark:bg-[#222] rounded-xl" 
                   type="submit"
                 >
                   {formSending === true 

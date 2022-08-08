@@ -7,7 +7,7 @@ import { UserPanel } from "./UserPanel"
 import { AuxillaryPanel } from "./AuxillaryPanel"
 
 export const LeftPanel = ({ toggleMobileNav, isDark, toggleDarkMode }) => {
-  const iconColor = isDark === true ? "#FFF" : "#222"
+  const iconColor = isDark === true ? "#f0f0f0" : "#222"
   return (
     <div className="flex w-1/4 md:w-1/12 flex-auto h-full relative z-[100]">
       <motion.button
@@ -21,7 +21,7 @@ export const LeftPanel = ({ toggleMobileNav, isDark, toggleDarkMode }) => {
           <FontAwesomeIcon icon={faBars} style={{color: `${iconColor}`}}/>
         </div>
       </motion.button>
-      <div className="hidden md:block w-full bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF]">
+      <div className="hidden md:block w-full bg-[#f0f0f0] text-[#222] dark:bg-[#222] dark:text-[#f0f0f0]">
         
       </div>
     </div>

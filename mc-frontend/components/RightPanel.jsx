@@ -12,7 +12,7 @@ export const RightPanel = ({
   menuExpanded,
   panelExpanded
 }) => {
-  const iconColor = isDark === true ? "#FFF" : "#222"
+  const iconColor = isDark === true ? "#f0f0f0" : "#222"
   const userPanelAction = () => {
     if (menuExpanded===true && panelExpanded===false) {
       toggleMobileNav()
@@ -31,7 +31,7 @@ export const RightPanel = ({
           <FontAwesomeIcon icon={faSliders} style={{color: `${iconColor}`}}/>
         </div>
       </motion.button>
-      <div className="hidden md:block w-full bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] relative z-[100]">
+      <div className="hidden md:block w-full bg-[#f0f0f0] text-[#222] dark:bg-[#222] dark:text-[#f0f0f0] relative z-[100]">
         <WeatherStation 
           isDark={isDark}
           currentWeatherLocation={currentWeatherLocation}

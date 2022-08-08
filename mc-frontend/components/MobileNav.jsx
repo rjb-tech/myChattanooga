@@ -19,7 +19,7 @@ export const MobileNav = ({
 }) => {  
   return (
       <motion.nav 
-        className="items-center w-full shadow-lg mx-auto bg-[#FFF] text-[#222] dark:bg-[#222] dark:text-[#FFF] rounded-b-xl overscroll-none"
+        className="items-center w-full shadow-lg mx-auto bg-[#f0f0f0] text-[#222] dark:bg-[#222] dark:text-[#f0f0f0] rounded-b-xl overscroll-none"
         animate={menuExpanded ? "open" : "closed"}
         transition={{ duration: .3, type: "tween"}}
         variants={variants}

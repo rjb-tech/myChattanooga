@@ -19,7 +19,7 @@ export const AccountPanel = ({ isDark, currentUserMetadata }) => {
   const [ shouldFadeString, setShouldFadeString ] = useState(false)
   const [ fetchError, setFetchError ] = useState(false)
 
-  const iconColor = isDark===true ? '#FFF' : "#222"
+  const iconColor = isDark===true ? '#f0f0f0' : "#222"
 
   var passwordButtonString = "Change Password"
   if (emailSent === false) {
@@ -38,7 +38,7 @@ export const AccountPanel = ({ isDark, currentUserMetadata }) => {
   return (
     <div className="w-4/6 md:w-5/6 mx-auto pb-4 md:pt-2">
       <h3 
-        className="aux-panel-header text-center md:text-left font-bold text-3xl md:text-2xl z-30 text-[#222] dark:text-[#FFF] pb-6 mx-auto w-1/2"
+        className="aux-panel-header text-center md:text-left font-bold text-3xl md:text-2xl z-30 text-[#222] dark:text-[#f0f0f0] pb-6 mx-auto w-1/2"
       >
         Account
       </h3>
@@ -55,7 +55,7 @@ export const AccountPanel = ({ isDark, currentUserMetadata }) => {
       <div className="py-1 md:py-2">
         <motion.button 
           whileTap={{ scale: 0.9 }}
-          className="block flex-auto mx-auto border h-10 rounded-xl w-full md:w-10/12 hover:border-[#F7BCB1] border-[#222] dark:border-[#fff]"
+          className="block flex-auto mx-auto border h-10 rounded-xl w-full md:w-10/12 hover:border-[#F7BCB1] border-[#222] dark:border-[#f0f0f0]"
           onClick={async () => 
             {
               const token = await getAccessTokenSilently()
@@ -98,7 +98,7 @@ export const AccountPanel = ({ isDark, currentUserMetadata }) => {
       <div className="py-2">
         <motion.button 
           whileTap={{ scale: 0.9 }}
-          className="block flex-auto mx-auto border h-10 rounded-xl w-full md:w-10/12 hover:border-[#F7BCB1] border-[#222] dark:border-[#fff]"
+          className="block flex-auto mx-auto border h-10 rounded-xl w-full md:w-10/12 hover:border-[#F7BCB1] border-[#222] dark:border-[#f0f0f0]"
           onClick={() => logout({ returnTo: window.location.origin })}
         >
           Logout

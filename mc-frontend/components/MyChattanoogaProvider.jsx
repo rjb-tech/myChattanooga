@@ -201,7 +201,7 @@ export const MyChattanoogaProvider = ({ children }) => {
 
   return (
     <MyChattanoogaContext.Provider value={value}>
-      <div className="flex flex-col h-screen bg-[#FFF] dark:bg-[#222]">
+      <div className="flex flex-col h-screen bg-[#f0f0f0] dark:bg-[#222]">
         <Head>
           <title>myChattanooga</title>
           <meta
@@ -218,7 +218,7 @@ export const MyChattanoogaProvider = ({ children }) => {
           />}
         </Head>
 
-        <header className="w-screen bg-[#FFF] dark:bg-[#222] overscroll-none sticky z-[99]">
+        <header className="w-screen bg-[#f0f0f0] dark:bg-[#222] overscroll-none sticky z-[99]">
           <StickyHeader
             menuExpanded={menuExpanded}
             isDark={isDark}
@@ -341,13 +341,13 @@ export const MyChattanoogaProvider = ({ children }) => {
         </main>
         <motion.button
           aria-label="Go To Top Button"
-          className="rounded-full w-10 h-10 bg-[#222] dark:bg-[#fff] fixed bottom-8 right-8 flex items-center opacity-0"
+          className="rounded-full w-10 h-10 bg-[#222] dark:bg-[#f0f0f0] fixed bottom-8 right-8 flex items-center opacity-0"
           onClick={scrollToTop}
           animate={showTopButton === true ? "visible" : "notVisible"}
           variants={scrollTopButtonVariants}
           whileTap={{ scale: .85 }}
         >
-          <FontAwesomeIcon icon={faChevronUp} height={20} width={20} className="mx-auto" color={isDark === true ? "#222" : "#FFF"} />
+          <FontAwesomeIcon icon={faChevronUp} height={20} width={20} className="mx-auto" color={isDark === true ? "#222" : "#f0f0f0"} />
         </motion.button>
         {/* <scrollToTop /> */}
         {/* <footer className="flex items-center w-screen">

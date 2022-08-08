@@ -49,8 +49,8 @@ export default function Home({
 
   const headerClassString =
     contentLoading === true
-      ? "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF] animate-pulse"
-      : "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF]";
+      ? "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#f0f0f0] animate-pulse"
+      : "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#f0f0f0]";
 
   return (
     <div className="mx-auto">
@@ -60,7 +60,7 @@ export default function Home({
         </div>
 
         <motion.div
-          className="flex-auto grid sm:grid-cols-2 xl:grid-cols-3 w-full h-fit sticky top-0 bg-[#FFF] dark:bg-[#222] opacity-0"
+          className="flex-auto grid sm:grid-cols-2 xl:grid-cols-3 w-full h-fit sticky top-0 bg-[#f0f0f0] dark:bg-[#222] opacity-0"
           animate={contentLoading === true ? "loading" : "loaded"}
           transition={{
             duration: contentLoading === true ? 0 : 0.3,
