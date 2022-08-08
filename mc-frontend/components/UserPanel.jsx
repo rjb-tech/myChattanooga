@@ -79,13 +79,13 @@ export const UserPanel = ({
           <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={darkModeIcon} style={{color: `${iconColor}`}} />
         </motion.button> */}
         
-        {isAuthenticated && (<motion.button 
+        {/* {isAuthenticated && (<motion.button 
           whileTap={{ scale: 0.85 }} 
           className='bg-[#FFF] dark:bg-[#222] h-5/6 rounded-full flex-1 z-30'
           onClick={() => {handleAuxPanel("create_brews")}}
         >
           <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faPencil} style={{color: `${iconColor}`}} />
-        </motion.button>)}
+        </motion.button>)} */}
         {/* {(isAuthenticated && thereAreBrews) && 
           <motion.button 
             whileTap={{ scale: 0.85 }} 
