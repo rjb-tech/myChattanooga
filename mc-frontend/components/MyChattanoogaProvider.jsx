@@ -137,7 +137,7 @@ export const MyChattanoogaProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    const publishers = [...new Set(pageContent.map((contentItem) => contentItem.publisher))].sort();
+    const publishers = [...new Set(pageContent.map((contentItem) => contentItem?.publisher))].sort();
     setFilterOptions(publishers);
   }, [pageContent])
 
