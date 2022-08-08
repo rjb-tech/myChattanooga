@@ -21,7 +21,7 @@ export const FiltersPanel = ({
         <motion.button whileTap={{ scale: 0.9 }}
           aria-label="Apply All Filters Button"
           id='all-button'
-          className="flex-auto mx-auto border py-2 rounded-xl w-full hover:border-[#F7BCB1] border-[#F7BCB1] ring-[#F7BCB1] ring-1 border-[#222] dark:border-[#f0f0f0]"
+          className="flex-auto mx-auto border py-2 rounded-xl w-full hover:border-[#F7BCB1] border-[#F7BCB1] ring-[#F7BCB1] ring-2 border-[#222] dark:border-[#f0f0f0]"
           onClick={() => {
             setPreviousFilter(filterApplied)
             setFilterApplied("all");

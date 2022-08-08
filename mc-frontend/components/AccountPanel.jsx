@@ -45,7 +45,7 @@ export const AccountPanel = ({ isDark, currentUserMetadata }) => {
       <div className="pb-6 h-5/12 w-5/12 mx-auto">
         <Image 
           className="rounded-full"
-          src={currentUserMetadata.profile_picture || user.picture}
+          src={currentUserMetadata?.profile_picture || user.picture}
           height={1}
           width={1}
           layout="responsive"
