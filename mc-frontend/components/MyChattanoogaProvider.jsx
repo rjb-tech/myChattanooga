@@ -85,10 +85,10 @@ export const MyChattanoogaProvider = ({ children }) => {
   const [showTopButton, setShowTopButton] = useState(false);
   const [previousFilter, setPreviousFilter] = useState("");
   const [currentUserMetadata, setCurrentUserMetadata] = useState();
-  const [currentUserBrews, setCurrentUserBrews] = useState([]);
+  // const [currentUserBrews, setCurrentUserBrews] = useState([]);
 
   const showFilters = 
-    (currentPage === '/' || currentPage === '/brews') 
+    (currentPage === '/' || currentPage === '/brews')
     && router.query.view !== "create" 
     && pageContent.length > 0
 
@@ -177,15 +177,15 @@ export const MyChattanoogaProvider = ({ children }) => {
   }, []);
 
   // This useEffect block enables the myBrewsJournal component
-  useEffect(() => {
-    if (isAuthenticated === true) {
-      axios
-      .get(
-        `/api/brews?publishers=${currentUserMetadata.publisher}`
-      )
-      .then(response => setCurrentUserBrews(response.data))
-    }
-  }, [currentUserMetadata])
+  // useEffect(() => {
+  //   if (isAuthenticated === true) {
+  //     axios
+  //     .get(
+  //       `/api/brews?publishers=${currentUserMetadata.publisher}`
+  //     )
+  //     .then(response => setCurrentUserBrews(response.data))
+  //   }
+  // }, [currentUserMetadata])
 
   const scrollToTop = () => {
     const element = document.getElementById("content")
@@ -273,7 +273,7 @@ export const MyChattanoogaProvider = ({ children }) => {
               menuExpanded={menuExpanded}
               showFilters={showFilters}
               currentUserMetadata={currentUserMetadata}
-              currentUserBrews={currentUserBrews}
+              // currentUserBrews={currentUserBrews}
             />
           </motion.div>
         </header>
@@ -314,7 +314,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                   showFilters={showFilters}
                   toggleMobileUserPanel={toggleMobileUserPanel}
                   currentUserMetadata={currentUserMetadata}
-                  currentUserBrews={currentUserBrews}
+                  // currentUserBrews={currentUserBrews}
                 />
               </div>
               <div className="w-full md:w-10/12">

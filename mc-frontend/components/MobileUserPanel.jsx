@@ -36,11 +36,11 @@ export const MobileUserPanel = ({
   menuExpanded,
   showFilters,
   currentUserMetadata,
-  currentUserBrews,
+  // currentUserBrews,
 }) => {  
   const router = useRouter()
   const iconColor = isDark===true ? '#FFF' : "#222"
-  const thereAreBrews = currentUserBrews.length > 0
+  // const thereAreBrews = currentUserBrews.length > 0
 
   const { loginWithRedirect, user, isAuthenticated, isLoading } = useAuth0();
   const isAdmin = user?.email === "admin@mychattanooga.app"
@@ -147,7 +147,7 @@ export const MobileUserPanel = ({
           auxPanelExpanded={auxPanelExpanded}
           toggleMobileUserPanel={toggleMobileUserPanel}
           currentUserMetadata={currentUserMetadata}
-          currentUserBrews={currentUserBrews}
+          // currentUserBrews={currentUserBrews}
         />
       </motion.div>      
     </div>

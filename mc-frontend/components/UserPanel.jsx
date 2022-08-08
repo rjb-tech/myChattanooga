@@ -32,11 +32,11 @@ export const UserPanel = ({
   showFilters,
   toggleMobileUserPanel,
   currentUserMetadata,
-  currentUserBrews,
+  // currentUserBrews,
  }) => {
   const iconColor = isDark===true ? '#FFF' : '#222'
   const darkModeIcon = isDark===true ? faSun : faMoon
-  const thereAreBrews = currentUserBrews.length > 0
+  // const thereAreBrews = currentUserBrews.length > 0
 
   const { loginWithRedirect, user, isAuthenticated, isLoading } = useAuth0();
   function handleAuxPanel(incomingSection) {

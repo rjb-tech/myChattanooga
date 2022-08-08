@@ -22,14 +22,14 @@ export const MobileAuxillaryPanel = ({
   auxPanelExpanded,
   toggleMobileUserPanel,
   currentUserMetadata,
-  currentUserBrews
+  // currentUserBrews
 }) => {
   const sections = {
     "filters": <FiltersPanel filterOptions={filterOptions} filterApplied={filterApplied} setFilterApplied={setFilterApplied} previousFilter={previousFilter} setPreviousFilter={setPreviousFilter} />,
     "settings": <SettingsPanel isDark={isDark} />,
     "create_brews": <CreateBrews toggleMobileUserPanel={toggleMobileUserPanel} isDark={isDark} currentUserMetadata={currentUserMetadata} />,
     "account": <AccountPanel isDark={isDark} currentUserMetadata={currentUserMetadata} />,
-    "my_brews": <MyBrewsJournal brews={currentUserBrews} isDark={isDark} />
+    "my_brews": <MyBrewsJournal /*brews={currentUserBrews}*/ isDark={isDark} />
   }
   
   const sectionToRender = sections[`${section}`];

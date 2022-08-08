@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPencil, faTrash, faSpinner } from "@fortawesome/free-solid-svg-icons"
+import { faTrash, faSpinner } from "@fortawesome/free-solid-svg-icons"
 import { useAuth0 } from "@auth0/auth0-react"
 import { motion } from "framer-motion"
 import { useState } from "react"
