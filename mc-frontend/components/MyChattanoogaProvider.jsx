@@ -319,6 +319,7 @@ export const MyChattanoogaProvider = ({ children }) => {
               </div>
               <div className="w-full md:w-10/12">
                 {cloneElement(children, {
+                  isDark: isDark,
                   filterApplied: filterApplied,
                   pageContent: pageContent,
                   setPageContent: setPageContent,
@@ -326,6 +327,7 @@ export const MyChattanoogaProvider = ({ children }) => {
                   setCurrentPage: setCurrentPage,
                   contentLoading: contentLoading,
                   setContentLoading: setContentLoading,
+                  currentUserMetadata: currentUserMetadata,
                   setCurrentUserMetadata: setCurrentUserMetadata
                 })}
               </div>

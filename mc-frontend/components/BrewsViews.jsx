@@ -9,11 +9,13 @@ const loadingVariants = {
 }
 
 export const BrewsViews = ({
+  isDark,
   setPageContent,
   pageContent,
   contentLoading,
   setContentLoading,
-  filterApplied
+  filterApplied,
+  currentUserMetadata
 }) => {
 
   var headerString = "";
@@ -22,6 +24,8 @@ export const BrewsViews = ({
   } else {
     headerString = filterApplied + " Releases";
   }
+
+  const iconColor = '#fff'
 
   const headerClassString = contentLoading === true 
     ? "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#FFF] animate-pulse" 
@@ -65,15 +69,19 @@ export const BrewsViews = ({
               : story
           )
           .map((release) => {
+            const shouldShowDeleted = currentUserMetadata?.publisher === release.publisher
             return (
               <div className="py-2 sm:px-2" key={release.headline}>
                 <BrewsRelease
+                  releaseId={release.id}
+                  iconColor={iconColor}
                   publisher={release.publisher}
                   headline={release.headline}
                   datePosted={release.date_posted}
                   image={release.image_url}
                   fb={release.facebook_profile}
                   ig={release.instagram_profile}
+                  showDelete={shouldShowDeleted}
                 />
               </div>
             )

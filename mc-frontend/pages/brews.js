@@ -4,6 +4,7 @@ import { BrewsViews } from "../components/BrewsViews";
 import { CreateBrews } from "../components/CreateBrews";
 
 export default function Brews({
+  isDark,
   filterApplied,
   pageContent,
   setPageContent,
@@ -11,6 +12,7 @@ export default function Brews({
   setCurrentPage,
   contentLoading,
   setContentLoading,
+  currentUserMetadata,
   setCurrentUserMetadata,
 }) {
   useEffect(() => {
@@ -29,21 +31,25 @@ export default function Brews({
     <div className="dark:text-white mx-auto w-full">
       {publicBrews && (
         <BrewsViews
+          isDark={isDark}
           setPageContent={setPageContent}
           pageContent={pageContent}
           contentLoading={contentLoading}
           setContentLoading={setContentLoading}
           filterApplied={filterApplied}
+          currentUserMetadata={currentUserMetadata}
         />
       )}
       {/* This gives me a refresh state to use after submitting a brews release and prevents page flashing */}
       {refreshedBrews && (
         <BrewsViews
+          isDark={isDark}
           setPageContent={setPageContent}
           pageContent={pageContent}
           contentLoading={contentLoading}
           setContentLoading={setContentLoading}
           filterApplied={filterApplied}
+          currentUserMetadata={currentUserMetadata}
         />
       )}
       {create && <CreateBrews />}

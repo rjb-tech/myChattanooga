@@ -19,9 +19,33 @@ export const MyBrewsJournal = ({ brews, isDark }) => {
     setDeletingRelease(true)
     axios
       .patch(
-        '/api/brews',
+        '/api/brews?operation=expire',
         {
           id: brewsId
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      )
+      .then(response => {
+        setDeletingRelease(false)
+        setIdBeingDeleted()
+      })
+      .catch(error => setPatchError(true))
+  }
+
+  const editBrew = async (brewsId, headline) => {
+    const token = await getAccessTokenSilently();
+    setIdBeingDeleted(brewsId)
+    setDeletingRelease(true)
+    axios
+      .patch(
+        '/api/brews?operation=edit',
+        {
+          id: brewsId,
+          newHeadline: headline
         },
         {
           headers: {
@@ -54,13 +78,13 @@ export const MyBrewsJournal = ({ brews, isDark }) => {
                 {`${release.headline}`}
               </div>
               <div className="flex-auto w-2/6 flex justify-between">
-                <motion.button 
+                {/* <motion.button 
                   whileTap={{ scale: 0.85 }} 
                   className='flex-auto bg-[#FFF] dark:bg-[#222] w-1/3 rounded-full z-10'
                   // onClick={() => {handleAuxPanel("account")}}
                 >
                   <FontAwesomeIcon className='flex-auto w-5/12 mx-auto' icon={faPencil}/>
-                </motion.button>
+                </motion.button> */}
                 <motion.button 
                   whileTap={{ scale: 0.85 }} 
                   className='flex-auto bg-[#FFF] dark:bg-[#222] w-1/3 rounded-full z-10'
@@ -68,8 +92,8 @@ export const MyBrewsJournal = ({ brews, isDark }) => {
                 >
                   {
                     idBeingDeleted===release.id && deletingRelease === true
-                      ? <FontAwesomeIcon className='h-3/4 w-3/4 mx-auto animate-spin' icon={faSpinner} style={{color: `${iconColor}`}} />
-                      : <FontAwesomeIcon className='flex-auto w-4/12 mx-auto' icon={faTrash} style={{color: `${iconColor}`}} />
+                      ? <FontAwesomeIcon className='flex-auto w-1/3 mx-auto animate-spin' icon={faSpinner} style={{color: `${iconColor}`}} />
+                      : <FontAwesomeIcon className='flex-auto w-2/4 mx-auto' icon={faTrash} style={{color: `${iconColor}`}} />
                   }
                 </motion.button>
               </div>
