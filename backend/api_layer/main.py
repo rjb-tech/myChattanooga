@@ -222,8 +222,7 @@ async def expire_brews_release(
             query = update(table).where(table.c.id == id).values(expired=True)
             await database.get_db_obj().execute(query)
 
-        response.status_code = status.HTTP_204_NO_CONTENT
-        return {"status": "Not refilled"}
+        return {"status": "deleted"}
 
     query_results = await get_query_results(expire_brew)
     return query_results
