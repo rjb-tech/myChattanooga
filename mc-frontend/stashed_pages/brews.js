@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import { BrewsViews } from "../components/BrewsViews";
 import { CreateBrews } from "../components/CreateBrews";
 
+// MOVE THIS BACK TO THE PAGES DIRECTORY WHEN/IF IT IS EVER USED
+
 export default function Brews({
   isDark,
   filterApplied,
