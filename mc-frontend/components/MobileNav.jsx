@@ -33,7 +33,7 @@ export const MobileNav = ({
           />
             <Socials />
           </div>
-          <div className='h-12 w-full p-1 flex items-center'>
+          {/* <div className='h-12 w-full p-1 flex items-center'>
             <Link href='/brews'>
               <a>
                 <button className='w-screen h-5/6' onClick={() => {setMenuExpanded(false); 
@@ -43,7 +43,7 @@ export const MobileNav = ({
                 </button>
               </a>
             </Link>
-          </div>
+          </div> */}
           <div className='h-12 w-full p-1 flex items-center'>
             <Link href='/'>
               <a>
