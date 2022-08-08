@@ -11,7 +11,6 @@ export const MyBrewsJournal = ({ brews, isDark }) => {
   const [patchError, setPatchError] = useState(false);
   const [deletingRelease, setDeletingRelease] = useState(false);
   const [idBeingDeleted, setIdBeingDeleted] = useState();
-
   const iconColor = isDark === true ? '#FFF' : '#222'
 
   const expireBrew = async (brewsId) => {
