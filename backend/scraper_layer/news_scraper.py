@@ -608,7 +608,9 @@ def scrape_chattanoogan(url, date, session, category=None):
     # publisher name to be returned and used for sorting on website and newsletter
     publisher = "Chattanoogan"
     # image link for chattanoogan articles
-    chattanoogan_logo = "https://res-1.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_170,w_170,f_auto,b_white,q_auto:eco/v1419646557/tkf8rnu2zxzn3l1nyd2h.png"
+    chattanoogan_logo = (
+        "https://mychattanooga-files.nyc3.digitaloceanspaces.com/chattanoogan_logo.webp"
+    )
 
     # try statement to account for the website being down
     try:
@@ -2186,7 +2188,7 @@ def scrape_local_three(url, date):
     except:
         # saving this just in case
         # current_image_link = "https://pbs.twimg.com/profile_banners/25735151/1642103542/1500x500"
-        current_image_link = "https://pbs.twimg.com/profile_images/1481715996469735425/bKvaJx6s_400x400.jpg"
+        current_image_link = "https://mychattanooga-files.nyc3.digitaloceanspaces.com/local_three_logo.jpeg"
 
     # Reformat date
     current_date_posted = (
@@ -2239,9 +2241,13 @@ def scrape_local_three(url, date):
                 links["local_three"]["base"]
                 + current_article.find("a", class_="tnt-asset-link")["href"]
             )
-            current_datetime = current_article.find("time", class_="tnt-date")[
-                "datetime"
-            ]
+            # Break scraping loop when a story without a datetime is found
+            try:
+                current_datetime = current_article.find("time", class_="tnt-date")[
+                    "datetime"
+                ]
+            except TypeError:
+                break
             current_date_posted = current_datetime[:10]
             current_time_posted = current_datetime[11:16]
             # The image srcset has a ton of different sizes, so let's grab the link to the biggest and see if that scales right
@@ -3173,8 +3179,8 @@ async def scrape_news():
     logging.info("articles file saved")
 
     # Status logs
-    logging.info(str(len(articles_to_save)) + " relevant articles currently saved")
-    logging.info(str(len(articles)) + " of those are newly found")
+    # logging.info(str(len(articles_to_save)) + " relevant articles currently saved")
+    # logging.info(str(len(articles)) + " of those are newly found")
     # print("\n-- " + str(len(articles_to_save)) + " relevant articles currently saved --")
     # print("-- " + str(len(articles)) + " of those are newly found --\n")
 

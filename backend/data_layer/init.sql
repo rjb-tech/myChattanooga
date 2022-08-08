@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE articles 
                     (
                         id          SERIAL  PRIMARY KEY,
@@ -38,10 +40,12 @@ CREATE TABLE weather
 
 CREATE TABLE brews
                     (
-                        title           TEXT        PRIMARY KEY     NOT NULL,
-                        body            TEXT                        NOT NULL,
-                        publisher       VARCHAR(256)                NOT NULL,
-                        date_posted     TIMESTAMPTZ                 NOT NULL,
-                        date_approved   TIMESTAMPTZ                 NOT NULL,
-                        expired         BOOLEAN                     NOT NULL
+                        headline            TEXT        PRIMARY KEY        NOT NULL,
+                        id                  uuid        DEFAULT  uuid_generate_v4(),
+                        publisher           VARCHAR(256)                   NOT NULL,
+                        date_posted         TIMESTAMPTZ                    NOT NULL,
+                        expired             BOOLEAN                        NOT NULL,
+                        image_url           TEXT                           NOT NULL,
+                        facebook_profile    TEXT                           NOT NULL,
+                        instagram_profile   TEXT                           NOT NULL
                     );

@@ -7,10 +7,10 @@ facebook-sdk==3.1.0
 pytz==2021.1
 sqlalchemy==1.4.27
 fastapi==0.75.1
-uvicorn==0.18.2
-databases==0.6.0
-# databases[asyncpg]
-asyncpg==0.26.0
-result==0.8.0
+uvicorn[standard]==0.18.2
+databases[asyncpg]==0.6.0
+result==0.7.0
 psycopg2==2.9.3
 black==22.6.0
+pre-commit==2.19.0
+pyjwt[crypto]==2.4.0

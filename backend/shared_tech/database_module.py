@@ -1,4 +1,5 @@
 import os
+from uuid import UUID
 import logging
 from typing import Any, Optional
 import sqlalchemy as sa
@@ -53,15 +54,23 @@ class Stat(BaseModel):
         orm_mode = True
 
 
-class MC_Connection:
-    deployment_environment = os.environ["DEPLOYMENT_ENV"]
-    if deployment_environment == "dev":
-        DATABASE_URL = f"postgresql+asyncpg://{os.environ['POSTGRES_USER']}:{os.environ['POSTGRES_PASSWORD']}@host.docker.internal:5432/{os.environ['POSTGRES_DB']}"
-    elif deployment_environment == "prod":
-        DATABASE_URL = f"postgresql+asyncpg://{os.environ['POSTGRES_USER_PROD']}:{os.environ['POSTGRES_PASSWORD_PROD']}@mychattanooga-prod-do-user-9032420-0.b.db.ondigitalocean.com:25061/mychattanooga-pool-main?sslmode=require"
-    elif deployment_environment == "prod_vpc":
-        DATABASE_URL = f"postgresql+asyncpg://{os.environ['POSTGRES_USER_PROD']}:{os.environ['POSTGRES_PASSWORD_PROD']}@private-mychattanooga-prod-do-user-9032420-0.b.db.ondigitalocean.com:25061/mychattanooga-pool-main?sslmode=require"
+class BrewsRelease(BaseModel):
+    headline: str
+    id: UUID
+    publisher: str
+    date_posted: datetime
+    expired: bool
+    image_url: str
+    facebook_profile: str
+    instagram_profile: str
 
+    class Config:
+        orm_mode = True
+        arbitrary_types_allowed = True
+
+
+class MC_Connection:
+    DATABASE_URL = os.environ["DATABASE_URL"]
     db_obj = None
     db_connected = False
     local_metadata = sa.MetaData()
@@ -107,6 +116,19 @@ class MC_Connection:
         sa.Column("sunset", sa.Integer),
         sa.Column("wind_speed", sa.Integer),
         sa.Column("wind_direction", sa.Integer),
+    )
+
+    tables["brews_table"] = sa.Table(
+        "brews",
+        local_metadata,
+        sa.Column("headline", sa.Text, primary_key=True),
+        sa.Column("id", sa.dialects.postgresql.UUID(as_uuid=True)),
+        sa.Column("publisher", sa.String(256)),
+        sa.Column("date_posted", sa.TIMESTAMP),
+        sa.Column("expired", sa.Boolean),
+        sa.Column("image_url", sa.Text),
+        sa.Column("facebook_profile", sa.Text),
+        sa.Column("instagram_profile", sa.Text),
     )
 
     # Constructor
