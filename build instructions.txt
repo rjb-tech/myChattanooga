@@ -1,2 +1,5 @@
-docker build --target api_server_prod -t registry.digitalocean.com/mychattanooga-shipyard/mychattanooga_api_server:latest .
-docker push registry.digitalocean.com/mychattanooga-shipyard/mychattanooga_api_server:latest
+docker build --target api_server_prod -t registry.digitalocean.com/mychattanooga-shipyard/mychattanooga_api_server:1.x .
+docker push registry.digitalocean.com/mychattanooga-shipyard/mychattanooga_api_server:1.x
+
+docker build --target api_server_prod -t registry.digitalocean.com/mychattanooga-shipyard/mychattanooga_scraper:1.x .
+docker push registry.digitalocean.com/mychattanooga-shipyard/mychattanooga_scraper:1.x
