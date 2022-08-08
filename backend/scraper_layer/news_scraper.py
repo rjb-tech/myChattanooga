@@ -3179,8 +3179,8 @@ async def scrape_news():
     logging.info("articles file saved")
 
     # Status logs
-    logging.info(str(len(articles_to_save)) + " relevant articles currently saved")
-    logging.info(str(len(articles)) + " of those are newly found")
+    # logging.info(str(len(articles_to_save)) + " relevant articles currently saved")
+    # logging.info(str(len(articles)) + " of those are newly found")
     # print("\n-- " + str(len(articles_to_save)) + " relevant articles currently saved --")
     # print("-- " + str(len(articles)) + " of those are newly found --\n")
 
