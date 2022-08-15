@@ -14,3 +14,4 @@ psycopg2==2.9.3
 black==22.6.0
 pre-commit==2.19.0
 pyjwt[crypto]==2.4.0
+mypy==0.971
