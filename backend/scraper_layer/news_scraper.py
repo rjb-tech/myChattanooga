@@ -39,7 +39,7 @@ from result import Ok, Err, Result
 from sqlalchemy.sql import exists, or_, select
 
 
-class ArticleEntry(NamedTuple):
+class Article(NamedTuple):
     headline: str
     date_posted: str
     publisher: str
@@ -606,7 +606,7 @@ def get_wdef_article_content(link, session):
 
 def scrape_chattanoogan(
     url: str, date: str, session: requests.session, category: str = None
-) -> Tuple[List[ArticleEntry], Optional[int]]:
+) -> Tuple[List[Article], Optional[int]]:
     # Scraper variables
     approved_articles = []
     total_articles_scraped = 0
@@ -625,11 +625,7 @@ def scrape_chattanoogan(
 
         # Return a status indicating the site is down or can't be reached
         return (
-            [
-                ArticleEntry(
-                    headline="DOWN", publisher=publisher, date_posted=get_date(7)
-                )
-            ],
+            [Article(headline="DOWN", publisher=publisher, date_posted=get_date(7))],
             None,
         )
 
@@ -687,7 +683,7 @@ def scrape_chattanoogan(
 
                     # Add data to approved articles list
                     approved_articles.append(
-                        ArticleEntry(
+                        Article(
                             headline=current_headline,
                             link=current_link,
                             image=chattanoogan_logo,
@@ -711,7 +707,7 @@ def scrape_chattanoogan(
                     ):
                         # Add data to the approved articles list
                         approved_articles.append(
-                            ArticleEntry(
+                            Article(
                                 headline=current_headline,
                                 link=current_link,
                                 image=chattanoogan_logo,
@@ -728,7 +724,7 @@ def scrape_chattanoogan(
                 if is_relevant_chattanoogan(current_headline) and now_or_later == "now":
                     # Add data to approved articles list
                     approved_articles.append(
-                        ArticleEntry(
+                        Article(
                             headline=current_headline,
                             link=current_link,
                             image=chattanoogan_logo,
@@ -746,7 +742,7 @@ def scrape_chattanoogan(
                 if is_relevant_article(current_headline) and now_or_later == "now":
                     # Add data to approved articles list
                     approved_articles.append(
-                        ArticleEntry(
+                        Article(
                             headline=current_headline,
                             link=current_link,
                             image=chattanoogan_logo,
