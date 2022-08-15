@@ -1395,7 +1395,9 @@ def scrape_nooga_today_breaking_political(url, date, category):
     try:
         current_image_link = current_article.find("img")["src"]
     except:
-        current_image_link = "https://noogatoday.6amcity.com/wp-content/uploads/sites/9/2020/03/Untitled-design.png"
+        current_image_link = (
+            "https://mychattanooga-files.nyc3.digitaloceanspaces.com/nooga_today.png"
+        )
     current_date_posted = current_article.find("time")["datetime"][:10]
     current_time_posted = current_article.find("time")["datetime"][11:16]
     current_category = (
@@ -1474,7 +1476,7 @@ def scrape_nooga_today_breaking_political(url, date, category):
         try:
             current_image_link = current_article.find("img")["src"]
         except:
-            current_image_link = "https://noogatoday.6amcity.com/wp-content/uploads/sites/9/2020/03/Untitled-design.png"
+            current_image_link = "https://mychattanooga-files.nyc3.digitaloceanspaces.com/nooga_today.png"
         current_date_posted = current_article.find("time")["datetime"][:10]
         current_time_posted = current_article.find("time")["datetime"][11:16]
         current_category = (
@@ -1607,7 +1609,9 @@ def scrape_nooga_today_non_political(url, date, category):
     try:
         current_image_link = current_article.find("img")["src"]
     except:
-        current_image_link = "https://noogatoday.6amcity.com/wp-content/uploads/sites/9/2020/03/Untitled-design.png"
+        current_image_link = (
+            "https://mychattanooga-files.nyc3.digitaloceanspaces.com/nooga_today.png"
+        )
     current_date_posted = current_article.find("time")["datetime"][:10]
     current_time_posted = current_article.find("time")["datetime"][11:16]
     current_category = (
@@ -1724,7 +1728,7 @@ def scrape_nooga_today_non_political(url, date, category):
         try:
             current_image_link = current_article.find("img")["src"]
         except:
-            current_image_link = "https://noogatoday.6amcity.com/wp-content/uploads/sites/9/2020/03/Untitled-design.png"
+            current_image_link = "https://mychattanooga-files.nyc3.digitaloceanspaces.com/nooga_today.png"
         current_date_posted = current_article.find("time")["datetime"][:10]
         current_time_posted = current_article.find("time")["datetime"][11:16]
         current_category = (
@@ -2030,9 +2034,7 @@ def scrape_chattanooga_news_chronicle(url, date):
     try:
         current_image_link = current_article.find("img")["src"]
     except:
-        current_image_link = (
-            "http://www.chattanooga-blackpages.com/images/ChatChronicle001.jpg"
-        )
+        current_image_link = "https://mychattanooga-files.nyc3.digitaloceanspaces.com/news_chronicle_logo.jpeg"
     current_datetime = current_article.find("time", class_="published")["datetime"]
     current_date_posted = current_datetime[:10].strip()
     current_time_posted = current_datetime[11:16]
@@ -2087,9 +2089,7 @@ def scrape_chattanooga_news_chronicle(url, date):
             try:
                 current_image_link = current_article.find("img")["src"]
             except:
-                current_image_link = (
-                    "http://www.chattanooga-blackpages.com/images/ChatChronicle001.jpg"
-                )
+                current_image_link = "https://mychattanooga-files.nyc3.digitaloceanspaces.com/news_chronicle_logo.jpeg"
             current_datetime = current_article.find("time", class_="published")[
                 "datetime"
             ]
@@ -2256,7 +2256,7 @@ def scrape_local_three(url, date):
             except:
                 # saving this just in case
                 # current_image_link = "https://pbs.twimg.com/profile_banners/25735151/1642103542/1500x500"
-                current_image_link = "https://pbs.twimg.com/profile_images/1481715996469735425/bKvaJx6s_400x400.jpg"
+                current_image_link = "https://mychattanooga-files.nyc3.digitaloceanspaces.com/local_three_logo.jpeg"
 
             # Reformat date
             current_date_posted = (
