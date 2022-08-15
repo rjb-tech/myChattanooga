@@ -1003,14 +1003,12 @@ def scrape_fox_chattanooga(
     return approved_articles, total_articles_scraped
 
 
-def scrape_wdef(url, date, session):
-    # List to return at the end of the function
-    approved_articles = list()
-
-    # Variables for news analytics
+def scrape_wdef(
+    url: str, date: str, session: requests.session
+) -> Tuple[List[ArticleEntry], Optional[int]]:
+    # Scraper variables
+    approved_articles = []
     total_articles_scraped = 0
-
-    # Publisher to be added to temp list
     publisher = "WDEF News 12"
 
     try:
@@ -1022,7 +1020,7 @@ def scrape_wdef(url, date, session):
 
         # Return a list indicating that website is down or can't be reached
         return [
-            {"headline": "DOWN", "publisher": publisher, "date_posted": get_date(7)}
+            ArticleEntry(headline="DOWN", publisher=publisher, date_posted=get_date(7)),
         ], None
 
     # Main content section
@@ -1048,16 +1046,15 @@ def scrape_wdef(url, date, session):
         # Append article to temp list and approved articles if the news is from chattanooga
         if is_relevant_article(current_headline):
 
-            # Append to approved_articles
             approved_articles.append(
-                {
-                    "headline": current_headline,
-                    "link": current_link,
-                    "image": current_image_link,
-                    "date_posted": get_date(7),
-                    "time_posted": current_time_posted,
-                    "publisher": publisher,
-                }
+                ArticleEntry(
+                    headline=current_headline,
+                    link=current_link,
+                    image=current_image_link,
+                    date_posted=get_date(7),
+                    time_posted=current_time_posted,
+                    publisher=publisher,
+                )
             )
 
         # Sometimes articles are tagged chattanooga in the actual article but not the td-excerpt
@@ -1095,16 +1092,15 @@ def scrape_wdef(url, date, session):
 
             if is_relevant_article(current_headline):
 
-                # Append to approved_articles
                 approved_articles.append(
-                    {
-                        "headline": current_headline,
-                        "link": current_link,
-                        "image": current_image_link,
-                        "date_posted": get_date(7),
-                        "time_posted": current_time_posted,
-                        "publisher": publisher,
-                    }
+                    ArticleEntry(
+                        headline=current_headline,
+                        link=current_link,
+                        image=current_image_link,
+                        date_posted=get_date(7),
+                        time_posted=current_time_posted,
+                        publisher=publisher,
+                    )
                 )
 
             # Sometimes articles are tagged chattanooga in the actual article but not the td-excerpt
@@ -1112,16 +1108,15 @@ def scrape_wdef(url, date, session):
             else:
 
                 if is_relevant_article(current_article_body):
-                    # Append to approved_articles
                     approved_articles.append(
-                        {
-                            "headline": current_headline,
-                            "link": current_link,
-                            "image": current_image_link,
-                            "date_posted": get_date(7),
-                            "time_posted": current_time_posted,
-                            "publisher": publisher,
-                        }
+                        ArticleEntry(
+                            headline=current_headline,
+                            link=current_link,
+                            image=current_image_link,
+                            date_posted=get_date(7),
+                            time_posted=current_time_posted,
+                            publisher=publisher,
+                        )
                     )
 
         else:
@@ -1132,18 +1127,13 @@ def scrape_wdef(url, date, session):
     return approved_articles, total_articles_scraped
 
 
-def scrape_times_free_press(url, date, session):
-    # Approved articles list and temp_list for scraping
-    # temp_list = list()
-    approved_articles = list()
-
-    # Variable for use in scraping
+def scrape_times_free_press(
+    url: str, date: str, session: requests.session
+) -> Tuple[List[ArticleEntry], Optional[int]]:
+    # Scraper variables
+    approved_articles = []
     total_articles_scraped = 0
-
-    # Variable for use in scraping
     current_time_posted = None
-
-    # Publisher tag for temp_list
     publisher = "Times Free Press"
 
     # Output file for writing TFP article post times
@@ -1155,7 +1145,7 @@ def scrape_times_free_press(url, date, session):
     )
     # times_file = open(times_file_name, 'a')
 
-    os.system("touch " + times_file_name)
+    os.system(f"touch {times_file_name}")
 
     try:
 
@@ -1167,7 +1157,7 @@ def scrape_times_free_press(url, date, session):
 
         # Return a list indicating that site can't be reached
         return [
-            {"headline": "DOWN", "publisher": publisher, "date_posted": get_date(7)}
+            ArticleEntry(headline="DOWN", publisher=publisher, date_posted=get_date(7)),
         ], None
 
     # Main content section
@@ -1261,16 +1251,15 @@ def scrape_times_free_press(url, date, session):
                         current_time_posted.strip(), "%H:%M"
                     ).strftime("%H:%M")
 
-                # Append to approved_articles
                 approved_articles.append(
-                    {
-                        "headline": current_headline,
-                        "link": links["times_free_press"]["base"] + current_link,
-                        "image": current_image_link,
-                        "date_posted": get_date(7),
-                        "time_posted": current_time_posted,
-                        "publisher": publisher,
-                    }
+                    ArticleEntry(
+                        headline=current_headline,
+                        link=links["times_free_press"]["base"] + current_link,
+                        image=current_image_link,
+                        date_posted=get_date(7),
+                        time_posted=current_time_posted,
+                        publisher=publisher,
+                    )
                 )
 
             # Break out of the loop if an article not from today is found
