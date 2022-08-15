@@ -21,6 +21,7 @@ import logging
 import requests
 import facebook
 import sqlalchemy
+from typing import Dict, Optional, Tuple, List, NamedTuple
 from pytz import timezone
 from databases import Database
 from sqlite3 import Cursor, Error
@@ -37,7 +38,15 @@ from result import Ok, Err, Result
 # from sqlalchemy import exists
 from sqlalchemy.sql import exists, or_, select
 
-# from sqlalchemy.sql.expression import exists
+
+class ArticleEntry(NamedTuple):
+    headline: str
+    date_posted: str
+    publisher: str
+    link: Optional[str] = None
+    image: Optional[str] = None
+    time_posted: Optional[str] = None
+
 
 # Configure logger
 logging.basicConfig(
@@ -595,19 +604,13 @@ def get_wdef_article_content(link, session):
     return string_to_return
 
 
-# Each scrape function will output a dictionary of articles with included timestamp
-# Category will only be used for breaking/political articles
-def scrape_chattanoogan(url, date, session, category=None):
-    # This list will hold all the objects to be output
-    # Each object will contain a link, a headline, and a date/time
-    approved_articles = list()
-
-    # This variable will be used to count how many total articles are found and scraped
+def scrape_chattanoogan(
+    url: str, date: str, session: requests.session, category: str = None
+) -> Tuple[List[ArticleEntry], Optional[int]]:
+    # Scraper variables
+    approved_articles = []
     total_articles_scraped = 0
-
-    # publisher name to be returned and used for sorting on website and newsletter
     publisher = "Chattanoogan"
-    # image link for chattanoogan articles
     chattanoogan_logo = (
         "https://mychattanooga-files.nyc3.digitaloceanspaces.com/chattanoogan_logo.webp"
     )
@@ -620,10 +623,15 @@ def scrape_chattanoogan(url, date, session, category=None):
 
     except:
 
-        # Return a dictionary that indicated the website is down or can't be reached
-        return [
-            {"headline": "DOWN", "publisher": publisher, "date_posted": get_date(7)}
-        ], None
+        # Return a status indicating the site is down or can't be reached
+        return (
+            [
+                ArticleEntry(
+                    headline="DOWN", publisher=publisher, date_posted=get_date(7)
+                )
+            ],
+            None,
+        )
 
     # This variable will hold the content table from chattanoogan.com
     content_section = chattanoogan_soup.find("table", class_="list")
@@ -679,14 +687,14 @@ def scrape_chattanoogan(url, date, session, category=None):
 
                     # Add data to approved articles list
                     approved_articles.append(
-                        {
-                            "headline": current_headline,
-                            "link": current_link,
-                            "image": chattanoogan_logo,
-                            "date_posted": get_date(7),
-                            "time_posted": current_time,
-                            "publisher": publisher,
-                        }
+                        ArticleEntry(
+                            headline=current_headline,
+                            link=current_link,
+                            image=chattanoogan_logo,
+                            date_posted=get_date(7),
+                            time_posted=current_time,
+                            publisher=publisher,
+                        )
                     )
 
                 else:
@@ -703,14 +711,14 @@ def scrape_chattanoogan(url, date, session, category=None):
                     ):
                         # Add data to the approved articles list
                         approved_articles.append(
-                            {
-                                "headline": current_headline,
-                                "link": current_link,
-                                "image": chattanoogan_logo,
-                                "date_posted": get_date(7),
-                                "time_posted": current_time,
-                                "publisher": publisher,
-                            }
+                            ArticleEntry(
+                                headline=current_headline,
+                                link=current_link,
+                                image=chattanoogan_logo,
+                                date_posted=get_date(7),
+                                time_posted=current_time,
+                                publisher=publisher,
+                            )
                         )
 
             # Append to temp_list and approved_articles if the article is for the non-political section
@@ -720,14 +728,14 @@ def scrape_chattanoogan(url, date, session, category=None):
                 if is_relevant_chattanoogan(current_headline) and now_or_later == "now":
                     # Add data to approved articles list
                     approved_articles.append(
-                        {
-                            "headline": current_headline,
-                            "link": current_link,
-                            "image": chattanoogan_logo,
-                            "date_posted": get_date(7),
-                            "time_posted": current_time,
-                            "publisher": publisher,
-                        }
+                        ArticleEntry(
+                            headline=current_headline,
+                            link=current_link,
+                            image=chattanoogan_logo,
+                            date_posted=get_date(7),
+                            time_posted=current_time,
+                            publisher=publisher,
+                        )
                     )
 
             # This last if statement is for business articles
@@ -738,14 +746,14 @@ def scrape_chattanoogan(url, date, session, category=None):
                 if is_relevant_article(current_headline) and now_or_later == "now":
                     # Add data to approved articles list
                     approved_articles.append(
-                        {
-                            "headline": current_headline,
-                            "link": current_link,
-                            "image": chattanoogan_logo,
-                            "date_posted": get_date(7),
-                            "time_posted": current_time,
-                            "publisher": publisher,
-                        }
+                        ArticleEntry(
+                            headline=current_headline,
+                            link=current_link,
+                            image=chattanoogan_logo,
+                            date_posted=get_date(7),
+                            time_posted=current_time,
+                            publisher=publisher,
+                        )
                     )
 
         elif current_date != date and story > 0:
