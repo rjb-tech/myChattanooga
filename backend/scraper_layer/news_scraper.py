@@ -2004,10 +2004,6 @@ def scrape_chattanooga_news_chronicle(url, date):
         # Open the page and load the source into a soup object
         headless_browser.get(url)
 
-        browser_wait = WebDriverWait(headless_browser, 15).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "article-container"))
-        )
-
         chronicle_soup = bs(headless_browser.page_source, "lxml")
         content_section = chronicle_soup.find("div", class_="article-container")
 
