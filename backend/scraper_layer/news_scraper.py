@@ -21,7 +21,7 @@ import logging
 import requests
 import facebook
 import sqlalchemy
-from typing import Dict, Optional, Tuple, List, NamedTuple
+from typing import Any, Dict, Optional, Tuple, List, NamedTuple
 from pytz import timezone
 from databases import Database
 from sqlite3 import Cursor, Error
@@ -39,7 +39,7 @@ from result import Ok, Err, Result
 from sqlalchemy.sql import exists, or_, select
 
 
-class Article(NamedTuple):
+class ArticleEntry(NamedTuple):
     headline: str
     date_posted: str
     publisher: str
@@ -606,7 +606,7 @@ def get_wdef_article_content(link, session):
 
 def scrape_chattanoogan(
     url: str, date: str, session: requests.session, category: str = None
-) -> Tuple[List[Article], Optional[int]]:
+) -> Tuple[List[ArticleEntry], Optional[int]]:
     # Scraper variables
     approved_articles = []
     total_articles_scraped = 0
@@ -625,7 +625,11 @@ def scrape_chattanoogan(
 
         # Return a status indicating the site is down or can't be reached
         return (
-            [Article(headline="DOWN", publisher=publisher, date_posted=get_date(7))],
+            [
+                ArticleEntry(
+                    headline="DOWN", publisher=publisher, date_posted=get_date(7)
+                )
+            ],
             None,
         )
 
@@ -683,7 +687,7 @@ def scrape_chattanoogan(
 
                     # Add data to approved articles list
                     approved_articles.append(
-                        Article(
+                        ArticleEntry(
                             headline=current_headline,
                             link=current_link,
                             image=chattanoogan_logo,
@@ -707,7 +711,7 @@ def scrape_chattanoogan(
                     ):
                         # Add data to the approved articles list
                         approved_articles.append(
-                            Article(
+                            ArticleEntry(
                                 headline=current_headline,
                                 link=current_link,
                                 image=chattanoogan_logo,
@@ -724,7 +728,7 @@ def scrape_chattanoogan(
                 if is_relevant_chattanoogan(current_headline) and now_or_later == "now":
                     # Add data to approved articles list
                     approved_articles.append(
-                        Article(
+                        ArticleEntry(
                             headline=current_headline,
                             link=current_link,
                             image=chattanoogan_logo,
@@ -742,7 +746,7 @@ def scrape_chattanoogan(
                 if is_relevant_article(current_headline) and now_or_later == "now":
                     # Add data to approved articles list
                     approved_articles.append(
-                        Article(
+                        ArticleEntry(
                             headline=current_headline,
                             link=current_link,
                             image=chattanoogan_logo,
@@ -761,16 +765,14 @@ def scrape_chattanoogan(
     return approved_articles, total_articles_scraped
 
 
-def scrape_fox_chattanooga(url, date):
-    # This list will hold boolean values to determine if articles
-    # are about Chattanooga or Hamilton County
-    approved_articles = list()
-    all_local_stories = list()
+def scrape_fox_chattanooga(
+    url: str, date: str
+) -> Tuple[List[ArticleEntry], Optional[int]]:
 
-    # Thsi variables will count how many articles in total are analyzed each time the script is runned
+    # Scraper variables
+    approved_articles: List[Any] = []
+    all_local_stories: List[Any] = []
     total_articles_scraped = 0
-
-    # Publisher variable to append to temp list
     publisher = "Fox Chattanooga"
 
     # Load Firefox driver and set headless options
@@ -819,9 +821,14 @@ def scrape_fox_chattanooga(url, date):
         # quit the browser and return a list to indicate the website is down or can't be reached
         headless_browser.quit()
 
-        return [
-            {"headline": "DOWN", "publisher": publisher, "date_posted": get_date(7)}
-        ], None
+        return (
+            [
+                ArticleEntry(
+                    headline="DOWN", publisher=publisher, date_posted=get_date(7)
+                )
+            ],
+            None,
+        )
 
     # Priming read before the main scraping loop
     # The a tags hold most of the info needed
@@ -832,7 +839,7 @@ def scrape_fox_chattanooga(url, date):
     # Find the image div for the premiere article on news channel nine local news
     # The alt for these images follows a scheme everytime
     current_image_div = current_article.find(
-        "div", alt="Image for story: " + current_headline
+        "div", alt=f"Image for story: {current_headline}"
     )
 
     # This extracts the image link used for the article
@@ -842,17 +849,14 @@ def scrape_fox_chattanooga(url, date):
         current_image_div["style"].replace('url("', "").replace('");', "").split()[1]
     )
 
-    # temp list for holding values before they are appended to all_local_stories
-    temp_list = list()
-
     # Add all needed info to temp_list if the story is from news/local or news/coronavirus
     if is_relevant_article(current_headline):
         # add data to all_local_stories
         all_local_stories.append(
             {
                 "headline": current_headline,
-                "link": "https://foxchattanooga.com" + current_link,
-                "image": "https://foxchattanooga.com" + current_image_link,
+                "link": f"https://foxchattanooga.com{current_link}",
+                "image": f"https://foxchattanooga.com{current_image_link}",
             }
         )
 
@@ -869,7 +873,7 @@ def scrape_fox_chattanooga(url, date):
         # Find the image div for the premiere article on news channel nine local news
         # The alt for these images follows the same scheme
         current_image_div = current_article.find(
-            "div", alt="Image for story: " + current_headline
+            "div", alt=f"Image for story: {current_headline}"
         )
 
         # This extracts the image link used for the article
@@ -888,8 +892,8 @@ def scrape_fox_chattanooga(url, date):
             all_local_stories.append(
                 {
                     "headline": current_headline,
-                    "link": "https://foxchattanooga.com" + current_link,
-                    "image": "https://foxchattanooga.com" + current_image_link,
+                    "link": f"https://foxchattanooga.com{current_link}",
+                    "image": f"https://foxchattanooga.com{current_image_link}",
                 }
             )
 
@@ -947,22 +951,20 @@ def scrape_fox_chattanooga(url, date):
 
                 if is_relevant_article(current_headline, current_dateline.text):
 
-                    # Append to approved_articles
                     approved_articles.append(
-                        {
-                            "headline": story["headline"],
-                            "link": story["link"],
-                            "image": story["image"],
-                            "date_posted": get_date(7),
-                            "time_posted": current_time_posted,
-                            "publisher": publisher,
-                        }
+                        ArticleEntry(
+                            headline=story["headline"],
+                            link=story["link"],
+                            image=story["image"],
+                            date_posted=get_date(7),
+                            time_posted=current_time_posted,
+                            publisher=publisher,
+                        )
                     )
 
                 else:
 
                     # Break out of the loop if an article isn't from today
-                    # This is commented out for now because News Channel 9 uses universal time clock which messes everything up after like 7pm
                     break
 
         else:
@@ -977,16 +979,15 @@ def scrape_fox_chattanooga(url, date):
 
                 if is_relevant_article(current_headline):
 
-                    # Append to approved_articles
                     approved_articles.append(
-                        {
-                            "headline": story["headline"],
-                            "link": story["link"],
-                            "image": story["image"],
-                            "date_posted": get_date(7),
-                            "time_posted": current_time_posted,
-                            "publisher": publisher,
-                        }
+                        ArticleEntry(
+                            headline=story["headline"],
+                            link=story["link"],
+                            image=story["image"],
+                            date_posted=get_date(7),
+                            time_posted=current_time_posted,
+                            publisher=publisher,
+                        )
                     )
                 else:
 
