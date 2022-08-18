@@ -2605,7 +2605,7 @@ def tweet_new_articles(article_list: List[ArticleEntry]) -> None:
     logging.info("** New articles tweeted **")
 
 
-def post_to_facebook(article_list):
+def post_to_facebook(article_list: List[ArticleEntry]) -> None:
     articles = article_list.copy()
 
     # make graph object and assign facebook_page_id before looping through new articles
@@ -2618,43 +2618,43 @@ def post_to_facebook(article_list):
     # Refine publisher feature
     for current_article in articles:
         if (
-            current_article["publisher"]
+            current_article.publisher
             == "Chattanooga Times Free Press (subscription required)"
         ):
             current_publisher = "Times Free Press"
 
         else:
-            current_publisher = current_article["publisher"]
+            current_publisher = current_article.publisher
 
-        current_article["time_posted"] = current_article["time_posted"].strip()
+        current_article.time_posted = current_article.time_postedstrip()
 
         # Reformat time_posted to 12 hour format
-        if int(current_article["time_posted"][:2]) > 12:
+        if int(current_article.time_posted[:2]) > 12:
             current_time_posted = (
-                str(int(current_article["time_posted"][:2]) - 12)
+                str(int(current_article.time_posted[:2]) - 12)
                 + ":"
-                + current_article["time_posted"][-2:]
+                + current_article.time_posted[-2:]
             )
             AM_or_PM = "PM"
 
-        elif int(current_article["time_posted"][:2]) == 0:
-            current_time_posted = "12:" + current_article["time_posted"][-2:]
+        elif int(current_article.time_posted[:2]) == 0:
+            current_time_posted = "12:" + current_article.time_posted[-2:]
             AM_or_PM = "AM"
 
-        elif int(current_article["time_posted"][:2]) == 12:
-            current_time_posted = current_article["time_posted"]
+        elif int(current_article.time_posted[:2]) == 12:
+            current_time_posted = current_article.time_posted
             AM_or_PM = "PM"
 
         else:
             # I type cast the string into an int and back to a string to get rid of the leading 0 in the string
             current_time_posted = (
-                str(int(current_article["time_posted"][:2]))
+                str(int(current_article.time_posted[:2]))
                 + ":"
-                + current_article["time_posted"][-2:]
+                + current_article.time_posted[-2:]
             )
             AM_or_PM = "AM"
 
-        post_headline = current_article["headline"]
+        post_headline = current_article.headline
         post_byline = (
             "\n\nPublished by "
             + current_publisher
@@ -2666,12 +2666,12 @@ def post_to_facebook(article_list):
 
         message_to_post = post_headline + post_byline
 
-        if current_article["headline"] != last_headline:
+        if current_article.headline != last_headline:
             graph.put_object(
-                page_id, "feed", message=message_to_post, link=current_article["link"]
+                page_id, "feed", message=message_to_post, link=current_article.link
             )
 
-        last_headline = current_article["headline"]
+        last_headline = current_article.headline
 
     # print("** New articles posted to Facebook **")
     logging.info("** New articles posted to Facebook **")
