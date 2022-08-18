@@ -1821,14 +1821,12 @@ def scrape_nooga_today_non_political(
     return approved_articles, total_articles_scraped
 
 
-def scrape_pulse(url, date, session):
-    # Lists for approved articles and scraping
-    approved_articles = list()
-
-    # Publisher variable
+def scrape_pulse(
+    url: str, date: str, session: requests.session
+) -> Tuple[List[ArticleEntry], Optional[int]]:
+    # Scraper variables
+    approved_articles = []
     publisher = "Chattanooga Pulse"
-
-    # Variable for news analytics
     total_articles_scraped = 0
 
     try:
@@ -1840,7 +1838,7 @@ def scrape_pulse(url, date, session):
 
         # Return a list indicating the website wasn't able to be reached
         return [
-            {"headline": "DOWN", "publisher": publisher, "date_posted": get_date(7)}
+            ArticleEntry(headline="DOWN", publisher=publisher, date_posted=get_date(7))
         ], None
 
     # The pulse pages has a main article that appears differently than the normal articles
@@ -1887,16 +1885,16 @@ def scrape_pulse(url, date, session):
         ).strftime("%H:%M")
 
         if is_relevant_article(current_headline, current_article_content):
-            # Append to approved_articles
+
             approved_articles.append(
-                {
-                    "headline": current_headline,
-                    "link": current_link,
-                    "image": current_image_link,
-                    "date_posted": get_date(7),
-                    "time_posted": current_time_posted,
-                    "publisher": publisher,
-                }
+                ArticleEntry(
+                    headline=current_headline,
+                    link=current_link,
+                    image=current_image_link,
+                    date_posted=get_date(7),
+                    time_posted=current_time_posted,
+                    publisher=publisher,
+                )
             )
 
     else:
@@ -1941,16 +1939,15 @@ def scrape_pulse(url, date, session):
             ).strftime("%H:%M")
 
             if is_relevant_article(current_headline, current_article_content):
-                # Append to approved_articles
                 approved_articles.append(
-                    {
-                        "headline": current_headline,
-                        "link": current_link,
-                        "image": current_image_link,
-                        "date_posted": get_date(7),
-                        "time_posted": current_time_posted,
-                        "publisher": publisher,
-                    }
+                    ArticleEntry(
+                        headline=current_headline,
+                        link=current_link,
+                        image=current_image_link,
+                        date_posted=get_date(7),
+                        time_posted=current_time_posted,
+                        publisher=publisher,
+                    )
                 )
 
         else:
