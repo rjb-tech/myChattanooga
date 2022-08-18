@@ -1335,14 +1335,12 @@ def scrape_times_free_press(
     return approved_articles, total_articles_scraped
 
 
-def scrape_nooga_today_breaking_political(url, date, category):
-    # List for approved articles
-    approved_articles = list()
-
-    # Publisher variable
+def scrape_nooga_today_breaking_political(
+    url: str, date: str, category: str
+) -> Tuple[List[ArticleEntry], Optional[int]]:
+    # Scraper variables
+    approved_articles = []
     publisher = "Nooga Today"
-
-    # Variable for news analytics
     total_articles_scraped = 0
 
     # Load Firefox driver and set headless options
@@ -1375,7 +1373,7 @@ def scrape_nooga_today_breaking_political(url, date, category):
 
         # return a list with a dict inside indicating the website is down or unable to be reached
         return [
-            {"headline": "DOWN", "publisher": publisher, "date_posted": get_date(7)}
+            ArticleEntry(headline="DOWN", publisher=publisher, date_posted=get_date(7)),
         ], None
 
     # Isolate the content section and get the first article listed
@@ -1424,16 +1422,15 @@ def scrape_nooga_today_breaking_political(url, date, category):
         # Append the current article if it is a single category post
         if re.search(",", current_category) == None and current_category == category:
 
-            # Append to approved_articles
             approved_articles.append(
-                {
-                    "headline": current_headline,
-                    "link": current_link,
-                    "image": current_image_link,
-                    "date_posted": get_date(7),
-                    "time_posted": current_time_posted,
-                    "publisher": publisher,
-                }
+                ArticleEntry(
+                    headline=current_headline,
+                    link=current_link,
+                    image=current_image_link,
+                    date_posted=get_date(7),
+                    time_posted=current_time_posted,
+                    publisher=publisher,
+                )
             )
 
         # For the breaking/political scraper, the city category will sometimes have multiple tags
@@ -1444,16 +1441,15 @@ def scrape_nooga_today_breaking_political(url, date, category):
                 if re.search("city, news", current_category) or re.search(
                     "lifestyle, news", current_category
                 ):
-                    # Append to approved_articles
                     approved_articles.append(
-                        {
-                            "headline": current_headline,
-                            "link": current_link,
-                            "image": current_image_link,
-                            "date_posted": get_date(7),
-                            "time_posted": current_time_posted,
-                            "publisher": publisher,
-                        }
+                        ArticleEntry(
+                            headline=current_headline,
+                            link=current_link,
+                            image=current_image_link,
+                            date_posted=get_date(7),
+                            time_posted=current_time_posted,
+                            publisher=publisher,
+                        )
                     )
     else:
 
@@ -1508,16 +1504,15 @@ def scrape_nooga_today_breaking_political(url, date, category):
                 and current_category == category
             ):
 
-                # Append to approved_articles
                 approved_articles.append(
-                    {
-                        "headline": current_headline,
-                        "link": current_link,
-                        "image": current_image_link,
-                        "date_posted": get_date(7),
-                        "time_posted": current_time_posted,
-                        "publisher": publisher,
-                    }
+                    ArticleEntry(
+                        headline=current_headline,
+                        link=current_link,
+                        image=current_image_link,
+                        date_posted=get_date(7),
+                        time_posted=current_time_posted,
+                        publisher=publisher,
+                    )
                 )
 
             # For the breaking/political scraper, the city category will sometimes have multiple tags
@@ -1528,16 +1523,15 @@ def scrape_nooga_today_breaking_political(url, date, category):
                     if re.search("city, news", current_category) or re.search(
                         "lifestyle, news", current_category
                     ):
-                        # Append to approved_articles
                         approved_articles.append(
-                            {
-                                "headline": current_headline,
-                                "link": current_link,
-                                "image": current_image_link,
-                                "date_posted": get_date(7),
-                                "time_posted": current_time_posted,
-                                "publisher": publisher,
-                            }
+                            ArticleEntry(
+                                headline=current_headline,
+                                link=current_link,
+                                image=current_image_link,
+                                date_posted=get_date(7),
+                                time_posted=current_time_posted,
+                                publisher=publisher,
+                            )
                         )
 
         else:
@@ -1550,14 +1544,12 @@ def scrape_nooga_today_breaking_political(url, date, category):
     return approved_articles, total_articles_scraped
 
 
-def scrape_nooga_today_non_political(url, date, category):
-    # List for approved articles and a temp list for scraping
-    approved_articles = list()
-
-    # Publisher variable
+def scrape_nooga_today_non_political(
+    url: str, date: str, category: str
+) -> Tuple[List[ArticleEntry], Optional[int]]:
+    # Scraper variables
+    approved_articles = []
     publisher = "Nooga Today"
-
-    # Variable for news analytics
     total_articles_scraped = 0
 
     # Load Firefox driver and set headless options
@@ -1589,7 +1581,7 @@ def scrape_nooga_today_non_political(url, date, category):
         headless_browser.quit()
 
         return [
-            {"headline": "DOWN", "publisher": publisher, "date_posted": get_date(7)}
+            ArticleEntry(headline="DOWN", publisher=publisher, date_posted=get_date(7)),
         ], None
 
     # Isolate the content section and get the first article listed
@@ -1646,16 +1638,15 @@ def scrape_nooga_today_non_political(url, date, category):
             and current_category == category
         ):
 
-            # Append to approved_articles
             approved_articles.append(
-                {
-                    "headline": current_headline,
-                    "link": current_link,
-                    "image": current_image_link,
-                    "date_posted": get_date(7),
-                    "time_posted": current_time_posted,
-                    "publisher": publisher,
-                }
+                ArticleEntry(
+                    headline=current_headline,
+                    link=current_link,
+                    image=current_image_link,
+                    date_posted=get_date(7),
+                    time_posted=current_time_posted,
+                    publisher=publisher,
+                )
             )
 
         # This elif will deal with multiple category posts
@@ -1665,46 +1656,43 @@ def scrape_nooga_today_non_political(url, date, category):
             if category == "city":
                 # if-else statements for nested categories (city, news \ city, lifestyle \ etc.
                 if re.search("city, news", current_category.lower()) == None:
-                    # Append to approved_articles
                     approved_articles.append(
-                        {
-                            "headline": current_headline,
-                            "link": current_link,
-                            "image": current_image_link,
-                            "date_posted": get_date(7),
-                            "time_posted": current_time_posted,
-                            "publisher": publisher,
-                        }
+                        ArticleEntry(
+                            headline=current_headline,
+                            link=current_link,
+                            image=current_image_link,
+                            date_posted=get_date(7),
+                            time_posted=current_time_posted,
+                            publisher=publisher,
+                        )
                     )
 
             elif category == "food + drink":
 
                 if re.search("food + drink, news", current_category.lower()):
 
-                    # Append to approved_articles
                     approved_articles.append(
-                        {
-                            "headline": current_headline,
-                            "link": current_link,
-                            "image": current_image_link,
-                            "date_posted": get_date(7),
-                            "time_posted": current_time_posted,
-                            "publisher": publisher,
-                        }
+                        ArticleEntry(
+                            headline=current_headline,
+                            link=current_link,
+                            image=current_image_link,
+                            date_posted=get_date(7),
+                            time_posted=current_time_posted,
+                            publisher=publisher,
+                        )
                     )
 
                 elif re.search("food + drink, lifestyle", current_category.lower()):
 
-                    # Append to approved_articles
                     approved_articles.append(
-                        {
-                            "headline": current_headline,
-                            "link": current_link,
-                            "image": current_image_link,
-                            "date_posted": get_date(7),
-                            "time_posted": current_time_posted,
-                            "publisher": publisher,
-                        }
+                        ArticleEntry(
+                            headline=current_headline,
+                            link=current_link,
+                            image=current_image_link,
+                            date_posted=get_date(7),
+                            time_posted=current_time_posted,
+                            publisher=publisher,
+                        )
                     )
 
     else:
@@ -1766,16 +1754,15 @@ def scrape_nooga_today_non_political(url, date, category):
                 and current_category == category
             ):
 
-                # Append to approved_articles
                 approved_articles.append(
-                    {
-                        "headline": current_headline,
-                        "link": current_link,
-                        "image": current_image_link,
-                        "date_posted": get_date(7),
-                        "time_posted": current_time_posted,
-                        "publisher": publisher,
-                    }
+                    ArticleEntry(
+                        headline=current_headline,
+                        link=current_link,
+                        image=current_image_link,
+                        date_posted=get_date(7),
+                        time_posted=current_time_posted,
+                        publisher=publisher,
+                    )
                 )
 
             # This elif will deal with multiple category posts
@@ -1785,46 +1772,43 @@ def scrape_nooga_today_non_political(url, date, category):
                 if category == "city":
                     # if-else statements for nested categories (city, news \ city, lifestyle \ etc.
                     if re.search("city, news", current_category.lower()) == None:
-                        # Append to approved_articles
                         approved_articles.append(
-                            {
-                                "headline": current_headline,
-                                "link": current_link,
-                                "image": current_image_link,
-                                "date_posted": get_date(7),
-                                "time_posted": current_time_posted,
-                                "publisher": publisher,
-                            }
+                            ArticleEntry(
+                                headline=current_headline,
+                                link=current_link,
+                                image=current_image_link,
+                                date_posted=get_date(7),
+                                time_posted=current_time_posted,
+                                publisher=publisher,
+                            )
                         )
 
                 elif category == "food + drink":
 
                     if re.search("food + drink, news", current_category.lower()):
 
-                        # Append to approved_articles
                         approved_articles.append(
-                            {
-                                "headline": current_headline,
-                                "link": current_link,
-                                "image": current_image_link,
-                                "date_posted": get_date(7),
-                                "time_posted": current_time_posted,
-                                "publisher": publisher,
-                            }
+                            ArticleEntry(
+                                headline=current_headline,
+                                link=current_link,
+                                image=current_image_link,
+                                date_posted=get_date(7),
+                                time_posted=current_time_posted,
+                                publisher=publisher,
+                            )
                         )
 
                     elif re.search("food + drink, lifestyle", current_category.lower()):
 
-                        # Append to approved_articles
                         approved_articles.append(
-                            {
-                                "headline": current_headline,
-                                "link": current_link,
-                                "image": current_image_link,
-                                "date_posted": get_date(7),
-                                "time_posted": current_time_posted,
-                                "publisher": publisher,
-                            }
+                            ArticleEntry(
+                                headline=current_headline,
+                                link=current_link,
+                                image=current_image_link,
+                                date_posted=get_date(7),
+                                time_posted=current_time_posted,
+                                publisher=publisher,
+                            )
                         )
 
         else:
