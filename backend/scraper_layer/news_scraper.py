@@ -7,8 +7,6 @@
 # Description:
 #    - This script gathers daily news from all local Chattanooga news sources
 #
-# Outputs:
-#    - The script will output a list with every relevant article from the day
 #
 # ************************************************** #
 import os
@@ -180,6 +178,7 @@ chattanoogan_keywords = [
     "county commission",
 ]
 
+
 keywords_to_avoid = [
     "georgia",
     "alabama",
@@ -205,7 +204,7 @@ def print_keywords():
 
 
 # This function is just an easy way to query the current date
-def get_date(format):
+def get_date(format: int) -> str:
     suffixes = {
         "1": "st",
         "2": "nd",
@@ -277,7 +276,7 @@ def get_date(format):
 
 
 # This function will add a 0 to the beginning of the published date of a given article
-def refine_article_date(date):
+def refine_article_date(date: str) -> str:
     # Test case for single digit month and day values
     if re.search("^\d/\d/\d\d\d\d", date):
 
@@ -313,7 +312,7 @@ def refine_article_date(date):
 
 
 # This function will change the time from 12 hour to 24 hour format
-def refine_article_time(time):
+def refine_article_time(time: str) -> str:
     # Assign hour, minute, and time_of_day for each possible time configuration
     # 1 digit hour search case
     if re.search("\W\w:\w\w \w\w", time):
@@ -408,7 +407,7 @@ def calculate_time_posted(time_since_posted, hour_or_minute):
 
 
 # This function determines if Times Free Press articles are from today
-def is_from_today(link):
+def is_from_today(link: str) -> bool:
     # Get the page html and load into a bs object
     article_request = requests.get(link)
     article_soup = bs(article_request.text, "lxml")
@@ -427,7 +426,7 @@ def is_from_today(link):
 
 # This function is used to dtermine is an article is relevant by searching
 # The region keyword list
-def is_relevant_article(headline="", excerpt=""):
+def is_relevant_article(headline: str = "", excerpt: str = "") -> bool:
     # Avoid articles that mention chattanooga but are actually about another state/city
     for word in keywords_to_avoid:
         if re.search(word, headline.lower()):
@@ -443,7 +442,7 @@ def is_relevant_article(headline="", excerpt=""):
     return False
 
 
-def is_relevant_chattanoogan(headline=""):
+def is_relevant_chattanoogan(headline: str = "") -> bool:
     # Avoid articles that mention chattanooga but are actually about another state/city
     for word in keywords_to_avoid:
         if re.search(word, headline.lower()):
@@ -482,7 +481,7 @@ def search_tfp_times(headline, current_articles):
 
 
 # This function writes headlines and their posted times to the open file
-def write_to_times_file(found_articles, file_name):
+def write_to_times_file(found_articles: List[ArticleEntry], file_name: str) -> None:
     # Load current articles into a list and make an empty list if the pickle load throw and exception
     try:
         current_tfp_articles = pickle.load(open(file_name, "rb"))
@@ -494,36 +493,26 @@ def write_to_times_file(found_articles, file_name):
 
         # See if the article is already saved
         time_accounted_for = search_tfp_times(
-            current["headline"].lower().rstrip(), current_tfp_articles
+            current.headline.lower().rstrip(), current_tfp_articles
         )
 
         # Ignore the current story if found
         if time_accounted_for:
-            # print(current['headline'])
-            # print(time_accounted_for)
-            # pop the story and time if found
 
             found_articles.pop()
-
-            # print("found and popped, not saved")
 
         # Add current story to current_tfp_articles before popping
         else:
-            current_tfp_articles.append(current["headline"].lower().rstrip())
-            current_tfp_articles.append(current["time_posted"])
-
-            # print(current['headline'])
-            # print(current['time_posted'])
+            current_tfp_articles.append(current.headline.lower().rstrip())
+            current_tfp_articles.append(current.time_posted)
 
             found_articles.pop()
-
-            # print("popped and saved")
 
     pickle.dump(current_tfp_articles, open(file_name, "wb"))
 
 
 # This funciton deletes stories from tfp lists that are duplicates
-def delete_dupes(tfp_list: List[ArticleEntry]):
+def delete_dupes(tfp_list: List[ArticleEntry]) -> None:
     to_return = tfp_list.copy()
 
     duplicated_indices = []
@@ -547,7 +536,7 @@ def delete_dupes(tfp_list: List[ArticleEntry]):
 
 
 # This function will go to the given link and return the body of the article
-def get_pulse_article_content(link, session):
+def get_pulse_article_content(link: str, session: requests.session) -> str:
     # Make a string to return
     text_to_return = ""
 
@@ -569,16 +558,6 @@ def get_pulse_article_content(link, session):
 
     # Return the string
     return text_to_return
-
-
-def count_articles(article_list, publisher):
-    count = 0
-
-    for article in article_list:
-        if article["publisher"] == publisher:
-            count += 1
-
-    return count
 
 
 def get_wdef_article_content(link, session):
@@ -2440,94 +2419,6 @@ def recycle_homepage(newly_found, currently_posted):
     return list_to_return
 
 
-def calculate_relevant_stats(articles, current_stats, stats):
-    # Calculate the relevant stats now that the homepage has been recycled
-    # This ensures the relevant article stats always match the homepage
-    # TFP stats
-    relevant_tfp = count_articles(
-        articles, "Chattanooga Times Free Press (subscription required)"
-    )
-    try:
-        stats["relevant_tfp"] = relevant_tfp
-    except:
-        try:
-            stats["relevant_tfp"] = current_stats["relevant_tfp"]
-        except:
-            stats["relevant_tfp"] = 0
-
-    # Chattanoogan stats
-    relevant_chattanoogan = count_articles(articles, "Chattanoogan")
-    try:
-        stats["relevant_chattanoogan"] = relevant_chattanoogan
-    except:
-        try:
-            stats["relevant_chattanoogan"] = current_stats["relevant_chattanoogan"]
-        except:
-            stats["relevant_chattanoogan"] = 0
-
-    # Chattanooga News Chronicle stats
-    relevant_chronicle = count_articles(articles, "Chattanooga News Chronicle")
-    try:
-        stats["relevant_chronicle"] = relevant_chronicle
-    except:
-        try:
-            stats["relevant_chronicle"] = current_stats["relevant_chronicle"]
-        except:
-            stats["relevant_chronicle"] = 0
-
-    # Fox Chattanooga stats
-    relevant_fox_chattanooga = count_articles(articles, "Fox Chattanooga")
-    try:
-        stats["relevant_fox_chattanooga"] = relevant_fox_chattanooga
-    except:
-        try:
-            stats["relevant_fox_chatatnooga"] = current_stats[
-                "relevant_fox_chattanooga"
-            ]
-        except:
-            stats["relevant_fox_chattanooga"] = 0
-
-    # Nooga Today stats
-    relevant_nooga_today = count_articles(articles, "Nooga Today")
-    try:
-        stats["relevant_nooga_today"] = relevant_nooga_today
-    except:
-        try:
-            stats["relevant_nooga_today"] = current_stats["relevant_nooga_today"]
-        except:
-            stats["relevant_nooga_today"] = 0
-
-    # Pulse stats
-    relevant_pulse = count_articles(articles, "Chattanooga Pulse")
-    try:
-        stats["relevant_pulse"] = relevant_pulse
-    except:
-        try:
-            stats["relevant_pulse"] = current_stats["relevant_pulse"]
-        except:
-            stats["relevant_pulse"] = 0
-
-    # WDEF stats
-    relevant_wdef = count_articles(articles, "WDEF News 12")
-    try:
-        stats["relevant_wdef"] = relevant_wdef
-    except:
-        try:
-            stats["relevant_wdef"] = current_stats["relevant_wdef"]
-        except:
-            stats["relevant_wdef"] = 0
-
-    # Local 3 stats
-    relevant_local_three = count_articles(articles, "Local 3 News")
-    try:
-        stats["relevant_local_three"] = relevant_local_three
-    except:
-        try:
-            stats["relevant_local_three"] = current_stats["relevant_local_three"]
-        except:
-            stats["relevant_local_three"] = 0
-
-
 def tweet_new_articles(article_list: List[ArticleEntry]) -> None:
     articles = article_list.copy()
 
@@ -2678,7 +2569,7 @@ def post_to_facebook(article_list: List[ArticleEntry]) -> None:
 
 
 # Scraper function
-async def scrape_news():
+async def scrape_news() -> List[ArticleEntry]:
     if time.localtime()[8] == 1:
         logging.info("--- SCRAPER STARTING WITH DST ACTIVE ---")
     else:
@@ -2726,7 +2617,6 @@ async def scrape_news():
         logging.error("exception caught in TFP scraper", exc_info=True)
 
     # ---------- CHATTANOOGAN ---------- #
-    # For Breaking/Political section
     try:
         logging.info("Chattanoogan scraper started")
 
@@ -2757,28 +2647,8 @@ async def scrape_news():
         articles.extend(chattanoogan_happenings_articles)
         articles.extend(chattanoogan_business_articles)
 
-        # Put stats values into variables
-        # scraped_chattanoogan = scraped_chattanoogan_business + scraped_chattanoogan_happenings + scraped_chattanoogan_news
-        # relevant_chattanoogan = len(chattanoogan_business_articles) + len(chattanoogan_happenings_articles) + len(
-        #     chattanoogan_news_articles)
-
-        # Put stat variables into stats dict
-        # stats['scraped_chattanoogan'] = scraped_chattanoogan
-        # stats['relevant_chattanoogan'] = relevant_chattanoogan
-
     except Exception as e:
         logging.error("Exception caught in Chattanoogan scraper", exc_info=True)
-        # print("\tException caught in Chattanoogan scraper")
-        # print(e)
-        # print()
-
-        # Put stat variables into stats dict
-        # try:
-        #     stats['scraped_chattanoogan'] = current_stats['scraped_chattanoogan']
-        #     stats['relevant_chattanoogan'] = current_stats['relevant_chattanoogan']
-        # except:
-        #     stats['scraped_chattanoogan'] = 0
-        #     stats['relevant_chattanoogan'] = 0
 
     # ---------- FOX CHATTANOOGA ---------- #
     try:
@@ -2792,27 +2662,12 @@ async def scrape_news():
 
         relevant_fox_chattanooga = len(fox_chattanooga_articles)
 
-        # Put the stat variables into the stats dict
-        # stats['scraped_fox_chattanooga'] = scraped_fox_chattanooga
-        # stats['relevant_fox_chattanooga'] = relevant_fox_chattanooga
-
     except Exception as e:
         logging.error("Exception caught in Fox Chattanooga scraper", exc_info=True)
-        # print('\tException caught in Fox Chattanooga scraper')
-        # print(e)
-        # traceback.print_exc()
-        # print()
 
-        # Add existing stat variables to the dict if the stats file exists, otherwise make them 0
-        # try:
-        #     stats['scraped_fox_chattanooga'] = current_stats['scraped_fox_chattanooga']
-        #     stats['relevant_fox_chattanooga'] = current_stats['relevant_fox_chattanooga']
-        # except:
-        #     stats['scraped_fox_chattanooga'] = 0
-        #     stats['relevant_fox_chattanooga'] = 0
-
-    os.system("pkill -f firefox")
-    logging.info("Firefox pkill, RAM cleared")
+    finally:
+        os.system("pkill -f firefox")
+        logging.info("Firefox pkill, RAM cleared")
 
     # ---------- WDEF ---------- #
     try:
@@ -2825,29 +2680,10 @@ async def scrape_news():
         )
         articles.extend(wdef_articles)
 
-        relevant_wdef = len(wdef_articles)
-
-        # # Add stats to dict
-        # stats['scraped_wdef'] = scraped_wdef
-        # stats['relevant_wdef'] = relevant_wdef
-
     except Exception as e:
         logging.error("Exception caught in WDEF scraper", exc_info=True)
-        # print('\tException caught in WDEF scraper')
-        # print(e)
-        # traceback.print_exc()
-        # print()
-
-        # Try to assign the current stats, make them 0 if they aren't available
-        # try:
-        #     stats['scraped_wdef'] = current_stats['scraped_wdef']
-        #     stats['relevant_wdef'] = current_stats['relevant_wdef']
-        # except:
-        #     stats['scraped_wdef'] = 0
-        #     stats['relevant_wdef'] = 0
 
     # ---------- NOOGA TODAY ---------- #
-    # For breaking / political section
     try:
         logging.info("Nooga Today scraper started")
 
@@ -2879,37 +2715,12 @@ async def scrape_news():
         articles.extend(nooga_today_city_articles)
         articles.extend(nooga_today_food_articles)
 
-        # Add stats to variables
-        scraped_nooga_today = (
-            scraped_nooga_today_food
-            + scraped_nooga_today_city
-            + scraped_nooga_today_news
-        )
-        relevant_nooga_today = (
-            len(nooga_today_food_articles)
-            + len(nooga_today_city_articles)
-            + len(nooga_today_news_articles)
-        )
-
-        # Put variables in dict
-        # stats['scraped_nooga_today'] = scraped_nooga_today
-        # stats['relevant_nooga_today'] = relevant_nooga_today
-
     except Exception as e:
         logging.error("Exception caught in Nooga Today scraper", exc_info=True)
-        # print('\tException caught in Nooga Today scraper')
-        # print(e)
-        # print()
 
-        # try:
-        #     stats['scraped_nooga_today'] = current_stats['scraped_nooga_today']
-        #     stats['relevant_nooga_today'] = current_stats['relevant_nooga_today']
-        # except:
-        #     stats['scraped_nooga_today'] = 0
-        #     stats['relevant_nooga_today'] = 0
-
-    os.system("pkill -f firefox")
-    logging.info("Firefox pkill, RAM cleared")
+    finally:
+        os.system("pkill -f firefox")
+        logging.info("Firefox pkill, RAM cleared")
     # ---------- CHATTANOOGA PULSE ---------- #
     try:
         logging.info("Pulse scraper started")
@@ -2920,35 +2731,19 @@ async def scrape_news():
             get_date(1),
             scraper_session,
         )
+
         pulse_city_articles, scraped_pulse_city = scrape_pulse(
             links["chattanooga_pulse"]["base"]
             + links["chattanooga_pulse"]["city_life"],
             get_date(1),
             scraper_session,
         )
+
         articles.extend(pulse_news_articles)
         articles.extend(pulse_city_articles)
 
-        # Populate stats variables
-        # scraped_pulse = scraped_pulse_news + scraped_pulse_city
-        # relevant_pulse = len(pulse_news_articles) + len(pulse_city_articles)
-
-        # Add stats to dict
-        # stats['scraped_pulse'] = scraped_pulse
-        # stats['relevant_pulse'] = relevant_pulse
-
     except Exception as e:
         logging.error("Exception caught in Pulse scraper", exc_info=True)
-        # print('\tException caught in Pulse scraper')
-        # print(e)
-        # print()
-
-        # try:
-        #     stats['scraped_pulse'] = current_stats['scraped_pulse']
-        #     stats['relevant_pulse'] = current_stats['relevant_pulse']
-        # except:
-        #     stats['scraped_pulse'] = 0
-        #     stats['relevant_pulse'] = 0
 
     # ---------- CHATTANOOGA NEWS CHRONICLE ---------- #
     # try:
@@ -2988,63 +2783,24 @@ async def scrape_news():
             links["local_three"]["base"] + links["local_three"]["local_news"],
             get_date(1),
         )
+
         articles.extend(local_three_articles)
-
-        relevant_local_three = len(local_three_articles)
-
-        # stats['scraped_local_three'] = scraped_local_three
-        # stats['relevant_local_three'] = relevant_local_three
 
     except Exception as e:
         logging.error("Exception caught in Local 3 News scraper", exc_info=True)
-        # print('\tException caught in Local 3 News scraper')
-        # print(e)
-        # print()
-
-        # try:
-        #     stats['scraped_local_three'] = current_stats['scraped_local_three']
-        #     stats['relevant_local_three'] = current_stats['relevant_local_three']
-        # except:
-        #     stats['scraped_local_three'] = 0
-        #     stats['relevant_local_three'] = 0
-
-    # ---------- CHA GUIDE YOUTUBE ---------- #
-    # try:
-    #     cha_guide_videos = scrape_youtube(links['youtube']['base'] + links['youtube']['cha_guide'], get_date(7))
-    #     articles.extend(cha_guide_videos)
-
-    # except Exception as e:
-    #     print('\tException caught in CHA GUIDE scraper')
-    #     print("\t##" + str(e) + "##")
-    #     print()
-
-    #     try:
-    #         stats['scraped_chronicle'] = current_stats['scraped_chronicle']
-    #         stats['relevant_chronicle'] = current_stats['relevant_chronicle']
-    #     except:
-    #         stats['scraped_chronicle'] = 0
-    #         stats['relevant_chronicle'] = 0
-
-    # Try to open today's news file
-    # The except catches the exception at the beginning of the day when no file has been made
-    try:
-        current_posted_articles = pickle.load(open(today_news_file, "rb"))
-    except FileNotFoundError:
-        current_posted_articles = []
 
     # Loop through stories to make sure time_posted isn't left as None
     # This is mostly for TFP articles
     for x in range(0, len(articles)):
         try:
-            if articles[x]["time_posted"] == None and articles[x]["headline"] != "DOWN":
-                articles[x]["time_posted"] = "12:00"
+            if articles[x].time_posted == None and articles[x].headline != "DOWN":
+                articles[x].time_posted = "12:00"
 
         except KeyError:
             # This except statement catches and removes any dictionaries
             # that indicate a site is down
             # These should be the only things that throw an exception
-            logging.info(articles[x]["publisher"] + " " + articles[x]["headline"])
-            # print(articles[x]['publisher'] + " " + articles[x]['headline'])
+            logging.info(articles[x].publisher + " " + articles[x].headline)
             articles.pop(x)
 
         # This catches index errors that occur when publishers are down and items get popped
@@ -3053,53 +2809,19 @@ async def scrape_news():
         except IndexError:
             continue
 
-    # Recycle the homepage
-    if len(current_posted_articles) > 0:
-        articles_to_save = recycle_homepage(articles, current_posted_articles)
-    else:
-        articles_to_save = articles
-
     # Sort our articles after the homepage and newly found articles have been merged
-    articles_to_save = Sort(articles_to_save, True)
+    articles = Sort(articles, True)
 
-    # Dump the list of articles from recycle_homepage to the .news file
-    # pickle.dump(articles_to_save, open(today_news_file, 'wb'))
     logging.info("articles file saved")
 
-    # Status logs
-    # logging.info(str(len(articles_to_save)) + " relevant articles currently saved")
-    # logging.info(str(len(articles)) + " of those are newly found")
-    # print("\n-- " + str(len(articles_to_save)) + " relevant articles currently saved --")
-    # print("-- " + str(len(articles)) + " of those are newly found --\n")
-
-    # This is where something like a facebook/twitter/instagram API would come in handy
-    # Instagram maybe should get its own command in data_commands since those are cherry-picked
-    # Figure out how to make graphics automatically for IG posts
-
-    # This keeps firefox from taking up a ton of memory
     os.system("pkill -f firefox")
     logging.info("Firefox pkill, RAM cleared")
-
-    # calculate_relevant_stats(articles_to_save, current_stats, stats)
-    # pickle.dump(stats, open(today_stats_file, 'wb'))
-    # logging.info('stats file saved')
-
-    # if len(articles) > 0:
-    #     try:
-    #         tweet_new_articles(articles)
-    #     except Exception as e:
-    #         logging.error('Articles not tweeted', exc_info=True)
-    #     try:
-    #         post_to_facebook(articles)
-    #     except Exception as e:
-    #         logging.error('Articles not posted to Facebook', exc_info=True)
-
     logging.info("--- SCRAPER EXITING --- \n")
 
-    return articles_to_save
+    return articles
 
 
-def Sort(sub_li, to_reverse):
+def Sort(sub_li: List[ArticleEntry], to_reverse: bool) -> List[ArticleEntry]:
     # reverse = None (Sorts in Ascending order)
     # key is set to sort using second element of
     # sublist lambda has been used
@@ -3152,10 +2874,10 @@ async def save_articles(conn: MC_Connection, articles: list) -> None:
     post_to_facebook(list_articles_saved)
 
 
-async def main():
-    # Scrape news, make sqlite db connection in the meantime
-    current_articles = await scrape_news()
+async def main() -> None:
+    # Scrape news, make db connection in the meantime
     data_highway = MC_Connection()
+    current_articles = await scrape_news()
     # Connect to the database
     task = asyncio.create_task(data_highway.plug_in())
     done, pending = await asyncio.wait({task})
