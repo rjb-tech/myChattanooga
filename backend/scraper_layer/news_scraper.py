@@ -7,8 +7,6 @@
 # Description:
 #    - This script gathers daily news from all local Chattanooga news sources
 #
-# Outputs:
-#    - The script will output a list with every relevant article from the day
 #
 # ************************************************** #
 import os
@@ -21,6 +19,7 @@ import logging
 import requests
 import facebook
 import sqlalchemy
+from typing import Any, Dict, Optional, Tuple, List, NamedTuple
 from pytz import timezone
 from databases import Database
 from sqlite3 import Cursor, Error
@@ -31,13 +30,21 @@ from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from database_module import MC_Connection, Article
+from database_module import MC_Connection
 from result import Ok, Err, Result
 
 # from sqlalchemy import exists
 from sqlalchemy.sql import exists, or_, select
 
-# from sqlalchemy.sql.expression import exists
+
+class ArticleEntry(NamedTuple):
+    headline: str
+    date_posted: str
+    publisher: str
+    link: Optional[str] = None
+    image: Optional[str] = None
+    time_posted: Optional[str] = None
+
 
 # Configure logger
 logging.basicConfig(
@@ -171,6 +178,7 @@ chattanoogan_keywords = [
     "county commission",
 ]
 
+
 keywords_to_avoid = [
     "georgia",
     "alabama",
@@ -196,7 +204,7 @@ def print_keywords():
 
 
 # This function is just an easy way to query the current date
-def get_date(format):
+def get_date(format: int) -> str:
     suffixes = {
         "1": "st",
         "2": "nd",
@@ -268,7 +276,7 @@ def get_date(format):
 
 
 # This function will add a 0 to the beginning of the published date of a given article
-def refine_article_date(date):
+def refine_article_date(date: str) -> str:
     # Test case for single digit month and day values
     if re.search("^\d/\d/\d\d\d\d", date):
 
@@ -304,7 +312,7 @@ def refine_article_date(date):
 
 
 # This function will change the time from 12 hour to 24 hour format
-def refine_article_time(time):
+def refine_article_time(time: str) -> str:
     # Assign hour, minute, and time_of_day for each possible time configuration
     # 1 digit hour search case
     if re.search("\W\w:\w\w \w\w", time):
@@ -399,26 +407,22 @@ def calculate_time_posted(time_since_posted, hour_or_minute):
 
 
 # This function determines if Times Free Press articles are from today
-def is_from_today(link):
+def is_from_today_tfp(link: str) -> bool:
     # Get the page html and load into a bs object
     article_request = requests.get(link)
     article_soup = bs(article_request.text, "lxml")
 
-    # Find the byline
-    byline = article_soup.find("span", class_="most-recent-article-bi-line")
+    posted_today_indicator = article_soup.find("p", class_="article__date")[:5]
 
-    # This was added to account for story series without bylines
-    if byline:
-        byline = byline.text
-        if re.search(get_date(8), byline):
-            return True
-    else:
-        return False
+    if posted_today_indicator.lower() == "today":
+        return True
+
+    return False
 
 
 # This function is used to dtermine is an article is relevant by searching
 # The region keyword list
-def is_relevant_article(headline="", excerpt=""):
+def is_relevant_article(headline: str = "", excerpt: str = "") -> bool:
     # Avoid articles that mention chattanooga but are actually about another state/city
     for word in keywords_to_avoid:
         if re.search(word, headline.lower()):
@@ -434,7 +438,7 @@ def is_relevant_article(headline="", excerpt=""):
     return False
 
 
-def is_relevant_chattanoogan(headline=""):
+def is_relevant_chattanoogan(headline: str = "") -> bool:
     # Avoid articles that mention chattanooga but are actually about another state/city
     for word in keywords_to_avoid:
         if re.search(word, headline.lower()):
@@ -473,7 +477,7 @@ def search_tfp_times(headline, current_articles):
 
 
 # This function writes headlines and their posted times to the open file
-def write_to_times_file(found_articles, file_name):
+def write_to_times_file(found_articles: List[ArticleEntry], file_name: str) -> None:
     # Load current articles into a list and make an empty list if the pickle load throw and exception
     try:
         current_tfp_articles = pickle.load(open(file_name, "rb"))
@@ -485,46 +489,51 @@ def write_to_times_file(found_articles, file_name):
 
         # See if the article is already saved
         time_accounted_for = search_tfp_times(
-            current["headline"].lower().rstrip(), current_tfp_articles
+            current.headline.lower().rstrip(), current_tfp_articles
         )
 
         # Ignore the current story if found
         if time_accounted_for:
-            # print(current['headline'])
-            # print(time_accounted_for)
-            # pop the story and time if found
 
             found_articles.pop()
-
-            # print("found and popped, not saved")
 
         # Add current story to current_tfp_articles before popping
         else:
-            current_tfp_articles.append(current["headline"].lower().rstrip())
-            current_tfp_articles.append(current["time_posted"])
-
-            # print(current['headline'])
-            # print(current['time_posted'])
+            current_tfp_articles.append(current.headline.lower().rstrip())
+            current_tfp_articles.append(current.time_posted)
 
             found_articles.pop()
-
-            # print("popped and saved")
 
     pickle.dump(current_tfp_articles, open(file_name, "wb"))
 
 
+# This will need to be changed to datetime object instead of string
+def get_tfp_article_time_posted(link: str) -> str:
+    article_request = requests.get(link)
+    article_soup = bs(article_request.text, "lxml")
+
+    # Format of time_posted is " 4:33 pm"
+    time_posted = (
+        article_soup.find("p", class_="article__date")[-10:].strip().replace(".", "")
+    )
+    datetime_obj = datetime.strptime(time_posted, "%I:%M %p")
+    date_string_to_return = datetime.strftime(datetime_obj, "%H:%M")
+
+    return date_string_to_return
+
+
 # This funciton deletes stories from tfp lists that are duplicates
-def delete_dupes(tfp_list):
+def delete_dupes(tfp_list: List[ArticleEntry]) -> None:
     to_return = tfp_list.copy()
 
-    duplicated_indices = list()
+    duplicated_indices = []
 
     for x in range(len(to_return)):
         for y in range(len(to_return) - 1):
             if y != x:
                 if (
-                    to_return[y]["headline"].lower().rstrip()
-                    == to_return[x]["headline"].lower().rstrip()
+                    to_return[y].headline.lower().rstrip()
+                    == to_return[x].headline.lower().rstrip()
                 ):
                     duplicated_indices.append(y)
 
@@ -538,7 +547,7 @@ def delete_dupes(tfp_list):
 
 
 # This function will go to the given link and return the body of the article
-def get_pulse_article_content(link, session):
+def get_pulse_article_content(link: str, session: requests.session) -> str:
     # Make a string to return
     text_to_return = ""
 
@@ -560,16 +569,6 @@ def get_pulse_article_content(link, session):
 
     # Return the string
     return text_to_return
-
-
-def count_articles(article_list, publisher):
-    count = 0
-
-    for article in article_list:
-        if article["publisher"] == publisher:
-            count += 1
-
-    return count
 
 
 def get_wdef_article_content(link, session):
@@ -595,19 +594,13 @@ def get_wdef_article_content(link, session):
     return string_to_return
 
 
-# Each scrape function will output a dictionary of articles with included timestamp
-# Category will only be used for breaking/political articles
-def scrape_chattanoogan(url, date, session, category=None):
-    # This list will hold all the objects to be output
-    # Each object will contain a link, a headline, and a date/time
-    approved_articles = list()
-
-    # This variable will be used to count how many total articles are found and scraped
+def scrape_chattanoogan(
+    url: str, date: str, session: requests.session, category: str = None
+) -> Tuple[List[ArticleEntry], Optional[int]]:
+    # Scraper variables
+    approved_articles = []
     total_articles_scraped = 0
-
-    # publisher name to be returned and used for sorting on website and newsletter
     publisher = "Chattanoogan"
-    # image link for chattanoogan articles
     chattanoogan_logo = (
         "https://mychattanooga-files.nyc3.digitaloceanspaces.com/chattanoogan_logo.webp"
     )
@@ -620,10 +613,15 @@ def scrape_chattanoogan(url, date, session, category=None):
 
     except:
 
-        # Return a dictionary that indicated the website is down or can't be reached
-        return [
-            {"headline": "DOWN", "publisher": publisher, "date_posted": get_date(7)}
-        ], None
+        # Return a status indicating the site is down or can't be reached
+        return (
+            [
+                ArticleEntry(
+                    headline="DOWN", publisher=publisher, date_posted=get_date(7)
+                )
+            ],
+            None,
+        )
 
     # This variable will hold the content table from chattanoogan.com
     content_section = chattanoogan_soup.find("table", class_="list")
@@ -679,14 +677,14 @@ def scrape_chattanoogan(url, date, session, category=None):
 
                     # Add data to approved articles list
                     approved_articles.append(
-                        {
-                            "headline": current_headline,
-                            "link": current_link,
-                            "image": chattanoogan_logo,
-                            "date_posted": get_date(7),
-                            "time_posted": current_time,
-                            "publisher": publisher,
-                        }
+                        ArticleEntry(
+                            headline=current_headline,
+                            link=current_link,
+                            image=chattanoogan_logo,
+                            date_posted=get_date(7),
+                            time_posted=current_time,
+                            publisher=publisher,
+                        )
                     )
 
                 else:
@@ -703,14 +701,14 @@ def scrape_chattanoogan(url, date, session, category=None):
                     ):
                         # Add data to the approved articles list
                         approved_articles.append(
-                            {
-                                "headline": current_headline,
-                                "link": current_link,
-                                "image": chattanoogan_logo,
-                                "date_posted": get_date(7),
-                                "time_posted": current_time,
-                                "publisher": publisher,
-                            }
+                            ArticleEntry(
+                                headline=current_headline,
+                                link=current_link,
+                                image=chattanoogan_logo,
+                                date_posted=get_date(7),
+                                time_posted=current_time,
+                                publisher=publisher,
+                            )
                         )
 
             # Append to temp_list and approved_articles if the article is for the non-political section
@@ -720,14 +718,14 @@ def scrape_chattanoogan(url, date, session, category=None):
                 if is_relevant_chattanoogan(current_headline) and now_or_later == "now":
                     # Add data to approved articles list
                     approved_articles.append(
-                        {
-                            "headline": current_headline,
-                            "link": current_link,
-                            "image": chattanoogan_logo,
-                            "date_posted": get_date(7),
-                            "time_posted": current_time,
-                            "publisher": publisher,
-                        }
+                        ArticleEntry(
+                            headline=current_headline,
+                            link=current_link,
+                            image=chattanoogan_logo,
+                            date_posted=get_date(7),
+                            time_posted=current_time,
+                            publisher=publisher,
+                        )
                     )
 
             # This last if statement is for business articles
@@ -738,14 +736,14 @@ def scrape_chattanoogan(url, date, session, category=None):
                 if is_relevant_article(current_headline) and now_or_later == "now":
                     # Add data to approved articles list
                     approved_articles.append(
-                        {
-                            "headline": current_headline,
-                            "link": current_link,
-                            "image": chattanoogan_logo,
-                            "date_posted": get_date(7),
-                            "time_posted": current_time,
-                            "publisher": publisher,
-                        }
+                        ArticleEntry(
+                            headline=current_headline,
+                            link=current_link,
+                            image=chattanoogan_logo,
+                            date_posted=get_date(7),
+                            time_posted=current_time,
+                            publisher=publisher,
+                        )
                     )
 
         elif current_date != date and story > 0:
@@ -757,16 +755,14 @@ def scrape_chattanoogan(url, date, session, category=None):
     return approved_articles, total_articles_scraped
 
 
-def scrape_fox_chattanooga(url, date):
-    # This list will hold boolean values to determine if articles
-    # are about Chattanooga or Hamilton County
-    approved_articles = list()
-    all_local_stories = list()
+def scrape_fox_chattanooga(
+    url: str, date: str
+) -> Tuple[List[ArticleEntry], Optional[int]]:
 
-    # Thsi variables will count how many articles in total are analyzed each time the script is runned
+    # Scraper variables
+    approved_articles: List[Any] = []
+    all_local_stories: List[Any] = []
     total_articles_scraped = 0
-
-    # Publisher variable to append to temp list
     publisher = "Fox Chattanooga"
 
     # Load Firefox driver and set headless options
@@ -815,9 +811,14 @@ def scrape_fox_chattanooga(url, date):
         # quit the browser and return a list to indicate the website is down or can't be reached
         headless_browser.quit()
 
-        return [
-            {"headline": "DOWN", "publisher": publisher, "date_posted": get_date(7)}
-        ], None
+        return (
+            [
+                ArticleEntry(
+                    headline="DOWN", publisher=publisher, date_posted=get_date(7)
+                )
+            ],
+            None,
+        )
 
     # Priming read before the main scraping loop
     # The a tags hold most of the info needed
@@ -828,7 +829,7 @@ def scrape_fox_chattanooga(url, date):
     # Find the image div for the premiere article on news channel nine local news
     # The alt for these images follows a scheme everytime
     current_image_div = current_article.find(
-        "div", alt="Image for story: " + current_headline
+        "div", alt=f"Image for story: {current_headline}"
     )
 
     # This extracts the image link used for the article
@@ -838,17 +839,14 @@ def scrape_fox_chattanooga(url, date):
         current_image_div["style"].replace('url("', "").replace('");', "").split()[1]
     )
 
-    # temp list for holding values before they are appended to all_local_stories
-    temp_list = list()
-
     # Add all needed info to temp_list if the story is from news/local or news/coronavirus
     if is_relevant_article(current_headline):
         # add data to all_local_stories
         all_local_stories.append(
             {
                 "headline": current_headline,
-                "link": "https://foxchattanooga.com" + current_link,
-                "image": "https://foxchattanooga.com" + current_image_link,
+                "link": f"https://foxchattanooga.com{current_link}",
+                "image": f"https://foxchattanooga.com{current_image_link}",
             }
         )
 
@@ -865,7 +863,7 @@ def scrape_fox_chattanooga(url, date):
         # Find the image div for the premiere article on news channel nine local news
         # The alt for these images follows the same scheme
         current_image_div = current_article.find(
-            "div", alt="Image for story: " + current_headline
+            "div", alt=f"Image for story: {current_headline}"
         )
 
         # This extracts the image link used for the article
@@ -884,8 +882,8 @@ def scrape_fox_chattanooga(url, date):
             all_local_stories.append(
                 {
                     "headline": current_headline,
-                    "link": "https://foxchattanooga.com" + current_link,
-                    "image": "https://foxchattanooga.com" + current_image_link,
+                    "link": f"https://foxchattanooga.com{current_link}",
+                    "image": f"https://foxchattanooga.com{current_image_link}",
                 }
             )
 
@@ -943,22 +941,20 @@ def scrape_fox_chattanooga(url, date):
 
                 if is_relevant_article(current_headline, current_dateline.text):
 
-                    # Append to approved_articles
                     approved_articles.append(
-                        {
-                            "headline": story["headline"],
-                            "link": story["link"],
-                            "image": story["image"],
-                            "date_posted": get_date(7),
-                            "time_posted": current_time_posted,
-                            "publisher": publisher,
-                        }
+                        ArticleEntry(
+                            headline=story["headline"],
+                            link=story["link"],
+                            image=story["image"],
+                            date_posted=get_date(7),
+                            time_posted=current_time_posted,
+                            publisher=publisher,
+                        )
                     )
 
                 else:
 
                     # Break out of the loop if an article isn't from today
-                    # This is commented out for now because News Channel 9 uses universal time clock which messes everything up after like 7pm
                     break
 
         else:
@@ -973,16 +969,15 @@ def scrape_fox_chattanooga(url, date):
 
                 if is_relevant_article(current_headline):
 
-                    # Append to approved_articles
                     approved_articles.append(
-                        {
-                            "headline": story["headline"],
-                            "link": story["link"],
-                            "image": story["image"],
-                            "date_posted": get_date(7),
-                            "time_posted": current_time_posted,
-                            "publisher": publisher,
-                        }
+                        ArticleEntry(
+                            headline=story["headline"],
+                            link=story["link"],
+                            image=story["image"],
+                            date_posted=get_date(7),
+                            time_posted=current_time_posted,
+                            publisher=publisher,
+                        )
                     )
                 else:
 
@@ -998,14 +993,12 @@ def scrape_fox_chattanooga(url, date):
     return approved_articles, total_articles_scraped
 
 
-def scrape_wdef(url, date, session):
-    # List to return at the end of the function
-    approved_articles = list()
-
-    # Variables for news analytics
+def scrape_wdef(
+    url: str, date: str, session: requests.session
+) -> Tuple[List[ArticleEntry], Optional[int]]:
+    # Scraper variables
+    approved_articles = []
     total_articles_scraped = 0
-
-    # Publisher to be added to temp list
     publisher = "WDEF News 12"
 
     try:
@@ -1017,7 +1010,7 @@ def scrape_wdef(url, date, session):
 
         # Return a list indicating that website is down or can't be reached
         return [
-            {"headline": "DOWN", "publisher": publisher, "date_posted": get_date(7)}
+            ArticleEntry(headline="DOWN", publisher=publisher, date_posted=get_date(7)),
         ], None
 
     # Main content section
@@ -1043,16 +1036,15 @@ def scrape_wdef(url, date, session):
         # Append article to temp list and approved articles if the news is from chattanooga
         if is_relevant_article(current_headline):
 
-            # Append to approved_articles
             approved_articles.append(
-                {
-                    "headline": current_headline,
-                    "link": current_link,
-                    "image": current_image_link,
-                    "date_posted": get_date(7),
-                    "time_posted": current_time_posted,
-                    "publisher": publisher,
-                }
+                ArticleEntry(
+                    headline=current_headline,
+                    link=current_link,
+                    image=current_image_link,
+                    date_posted=get_date(7),
+                    time_posted=current_time_posted,
+                    publisher=publisher,
+                )
             )
 
         # Sometimes articles are tagged chattanooga in the actual article but not the td-excerpt
@@ -1090,16 +1082,15 @@ def scrape_wdef(url, date, session):
 
             if is_relevant_article(current_headline):
 
-                # Append to approved_articles
                 approved_articles.append(
-                    {
-                        "headline": current_headline,
-                        "link": current_link,
-                        "image": current_image_link,
-                        "date_posted": get_date(7),
-                        "time_posted": current_time_posted,
-                        "publisher": publisher,
-                    }
+                    ArticleEntry(
+                        headline=current_headline,
+                        link=current_link,
+                        image=current_image_link,
+                        date_posted=get_date(7),
+                        time_posted=current_time_posted,
+                        publisher=publisher,
+                    )
                 )
 
             # Sometimes articles are tagged chattanooga in the actual article but not the td-excerpt
@@ -1107,16 +1098,15 @@ def scrape_wdef(url, date, session):
             else:
 
                 if is_relevant_article(current_article_body):
-                    # Append to approved_articles
                     approved_articles.append(
-                        {
-                            "headline": current_headline,
-                            "link": current_link,
-                            "image": current_image_link,
-                            "date_posted": get_date(7),
-                            "time_posted": current_time_posted,
-                            "publisher": publisher,
-                        }
+                        ArticleEntry(
+                            headline=current_headline,
+                            link=current_link,
+                            image=current_image_link,
+                            date_posted=get_date(7),
+                            time_posted=current_time_posted,
+                            publisher=publisher,
+                        )
                     )
 
         else:
@@ -1127,30 +1117,14 @@ def scrape_wdef(url, date, session):
     return approved_articles, total_articles_scraped
 
 
-def scrape_times_free_press(url, date, session):
-    # Approved articles list and temp_list for scraping
-    # temp_list = list()
-    approved_articles = list()
-
-    # Variable for use in scraping
+def scrape_times_free_press(
+    url: str, date: str, session: requests.session
+) -> Tuple[List[ArticleEntry], Optional[int]]:
+    # Scraper variables
+    approved_articles = []
     total_articles_scraped = 0
-
-    # Variable for use in scraping
     current_time_posted = None
-
-    # Publisher tag for temp_list
     publisher = "Times Free Press"
-
-    # Output file for writing TFP article post times
-    times_file_name = (
-        os.path.dirname(os.path.realpath("__file__"))
-        + "/data/tfp-article-times-"
-        + get_date(3)
-        + ".tfp"
-    )
-    # times_file = open(times_file_name, 'a')
-
-    os.system("touch " + times_file_name)
 
     try:
 
@@ -1162,110 +1136,39 @@ def scrape_times_free_press(url, date, session):
 
         # Return a list indicating that site can't be reached
         return [
-            {"headline": "DOWN", "publisher": publisher, "date_posted": get_date(7)}
+            ArticleEntry(headline="DOWN", publisher=publisher, date_posted=get_date(7)),
         ], None
 
     # Main content section
-    content_section = times_soup.find("div", class_="recommended")
+    content_section = times_soup.find("ul", class_="archive__list | card-list")
 
     # Priming read for scraping loop
-    current_article = content_section.find(
-        "div", "recommended-article recommended__article first"
-    )
-    current_headline = current_article.find(
-        "span", "recommended__article-title"
-    ).a.text.rstrip()
-    current_excerpt = current_article.find(
-        "p", "recommended__article-lead"
-    ).text.lower()
-    current_link = current_article.find("span", "recommended__article-title").a["href"]
-    current_image_div = current_article.find("a", class_="recommended__article-image")
-    current_image_link = (
-        current_image_div["style"].split()[1].replace("url('", "").replace("');", "")
-    )
-    current_byline = current_article.find(
-        "span", class_="recommended__article-bi-line"
-    ).text.lower()
-
-    # Get the right time data based on if the article was posted over or under an hour ago
-    if re.search("\d minute", current_byline):
-
-        # Search for double digit minutes before single digits
-        # To avoid time keeping bugs
-        if re.search("\d\d minute", current_byline):
-            current_time_since_posted = re.search("\d\d minute", current_byline).group()
-        else:
-            current_time_since_posted = re.search("\d minute", current_byline).group()
-
-    elif re.search("\d hour", current_byline):
-
-        # Search for double digit hours before single digits
-        # To avoid time keeping bugs
-        if re.search("\d\d hour", current_byline):
-            current_time_since_posted = re.search("\d\d hour", current_byline).group()
-        else:
-            current_time_since_posted = re.search("\d hour", current_byline).group()
-    else:
-        current_time_since_posted = "none"
+    current_article = content_section.find("article", "card")
+    current_headline = current_article.find("h3", "card__title").a.text.rstrip()
+    current_excerpt = current_article.find("p", "card__tease").text.lower()
+    current_link = current_article.find("a", "card__link")["href"]
+    current_image_link = current_article.find("img", class_="card__thumbnail")["src"]
 
     while current_article:
 
-        if is_from_today(links["times_free_press"]["base"] + current_link):
+        if is_from_today_tfp(links["times_free_press"]["base"] + current_link):
 
             total_articles_scraped += 1
 
             # Append all information to approved_articles if the article is about chattanooga and from today
             if is_relevant_article(current_headline, current_excerpt):
 
-                # DELETE THIS EVENTUALLY CURRENTLY BEING TESTED LOCALLY ON EL TIGRE
-                found_time = search_tfp_times(current_headline.lower(), times_file_name)
+                current_time_posted = get_tfp_article_time_posted(current_link)
 
-                # If checks for stories posted any number of hours ago OR if the file already exists
-                if found_time:
-                    current_time_posted = found_time
-
-                elif re.search("hour", current_time_since_posted):
-                    hour_or_minute = (
-                        re.search("hour", current_time_since_posted).group().lower()
-                    )
-                    current_time_posted = calculate_time_posted(
-                        current_time_since_posted, hour_or_minute
-                    )
-
-                elif re.search("minute", current_time_since_posted):
-                    hour_or_minute = (
-                        re.search("minute", current_time_since_posted).group().lower()
-                    )
-                    current_time_posted = calculate_time_posted(
-                        current_time_since_posted, hour_or_minute
-                    )
-
-                else:
-                    # This condition account for articles that are posted without a recent timestamp
-                    # I found this happening in the business articles
-                    current_time_posted = get_date(10)
-
-                current_date_posted = get_date(1)
-
-                # Convert time and date posted to datetime objects
-                current_date_posted = datetime.strptime(
-                    current_date_posted.strip(), "%m/%d/%Y"
-                ).date()
-                if current_time_posted:
-                    current_time_posted = datetime.strptime(
-                        current_time_posted.strip(), "%H:%M"
-                    ).strftime("%H:%M")
-
-                # Append to approved_articles
                 approved_articles.append(
-                    {
-                        "headline": current_headline,
-                        "link": links["times_free_press"]["base"] + current_link,
-                        "image": current_image_link,
-                        "date_posted": get_date(7),
-                        "time_posted": current_time_posted,
-                        "publisher": publisher,
-                    }
+                    ArticleEntry(
+                        headline=current_headline,
+                        link=links["times_free_press"]["base"] + current_link,
+                        image=current_image_link,
+                        date_posted=get_date(7),
+                        time_posted=current_time_posted,
+                        publisher=publisher,
+                    )
                 )
 
             # Break out of the loop if an article not from today is found
@@ -1274,81 +1177,28 @@ def scrape_times_free_press(url, date, session):
                 break
 
         # Gather data
-        current_article = current_article.find_next(
-            "div", "recommended-article recommended__article first"
-        )
+        current_article = current_article.find_next("article", "card")
 
         # This if check is needed to not fail out when no articles are left
+        # GO HERE NEXT
         if current_article:
-            current_headline = current_article.find(
-                "span", "recommended__article-title"
-            ).a.text.rstrip()
-            current_excerpt = current_article.find(
-                "p", "recommended__article-lead"
-            ).text.lower()
-            current_link = current_article.find("span", "recommended__article-title").a[
-                "href"
+            current_article = content_section.find("article", "card")
+            current_headline = current_article.find("h3", "card__title").a.text.rstrip()
+            current_excerpt = current_article.find("p", "card__tease").text.lower()
+            current_link = current_article.find("a", "card__link")["href"]
+            current_image_link = current_article.find("img", class_="card__thumbnail")[
+                "src"
             ]
-            current_image_div = current_article.find(
-                "a", class_="recommended__article-image"
-            )
-            current_image_link = (
-                current_image_div["style"]
-                .split()[1]
-                .replace("url('", "")
-                .replace("');", "")
-            )
-            current_byline = current_article.find(
-                "span", class_="recommended__article-bi-line"
-            ).text.lower()
-
-            # Get the right time data based on if the article was posted over or under an hour ago
-            # Get the right time data based on if the article was posted over or under an hour ago
-            if re.search("\d minute", current_byline):
-
-                # Search for double digit minutes before single digits
-                # To avoid time keeping bugs
-                if re.search("\d\d minute", current_byline):
-                    current_time_since_posted = re.search(
-                        "\d\d minute", current_byline
-                    ).group()
-                else:
-                    current_time_since_posted = re.search(
-                        "\d minute", current_byline
-                    ).group()
-
-            elif re.search("\d hour", current_byline):
-
-                # Search for double digit hours before single digits
-                # To avoid time keeping bugs
-                if re.search("\d\d hour", current_byline):
-                    current_time_since_posted = re.search(
-                        "\d\d hour", current_byline
-                    ).group()
-                else:
-                    current_time_since_posted = re.search(
-                        "\d hour", current_byline
-                    ).group()
-            else:
-                current_time_since_posted = "none"
-
-    # times_file.close()
-
-    approved_articles_copy = approved_articles.copy()
-
-    write_to_times_file(approved_articles_copy, times_file_name)
 
     return approved_articles, total_articles_scraped
 
 
-def scrape_nooga_today_breaking_political(url, date, category):
-    # List for approved articles
-    approved_articles = list()
-
-    # Publisher variable
+def scrape_nooga_today_breaking_political(
+    url: str, date: str, category: str
+) -> Tuple[List[ArticleEntry], Optional[int]]:
+    # Scraper variables
+    approved_articles = []
     publisher = "Nooga Today"
-
-    # Variable for news analytics
     total_articles_scraped = 0
 
     # Load Firefox driver and set headless options
@@ -1381,7 +1231,7 @@ def scrape_nooga_today_breaking_political(url, date, category):
 
         # return a list with a dict inside indicating the website is down or unable to be reached
         return [
-            {"headline": "DOWN", "publisher": publisher, "date_posted": get_date(7)}
+            ArticleEntry(headline="DOWN", publisher=publisher, date_posted=get_date(7)),
         ], None
 
     # Isolate the content section and get the first article listed
@@ -1430,16 +1280,15 @@ def scrape_nooga_today_breaking_political(url, date, category):
         # Append the current article if it is a single category post
         if re.search(",", current_category) == None and current_category == category:
 
-            # Append to approved_articles
             approved_articles.append(
-                {
-                    "headline": current_headline,
-                    "link": current_link,
-                    "image": current_image_link,
-                    "date_posted": get_date(7),
-                    "time_posted": current_time_posted,
-                    "publisher": publisher,
-                }
+                ArticleEntry(
+                    headline=current_headline,
+                    link=current_link,
+                    image=current_image_link,
+                    date_posted=get_date(7),
+                    time_posted=current_time_posted,
+                    publisher=publisher,
+                )
             )
 
         # For the breaking/political scraper, the city category will sometimes have multiple tags
@@ -1450,16 +1299,15 @@ def scrape_nooga_today_breaking_political(url, date, category):
                 if re.search("city, news", current_category) or re.search(
                     "lifestyle, news", current_category
                 ):
-                    # Append to approved_articles
                     approved_articles.append(
-                        {
-                            "headline": current_headline,
-                            "link": current_link,
-                            "image": current_image_link,
-                            "date_posted": get_date(7),
-                            "time_posted": current_time_posted,
-                            "publisher": publisher,
-                        }
+                        ArticleEntry(
+                            headline=current_headline,
+                            link=current_link,
+                            image=current_image_link,
+                            date_posted=get_date(7),
+                            time_posted=current_time_posted,
+                            publisher=publisher,
+                        )
                     )
     else:
 
@@ -1514,16 +1362,15 @@ def scrape_nooga_today_breaking_political(url, date, category):
                 and current_category == category
             ):
 
-                # Append to approved_articles
                 approved_articles.append(
-                    {
-                        "headline": current_headline,
-                        "link": current_link,
-                        "image": current_image_link,
-                        "date_posted": get_date(7),
-                        "time_posted": current_time_posted,
-                        "publisher": publisher,
-                    }
+                    ArticleEntry(
+                        headline=current_headline,
+                        link=current_link,
+                        image=current_image_link,
+                        date_posted=get_date(7),
+                        time_posted=current_time_posted,
+                        publisher=publisher,
+                    )
                 )
 
             # For the breaking/political scraper, the city category will sometimes have multiple tags
@@ -1534,16 +1381,15 @@ def scrape_nooga_today_breaking_political(url, date, category):
                     if re.search("city, news", current_category) or re.search(
                         "lifestyle, news", current_category
                     ):
-                        # Append to approved_articles
                         approved_articles.append(
-                            {
-                                "headline": current_headline,
-                                "link": current_link,
-                                "image": current_image_link,
-                                "date_posted": get_date(7),
-                                "time_posted": current_time_posted,
-                                "publisher": publisher,
-                            }
+                            ArticleEntry(
+                                headline=current_headline,
+                                link=current_link,
+                                image=current_image_link,
+                                date_posted=get_date(7),
+                                time_posted=current_time_posted,
+                                publisher=publisher,
+                            )
                         )
 
         else:
@@ -1556,14 +1402,12 @@ def scrape_nooga_today_breaking_political(url, date, category):
     return approved_articles, total_articles_scraped
 
 
-def scrape_nooga_today_non_political(url, date, category):
-    # List for approved articles and a temp list for scraping
-    approved_articles = list()
-
-    # Publisher variable
+def scrape_nooga_today_non_political(
+    url: str, date: str, category: str
+) -> Tuple[List[ArticleEntry], Optional[int]]:
+    # Scraper variables
+    approved_articles = []
     publisher = "Nooga Today"
-
-    # Variable for news analytics
     total_articles_scraped = 0
 
     # Load Firefox driver and set headless options
@@ -1595,7 +1439,7 @@ def scrape_nooga_today_non_political(url, date, category):
         headless_browser.quit()
 
         return [
-            {"headline": "DOWN", "publisher": publisher, "date_posted": get_date(7)}
+            ArticleEntry(headline="DOWN", publisher=publisher, date_posted=get_date(7)),
         ], None
 
     # Isolate the content section and get the first article listed
@@ -1652,16 +1496,15 @@ def scrape_nooga_today_non_political(url, date, category):
             and current_category == category
         ):
 
-            # Append to approved_articles
             approved_articles.append(
-                {
-                    "headline": current_headline,
-                    "link": current_link,
-                    "image": current_image_link,
-                    "date_posted": get_date(7),
-                    "time_posted": current_time_posted,
-                    "publisher": publisher,
-                }
+                ArticleEntry(
+                    headline=current_headline,
+                    link=current_link,
+                    image=current_image_link,
+                    date_posted=get_date(7),
+                    time_posted=current_time_posted,
+                    publisher=publisher,
+                )
             )
 
         # This elif will deal with multiple category posts
@@ -1671,46 +1514,43 @@ def scrape_nooga_today_non_political(url, date, category):
             if category == "city":
                 # if-else statements for nested categories (city, news \ city, lifestyle \ etc.
                 if re.search("city, news", current_category.lower()) == None:
-                    # Append to approved_articles
                     approved_articles.append(
-                        {
-                            "headline": current_headline,
-                            "link": current_link,
-                            "image": current_image_link,
-                            "date_posted": get_date(7),
-                            "time_posted": current_time_posted,
-                            "publisher": publisher,
-                        }
+                        ArticleEntry(
+                            headline=current_headline,
+                            link=current_link,
+                            image=current_image_link,
+                            date_posted=get_date(7),
+                            time_posted=current_time_posted,
+                            publisher=publisher,
+                        )
                     )
 
             elif category == "food + drink":
 
                 if re.search("food + drink, news", current_category.lower()):
 
-                    # Append to approved_articles
                     approved_articles.append(
-                        {
-                            "headline": current_headline,
-                            "link": current_link,
-                            "image": current_image_link,
-                            "date_posted": get_date(7),
-                            "time_posted": current_time_posted,
-                            "publisher": publisher,
-                        }
+                        ArticleEntry(
+                            headline=current_headline,
+                            link=current_link,
+                            image=current_image_link,
+                            date_posted=get_date(7),
+                            time_posted=current_time_posted,
+                            publisher=publisher,
+                        )
                     )
 
                 elif re.search("food + drink, lifestyle", current_category.lower()):
 
-                    # Append to approved_articles
                     approved_articles.append(
-                        {
-                            "headline": current_headline,
-                            "link": current_link,
-                            "image": current_image_link,
-                            "date_posted": get_date(7),
-                            "time_posted": current_time_posted,
-                            "publisher": publisher,
-                        }
+                        ArticleEntry(
+                            headline=current_headline,
+                            link=current_link,
+                            image=current_image_link,
+                            date_posted=get_date(7),
+                            time_posted=current_time_posted,
+                            publisher=publisher,
+                        )
                     )
 
     else:
@@ -1772,16 +1612,15 @@ def scrape_nooga_today_non_political(url, date, category):
                 and current_category == category
             ):
 
-                # Append to approved_articles
                 approved_articles.append(
-                    {
-                        "headline": current_headline,
-                        "link": current_link,
-                        "image": current_image_link,
-                        "date_posted": get_date(7),
-                        "time_posted": current_time_posted,
-                        "publisher": publisher,
-                    }
+                    ArticleEntry(
+                        headline=current_headline,
+                        link=current_link,
+                        image=current_image_link,
+                        date_posted=get_date(7),
+                        time_posted=current_time_posted,
+                        publisher=publisher,
+                    )
                 )
 
             # This elif will deal with multiple category posts
@@ -1791,46 +1630,43 @@ def scrape_nooga_today_non_political(url, date, category):
                 if category == "city":
                     # if-else statements for nested categories (city, news \ city, lifestyle \ etc.
                     if re.search("city, news", current_category.lower()) == None:
-                        # Append to approved_articles
                         approved_articles.append(
-                            {
-                                "headline": current_headline,
-                                "link": current_link,
-                                "image": current_image_link,
-                                "date_posted": get_date(7),
-                                "time_posted": current_time_posted,
-                                "publisher": publisher,
-                            }
+                            ArticleEntry(
+                                headline=current_headline,
+                                link=current_link,
+                                image=current_image_link,
+                                date_posted=get_date(7),
+                                time_posted=current_time_posted,
+                                publisher=publisher,
+                            )
                         )
 
                 elif category == "food + drink":
 
                     if re.search("food + drink, news", current_category.lower()):
 
-                        # Append to approved_articles
                         approved_articles.append(
-                            {
-                                "headline": current_headline,
-                                "link": current_link,
-                                "image": current_image_link,
-                                "date_posted": get_date(7),
-                                "time_posted": current_time_posted,
-                                "publisher": publisher,
-                            }
+                            ArticleEntry(
+                                headline=current_headline,
+                                link=current_link,
+                                image=current_image_link,
+                                date_posted=get_date(7),
+                                time_posted=current_time_posted,
+                                publisher=publisher,
+                            )
                         )
 
                     elif re.search("food + drink, lifestyle", current_category.lower()):
 
-                        # Append to approved_articles
                         approved_articles.append(
-                            {
-                                "headline": current_headline,
-                                "link": current_link,
-                                "image": current_image_link,
-                                "date_posted": get_date(7),
-                                "time_posted": current_time_posted,
-                                "publisher": publisher,
-                            }
+                            ArticleEntry(
+                                headline=current_headline,
+                                link=current_link,
+                                image=current_image_link,
+                                date_posted=get_date(7),
+                                time_posted=current_time_posted,
+                                publisher=publisher,
+                            )
                         )
 
         else:
@@ -1843,14 +1679,12 @@ def scrape_nooga_today_non_political(url, date, category):
     return approved_articles, total_articles_scraped
 
 
-def scrape_pulse(url, date, session):
-    # Lists for approved articles and scraping
-    approved_articles = list()
-
-    # Publisher variable
+def scrape_pulse(
+    url: str, date: str, session: requests.session
+) -> Tuple[List[ArticleEntry], Optional[int]]:
+    # Scraper variables
+    approved_articles = []
     publisher = "Chattanooga Pulse"
-
-    # Variable for news analytics
     total_articles_scraped = 0
 
     try:
@@ -1862,7 +1696,7 @@ def scrape_pulse(url, date, session):
 
         # Return a list indicating the website wasn't able to be reached
         return [
-            {"headline": "DOWN", "publisher": publisher, "date_posted": get_date(7)}
+            ArticleEntry(headline="DOWN", publisher=publisher, date_posted=get_date(7))
         ], None
 
     # The pulse pages has a main article that appears differently than the normal articles
@@ -1909,16 +1743,16 @@ def scrape_pulse(url, date, session):
         ).strftime("%H:%M")
 
         if is_relevant_article(current_headline, current_article_content):
-            # Append to approved_articles
+
             approved_articles.append(
-                {
-                    "headline": current_headline,
-                    "link": current_link,
-                    "image": current_image_link,
-                    "date_posted": get_date(7),
-                    "time_posted": current_time_posted,
-                    "publisher": publisher,
-                }
+                ArticleEntry(
+                    headline=current_headline,
+                    link=current_link,
+                    image=current_image_link,
+                    date_posted=get_date(7),
+                    time_posted=current_time_posted,
+                    publisher=publisher,
+                )
             )
 
     else:
@@ -1963,16 +1797,15 @@ def scrape_pulse(url, date, session):
             ).strftime("%H:%M")
 
             if is_relevant_article(current_headline, current_article_content):
-                # Append to approved_articles
                 approved_articles.append(
-                    {
-                        "headline": current_headline,
-                        "link": current_link,
-                        "image": current_image_link,
-                        "date_posted": get_date(7),
-                        "time_posted": current_time_posted,
-                        "publisher": publisher,
-                    }
+                    ArticleEntry(
+                        headline=current_headline,
+                        link=current_link,
+                        image=current_image_link,
+                        date_posted=get_date(7),
+                        time_posted=current_time_posted,
+                        publisher=publisher,
+                    )
                 )
 
         else:
@@ -2108,21 +1941,16 @@ def scrape_chattanooga_news_chronicle(url, date):
     return approved_articles, total_articles_scraped
 
 
-def scrape_local_three(url, date):
+def scrape_local_three(url: str, date: str) -> Tuple[List[ArticleEntry], Optional[int]]:
     def is_meteorologist(current_author):
         meteorologists = ["alison pryor", "david karnes", "cedric haynes", "clay smith"]
         mapped_list = map(lambda x: current_author in x, meteorologists)
         return sum(mapped_list) > 0
 
-    # This list will hold boolean values to determine if articles
-    # are about Chattanooga or Hamilton County
-    approved_articles = list()
-    all_local_articles = list()
-
-    # Populate publisher
+    # Scraper variables
+    approved_articles = []
+    all_local_articles = []
     publisher = "Local 3 News"
-
-    # Variable for news analytics
     total_articles_scraped = 0
 
     # Load Firefox driver and set headless options
@@ -2154,7 +1982,7 @@ def scrape_local_three(url, date):
 
         # Return a list indicating the website wasn't able to be reached
         return [
-            {"headline": "DOWN", "publisher": publisher, "date_posted": get_date(7)}
+            ArticleEntry(headline="DOWN", publisher=publisher, date_posted=get_date(7)),
         ], None
 
     # This assignment just makes the first line of the for loop work
@@ -2205,14 +2033,14 @@ def scrape_local_three(url, date):
             total_articles_scraped += 1
 
             all_local_articles.append(
-                {
-                    "headline": current_headline,
-                    "link": current_link,
-                    "image": current_image_link,
-                    "date_posted": get_date(7),
-                    "time_posted": current_time_posted,
-                    "publisher": publisher,
-                }
+                ArticleEntry(
+                    headline=current_headline,
+                    link=current_link,
+                    image=current_image_link,
+                    date_posted=get_date(7),
+                    time_posted=current_time_posted,
+                    publisher=publisher,
+                )
             )
 
         else:
@@ -2265,7 +2093,7 @@ def scrape_local_three(url, date):
 
     for article in all_local_articles:
 
-        headless_browser.get(article["link"])
+        headless_browser.get(article.link)
         time.sleep(5)
         current_article_soup = bs(headless_browser.page_source, "lxml")
         try:
@@ -2278,12 +2106,12 @@ def scrape_local_three(url, date):
                     "div", class_="asset-content"
                 ).text
                 logging.info("Used asset-content div for text")
-                logging.error(f'No article body for - {article["headline"]} - ')
+                logging.error(f"No article body for - {article.headline} - ")
             except AttributeError:
-                logging.info(f'article content blank for {article["headline"]}')
+                logging.info(f"article content blank for {article.headline}")
                 article_content = ""
 
-        if is_relevant_article(article["headline"], article_content):
+        if is_relevant_article(article.headline, article_content):
 
             approved_articles.append(article)
 
@@ -2430,135 +2258,7 @@ def scrape_youtube(url, date):
     return approved_articles
 
 
-def recycle_homepage(newly_found, currently_posted):
-    # Sort the two lists so the oldest stories are indexed first
-    newly_found = Sort(newly_found, False)
-    currently_posted = Sort(currently_posted, False)
-
-    # Make a list to return
-    list_to_return = []
-
-    # Loop through all articles and compare them for similarity
-    for current_article in currently_posted:
-        for new_article in newly_found:
-
-            # This publisher check is the easiest way to start a similarity check
-            if new_article["publisher"] == current_article["publisher"]:
-
-                # A matching headline, link, or image link will prove similarity
-                # This is really only a problem with TFP articles and sometimes Channel 9
-                # All Chattanoogan articles have the same image, so the last check is necessary
-                if (
-                    new_article["headline"].strip().lower()
-                    == current_article["headline"].strip().lower()
-                    or new_article["link"] == current_article["link"]
-                    or (
-                        new_article["image"] == current_article["image"]
-                        and current_article["publisher"] != "Chattanoogan"
-                    )
-                ):
-                    # Pop currently posted articles from the list of new articles
-                    newly_found.pop(newly_found.index(new_article))
-
-    # Add all current and remaining new articles to the list to return
-    # list_to_return.extend(currently_posted)
-
-    if len(newly_found) > 0:
-        list_to_return.extend(newly_found)
-
-    # return the list
-    return list_to_return
-
-
-def calculate_relevant_stats(articles, current_stats, stats):
-    # Calculate the relevant stats now that the homepage has been recycled
-    # This ensures the relevant article stats always match the homepage
-    # TFP stats
-    relevant_tfp = count_articles(
-        articles, "Chattanooga Times Free Press (subscription required)"
-    )
-    try:
-        stats["relevant_tfp"] = relevant_tfp
-    except:
-        try:
-            stats["relevant_tfp"] = current_stats["relevant_tfp"]
-        except:
-            stats["relevant_tfp"] = 0
-
-    # Chattanoogan stats
-    relevant_chattanoogan = count_articles(articles, "Chattanoogan")
-    try:
-        stats["relevant_chattanoogan"] = relevant_chattanoogan
-    except:
-        try:
-            stats["relevant_chattanoogan"] = current_stats["relevant_chattanoogan"]
-        except:
-            stats["relevant_chattanoogan"] = 0
-
-    # Chattanooga News Chronicle stats
-    relevant_chronicle = count_articles(articles, "Chattanooga News Chronicle")
-    try:
-        stats["relevant_chronicle"] = relevant_chronicle
-    except:
-        try:
-            stats["relevant_chronicle"] = current_stats["relevant_chronicle"]
-        except:
-            stats["relevant_chronicle"] = 0
-
-    # Fox Chattanooga stats
-    relevant_fox_chattanooga = count_articles(articles, "Fox Chattanooga")
-    try:
-        stats["relevant_fox_chattanooga"] = relevant_fox_chattanooga
-    except:
-        try:
-            stats["relevant_fox_chatatnooga"] = current_stats[
-                "relevant_fox_chattanooga"
-            ]
-        except:
-            stats["relevant_fox_chattanooga"] = 0
-
-    # Nooga Today stats
-    relevant_nooga_today = count_articles(articles, "Nooga Today")
-    try:
-        stats["relevant_nooga_today"] = relevant_nooga_today
-    except:
-        try:
-            stats["relevant_nooga_today"] = current_stats["relevant_nooga_today"]
-        except:
-            stats["relevant_nooga_today"] = 0
-
-    # Pulse stats
-    relevant_pulse = count_articles(articles, "Chattanooga Pulse")
-    try:
-        stats["relevant_pulse"] = relevant_pulse
-    except:
-        try:
-            stats["relevant_pulse"] = current_stats["relevant_pulse"]
-        except:
-            stats["relevant_pulse"] = 0
-
-    # WDEF stats
-    relevant_wdef = count_articles(articles, "WDEF News 12")
-    try:
-        stats["relevant_wdef"] = relevant_wdef
-    except:
-        try:
-            stats["relevant_wdef"] = current_stats["relevant_wdef"]
-        except:
-            stats["relevant_wdef"] = 0
-
-    # Local 3 stats
-    relevant_local_three = count_articles(articles, "Local 3 News")
-    try:
-        stats["relevant_local_three"] = relevant_local_three
-    except:
-        try:
-            stats["relevant_local_three"] = current_stats["relevant_local_three"]
-        except:
-            stats["relevant_local_three"] = 0
-
-
-def tweet_new_articles(article_list):
+def tweet_new_articles(article_list: List[ArticleEntry]) -> None:
     articles = article_list.copy()
 
     # Get auth tokens from Twitter API and create Tweepy API object
@@ -2578,64 +2278,58 @@ def tweet_new_articles(article_list):
     for current_article in articles:
 
         if (
-            current_article["publisher"]
+            current_article.publisher
             == "Chattanooga Times Free Press (subscription required)"
         ):
             current_publisher = "Times Free Press"
         else:
-            current_publisher = current_article["publisher"]
+            current_publisher = current_article.publisher
 
-        current_article["time_posted"] = current_article["time_posted"].strip()
+        time_posted = current_article.time_posted.strip()
 
         # Reformat time_posted to 12 hour format
-        if int(current_article["time_posted"][:2]) > 12:
+        if int(time_posted[:2]) > 12:
             current_time_posted = (
-                str(int(current_article["time_posted"][:2]) - 12)
-                + ":"
-                + current_article["time_posted"][-2:]
+                str(int(time_posted[:2]) - 12) + ":" + time_posted[-2:]
             )
             AM_or_PM = "PM"
 
-        elif int(current_article["time_posted"][:2]) == 0:
-            current_time_posted = "12:" + current_article["time_posted"][-2:]
+        elif int(time_posted[:2]) == 0:
+            current_time_posted = "12:" + time_posted[-2:]
             AM_or_PM = "AM"
 
-        elif int(current_article["time_posted"][:2]) == 12:
-            current_time_posted = current_article["time_posted"]
+        elif int(current_article.time_posted[:2]) == 12:
+            current_time_posted = time_posted
             AM_or_PM = "PM"
 
         else:
             # I type cast the string into an int and back to a string to get rid of the leading 0 in the string
-            current_time_posted = (
-                str(int(current_article["time_posted"][:2]))
-                + ":"
-                + current_article["time_posted"][-2:]
-            )
+            current_time_posted = str(int(time_posted[:2])) + ":" + time_posted[-2:]
             AM_or_PM = "AM"
 
-        tweet_headline = current_article["headline"]
+        tweet_headline = current_article.headline
         tweet_byline = (
             "\n\nPublished by "
-            + current_article["publisher"]
+            + current_article.publisher
             + " at "
             + current_time_posted
             + " "
             + AM_or_PM
             + "\n\n"
         )
-        tweet_link = current_article["link"]
+        tweet_link = current_article.link
 
-        if current_article["headline"] != last_headline:
+        if current_article.headline != last_headline:
             # Combine strings and send tweet
             api.update_status(tweet_headline + tweet_byline + tweet_link)
 
-        last_headline = current_article["headline"]
+        last_headline = current_article.headline
 
     # Status message
     logging.info("** New articles tweeted **")
 
 
-def post_to_facebook(article_list):
+def post_to_facebook(article_list: List[ArticleEntry]) -> None:
     articles = article_list.copy()
 
     # make graph object and assign facebook_page_id before looping through new articles
@@ -2648,43 +2342,37 @@ def post_to_facebook(article_list):
     # Refine publisher feature
     for current_article in articles:
         if (
-            current_article["publisher"]
+            current_article.publisher
             == "Chattanooga Times Free Press (subscription required)"
         ):
             current_publisher = "Times Free Press"
 
         else:
-            current_publisher = current_article["publisher"]
+            current_publisher = current_article.publisher
 
-        current_article["time_posted"] = current_article["time_posted"].strip()
+        time_posted = current_article.time_posted.strip()
 
         # Reformat time_posted to 12 hour format
-        if int(current_article["time_posted"][:2]) > 12:
+        if int(time_posted[:2]) > 12:
             current_time_posted = (
-                str(int(current_article["time_posted"][:2]) - 12)
-                + ":"
-                + current_article["time_posted"][-2:]
+                str(int(time_posted[:2]) - 12) + ":" + time_posted[-2:]
             )
             AM_or_PM = "PM"
 
-        elif int(current_article["time_posted"][:2]) == 0:
-            current_time_posted = "12:" + current_article["time_posted"][-2:]
+        elif int(time_posted[:2]) == 0:
+            current_time_posted = "12:" + time_posted[-2:]
             AM_or_PM = "AM"
 
-        elif int(current_article["time_posted"][:2]) == 12:
-            current_time_posted = current_article["time_posted"]
+        elif int(current_article.time_posted[:2]) == 12:
+            current_time_posted = time_posted
             AM_or_PM = "PM"
 
         else:
             # I type cast the string into an int and back to a string to get rid of the leading 0 in the string
-            current_time_posted = (
-                str(int(current_article["time_posted"][:2]))
-                + ":"
-                + current_article["time_posted"][-2:]
-            )
+            current_time_posted = str(int(time_posted[:2])) + ":" + time_posted[-2:]
             AM_or_PM = "AM"
 
-        post_headline = current_article["headline"]
+        post_headline = current_article.headline
         post_byline = (
             "\n\nPublished by "
             + current_publisher
@@ -2696,87 +2384,32 @@ def post_to_facebook(article_list):
 
         message_to_post = post_headline + post_byline
 
-        if current_article["headline"] != last_headline:
+        if current_article.headline != last_headline:
             graph.put_object(
-                page_id, "feed", message=message_to_post, link=current_article["link"]
+                page_id, "feed", message=message_to_post, link=current_article.link
             )
 
-        last_headline = current_article["headline"]
+        last_headline = current_article.headline
 
     # print("** New articles posted to Facebook **")
     logging.info("** New articles posted to Facebook **")
 
 
 # Scraper function
-async def scrape_news():
+async def scrape_news() -> List[ArticleEntry]:
     if time.localtime()[8] == 1:
         logging.info("--- SCRAPER STARTING WITH DST ACTIVE ---")
     else:
         logging.info("--- SCRAPER STARTING WITH DST INACTIVE ---")
-
-    # Today's news file
-    today_news_file = (
-        os.path.dirname(os.path.realpath("__file__")) + "/data/" + get_date(7) + ".news"
-    )
-    # today_stats_file = os.path.dirname(os.path.realpath('__file__')) + '/data/' + get_date(7) + '.stats'
-
-    logging.info("news file path: " + today_news_file)
-    # logging.info('stats file path: ' + today_stats_file)
 
     # HTTP session to use for all scrapers
     # This should speed things up by not constantly having to open new connections for each scrape
     scraper_session = requests.Session()
 
     # List for our found articles
-    articles = list()
-
-    # Dictionary for stats
-    # stats = {
-    #     'scraped_chattanoogan': 0,
-    #     'relevant_chattanoogan': 0,
-    #     'scraped_chronicle': 0,
-    #     'relevant_chronicle': 0,
-    #     'scraped_tfp': 0,
-    #     'relevant_tfp': 0,
-    #     'scraped_fox_chattanooga': 0,
-    #     'relevant_fox_chattanooga': 0,
-    #     'scraped_nooga_today': 0,
-    #     'relevant_nooga_today': 0,
-    #     'scraped_pulse': 0,
-    #     'relevant_pulse': 0,
-    #     'scraped_wdef': 0,
-    #     'relevant_wdef': 0,
-    #     'scraped_local_three': 0,
-    #     'relevant_local_three': 0
-    # }
-
-    # Load current stats if they exist
-    # try:
-    #     current_stats = pickle.load(open(today_stats_file, 'rb'))
-    #     logging.info('stats loaded from file')
-    # except:
-    #     logging.info('no stats file loaded')
-    #     current_stats = {
-    #         'scraped_chattanoogan': 0,
-    #         'relevant_chattanoogan': 0,
-    #         'scraped_chronicle': 0,
-    #         'relevant_chronicle': 0,
-    #         'scraped_tfp': 0,
-    #         'relevant_tfp': 0,
-    #         'scraped_fox_chattanooga': 0,
-    #         'relevant_fox_chattanooga': 0,
-    #         'scraped_nooga_today': 0,
-    #         'relevant_nooga_today': 0,
-    #         'scraped_pulse': 0,
-    #         'relevant_pulse': 0,
-    #         'scraped_wdef': 0,
-    #         'relevant_wdef': 0,
-    #         'scraped_local_three': 0,
-    #         'relevant_local_three': 0
-    #     }
+    articles = []
 
     # ---------- TIMES FREE PRESS ---------- #
-    # For breaking/political section
     try:
         logging.info("TFP scraper started")
 
@@ -2798,43 +2431,19 @@ async def scrape_news():
             scraper_session,
         )
 
-        tfp_articles = list()
+        tfp_articles = []
         tfp_articles.extend(times_breaking_articles)
         tfp_articles.extend(times_political_articles)
         tfp_articles.extend(times_business_articles)
         # tfp_articles = times_breaking_articles + times_political_articles + times_business_articles
-
-        # Put stat values into variables
-        scraped_tfp = (
-            scraped_times_business + scraped_times_political + scraped_times_breaking
-        )
-        # if scraped_tfp < current_stats['scraped_tfp']:
-        #     scraped_tfp = current_stats['scraped_tfp']
-
-        relevant_tfp = len(tfp_articles)
-
-        # stats['scraped_tfp'] = scraped_tfp
-        # stats['relevant_tfp'] = relevant_tfp
 
         delete_dupes(tfp_articles)
         articles.extend(tfp_articles)
 
     except Exception as e:
         logging.error("exception caught in TFP scraper", exc_info=True)
-        # print("\tException caught in TFP scraper")
-        # print(e)
-        # print()
-
-        # Put stats variables into dict
-        # try:
-        #     stats['scraped_tfp'] = current_stats['scraped_tfp']
-        #     stats['relevant_tfp'] = current_stats['relevant_tfp']
-        # except:
-        #     stats['scraped_tfp'] = 0
-        #     stats['relevant_tfp'] = 0
 
     # ---------- CHATTANOOGAN ---------- #
-    # For Breaking/Political section
     try:
         logging.info("Chattanoogan scraper started")
 
@@ -2865,28 +2474,8 @@ async def scrape_news():
         articles.extend(chattanoogan_happenings_articles)
         articles.extend(chattanoogan_business_articles)
 
-        # Put stats values into variables
-        # scraped_chattanoogan = scraped_chattanoogan_business + scraped_chattanoogan_happenings + scraped_chattanoogan_news
-        # relevant_chattanoogan = len(chattanoogan_business_articles) + len(chattanoogan_happenings_articles) + len(
-        #     chattanoogan_news_articles)
-
-        # Put stat variables into stats dict
-        # stats['scraped_chattanoogan'] = scraped_chattanoogan
-        # stats['relevant_chattanoogan'] = relevant_chattanoogan
-
     except Exception as e:
         logging.error("Exception caught in Chattanoogan scraper", exc_info=True)
-        # print("\tException caught in Chattanoogan scraper")
-        # print(e)
-        # print()
-
-        # Put stat variables into stats dict
-        # try:
-        #     stats['scraped_chattanoogan'] = current_stats['scraped_chattanoogan']
-        #     stats['relevant_chattanoogan'] = current_stats['relevant_chattanoogan']
-        # except:
-        #     stats['scraped_chattanoogan'] = 0
-        #     stats['relevant_chattanoogan'] = 0
 
     # ---------- FOX CHATTANOOGA ---------- #
     try:
@@ -2900,27 +2489,12 @@ async def scrape_news():
 
         relevant_fox_chattanooga = len(fox_chattanooga_articles)
 
-        # Put the stat variables into the stats dict
-        # stats['scraped_fox_chattanooga'] = scraped_fox_chattanooga
-        # stats['relevant_fox_chattanooga'] = relevant_fox_chattanooga
-
     except Exception as e:
         logging.error("Exception caught in Fox Chattanooga scraper", exc_info=True)
-        # print('\tException caught in Fox Chattanooga scraper')
-        # print(e)
-        # traceback.print_exc()
-        # print()
 
-        # Add existing stat variables to the dict if the stats file exists, otherwise make them 0
-        # try:
-        #     stats['scraped_fox_chattanooga'] = current_stats['scraped_fox_chattanooga']
-        #     stats['relevant_fox_chattanooga'] = current_stats['relevant_fox_chattanooga']
-        # except:
-        #     stats['scraped_fox_chattanooga'] = 0
-        #     stats['relevant_fox_chattanooga'] = 0
-
-    os.system("pkill -f firefox")
-    logging.info("Firefox pkill, RAM cleared")
+    finally:
+        os.system("pkill -f firefox")
+        logging.info("Firefox pkill, RAM cleared")
 
     # ---------- WDEF ---------- #
     try:
@@ -2933,29 +2507,10 @@ async def scrape_news():
         )
         articles.extend(wdef_articles)
 
-        relevant_wdef = len(wdef_articles)
-
-        # # Add stats to dict
-        # stats['scraped_wdef'] = scraped_wdef
-        # stats['relevant_wdef'] = relevant_wdef
-
     except Exception as e:
         logging.error("Exception caught in WDEF scraper", exc_info=True)
-        # print('\tException caught in WDEF scraper')
-        # print(e)
-        # traceback.print_exc()
-        # print()
-
-        # Try to assign the current stats, make them 0 if they aren't available
-        # try:
-        #     stats['scraped_wdef'] = current_stats['scraped_wdef']
-        #     stats['relevant_wdef'] = current_stats['relevant_wdef']
-        # except:
-        #     stats['scraped_wdef'] = 0
-        #     stats['relevant_wdef'] = 0
 
     # ---------- NOOGA TODAY ---------- #
-    # For breaking / political section
     try:
         logging.info("Nooga Today scraper started")
 
@@ -2987,37 +2542,12 @@ async def scrape_news():
         articles.extend(nooga_today_city_articles)
         articles.extend(nooga_today_food_articles)
 
-        # Add stats to variables
-        scraped_nooga_today = (
-            scraped_nooga_today_food
-            + scraped_nooga_today_city
-            + scraped_nooga_today_news
-        )
-        relevant_nooga_today = (
-            len(nooga_today_food_articles)
-            + len(nooga_today_city_articles)
-            + len(nooga_today_news_articles)
-        )
-
-        # Put variables in dict
-        # stats['scraped_nooga_today'] = scraped_nooga_today
-        # stats['relevant_nooga_today'] = relevant_nooga_today
-
     except Exception as e:
         logging.error("Exception caught in Nooga Today scraper", exc_info=True)
-        # print('\tException caught in Nooga Today scraper')
-        # print(e)
-        # print()
 
-        # try:
-        #     stats['scraped_nooga_today'] = current_stats['scraped_nooga_today']
-        #     stats['relevant_nooga_today'] = current_stats['relevant_nooga_today']
-        # except:
-        #     stats['scraped_nooga_today'] = 0
-        #     stats['relevant_nooga_today'] = 0
-
-    os.system("pkill -f firefox")
-    logging.info("Firefox pkill, RAM cleared")
+    finally:
+        os.system("pkill -f firefox")
+        logging.info("Firefox pkill, RAM cleared")
     # ---------- CHATTANOOGA PULSE ---------- #
     try:
         logging.info("Pulse scraper started")
@@ -3028,35 +2558,19 @@ async def scrape_news():
             get_date(1),
             scraper_session,
         )
+
         pulse_city_articles, scraped_pulse_city = scrape_pulse(
             links["chattanooga_pulse"]["base"]
             + links["chattanooga_pulse"]["city_life"],
             get_date(1),
             scraper_session,
         )
+
         articles.extend(pulse_news_articles)
         articles.extend(pulse_city_articles)
 
-        # Populate stats variables
-        # scraped_pulse = scraped_pulse_news + scraped_pulse_city
-        # relevant_pulse = len(pulse_news_articles) + len(pulse_city_articles)
-
-        # Add stats to dict
-        # stats['scraped_pulse'] = scraped_pulse
-        # stats['relevant_pulse'] = relevant_pulse
-
     except Exception as e:
         logging.error("Exception caught in Pulse scraper", exc_info=True)
-        # print('\tException caught in Pulse scraper')
-        # print(e)
-        # print()
-
-        # try:
-        #     stats['scraped_pulse'] = current_stats['scraped_pulse']
-        #     stats['relevant_pulse'] = current_stats['relevant_pulse']
-        # except:
-        #     stats['scraped_pulse'] = 0
-        #     stats['relevant_pulse'] = 0
 
     # ---------- CHATTANOOGA NEWS CHRONICLE ---------- #
     # try:
@@ -3096,63 +2610,24 @@ async def scrape_news():
             links["local_three"]["base"] + links["local_three"]["local_news"],
             get_date(1),
         )
+
         articles.extend(local_three_articles)
-
-        relevant_local_three = len(local_three_articles)
-
-        # stats['scraped_local_three'] = scraped_local_three
-        # stats['relevant_local_three'] = relevant_local_three
 
     except Exception as e:
         logging.error("Exception caught in Local 3 News scraper", exc_info=True)
-        # print('\tException caught in Local 3 News scraper')
-        # print(e)
-        # print()
-
-        # try:
-        #     stats['scraped_local_three'] = current_stats['scraped_local_three']
-        #     stats['relevant_local_three'] = current_stats['relevant_local_three']
-        # except:
-        #     stats['scraped_local_three'] = 0
-        #     stats['relevant_local_three'] = 0
-
-    # ---------- CHA GUIDE YOUTUBE ---------- #
-    # try:
-    #     cha_guide_videos = scrape_youtube(links['youtube']['base'] + links['youtube']['cha_guide'], get_date(7))
-    #     articles.extend(cha_guide_videos)
-
-    # except Exception as e:
-    #     print('\tException caught in CHA GUIDE scraper')
-    #     print("\t##" + str(e) + "##")
-    #     print()
-
-    #     try:
-    #         stats['scraped_chronicle'] = current_stats['scraped_chronicle']
-    #         stats['relevant_chronicle'] = current_stats['relevant_chronicle']
-    #     except:
-    #         stats['scraped_chronicle'] = 0
-    #         stats['relevant_chronicle'] = 0
-
-    # Try to open today's news file
-    # The except catches the exception at the beginning of the day when no file has been made
-    try:
-        current_posted_articles = pickle.load(open(today_news_file, "rb"))
-    except FileNotFoundError:
-        current_posted_articles = list()
 
     # Loop through stories to make sure time_posted isn't left as None
     # This is mostly for TFP articles
     for x in range(0, len(articles)):
         try:
-            if articles[x]["time_posted"] == None and articles[x]["headline"] != "DOWN":
-                articles[x]["time_posted"] = "12:00"
+            if articles[x].time_posted == None and articles[x].headline != "DOWN":
+                articles[x].time_posted = "12:00"
 
         except KeyError:
             # This except statement catches and removes any dictionaries
             # that indicate a site is down
             # These should be the only things that throw an exception
-            logging.info(articles[x]["publisher"] + " " + articles[x]["headline"])
-            # print(articles[x]['publisher'] + " " + articles[x]['headline'])
+            logging.info(articles[x].publisher + " " + articles[x].headline)
             articles.pop(x)
 
         # This catches index errors that occur when publishers are down and items get popped
@@ -3161,61 +2636,26 @@ async def scrape_news():
         except IndexError:
             continue
 
-    # Recycle the homepage
-    if len(current_posted_articles) > 0:
-        articles_to_save = recycle_homepage(articles, current_posted_articles)
-    else:
-        articles_to_save = articles
-
-    # Sort our articles after the homepage and newly found articles have been merged
-    articles_to_save = Sort(articles_to_save, True)
-
-    # Dump the list of articles from recycle_homepage to the .news file
-    # pickle.dump(articles_to_save, open(today_news_file, 'wb'))
     logging.info("articles file saved")
 
-    # Status logs
-    # logging.info(str(len(articles_to_save)) + " relevant articles currently saved")
-    # logging.info(str(len(articles)) + " of those are newly found")
-    # print("\n-- " + str(len(articles_to_save)) + " relevant articles currently saved --")
-    # print("-- " + str(len(articles)) + " of those are newly found --\n")
-
-    # This is where something like a facebook/twitter/instagram API would come in handy
-    # Instagram maybe should get its own command in data_commands since those are cherry-picked
-    # Figure out how to make graphics automatically for IG posts
-
-    # This keeps firefox from taking up a ton of memory
     os.system("pkill -f firefox")
     logging.info("Firefox pkill, RAM cleared")
-
-    # calculate_relevant_stats(articles_to_save, current_stats, stats)
-    # pickle.dump(stats, open(today_stats_file, 'wb'))
-    # logging.info('stats file saved')
-
-    # if len(articles) > 0:
-    #     try:
-    #         tweet_new_articles(articles)
-    #     except Exception as e:
-    #         logging.error('Articles not tweeted', exc_info=True)
-    #     try:
-    #         post_to_facebook(articles)
-    #     except Exception as e:
-    #         logging.error('Articles not posted to Facebook', exc_info=True)
-
     logging.info("--- SCRAPER EXITING --- \n")
 
-    return articles_to_save
+    return articles
 
 
-def Sort(sub_li, to_reverse):
+def Sort(sub_li: List[ArticleEntry], to_reverse: bool) -> List[ArticleEntry]:
     # reverse = None (Sorts in Ascending order)
     # key is set to sort using second element of
     # sublist lambda has been used
-    sub_li.sort(key=lambda x: x["time_posted"], reverse=to_reverse)
+    sub_li.sort(key=lambda x: x.time_posted, reverse=to_reverse)
     return sub_li
 
 
-async def already_saved(article: dict, table: sqlalchemy.Table, db: Database) -> bool:
+async def already_saved(
+    article: ArticleEntry, table: sqlalchemy.Table, db: Database
+) -> bool:
     async def get_result(db, query):
         return await db.execute(query)
 
@@ -3223,10 +2663,7 @@ async def already_saved(article: dict, table: sqlalchemy.Table, db: Database) ->
         table.select()
         .exists()
         .select()
-        .where(
-            (table.c.link == article["link"])
-            | (table.c.headline == article["headline"])
-        )
+        .where((table.c.link == article.link) | (table.c.headline == article.headline))
     )
 
     task = asyncio.create_task(get_result(db, query))
@@ -3237,7 +2674,7 @@ async def already_saved(article: dict, table: sqlalchemy.Table, db: Database) ->
         return True if task.result() else False
 
 
-async def save_articles(conn: MC_Connection, articles: list) -> None:
+async def save_articles(conn: MC_Connection, articles: List[ArticleEntry]) -> None:
     list_articles_saved = []
     articles_saved = 0
     table = conn.get_table("articles")
@@ -3246,11 +2683,11 @@ async def save_articles(conn: MC_Connection, articles: list) -> None:
         for article in articles:
             if not await already_saved(article, table, conn.get_db_obj()):
                 query = table.insert().values(
-                    headline=article["headline"],
-                    link=article["link"],
-                    image=article["image"],
-                    time_posted=article["time_posted"],
-                    publisher=article["publisher"],
+                    headline=article.headline,
+                    link=article.link,
+                    image=article.image,
+                    time_posted=article.time_posted,
+                    publisher=article.publisher,
                 )
                 await conn.get_db_obj().execute(query)
                 articles_saved += 1
@@ -3260,10 +2697,10 @@ async def save_articles(conn: MC_Connection, articles: list) -> None:
     post_to_facebook(list_articles_saved)
 
 
-async def main():
-    # Scrape news, make sqlite db connection in the meantime
-    current_articles = await scrape_news()
+async def main() -> None:
+    # Scrape news, make db connection in the meantime
     data_highway = MC_Connection()
+    current_articles = await scrape_news()
     # Connect to the database
     task = asyncio.create_task(data_highway.plug_in())
     done, pending = await asyncio.wait({task})
