@@ -412,7 +412,7 @@ def is_from_today_tfp(link: str) -> bool:
     article_request = requests.get(link)
     article_soup = bs(article_request.text, "lxml")
 
-    posted_today_indicator = article_soup.find("p", class_="article__date")[:5]
+    posted_today_indicator = article_soup.find("p", class_="article__date").text[:5]
 
     if posted_today_indicator.lower() == "today":
         return True
@@ -547,7 +547,7 @@ def delete_dupes(tfp_list: List[ArticleEntry]) -> None:
 
 
 # This function will go to the given link and return the body of the article
-def get_pulse_article_content(link: str, session: requests.session) -> str:
+def get_pulse_article_content(link: str, session: requests.Session) -> str:
     # Make a string to return
     text_to_return = ""
 
@@ -595,7 +595,7 @@ def get_wdef_article_content(link, session):
 
 
 def scrape_chattanoogan(
-    url: str, date: str, session: requests.session, category: str = None
+    url: str, date: str, session: requests.Session, category: str = None
 ) -> Tuple[List[ArticleEntry], Optional[int]]:
     # Scraper variables
     approved_articles = []
@@ -994,7 +994,7 @@ def scrape_fox_chattanooga(
 
 
 def scrape_wdef(
-    url: str, date: str, session: requests.session
+    url: str, date: str, session: requests.Session
 ) -> Tuple[List[ArticleEntry], Optional[int]]:
     # Scraper variables
     approved_articles = []
@@ -1118,13 +1118,14 @@ def scrape_wdef(
 
 
 def scrape_times_free_press(
-    url: str, date: str, session: requests.session
+    url: str, date: str, session: requests.Session
 ) -> Tuple[List[ArticleEntry], Optional[int]]:
     # Scraper variables
     approved_articles = []
     total_articles_scraped = 0
     current_time_posted = None
     publisher = "Times Free Press"
+    extra_session = requests.Session()
 
     try:
 
@@ -1182,7 +1183,6 @@ def scrape_times_free_press(
         # This if check is needed to not fail out when no articles are left
         # GO HERE NEXT
         if current_article:
-            current_article = content_section.find("article", "card")
             current_headline = current_article.find("h3", "card__title").a.text.rstrip()
             current_excerpt = current_article.find("p", "card__tease").text.lower()
             current_link = current_article.find("a", "card__link")["href"]
@@ -1680,7 +1680,7 @@ def scrape_nooga_today_non_political(
 
 
 def scrape_pulse(
-    url: str, date: str, session: requests.session
+    url: str, date: str, session: requests.Session
 ) -> Tuple[List[ArticleEntry], Optional[int]]:
     # Scraper variables
     approved_articles = []
