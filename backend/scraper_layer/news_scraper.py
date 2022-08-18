@@ -413,9 +413,9 @@ def is_from_today_tfp(link: str) -> bool:
     article_request = requests.get(link)
     article_soup = bs(article_request.text, "lxml")
 
-    posted_today_indicator = article_soup.find("p", class_="article__date").text[:5]
+    posted_today_indicator = article_soup.find("p", class_="article__date").text
 
-    if posted_today_indicator.lower() == "today":
+    if re.search("today", posted_today_indicator.lower()):
         return True
 
     return False
@@ -515,7 +515,10 @@ def get_tfp_article_time_posted(link: str) -> str:
 
     # Format of time_posted is " 4:33 pm"
     time_posted = (
-        article_soup.find("p", class_="article__date")[-10:].strip().replace(".", "")
+        article_soup.find("p", class_="article__date")
+        .text.strip()[-10:]
+        .strip()
+        .replace(".", "")
     )
     datetime_obj = datetime.strptime(time_posted, "%I:%M %p")
     date_string_to_return = datetime.strftime(datetime_obj, "%H:%M")
@@ -1160,7 +1163,9 @@ def scrape_times_free_press(
             # Append all information to approved_articles if the article is about chattanooga and from today
             if is_relevant_article(current_headline, current_excerpt):
 
-                current_time_posted = get_tfp_article_time_posted(current_link)
+                current_time_posted = get_tfp_article_time_posted(
+                    links["times_free_press"]["base"] + current_link
+                )
 
                 approved_articles.append(
                     ArticleEntry(

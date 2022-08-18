@@ -21,6 +21,7 @@ module.exports = {
       "www.wdef.com",
       "mychattanooga-files.nyc3.digitaloceanspaces.com",
       "s.gravatar.com",
+      "wehco.media.clients.ellingtoncms.com",
     ],
   },
   reactStrictMode: false,
