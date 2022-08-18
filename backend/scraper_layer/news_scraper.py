@@ -2083,21 +2083,16 @@ def scrape_chattanooga_news_chronicle(url, date):
     return approved_articles, total_articles_scraped
 
 
-def scrape_local_three(url, date):
+def scrape_local_three(url: str, date: str) -> Tuple[List[ArticleEntry], Optional[int]]:
     def is_meteorologist(current_author):
         meteorologists = ["alison pryor", "david karnes", "cedric haynes", "clay smith"]
         mapped_list = map(lambda x: current_author in x, meteorologists)
         return sum(mapped_list) > 0
 
-    # This list will hold boolean values to determine if articles
-    # are about Chattanooga or Hamilton County
-    approved_articles = list()
-    all_local_articles = list()
-
-    # Populate publisher
+    # Scraper variables
+    approved_articles = []
+    all_local_articles = []
     publisher = "Local 3 News"
-
-    # Variable for news analytics
     total_articles_scraped = 0
 
     # Load Firefox driver and set headless options
@@ -2129,7 +2124,7 @@ def scrape_local_three(url, date):
 
         # Return a list indicating the website wasn't able to be reached
         return [
-            {"headline": "DOWN", "publisher": publisher, "date_posted": get_date(7)}
+            ArticleEntry(headline="DOWN", publisher=publisher, date_posted=get_date(7)),
         ], None
 
     # This assignment just makes the first line of the for loop work
@@ -2180,14 +2175,14 @@ def scrape_local_three(url, date):
             total_articles_scraped += 1
 
             all_local_articles.append(
-                {
-                    "headline": current_headline,
-                    "link": current_link,
-                    "image": current_image_link,
-                    "date_posted": get_date(7),
-                    "time_posted": current_time_posted,
-                    "publisher": publisher,
-                }
+                ArticleEntry(
+                    headline=current_headline,
+                    link=current_link,
+                    image=current_image_link,
+                    date_posted=get_date(7),
+                    time_posted=current_time_posted,
+                    publisher=publisher,
+                )
             )
 
         else:
@@ -2240,7 +2235,7 @@ def scrape_local_three(url, date):
 
     for article in all_local_articles:
 
-        headless_browser.get(article["link"])
+        headless_browser.get(article.link)
         time.sleep(5)
         current_article_soup = bs(headless_browser.page_source, "lxml")
         try:
@@ -2253,12 +2248,12 @@ def scrape_local_three(url, date):
                     "div", class_="asset-content"
                 ).text
                 logging.info("Used asset-content div for text")
-                logging.error(f'No article body for - {article["headline"]} - ')
+                logging.error(f"No article body for - {article.headline} - ")
             except AttributeError:
-                logging.info(f'article content blank for {article["headline"]}')
+                logging.info(f"article content blank for {article.headline}")
                 article_content = ""
 
-        if is_relevant_article(article["headline"], article_content):
+        if is_relevant_article(article.headline, article_content):
 
             approved_articles.append(article)
 
