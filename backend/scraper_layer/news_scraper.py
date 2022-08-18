@@ -273,6 +273,7 @@ def get_date(format: int) -> str:
         return today.strftime("%A")
     elif format == 12:
         return today.strftime("%-H:%M")
+    return "oops not a correct input"
 
 
 # This function will add a 0 to the beginning of the published date of a given article
@@ -2620,8 +2621,9 @@ async def scrape_news() -> List[ArticleEntry]:
     # This is mostly for TFP articles
     for x in range(0, len(articles)):
         try:
-            if articles[x].time_posted == None and articles[x].headline != "DOWN":
-                articles[x].time_posted = "12:00"
+            if articles[x].time_posted == None and articles[x].headline == "DOWN":
+                articles.pop(x)
+                logging.info(articles[x].publisher + " " + articles[x].headline)
 
         except KeyError:
             # This except statement catches and removes any dictionaries
