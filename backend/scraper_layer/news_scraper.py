@@ -2528,7 +2528,7 @@ def calculate_relevant_stats(articles, current_stats, stats):
             stats["relevant_local_three"] = 0
 
 
-def tweet_new_articles(article_list):
+def tweet_new_articles(article_list: List[ArticleEntry]) -> None:
     articles = article_list.copy()
 
     # Get auth tokens from Twitter API and create Tweepy API object
@@ -2548,58 +2548,58 @@ def tweet_new_articles(article_list):
     for current_article in articles:
 
         if (
-            current_article["publisher"]
+            current_article.publisher
             == "Chattanooga Times Free Press (subscription required)"
         ):
             current_publisher = "Times Free Press"
         else:
-            current_publisher = current_article["publisher"]
+            current_publisher = current_article.publisher
 
-        current_article["time_posted"] = current_article["time_posted"].strip()
+        current_article.time_posted = current_article.time_posted.strip()
 
         # Reformat time_posted to 12 hour format
-        if int(current_article["time_posted"][:2]) > 12:
+        if int(current_article.time_posted[:2]) > 12:
             current_time_posted = (
-                str(int(current_article["time_posted"][:2]) - 12)
+                str(int(current_article.time_posted[:2]) - 12)
                 + ":"
-                + current_article["time_posted"][-2:]
+                + current_article.time_posted[-2:]
             )
             AM_or_PM = "PM"
 
-        elif int(current_article["time_posted"][:2]) == 0:
-            current_time_posted = "12:" + current_article["time_posted"][-2:]
+        elif int(current_article.time_posted[:2]) == 0:
+            current_time_posted = "12:" + current_article.time_posted[-2:]
             AM_or_PM = "AM"
 
-        elif int(current_article["time_posted"][:2]) == 12:
-            current_time_posted = current_article["time_posted"]
+        elif int(current_article.time_posted[:2]) == 12:
+            current_time_posted = current_article.time_posted
             AM_or_PM = "PM"
 
         else:
             # I type cast the string into an int and back to a string to get rid of the leading 0 in the string
             current_time_posted = (
-                str(int(current_article["time_posted"][:2]))
+                str(int(current_article.time_posted[:2]))
                 + ":"
-                + current_article["time_posted"][-2:]
+                + current_article.time_posted[-2:]
             )
             AM_or_PM = "AM"
 
-        tweet_headline = current_article["headline"]
+        tweet_headline = current_article.headline
         tweet_byline = (
             "\n\nPublished by "
-            + current_article["publisher"]
+            + current_article.publisher
             + " at "
             + current_time_posted
             + " "
             + AM_or_PM
             + "\n\n"
         )
-        tweet_link = current_article["link"]
+        tweet_link = current_article.link
 
-        if current_article["headline"] != last_headline:
+        if current_article.headline != last_headline:
             # Combine strings and send tweet
             api.update_status(tweet_headline + tweet_byline + tweet_link)
 
-        last_headline = current_article["headline"]
+        last_headline = current_article.headline
 
     # Status message
     logging.info("** New articles tweeted **")
