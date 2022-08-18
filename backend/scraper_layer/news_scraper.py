@@ -30,7 +30,7 @@ from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from database_module import MC_Connection, Article
+from database_module import MC_Connection
 from result import Ok, Err, Result
 
 # from sqlalchemy import exists
@@ -407,21 +407,17 @@ def calculate_time_posted(time_since_posted, hour_or_minute):
 
 
 # This function determines if Times Free Press articles are from today
-def is_from_today(link: str) -> bool:
+def is_from_today_tfp(link: str) -> bool:
     # Get the page html and load into a bs object
     article_request = requests.get(link)
     article_soup = bs(article_request.text, "lxml")
 
-    # Find the byline
-    byline = article_soup.find("span", class_="most-recent-article-bi-line")
+    posted_today_indicator = article_soup.find("p", class_="article__date")[:5]
 
-    # This was added to account for story series without bylines
-    if byline:
-        byline = byline.text
-        if re.search(get_date(8), byline):
-            return True
-    else:
-        return False
+    if posted_today_indicator.lower() == "today":
+        return True
+
+    return False
 
 
 # This function is used to dtermine is an article is relevant by searching
@@ -509,6 +505,21 @@ def write_to_times_file(found_articles: List[ArticleEntry], file_name: str) -> N
             found_articles.pop()
 
     pickle.dump(current_tfp_articles, open(file_name, "wb"))
+
+
+# This will need to be changed to datetime object instead of string
+def get_tfp_article_time_posted(link: str) -> str:
+    article_request = requests.get(link)
+    article_soup = bs(article_request.text, "lxml")
+
+    # Format of time_posted is " 4:33 pm"
+    time_posted = (
+        article_soup.find("p", class_="article__date")[-10:].strip().replace(".", "")
+    )
+    datetime_obj = datetime.strptime(time_posted, "%I:%M %p")
+    date_string_to_return = datetime.strftime(datetime_obj, "%H:%M")
+
+    return date_string_to_return
 
 
 # This funciton deletes stories from tfp lists that are duplicates
@@ -1115,17 +1126,6 @@ def scrape_times_free_press(
     current_time_posted = None
     publisher = "Times Free Press"
 
-    # Output file for writing TFP article post times
-    times_file_name = (
-        os.path.dirname(os.path.realpath("__file__"))
-        + "/data/tfp-article-times-"
-        + get_date(3)
-        + ".tfp"
-    )
-    # times_file = open(times_file_name, 'a')
-
-    os.system(f"touch {times_file_name}")
-
     try:
 
         # Get the page request and make a bs object with it
@@ -1140,95 +1140,25 @@ def scrape_times_free_press(
         ], None
 
     # Main content section
-    content_section = times_soup.find("div", class_="recommended")
+    content_section = times_soup.find("ul", class_="archive__list | card-list")
 
     # Priming read for scraping loop
-    current_article = content_section.find(
-        "div", "recommended-article recommended__article first"
-    )
-    current_headline = current_article.find(
-        "span", "recommended__article-title"
-    ).a.text.rstrip()
-    current_excerpt = current_article.find(
-        "p", "recommended__article-lead"
-    ).text.lower()
-    current_link = current_article.find("span", "recommended__article-title").a["href"]
-    current_image_div = current_article.find("a", class_="recommended__article-image")
-    current_image_link = (
-        current_image_div["style"].split()[1].replace("url('", "").replace("');", "")
-    )
-    current_byline = current_article.find(
-        "span", class_="recommended__article-bi-line"
-    ).text.lower()
-
-    # Get the right time data based on if the article was posted over or under an hour ago
-    if re.search("\d minute", current_byline):
-
-        # Search for double digit minutes before single digits
-        # To avoid time keeping bugs
-        if re.search("\d\d minute", current_byline):
-            current_time_since_posted = re.search("\d\d minute", current_byline).group()
-        else:
-            current_time_since_posted = re.search("\d minute", current_byline).group()
-
-    elif re.search("\d hour", current_byline):
-
-        # Search for double digit hours before single digits
-        # To avoid time keeping bugs
-        if re.search("\d\d hour", current_byline):
-            current_time_since_posted = re.search("\d\d hour", current_byline).group()
-        else:
-            current_time_since_posted = re.search("\d hour", current_byline).group()
-    else:
-        current_time_since_posted = "none"
+    current_article = content_section.find("article", "card")
+    current_headline = current_article.find("h3", "card__title").a.text.rstrip()
+    current_excerpt = current_article.find("p", "card__tease").text.lower()
+    current_link = current_article.find("a", "card__link")["href"]
+    current_image_link = current_article.find("img", class_="card__thumbnail")["src"]
 
     while current_article:
 
-        if is_from_today(links["times_free_press"]["base"] + current_link):
+        if is_from_today_tfp(links["times_free_press"]["base"] + current_link):
 
             total_articles_scraped += 1
 
             # Append all information to approved_articles if the article is about chattanooga and from today
             if is_relevant_article(current_headline, current_excerpt):
 
-                # DELETE THIS EVENTUALLY CURRENTLY BEING TESTED LOCALLY ON EL TIGRE
-                found_time = search_tfp_times(current_headline.lower(), times_file_name)
-
-                # If checks for stories posted any number of hours ago OR if the file already exists
-                if found_time:
-                    current_time_posted = found_time
-
-                elif re.search("hour", current_time_since_posted):
-                    hour_or_minute = (
-                        re.search("hour", current_time_since_posted).group().lower()
-                    )
-                    current_time_posted = calculate_time_posted(
-                        current_time_since_posted, hour_or_minute
-                    )
-
-                elif re.search("minute", current_time_since_posted):
-                    hour_or_minute = (
-                        re.search("minute", current_time_since_posted).group().lower()
-                    )
-                    current_time_posted = calculate_time_posted(
-                        current_time_since_posted, hour_or_minute
-                    )
-
-                else:
-                    # This condition account for articles that are posted without a recent timestamp
-                    # I found this happening in the business articles
-                    current_time_posted = get_date(10)
-
-                current_date_posted = get_date(1)
-
-                # Convert time and date posted to datetime objects
-                current_date_posted = datetime.strptime(
-                    current_date_posted.strip(), "%m/%d/%Y"
-                ).date()
-                if current_time_posted:
-                    current_time_posted = datetime.strptime(
-                        current_time_posted.strip(), "%H:%M"
-                    ).strftime("%H:%M")
+                current_time_posted = get_tfp_article_time_posted(current_link)
 
                 approved_articles.append(
                     ArticleEntry(
@@ -1247,69 +1177,18 @@ def scrape_times_free_press(
                 break
 
         # Gather data
-        current_article = current_article.find_next(
-            "div", "recommended-article recommended__article first"
-        )
+        current_article = current_article.find_next("article", "card")
 
         # This if check is needed to not fail out when no articles are left
+        # GO HERE NEXT
         if current_article:
-            current_headline = current_article.find(
-                "span", "recommended__article-title"
-            ).a.text.rstrip()
-            current_excerpt = current_article.find(
-                "p", "recommended__article-lead"
-            ).text.lower()
-            current_link = current_article.find("span", "recommended__article-title").a[
-                "href"
+            current_article = content_section.find("article", "card")
+            current_headline = current_article.find("h3", "card__title").a.text.rstrip()
+            current_excerpt = current_article.find("p", "card__tease").text.lower()
+            current_link = current_article.find("a", "card__link")["href"]
+            current_image_link = current_article.find("img", class_="card__thumbnail")[
+                "src"
             ]
-            current_image_div = current_article.find(
-                "a", class_="recommended__article-image"
-            )
-            current_image_link = (
-                current_image_div["style"]
-                .split()[1]
-                .replace("url('", "")
-                .replace("');", "")
-            )
-            current_byline = current_article.find(
-                "span", class_="recommended__article-bi-line"
-            ).text.lower()
-
-            # Get the right time data based on if the article was posted over or under an hour ago
-            # Get the right time data based on if the article was posted over or under an hour ago
-            if re.search("\d minute", current_byline):
-
-                # Search for double digit minutes before single digits
-                # To avoid time keeping bugs
-                if re.search("\d\d minute", current_byline):
-                    current_time_since_posted = re.search(
-                        "\d\d minute", current_byline
-                    ).group()
-                else:
-                    current_time_since_posted = re.search(
-                        "\d minute", current_byline
-                    ).group()
-
-            elif re.search("\d hour", current_byline):
-
-                # Search for double digit hours before single digits
-                # To avoid time keeping bugs
-                if re.search("\d\d hour", current_byline):
-                    current_time_since_posted = re.search(
-                        "\d\d hour", current_byline
-                    ).group()
-                else:
-                    current_time_since_posted = re.search(
-                        "\d hour", current_byline
-                    ).group()
-            else:
-                current_time_since_posted = "none"
-
-    # times_file.close()
-
-    approved_articles_copy = approved_articles.copy()
-
-    write_to_times_file(approved_articles_copy, times_file_name)
 
     return approved_articles, total_articles_scraped
 
@@ -2379,46 +2258,6 @@ def scrape_youtube(url, date):
     return approved_articles
 
 
-def recycle_homepage(newly_found, currently_posted):
-    # Sort the two lists so the oldest stories are indexed first
-    newly_found = Sort(newly_found, False)
-    currently_posted = Sort(currently_posted, False)
-
-    # Make a list to return
-    list_to_return = []
-
-    # Loop through all articles and compare them for similarity
-    for current_article in currently_posted:
-        for new_article in newly_found:
-
-            # This publisher check is the easiest way to start a similarity check
-            if new_article["publisher"] == current_article["publisher"]:
-
-                # A matching headline, link, or image link will prove similarity
-                # This is really only a problem with TFP articles and sometimes Channel 9
-                # All Chattanoogan articles have the same image, so the last check is necessary
-                if (
-                    new_article["headline"].strip().lower()
-                    == current_article["headline"].strip().lower()
-                    or new_article["link"] == current_article["link"]
-                    or (
-                        new_article["image"] == current_article["image"]
-                        and current_article["publisher"] != "Chattanoogan"
-                    )
-                ):
-                    # Pop currently posted articles from the list of new articles
-                    newly_found.pop(newly_found.index(new_article))
-
-    # Add all current and remaining new articles to the list to return
-    # list_to_return.extend(currently_posted)
-
-    if len(newly_found) > 0:
-        list_to_return.extend(newly_found)
-
-    # return the list
-    return list_to_return
-
-
 def tweet_new_articles(article_list: List[ArticleEntry]) -> None:
     articles = article_list.copy()
 
@@ -2446,32 +2285,26 @@ def tweet_new_articles(article_list: List[ArticleEntry]) -> None:
         else:
             current_publisher = current_article.publisher
 
-        current_article.time_posted = current_article.time_posted.strip()
+        time_posted = current_article.time_posted.strip()
 
         # Reformat time_posted to 12 hour format
-        if int(current_article.time_posted[:2]) > 12:
+        if int(time_posted[:2]) > 12:
             current_time_posted = (
-                str(int(current_article.time_posted[:2]) - 12)
-                + ":"
-                + current_article.time_posted[-2:]
+                str(int(time_posted[:2]) - 12) + ":" + time_posted[-2:]
             )
             AM_or_PM = "PM"
 
-        elif int(current_article.time_posted[:2]) == 0:
-            current_time_posted = "12:" + current_article.time_posted[-2:]
+        elif int(time_posted[:2]) == 0:
+            current_time_posted = "12:" + time_posted[-2:]
             AM_or_PM = "AM"
 
         elif int(current_article.time_posted[:2]) == 12:
-            current_time_posted = current_article.time_posted
+            current_time_posted = time_posted
             AM_or_PM = "PM"
 
         else:
             # I type cast the string into an int and back to a string to get rid of the leading 0 in the string
-            current_time_posted = (
-                str(int(current_article.time_posted[:2]))
-                + ":"
-                + current_article.time_posted[-2:]
-            )
+            current_time_posted = str(int(time_posted[:2])) + ":" + time_posted[-2:]
             AM_or_PM = "AM"
 
         tweet_headline = current_article.headline
@@ -2517,32 +2350,26 @@ def post_to_facebook(article_list: List[ArticleEntry]) -> None:
         else:
             current_publisher = current_article.publisher
 
-        current_article.time_posted = current_article.time_postedstrip()
+        time_posted = current_article.time_posted.strip()
 
         # Reformat time_posted to 12 hour format
-        if int(current_article.time_posted[:2]) > 12:
+        if int(time_posted[:2]) > 12:
             current_time_posted = (
-                str(int(current_article.time_posted[:2]) - 12)
-                + ":"
-                + current_article.time_posted[-2:]
+                str(int(time_posted[:2]) - 12) + ":" + time_posted[-2:]
             )
             AM_or_PM = "PM"
 
-        elif int(current_article.time_posted[:2]) == 0:
-            current_time_posted = "12:" + current_article.time_posted[-2:]
+        elif int(time_posted[:2]) == 0:
+            current_time_posted = "12:" + time_posted[-2:]
             AM_or_PM = "AM"
 
         elif int(current_article.time_posted[:2]) == 12:
-            current_time_posted = current_article.time_posted
+            current_time_posted = time_posted
             AM_or_PM = "PM"
 
         else:
             # I type cast the string into an int and back to a string to get rid of the leading 0 in the string
-            current_time_posted = (
-                str(int(current_article.time_posted[:2]))
-                + ":"
-                + current_article.time_posted[-2:]
-            )
+            current_time_posted = str(int(time_posted[:2])) + ":" + time_posted[-2:]
             AM_or_PM = "AM"
 
         post_headline = current_article.headline
@@ -2809,9 +2636,6 @@ async def scrape_news() -> List[ArticleEntry]:
         except IndexError:
             continue
 
-    # Sort our articles after the homepage and newly found articles have been merged
-    articles = Sort(articles, True)
-
     logging.info("articles file saved")
 
     os.system("pkill -f firefox")
@@ -2825,11 +2649,13 @@ def Sort(sub_li: List[ArticleEntry], to_reverse: bool) -> List[ArticleEntry]:
     # reverse = None (Sorts in Ascending order)
     # key is set to sort using second element of
     # sublist lambda has been used
-    sub_li.sort(key=lambda x: x["time_posted"], reverse=to_reverse)
+    sub_li.sort(key=lambda x: x.time_posted, reverse=to_reverse)
     return sub_li
 
 
-async def already_saved(article: dict, table: sqlalchemy.Table, db: Database) -> bool:
+async def already_saved(
+    article: ArticleEntry, table: sqlalchemy.Table, db: Database
+) -> bool:
     async def get_result(db, query):
         return await db.execute(query)
 
@@ -2837,10 +2663,7 @@ async def already_saved(article: dict, table: sqlalchemy.Table, db: Database) ->
         table.select()
         .exists()
         .select()
-        .where(
-            (table.c.link == article["link"])
-            | (table.c.headline == article["headline"])
-        )
+        .where((table.c.link == article.link) | (table.c.headline == article.headline))
     )
 
     task = asyncio.create_task(get_result(db, query))
@@ -2851,7 +2674,7 @@ async def already_saved(article: dict, table: sqlalchemy.Table, db: Database) ->
         return True if task.result() else False
 
 
-async def save_articles(conn: MC_Connection, articles: list) -> None:
+async def save_articles(conn: MC_Connection, articles: List[ArticleEntry]) -> None:
     list_articles_saved = []
     articles_saved = 0
     table = conn.get_table("articles")
@@ -2860,11 +2683,11 @@ async def save_articles(conn: MC_Connection, articles: list) -> None:
         for article in articles:
             if not await already_saved(article, table, conn.get_db_obj()):
                 query = table.insert().values(
-                    headline=article["headline"],
-                    link=article["link"],
-                    image=article["image"],
-                    time_posted=article["time_posted"],
-                    publisher=article["publisher"],
+                    headline=article.headline,
+                    link=article.link,
+                    image=article.image,
+                    time_posted=article.time_posted,
+                    publisher=article.publisher,
                 )
                 await conn.get_db_obj().execute(query)
                 articles_saved += 1
