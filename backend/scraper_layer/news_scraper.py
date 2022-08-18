@@ -523,17 +523,17 @@ def write_to_times_file(found_articles, file_name):
 
 
 # This funciton deletes stories from tfp lists that are duplicates
-def delete_dupes(tfp_list):
+def delete_dupes(tfp_list: List[ArticleEntry]):
     to_return = tfp_list.copy()
 
-    duplicated_indices = list()
+    duplicated_indices = []
 
     for x in range(len(to_return)):
         for y in range(len(to_return) - 1):
             if y != x:
                 if (
-                    to_return[y]["headline"].lower().rstrip()
-                    == to_return[x]["headline"].lower().rstrip()
+                    to_return[y].headline.lower().rstrip()
+                    == to_return[x].headline.lower().rstrip()
                 ):
                     duplicated_indices.append(y)
 
@@ -2684,69 +2684,14 @@ async def scrape_news():
     else:
         logging.info("--- SCRAPER STARTING WITH DST INACTIVE ---")
 
-    # Today's news file
-    today_news_file = (
-        os.path.dirname(os.path.realpath("__file__")) + "/data/" + get_date(7) + ".news"
-    )
-    # today_stats_file = os.path.dirname(os.path.realpath('__file__')) + '/data/' + get_date(7) + '.stats'
-
-    logging.info("news file path: " + today_news_file)
-    # logging.info('stats file path: ' + today_stats_file)
-
     # HTTP session to use for all scrapers
     # This should speed things up by not constantly having to open new connections for each scrape
     scraper_session = requests.Session()
 
     # List for our found articles
-    articles = list()
-
-    # Dictionary for stats
-    # stats = {
-    #     'scraped_chattanoogan': 0,
-    #     'relevant_chattanoogan': 0,
-    #     'scraped_chronicle': 0,
-    #     'relevant_chronicle': 0,
-    #     'scraped_tfp': 0,
-    #     'relevant_tfp': 0,
-    #     'scraped_fox_chattanooga': 0,
-    #     'relevant_fox_chattanooga': 0,
-    #     'scraped_nooga_today': 0,
-    #     'relevant_nooga_today': 0,
-    #     'scraped_pulse': 0,
-    #     'relevant_pulse': 0,
-    #     'scraped_wdef': 0,
-    #     'relevant_wdef': 0,
-    #     'scraped_local_three': 0,
-    #     'relevant_local_three': 0
-    # }
-
-    # Load current stats if they exist
-    # try:
-    #     current_stats = pickle.load(open(today_stats_file, 'rb'))
-    #     logging.info('stats loaded from file')
-    # except:
-    #     logging.info('no stats file loaded')
-    #     current_stats = {
-    #         'scraped_chattanoogan': 0,
-    #         'relevant_chattanoogan': 0,
-    #         'scraped_chronicle': 0,
-    #         'relevant_chronicle': 0,
-    #         'scraped_tfp': 0,
-    #         'relevant_tfp': 0,
-    #         'scraped_fox_chattanooga': 0,
-    #         'relevant_fox_chattanooga': 0,
-    #         'scraped_nooga_today': 0,
-    #         'relevant_nooga_today': 0,
-    #         'scraped_pulse': 0,
-    #         'relevant_pulse': 0,
-    #         'scraped_wdef': 0,
-    #         'relevant_wdef': 0,
-    #         'scraped_local_three': 0,
-    #         'relevant_local_three': 0
-    #     }
+    articles = []
 
     # ---------- TIMES FREE PRESS ---------- #
-    # For breaking/political section
     try:
         logging.info("TFP scraper started")
 
@@ -2768,40 +2713,17 @@ async def scrape_news():
             scraper_session,
         )
 
-        tfp_articles = list()
+        tfp_articles = []
         tfp_articles.extend(times_breaking_articles)
         tfp_articles.extend(times_political_articles)
         tfp_articles.extend(times_business_articles)
         # tfp_articles = times_breaking_articles + times_political_articles + times_business_articles
-
-        # Put stat values into variables
-        scraped_tfp = (
-            scraped_times_business + scraped_times_political + scraped_times_breaking
-        )
-        # if scraped_tfp < current_stats['scraped_tfp']:
-        #     scraped_tfp = current_stats['scraped_tfp']
-
-        relevant_tfp = len(tfp_articles)
-
-        # stats['scraped_tfp'] = scraped_tfp
-        # stats['relevant_tfp'] = relevant_tfp
 
         delete_dupes(tfp_articles)
         articles.extend(tfp_articles)
 
     except Exception as e:
         logging.error("exception caught in TFP scraper", exc_info=True)
-        # print("\tException caught in TFP scraper")
-        # print(e)
-        # print()
-
-        # Put stats variables into dict
-        # try:
-        #     stats['scraped_tfp'] = current_stats['scraped_tfp']
-        #     stats['relevant_tfp'] = current_stats['relevant_tfp']
-        # except:
-        #     stats['scraped_tfp'] = 0
-        #     stats['relevant_tfp'] = 0
 
     # ---------- CHATTANOOGAN ---------- #
     # For Breaking/Political section
@@ -3108,7 +3030,7 @@ async def scrape_news():
     try:
         current_posted_articles = pickle.load(open(today_news_file, "rb"))
     except FileNotFoundError:
-        current_posted_articles = list()
+        current_posted_articles = []
 
     # Loop through stories to make sure time_posted isn't left as None
     # This is mostly for TFP articles
