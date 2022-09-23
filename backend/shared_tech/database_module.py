@@ -5,7 +5,7 @@ from typing import Any, Optional
 import sqlalchemy as sa
 from datetime import datetime
 from sqlalchemy.dialects.postgresql import REAL
-from datetime import datetime
+from datetime import datetime, date
 from pydantic import BaseModel
 from databases import Database
 from result import Result, Ok, Err
@@ -27,6 +27,7 @@ class Article(BaseModel):
     image: Optional[str]
     time_posted: Optional[str]
     publisher: Optional[str]
+    date_saved: Optional[date]
 
     class Config:
         orm_mode = True
@@ -48,7 +49,7 @@ class Stat(BaseModel):
     publisher: Optional[str]
     scraped: Optional[int]
     relevant: Optional[int]
-    date: Optional[datetime]
+    date: Optional[date]
 
     class Config:
         orm_mode = True
@@ -85,6 +86,7 @@ class MC_Connection:
         sa.Column("image", sa.Text),
         sa.Column("time_posted", sa.Text),
         sa.Column("publisher", sa.Text),
+        sa.Column("date_saved", sa.Date),
     )
 
     tables["stats_table"] = sa.Table(
