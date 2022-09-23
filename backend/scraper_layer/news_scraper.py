@@ -526,31 +526,6 @@ def get_tfp_article_time_posted(link: str) -> str:
     return date_string_to_return
 
 
-# This funciton deletes stories from tfp lists that are duplicates
-def delete_dupes(tfp_list: List[ArticleEntry]) -> None:
-    to_return = tfp_list.copy()
-
-    duplicated_indices = []
-
-    for x in range(len(to_return)):
-        for y in range(len(to_return) - 1):
-            if y != x:
-                if (
-                    to_return[y].headline.lower().rstrip()
-                    == to_return[x].headline.lower().rstrip()
-                ):
-                    duplicated_indices.append(y)
-
-    for x in range(
-        len(duplicated_indices) - 1, int(len(duplicated_indices) / 2) - 1, -1
-    ):
-        # print(x)
-        # print(to_return[duplicated_indices[x]]['headline'])
-
-        tfp_list.pop(duplicated_indices[x])
-
-
-# This function will go to the given link and return the body of the article
 def get_pulse_article_content(link: str, session: requests.Session) -> str:
     # Make a string to return
     text_to_return = ""
@@ -2443,7 +2418,6 @@ async def scrape_news() -> List[ArticleEntry]:
         tfp_articles.extend(times_business_articles)
         # tfp_articles = times_breaking_articles + times_political_articles + times_business_articles
 
-        delete_dupes(tfp_articles)
         articles.extend(tfp_articles)
 
     except Exception as e:
@@ -2622,7 +2596,8 @@ async def scrape_news() -> List[ArticleEntry]:
     except Exception as e:
         logging.error("Exception caught in Local 3 News scraper", exc_info=True)
 
-    filtered_articles = filter(lambda x: x.headline != "DOWN", articles)
+    deduped_articles = [*set(articles)]
+    filtered_articles = filter(lambda x: x.headline != "DOWN", deduped_articles)
 
     os.system("pkill -f firefox")
     logging.info("Firefox pkill, RAM cleared")
