@@ -2622,34 +2622,13 @@ async def scrape_news() -> List[ArticleEntry]:
     except Exception as e:
         logging.error("Exception caught in Local 3 News scraper", exc_info=True)
 
-    # Loop through stories to make sure time_posted isn't left as None
-    # This is mostly for TFP articles
-    for x in range(0, len(articles)):
-        try:
-            if articles[x].time_posted == None and articles[x].headline == "DOWN":
-                articles.pop(x)
-                logging.info(articles[x].publisher + " " + articles[x].headline)
-
-        except KeyError:
-            # This except statement catches and removes any dictionaries
-            # that indicate a site is down
-            # These should be the only things that throw an exception
-            logging.info(articles[x].publisher + " " + articles[x].headline)
-            articles.pop(x)
-
-        # This catches index errors that occur when publishers are down and items get popped
-        # Popping items causes index errors since the for loop being used is calling range(0, len(articles))
-        # it loops through the original length even if something is popped
-        except IndexError:
-            continue
-
-    logging.info("articles file saved")
+    filtered_articles = filter(lambda x: x.headline != "DOWN", articles)
 
     os.system("pkill -f firefox")
     logging.info("Firefox pkill, RAM cleared")
     logging.info("--- SCRAPER EXITING --- \n")
 
-    return articles
+    return list(filtered_articles)
 
 
 def Sort(sub_li: List[ArticleEntry], to_reverse: bool) -> List[ArticleEntry]:
