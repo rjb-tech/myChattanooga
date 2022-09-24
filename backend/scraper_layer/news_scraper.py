@@ -2515,7 +2515,19 @@ async def scrape_news() -> List[ArticleEntry]:
             get_date(8),
             scraper_session,
         )
+
         articles.extend(wdef_articles)
+
+        stats.append(
+            StatEntry(
+                scraped=scraped_wdef,
+                relevant=len(wdef_articles),
+                publisher="WDEF News 12",
+            )
+        )
+
+    except ConnectionError:
+        logging.error("WDEF News 12 connection error")
 
     except Exception as e:
         logging.error("Exception caught in WDEF scraper", exc_info=True)
