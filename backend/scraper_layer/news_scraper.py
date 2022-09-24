@@ -2485,9 +2485,19 @@ async def scrape_news() -> List[ArticleEntry]:
             links["fox_chattanooga"]["base"] + links["fox_chattanooga"]["local_news"],
             get_date(6),
         )
+
         articles.extend(fox_chattanooga_articles)
 
-        relevant_fox_chattanooga = len(fox_chattanooga_articles)
+        stats.append(
+            StatEntry(
+                scraped=scraped_fox_chattanooga,
+                relevant=len(fox_chattanooga_articles),
+                publisher="Fox Chattanooga",
+            )
+        )
+
+    except ConnectionError:
+        logging.error("Fox Chattanooga connection error")
 
     except Exception as e:
         logging.error("Exception caught in Fox Chattanooga scraper", exc_info=True)
