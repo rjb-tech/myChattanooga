@@ -46,6 +46,12 @@ class ArticleEntry(NamedTuple):
     time_posted: Optional[str] = None
 
 
+class StatEntry(NamedTuple):
+    scraped: int
+    relevant: int
+    publisher: str
+
+
 # Configure logger
 logging.basicConfig(
     filename="myChattanooga.log",
@@ -593,14 +599,7 @@ def scrape_chattanoogan(
     except:
 
         # Return a status indicating the site is down or can't be reached
-        return (
-            [
-                ArticleEntry(
-                    headline="DOWN", publisher=publisher, date_posted=get_date(7)
-                )
-            ],
-            None,
-        )
+        raise ConnectionError
 
     # This variable will hold the content table from chattanoogan.com
     content_section = chattanoogan_soup.find("table", class_="list")
@@ -790,14 +789,8 @@ def scrape_fox_chattanooga(
         # quit the browser and return a list to indicate the website is down or can't be reached
         headless_browser.quit()
 
-        return (
-            [
-                ArticleEntry(
-                    headline="DOWN", publisher=publisher, date_posted=get_date(7)
-                )
-            ],
-            None,
-        )
+        # Return a status indicating the site is down or can't be reached
+        raise ConnectionError
 
     # Priming read before the main scraping loop
     # The a tags hold most of the info needed
@@ -987,10 +980,8 @@ def scrape_wdef(
 
     except:
 
-        # Return a list indicating that website is down or can't be reached
-        return [
-            ArticleEntry(headline="DOWN", publisher=publisher, date_posted=get_date(7)),
-        ], None
+        # Return a status indicating the site is down or can't be reached
+        raise ConnectionError
 
     # Main content section
     # Multiple finds are needed given how wdef has their website set up
@@ -1114,10 +1105,8 @@ def scrape_times_free_press(
 
     except:
 
-        # Return a list indicating that site can't be reached
-        return [
-            ArticleEntry(headline="DOWN", publisher=publisher, date_posted=get_date(7)),
-        ], None
+        # Return a status indicating the site is down or can't be reached
+        raise ConnectionError
 
     # Main content section
     content_section = times_soup.find("ul", class_="archive__list | card-list")
@@ -1210,10 +1199,8 @@ def scrape_nooga_today_breaking_political(
 
         headless_browser.quit()
 
-        # return a list with a dict inside indicating the website is down or unable to be reached
-        return [
-            ArticleEntry(headline="DOWN", publisher=publisher, date_posted=get_date(7)),
-        ], None
+        # Return a status indicating the site is down or can't be reached
+        raise ConnectionError
 
     # Isolate the content section and get the first article listed
     content_section = nooga_soup.find("div", class_="alm-reveal")
@@ -1419,9 +1406,8 @@ def scrape_nooga_today_non_political(
 
         headless_browser.quit()
 
-        return [
-            ArticleEntry(headline="DOWN", publisher=publisher, date_posted=get_date(7)),
-        ], None
+        # Return a status indicating the site is down or can't be reached
+        raise ConnectionError
 
     # Isolate the content section and get the first article listed
     content_section = nooga_soup.find("div", class_="alm-reveal")
@@ -1675,10 +1661,8 @@ def scrape_pulse(
 
     except:
 
-        # Return a list indicating the website wasn't able to be reached
-        return [
-            ArticleEntry(headline="DOWN", publisher=publisher, date_posted=get_date(7))
-        ], None
+        # Return a status indicating the site is down or can't be reached
+        raise ConnectionError
 
     # The pulse pages has a main article that appears differently than the normal articles
     content_section = pulse_soup.find("div", id="main")
@@ -1825,9 +1809,8 @@ def scrape_chattanooga_news_chronicle(url, date):
 
         headless_browser.quit()
 
-        return [
-            {"headline": "DOWN", "publisher": publisher, "date_posted": get_date(7)}
-        ], None
+        # Return a status indicating the site is down or can't be reached
+        raise ConnectionError
 
     # Isolate the content section and get the first article listed
     current_article = content_section.find("article")
@@ -1961,10 +1944,8 @@ def scrape_local_three(url: str, date: str) -> Tuple[List[ArticleEntry], Optiona
 
         headless_browser.quit()
 
-        # Return a list indicating the website wasn't able to be reached
-        return [
-            ArticleEntry(headline="DOWN", publisher=publisher, date_posted=get_date(7)),
-        ], None
+        # Return a status indicating the site is down or can't be reached
+        raise ConnectionError
 
     # This assignment just makes the first line of the for loop work
     # Otherwise current_article.find_next wouldn't work
@@ -2151,9 +2132,8 @@ def scrape_youtube(url, date):
 
         headless_browser.quit()
 
-        return [
-            {"headline": " DOWN", "publisher": publisher, "date_posted": get_date(7)}
-        ]
+        # Return a status indicating the site is down or can't be reached
+        raise ConnectionError
 
     # Priming read for the scraping loop
     current_video = content_section.find_next("ytd-grid-video-renderer")
@@ -2387,8 +2367,9 @@ async def scrape_news() -> List[ArticleEntry]:
     # This should speed things up by not constantly having to open new connections for each scrape
     scraper_session = requests.Session()
 
-    # List for our found articles
+    # List for found articles and stat entries
     articles = []
+    stats = []
 
     # ---------- TIMES FREE PRESS ---------- #
     try:
@@ -2412,15 +2393,31 @@ async def scrape_news() -> List[ArticleEntry]:
             scraper_session,
         )
 
-        tfp_articles = []
-        tfp_articles.extend(times_breaking_articles)
-        tfp_articles.extend(times_political_articles)
-        tfp_articles.extend(times_business_articles)
-        # tfp_articles = times_breaking_articles + times_political_articles + times_business_articles
+        articles.extend(times_breaking_articles)
+        articles.extend(times_political_articles)
+        articles.extend(times_business_articles)
 
-        articles.extend(tfp_articles)
+        scraped_tfp = (
+            scraped_times_breaking + scraped_times_business + scraped_times_political
+        )
+        relevant_tfp = (
+            len(times_breaking_articles)
+            + len(times_political_articles)
+            + len(times_business_articles)
+        )
 
-    except Exception as e:
+        stats.append(
+            StatEntry(
+                scraped=scraped_tfp,
+                relevant=relevant_tfp,
+                publisher="Times Free Press",
+            )
+        )
+
+    except ConnectionError:
+        logging.error("Times Free Press connection error")
+
+    except Exception:
         logging.error("exception caught in TFP scraper", exc_info=True)
 
     # ---------- CHATTANOOGAN ---------- #
@@ -2454,7 +2451,30 @@ async def scrape_news() -> List[ArticleEntry]:
         articles.extend(chattanoogan_happenings_articles)
         articles.extend(chattanoogan_business_articles)
 
-    except Exception as e:
+        scraped_chattanoogan = (
+            scraped_chattanoogan_business
+            + scraped_chattanoogan_happenings
+            + scraped_chattanoogan_news
+        )
+
+        relevant_chattanoogan = (
+            len(chattanoogan_business_articles)
+            + len(chattanoogan_happenings_articles)
+            + len(chattanoogan_news_articles)
+        )
+
+        stats.append(
+            StatEntry(
+                scraped=scraped_chattanoogan,
+                relevant=relevant_chattanoogan,
+                publisher="Chattanoogan",
+            )
+        )
+
+    except ConnectionError:
+        logging.error("Chattanoogan connection error")
+
+    except Exception:
         logging.error("Exception caught in Chattanoogan scraper", exc_info=True)
 
     # ---------- FOX CHATTANOOGA ---------- #
