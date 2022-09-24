@@ -2755,18 +2755,17 @@ async def main() -> None:
     data_highway = MC_Connection()
     current_articles = await scrape_news()
     # Connect to the database
-    task = asyncio.create_task(data_highway.plug_in())
-    done, pending = await asyncio.wait({task})
+    task = await data_highway.plug_in()
 
     # Save new articles to database after connecting
-    if task in done:
-        try:
-            await save_articles(data_highway, current_articles)
-        except Exception as e:
-            logging.error(e)
-        finally:
-            # Close db connection
-            await data_highway.unplug()
+    try:
+        await save_articles(data_highway, current_articles)
+        # Save stats will go here maybe
+    except Exception as e:
+        logging.error(e)
+    finally:
+        # Close db connection
+        await data_highway.unplug()
 
 
 if __name__ == "__main__":
