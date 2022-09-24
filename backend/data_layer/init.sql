@@ -13,10 +13,11 @@ CREATE TABLE articles
 
 CREATE TABLE stats
                     (
-                        publisher       TEXT    PRIMARY KEY             NOT NULL,
-                        scraped         INTEGER                         NOT NULL,
-                        relevant        INTEGER                         NOT NULL,
-                        date_saved      DATE                            DEFAULT CURRENT_DATE                     
+                        id              SERIAL      PRIMARY KEY,
+                        publisher       TEXT        NOT NULL,
+                        scraped         INTEGER     NOT NULL,
+                        relevant        INTEGER     NOT NULL,
+                        date_saved      DATE        DEFAULT CURRENT_DATE                     
                     );
             
 CREATE TABLE tfp
