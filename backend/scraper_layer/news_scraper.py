@@ -2690,14 +2690,12 @@ async def scrape_news() -> List[ArticleEntry]:
 
     # Unpack set into a list
     deduped_articles = [*set(articles)]
-    # Unpack filter iterable to list
-    filtered_articles = [*filter(lambda x: x.headline != "DOWN", deduped_articles)]
 
     os.system("pkill -f firefox")
     logging.info("Firefox pkill, RAM cleared")
     logging.info("--- SCRAPER EXITING --- \n")
 
-    return filtered_articles
+    return deduped_articles
 
 
 def Sort(sub_li: List[ArticleEntry], to_reverse: bool) -> List[ArticleEntry]:
