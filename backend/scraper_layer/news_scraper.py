@@ -2564,12 +2564,36 @@ async def scrape_news() -> List[ArticleEntry]:
         articles.extend(nooga_today_city_articles)
         articles.extend(nooga_today_food_articles)
 
+        scraped_nooga_today = (
+            scraped_nooga_today_city
+            + scraped_nooga_today_food
+            + scraped_nooga_today_news
+        )
+
+        relevant_nooga_today = (
+            len(nooga_today_news_articles)
+            + len(nooga_today_city_articles)
+            + len(nooga_today_food_articles)
+        )
+
+        stats.append(
+            StatEntry(
+                scraped=scraped_nooga_today,
+                relevant=relevant_nooga_today,
+                publisher="Nooga Today",
+            )
+        )
+
+    except ConnectionError:
+        logging.error("Nooga Today connection error")
+
     except Exception as e:
         logging.error("Exception caught in Nooga Today scraper", exc_info=True)
 
     finally:
         os.system("pkill -f firefox")
         logging.info("Firefox pkill, RAM cleared")
+
     # ---------- CHATTANOOGA PULSE ---------- #
     try:
         logging.info("Pulse scraper started")
