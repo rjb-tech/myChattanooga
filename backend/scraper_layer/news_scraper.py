@@ -2615,6 +2615,21 @@ async def scrape_news() -> List[ArticleEntry]:
         articles.extend(pulse_news_articles)
         articles.extend(pulse_city_articles)
 
+        scraped_pulse = scraped_pulse_news + scraped_pulse_city
+
+        relevant_pulse = len(pulse_news_articles) + len(pulse_city_articles)
+
+        stats.append(
+            StatEntry(
+                scraped=scraped_pulse,
+                relevant=relevant_pulse,
+                publisher="Chattanooga Pulse",
+            )
+        )
+
+    except ConnectionError:
+        logging.error("Pulse connection error")
+
     except Exception as e:
         logging.error("Exception caught in Pulse scraper", exc_info=True)
 
@@ -2658,6 +2673,17 @@ async def scrape_news() -> List[ArticleEntry]:
         )
 
         articles.extend(local_three_articles)
+
+        stats.append(
+            StatEntry(
+                scraped=scraped_local_three,
+                relevant=len(local_three_articles),
+                publisher="Local 3 News",
+            )
+        )
+
+    except ConnectionError:
+        logging.error("Local 3 News connection error")
 
     except Exception as e:
         logging.error("Exception caught in Local 3 News scraper", exc_info=True)
