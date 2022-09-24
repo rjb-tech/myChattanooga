@@ -550,7 +550,7 @@ def get_pulse_article_content(link: str, session: requests.Session) -> str:
     return text_to_return
 
 
-def get_wdef_article_content(link, session):
+def get_wdef_article_content(link, session) -> str:
     # Make a string to return
     string_to_return = ""
 
@@ -2596,14 +2596,16 @@ async def scrape_news() -> List[ArticleEntry]:
     except Exception as e:
         logging.error("Exception caught in Local 3 News scraper", exc_info=True)
 
+    # Unpack set into a list
     deduped_articles = [*set(articles)]
-    filtered_articles = filter(lambda x: x.headline != "DOWN", deduped_articles)
+    # Unpack filter iterable to list
+    filtered_articles = [*filter(lambda x: x.headline != "DOWN", deduped_articles)]
 
     os.system("pkill -f firefox")
     logging.info("Firefox pkill, RAM cleared")
     logging.info("--- SCRAPER EXITING --- \n")
 
-    return list(filtered_articles)
+    return filtered_articles
 
 
 def Sort(sub_li: List[ArticleEntry], to_reverse: bool) -> List[ArticleEntry]:
