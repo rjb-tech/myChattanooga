@@ -2357,7 +2357,7 @@ def post_to_facebook(article_list: List[ArticleEntry]) -> None:
 
 
 # Scraper function
-async def scrape_news() -> List[ArticleEntry]:
+async def scrape_news() -> Tuple[List[ArticleEntry], List[StatEntry]]:
     if time.localtime()[8] == 1:
         logging.info("--- SCRAPER STARTING WITH DST ACTIVE ---")
     else:
@@ -2695,7 +2695,7 @@ async def scrape_news() -> List[ArticleEntry]:
     logging.info("Firefox pkill, RAM cleared")
     logging.info("--- SCRAPER EXITING --- \n")
 
-    return deduped_articles
+    return deduped_articles, stats
 
 
 def Sort(sub_li: List[ArticleEntry], to_reverse: bool) -> List[ArticleEntry]:
@@ -2753,13 +2753,13 @@ async def save_articles(conn: MC_Connection, articles: List[ArticleEntry]) -> No
 async def main() -> None:
     # Scrape news, make db connection in the meantime
     data_highway = MC_Connection()
-    current_articles = await scrape_news()
+    articles, stats = await scrape_news()
     # Connect to the database
     task = await data_highway.plug_in()
 
     # Save new articles to database after connecting
     try:
-        await save_articles(data_highway, current_articles)
+        await save_articles(data_highway, articles)
         # Save stats will go here maybe
     except Exception as e:
         logging.error(e)
