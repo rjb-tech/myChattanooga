@@ -21,8 +21,8 @@ def upgrade():
         "stats",
         sa.Column("id", sa.Integer, primary_key=True),
         sa.Column("publisher", sa.Text),
-        sa.Column("scraped", sa.Integer),
         sa.Column("relevant", sa.Integer),
+        sa.Column("scraped", sa.Integer),
         sa.Column("date_saved", sa.Date, default=sa.sql.functions.current_date()),
     )
 

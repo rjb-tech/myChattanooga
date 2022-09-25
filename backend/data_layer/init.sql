@@ -15,8 +15,8 @@ CREATE TABLE stats
                     (
                         id              SERIAL      PRIMARY KEY,
                         publisher       TEXT        NOT NULL,
-                        scraped         INTEGER     NOT NULL,
                         relevant        INTEGER     NOT NULL,
+                        scraped         INTEGER     NOT NULL,
                         date_saved      DATE        DEFAULT CURRENT_DATE                     
                     );
             
