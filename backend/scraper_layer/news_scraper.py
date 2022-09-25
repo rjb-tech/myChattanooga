@@ -23,7 +23,7 @@ from typing import Any, Dict, Optional, Tuple, List, NamedTuple
 from pytz import timezone
 from databases import Database
 from sqlite3 import Cursor, Error
-from datetime import datetime
+from datetime import datetime, date
 from selenium import webdriver
 from bs4 import BeautifulSoup as bs
 from selenium.webdriver import Firefox
@@ -34,7 +34,7 @@ from database_module import MC_Connection
 from result import Ok, Err, Result
 
 # from sqlalchemy import exists
-from sqlalchemy.sql import exists, or_, select
+from sqlalchemy.sql import exists, or_, select, update, insert
 
 
 class ArticleEntry(NamedTuple):
@@ -2706,7 +2706,7 @@ def Sort(sub_li: List[ArticleEntry], to_reverse: bool) -> List[ArticleEntry]:
     return sub_li
 
 
-async def already_saved(
+async def article_already_saved(
     article: ArticleEntry, table: sqlalchemy.Table, db: Database
 ) -> bool:
     async def get_result(db, query):
@@ -2727,6 +2727,27 @@ async def already_saved(
         return True if task.result() else False
 
 
+async def stat_already_saved(
+    stat: StatEntry, table: sqlalchemy.Table, db: Database, date: str
+) -> bool:
+    async def get_result(db, query):
+        return await db.execute(query)
+
+    query = (
+        table.select()
+        .exists()
+        .select()
+        .where((table.c.publisher == stat.publisher) & (table.c.date_saved == date))
+    )
+
+    task = asyncio.create_task(get_result(db, query))
+    done, pending = await asyncio.wait({task})
+    # return True if the query has a result
+    #   this returns None when the story being queried doesn't exist
+    if task in done:
+        return True if task.result() else False
+
+
 async def save_articles(conn: MC_Connection, articles: List[ArticleEntry]) -> None:
     list_articles_saved = []
     articles_saved = 0
@@ -2734,7 +2755,7 @@ async def save_articles(conn: MC_Connection, articles: List[ArticleEntry]) -> No
     if isinstance(table, Ok):
         table = table.unwrap()
         for article in articles:
-            if not await already_saved(article, table, conn.get_db_obj()):
+            if not await article_already_saved(article, table, conn.get_db_obj()):
                 query = table.insert().values(
                     headline=article.headline,
                     link=article.link,
@@ -2750,22 +2771,59 @@ async def save_articles(conn: MC_Connection, articles: List[ArticleEntry]) -> No
     post_to_facebook(list_articles_saved)
 
 
+async def save_stats(conn: MC_Connection, stats: List[StatEntry]) -> None:
+    date_today = date.today()
+    table = conn.get_table("stats")
+    if isinstance(table, Ok):
+        table = table.unwrap()
+        for entry in stats:
+            if await stat_already_saved(entry, table, conn.get_db_obj(), date_today):
+                # update stat
+                query = (
+                    update(table)
+                    .where(
+                        (table.c.publisher == entry.publisher)
+                        & (table.c.date_saved == date_today)
+                    )
+                    .values(scraped=entry.scraped, relevant=entry.relevant)
+                )
+                logging.info(f"Updating stats for {entry.publisher}")
+            else:
+                # Update stat
+                query = insert(table).values(
+                    scraped=entry.scraped,
+                    relevant=entry.relevant,
+                    publisher=entry.publisher,
+                )
+                logging.info(f"Inserting stats for {entry.publisher}")
+            try:
+                await conn.get_db_obj().execute(query)
+            except:
+                logging.error(f"Error saving stats for {entry.publisher}")
+
+
 async def main() -> None:
     # Scrape news, make db connection in the meantime
     data_highway = MC_Connection()
     articles, stats = await scrape_news()
     # Connect to the database
-    task = await data_highway.plug_in()
+    await data_highway.plug_in()
 
     # Save new articles to database after connecting
     try:
         await save_articles(data_highway, articles)
-        # Save stats will go here maybe
     except Exception as e:
-        logging.error(e)
-    finally:
-        # Close db connection
-        await data_highway.unplug()
+        logging.error("Error saving articles")
+        logging.error(e, exc_info=True)
+
+    # Save stats to db
+    try:
+        await save_stats(data_highway, stats)
+    except Exception as e:
+        logging.error("Error saving stats")
+        logging.error(e, exc_info=True)
+
+    await data_highway.unplug()
 
 
 if __name__ == "__main__":

@@ -95,7 +95,7 @@ class MC_Connection:
         sa.Column("publisher", sa.Text, primary_key=True),
         sa.Column("scraped", sa.Integer),
         sa.Column("relevant", sa.Integer),
-        sa.Column("date", sa.TIMESTAMP),
+        sa.Column("date_saved", sa.Date),
     )
 
     tables["tfp_table"] = sa.Table(
