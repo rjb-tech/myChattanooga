@@ -3,7 +3,7 @@ import logging
 import asyncio
 import requests
 import pytz
-from datetime import datetime
+from datetime import datetime, date
 from os import stat
 from pydantic import BaseModel
 from utils import VerifyToken
@@ -229,23 +229,36 @@ async def expire_brews_release(
 
 
 @app.get("/articles", response_model=List[Article], response_model_exclude_none=True)
-async def today_articles(publishers: list = Query(["all"])):
+async def today_articles(
+    publishers: list = Query(["all"]), query_date: str = Query(date.today().isoformat())
+):
     async def get_articles():
         # Get result from the MC_Connection method and check for validity
         #   before sending payload
         query_table = database.get_table("articles")
         if isinstance(query_table, Ok):
+            try:
+                filter_date = date.fromisoformat(query_date)
+            except ValueError:
+                return "Invalid value for query_date"
             table = query_table.unwrap()
-            full_query = table.select().order_by(table.c.time_posted.desc())
-            filtered_query = (
+            full_query = (
+                table.select()
+                .where(table.c.date_saved == filter_date)
+                .order_by(table.c.time_posted.desc())
+            )
+            pub_filtered_query = (
                 select(table)
-                .where(table.c.publisher.in_(publishers))
+                .where(
+                    (table.c.publisher.in_(publishers))
+                    & (table.c.date_saved == filter_date)
+                )
                 .order_by(table.c.time_posted.desc())
             )
             if publishers[0] == "all":
                 data = await database.get_db_obj().fetch_all(full_query)
             else:
-                data = await database.get_db_obj().fetch_all(filtered_query)
+                data = await database.get_db_obj().fetch_all(pub_filtered_query)
             return [row for row in data]
         else:
             return "DB Module error"
