@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Article } from "../components/Article";
-import { ArticleLoader } from "../components/ArticleLoader";
+import formatISO from "date-fns/formatISO";
 import { isFromTheFuture } from "../components/helpers";
 import { useQuery } from "@tanstack/react-query";
 const axios = require("axios");
@@ -25,7 +25,14 @@ export default function Home({ filterApplied, pageContent, setPageContent }) {
   }, [isError, filterApplied]);
 
   useEffect(() => {
-    if (!isLoading && !isError && data !== undefined) setPageContent(data);
+    if (!isLoading && !isError && data !== undefined) {
+      const ISOdate = formatISO(new Date(), { representation: "date" });
+      setPageContent(
+        data.filter((entry) => {
+          !isFromTheFuture(entry.time_posted) && entry.date_saved === ISOdate;
+        })
+      );
+    }
   }, [data]);
 
   let headerClass = "";
@@ -56,19 +63,17 @@ export default function Home({ filterApplied, pageContent, setPageContent }) {
                 : story
             )
             ?.map((story) => {
-              if (!isFromTheFuture(story.time_posted)) {
-                return (
-                  <div className="py-2 sm:px-2" key={story.headline}>
-                    <Article
-                      headline={story.headline}
-                      timePosted={story.time_posted}
-                      publisher={story.publisher}
-                      image={story.image}
-                      link={story.link}
-                    />
-                  </div>
-                );
-              }
+              return (
+                <div className="py-2 sm:px-2" key={story.headline}>
+                  <Article
+                    headline={story.headline}
+                    timePosted={story.time_posted}
+                    publisher={story.publisher}
+                    image={story.image}
+                    link={story.link}
+                  />
+                </div>
+              );
             })}
         </div>
       </div>
