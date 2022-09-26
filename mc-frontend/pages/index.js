@@ -6,13 +6,10 @@ import { useQuery } from "@tanstack/react-query";
 const axios = require("axios");
 
 export default function Home({ filterApplied, pageContent, setPageContent }) {
-  const { isLoading, isError, isSuccess, data, error } = useQuery(
-    ["articles"],
-    async () => {
-      const { data } = await axios.get("/api/articles");
-      return data;
-    }
-  );
+  const { isLoading, isError, data } = useQuery(["articles"], async () => {
+    const { data } = await axios.get("/api/articles");
+    return data;
+  });
 
   const [header, setHeader] = useState("All Local Articles");
 
