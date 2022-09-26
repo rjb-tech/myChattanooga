@@ -11,8 +11,8 @@ export default function handler(req, res) {
   const parsedURL = url.parse(req.url, true);
   let queryParams = "";
   // Query date needs to be passed in iso format
-  if (parsedURL?.query_date !== undefined)
-    queryParams = `query_date=${parsedURL.query_date}`;
+  if (parsedURL.query.query_date !== undefined)
+    queryParams = `query_date=${parsedURL.query.query_date}`;
 
   if (req.method === "GET") {
     axios
