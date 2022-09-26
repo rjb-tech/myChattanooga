@@ -10,7 +10,7 @@ function MyApp({ Component, pageProps }) {
         refetchOnWindowFocus: true,
         refetchOnMount: true,
         refetchOnReconnect: true,
-        retry: true,
+        retry: 2,
         staleTime: 120 * 1000, // two minutes
       },
     },
