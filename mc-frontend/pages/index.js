@@ -7,14 +7,14 @@ const axios = require("axios");
 
 export default function Home({ filterApplied, pageContent, setPageContent }) {
   const { isLoading, isError, isSuccess, data, error } = useQuery(
-    ["pageContent"],
+    ["articles"],
     async () => {
       const { data } = await axios.get("/api/articles");
       return data;
     }
   );
 
-  const [header, setHeader] = useState("");
+  const [header, setHeader] = useState("All Local Articles");
 
   useEffect(() => {
     if (isError) setHeader("Error fetching articles");
