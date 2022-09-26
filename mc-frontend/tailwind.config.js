@@ -6,15 +6,12 @@ module.exports = {
   theme: {
     extend: {
       height: {
-        '88': '24rem',
-        '112': '26rem'
+        88: "24rem",
+        112: "26rem",
       },
-      fontFamily: {
-        
-      }
+      fontFamily: {},
     },
   },
-  plugins: [],
-  darkMode: 'media'
-}
-
+  plugins: [require("tailwindcss-animation-delay")],
+  darkMode: "media",
+};

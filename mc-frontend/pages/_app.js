@@ -1,8 +1,20 @@
 import "../styles/globals.css";
 import { Auth0Provider } from "@auth0/auth0-react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MyChattanoogaProvider } from "../components/MyChattanoogaProvider";
 
 function MyApp({ Component, pageProps }) {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: true,
+        refetchOnMount: true,
+        refetchOnReconnect: true,
+        retry: true,
+        staleTime: 120 * 1000, // two minutes
+      },
+    },
+  });
   return (
     <Auth0Provider
       domain="mychattanooga.us.auth0.com"
@@ -16,9 +28,11 @@ function MyApp({ Component, pageProps }) {
       audience="https://auth.mychattanooga.app"
       scope="create:brews"
     >
-      <MyChattanoogaProvider>
-        <Component {...pageProps} />
-      </MyChattanoogaProvider>
+      <QueryClientProvider client={queryClient}>
+        <MyChattanoogaProvider>
+          <Component {...pageProps} />
+        </MyChattanoogaProvider>
+      </QueryClientProvider>
     </Auth0Provider>
   );
 }
