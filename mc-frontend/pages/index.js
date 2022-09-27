@@ -24,7 +24,7 @@ export default function Home({ filterApplied, pageContent, setPageContent }) {
   useEffect(() => {
     if (!isLoading && !isError && data !== undefined) {
       const ISOdate = formatISO(new Date(), { representation: "date" });
-      const filteredData = data.filter(
+      const filteredData = data?.filter(
         (entry) =>
           !isFromTheFuture(entry.time_posted) && entry.date_saved === ISOdate
       );
