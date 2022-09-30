@@ -3,7 +3,7 @@ import logging
 import asyncio
 import requests
 import pytz
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from os import stat
 from pydantic import BaseModel
 from utils import VerifyToken
@@ -228,9 +228,16 @@ async def expire_brews_release(
     return query_results
 
 
-@app.get("/articles", response_model=List[Article], response_model_exclude_none=True)
+@app.get(
+    "/articles",
+    response_model=List[Article],
+    status_code=status.HTTP_200_OK,
+    response_model_exclude_none=True,
+)
 async def today_articles(
-    publishers: list = Query(["all"]), query_date: str = Query(date.today().isoformat())
+    response: Response,
+    publishers: list = Query(["all"]),
+    query_date: str = Query(date.today().isoformat()),
 ):
     async def get_articles():
         # Get result from the MC_Connection method and check for validity
@@ -240,6 +247,7 @@ async def today_articles(
             try:
                 filter_date = date.fromisoformat(query_date)
             except ValueError:
+                response.status_code = status.HTTP_400_BAD_REQUEST
                 return "Invalid value for query_date"
             table = query_table.unwrap()
             full_query = (
@@ -267,7 +275,12 @@ async def today_articles(
     return query_results
 
 
-@app.get("/weather", response_model=List[Weather], response_model_exclude_none=True)
+@app.get(
+    "/weather",
+    response_model=List[Weather],
+    status_code=status.HTTP_200_OK,
+    response_model_exclude_none=True,
+)
 async def today_weather(location: str = "all"):
     async def get_weather():
         query_table = database.get_table("weather")
@@ -285,19 +298,42 @@ async def today_weather(location: str = "all"):
     return query_results
 
 
-# @app.get("/stats", response_model=List[Stat], response_model_exclude_none=True)
-# async def today_stats(response: Response, publishers: list = Query(["all"])):
-#     async def get_stats():
-#         # Get result from the MC_Connection method and check for validity
-#         #   before sending payload
-#         query_base = database.get_table("stats")
-#         if isinstance(query_base, Ok):
-#             full_query = query_base.unwrap().select()
-#             data = await database.get_db_obj().fetch_all(full_query)
-#             return [row for row in data]
+# This will return stats for the last week, FE can filter based on what user's want to see
+@app.get(
+    "/stats",
+    response_model=List[Stat],
+    status_code=status.HTTP_200_OK,
+    response_model_exclude_none=True,
+)
+async def today_stats(
+    response: Response, query_date: str = Query(date.today().isoformat())
+):
+    def get_date_week_before(current_date: date) -> date:
+        date_modifier = timedelta(days=7)
 
-#     query_results = await get_query_results(get_stats)
-#     return query_results
+        return current_date - date_modifier
+
+    async def get_stats():
+        # Get result from the MC_Connection method and check for validity
+        #   before sending payload
+        table_wrap = database.get_table("stats")
+        if isinstance(table_wrap, Ok):
+            try:
+                filter_date = date.fromisoformat(query_date)
+            except ValueError:
+                response.status_code = status.HTTP_400_BAD_REQUEST
+                return "Invalid value for query_date"
+            table = table_wrap.unwrap()
+            date_week_before = get_date_week_before(filter_date)
+            query = select(table).where(
+                (table.c.date_saved <= filter_date)
+                & (table.c.date_saved >= date_week_before)
+            )
+            data = await database.get_db_obj().fetch_all(query)
+            return [row for row in data]
+
+    query_results = await get_query_results(get_stats)
+    return query_results
 
 
 # UTILITY FUNCTION FOR QUERIES

@@ -49,7 +49,7 @@ class Stat(BaseModel):
     publisher: Optional[str]
     scraped: Optional[int]
     relevant: Optional[int]
-    date: Optional[date]
+    date_saved: Optional[date]
 
     class Config:
         orm_mode = True
