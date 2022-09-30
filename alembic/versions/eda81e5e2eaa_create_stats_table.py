@@ -23,7 +23,7 @@ def upgrade():
         sa.Column("publisher", sa.Text),
         sa.Column("relevant", sa.Integer),
         sa.Column("scraped", sa.Integer),
-        sa.Column("date_saved", sa.Date, default=sa.sql.functions.current_date()),
+        sa.Column("date_saved", sa.Date, server_default=sa.text("CURRENT_DATE")),
     )
 
 

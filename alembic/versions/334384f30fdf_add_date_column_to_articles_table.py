@@ -19,7 +19,7 @@ depends_on = None
 def upgrade():
     op.add_column(
         "articles",
-        sa.Column("date_saved", sa.Date, default=sa.func.current_time()),
+        sa.Column("date_saved", sa.Date, server_default=sa.text("CURRENT_DATE")),
     )
 
 
