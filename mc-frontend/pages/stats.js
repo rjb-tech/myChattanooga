@@ -1,4 +1,5 @@
 import axios from "axios";
+import { StatGraph } from "../components/StatGraph";
 import formatISO from "date-fns/formatISO";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -23,27 +24,30 @@ export default function stats({ filterApplied }) {
 
   const [mode, setMode] = useState(MODES[1]);
   const [header, setHeader] = useState("All Publisher Stats");
-  const todayISO = formatISO(new Date(), { representation: "date" });
+  // const todayISO = formatISO(new Date(), { representation: "date" });
+  const todayISO = "2022-09-24";
   // rawChartData will need to be filtered based on selected mode (daily or weekly stats)
-  const rawChartData = data?.filter((entry) => entry.date_saved === todayISO);
+  const rawChartData =
+    data !== undefined && data.length > 0
+      ? data?.filter((entry) => entry.date_saved === todayISO)
+      : [];
   const labels = [...new Set(rawChartData?.map((entry) => entry.publisher))];
-  const scrapedData = labels.map((currentPublisher) => {
-    return rawChartData
-      .filter((entry) => entry.publisher === currentPublisher)
-      .reduce((prev, curr) => prev + curr.scraped, 0);
-  });
-  const relevantData = labels.map((currentPublisher) => {
-    return rawChartData
-      .filter((entry) => entry.publisher === currentPublisher)
-      .reduce((prev, curr) => prev + curr.relevant, 0);
-  });
-
-  const stackedData = ["Posted", "Relevant"].map((dataType) => {
+  const formattedChartData = labels.map((currentPublisher) => {
     return {
-      label: dataType,
-      data: dataType === "Posted" ? scrapedData : relevantData,
+      publisher: currentPublisher,
+      scraped: rawChartData
+        ?.filter((entry) => entry.publisher === currentPublisher)
+        .reduce((prev, current) => prev + current.scraped, 0),
+      relevant: rawChartData
+        ?.filter((entry) => entry.publisher === currentPublisher)
+        .reduce((prev, current) => prev + current.relevant, 0),
     };
   });
+
+  useEffect(() => {
+    console.log(formattedChartData);
+    console.log("^^ chart data ^^");
+  }, [formattedChartData]);
 
   useEffect(() => {
     if (isError) setHeader("Error fetching stats");
@@ -71,7 +75,11 @@ export default function stats({ filterApplied }) {
         <div className="sticky w-full h-fit top-0 md:pl-2 md:mt-0 lg:mt-0 mb-2">
           <h1 className={headerClass}>{header}</h1>
         </div>
-        <div className="w-full mx-auto h-fit"></div>
+        <div className="w-full mx-auto h-[38rem] md:h-[30rem] pt-8 z-20">
+          {formattedChartData.length > 0 && (
+            <StatGraph data={formattedChartData} />
+          )}
+        </div>
       </div>
     </div>
   );
