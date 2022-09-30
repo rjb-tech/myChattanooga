@@ -13,7 +13,7 @@ config = context.config
 load_dotenv()
 config.set_main_option(
     "sqlalchemy.url",
-    os.environ.get("DATABASE_URL_PROD"),
+    os.environ.get("DATABASE_URL_ALEMBIC"),
 )
 
 # Interpret the config file for Python logging.
