@@ -24,8 +24,7 @@ export default function stats({ filterApplied }) {
 
   const [mode, setMode] = useState(MODES[1]);
   const [header, setHeader] = useState("All Publisher Stats");
-  // const todayISO = formatISO(new Date(), { representation: "date" });
-  const todayISO = "2022-09-24";
+  const todayISO = formatISO(new Date(), { representation: "date" });
   // rawChartData will need to be filtered based on selected mode (daily or weekly stats)
   const rawChartData =
     data !== undefined && data.length > 0
