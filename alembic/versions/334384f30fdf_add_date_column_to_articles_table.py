@@ -11,7 +11,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = "334384f30fdf"
-down_revision = "bbcecbc27916"
+down_revision = "eda81e5e2eaa"
 branch_labels = None
 depends_on = None
 
@@ -19,7 +19,7 @@ depends_on = None
 def upgrade():
     op.add_column(
         "articles",
-        sa.Column("date_saved", sa.Date, default=sa.sql.functions.current_date()),
+        sa.Column("date_saved", sa.Date, default=sa.func.current_time()),
     )
 
 
