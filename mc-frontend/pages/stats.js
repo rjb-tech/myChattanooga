@@ -4,7 +4,7 @@ import formatISO from "date-fns/formatISO";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
-export default function stats({ filterApplied }) {
+export default function Stats({ filterApplied }) {
   const { isLoading, isError, isSuccess, data } = useQuery(
     ["stats"],
     async () => {
