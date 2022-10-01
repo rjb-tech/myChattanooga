@@ -3,11 +3,9 @@ import {
   Bar,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   Legend,
   ResponsiveContainer,
-  LabelList,
 } from "recharts";
 
 export const BarGraph = ({ data }) => {
@@ -28,8 +26,8 @@ export const BarGraph = ({ data }) => {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="scraped" fill="#D48193" />
-        <Bar dataKey="relevant" fill="#005C6D" />
+        <Bar dataKey="Posted" fill="#F39887" />
+        <Bar dataKey="Relevant" fill="#4C5976" />
       </BarChart>
     </ResponsiveContainer>
   );

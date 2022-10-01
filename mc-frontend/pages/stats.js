@@ -3,6 +3,7 @@ import { BarGraph } from "../components/BarGraph";
 import formatISO from "date-fns/formatISO";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { PieStatChart } from "../components/PieChart";
 
 export default function Stats({ filterApplied }) {
   const { isLoading, isError, isSuccess, data } = useQuery(
@@ -34,15 +35,26 @@ export default function Stats({ filterApplied }) {
   const barChartData = labels.map((currentPublisher) => {
     return {
       publisher: currentPublisher,
-      scraped: rawChartData
+      Posted: rawChartData
         ?.filter((entry) => entry.publisher === currentPublisher)
         .reduce((prev, current) => prev + current.scraped, 0),
-      relevant: rawChartData
+      Relevant: rawChartData
         ?.filter((entry) => entry.publisher === currentPublisher)
         .reduce((prev, current) => prev + current.relevant, 0),
     };
   });
-  const piChartData = useEffect(() => {
+  const pieChartData = [
+    {
+      name: "Posted",
+      value: rawChartData.reduce((prev, current) => prev + current.scraped, 0),
+    },
+    {
+      name: "Relevant",
+      value: rawChartData.reduce((prev, current) => prev + current.relevant, 0),
+    },
+  ];
+
+  useEffect(() => {
     if (isError) setHeader("Error fetching stats");
     else {
       if (filterApplied === "all") setHeader("All Publisher Stats");
@@ -68,11 +80,13 @@ export default function Stats({ filterApplied }) {
         <div className="sticky top-0 w-full h-fit md:pl-2 md:mt-0 lg:mt-0 mb-2 bg-[#f0f0f0] dark:bg-[#222] z-50">
           <h1 className={headerClass}>{header}</h1>
         </div>
-        <div className="relative w-full mx-auto h-[38rem] md:h-[28rem]">
-          {barChartData.length > 0 && <BarGraph data={barChartData} />}
-        </div>
-        <div className="w-full h-fit md:pl-2 md:mt-0 lg:mt-0 mb-2">
-          <h1 className="text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#f0f0f0] py-3"></h1>
+        <div className="pb-20">
+          <div className="relative w-full mx-auto h-[38rem] md:h-[28rem]">
+            {barChartData.length > 0 && <BarGraph data={barChartData} />}
+          </div>
+          <div className="relative w-full md:w-1/3 mx-auto h-[28rem] pt-20 mx-auto">
+            {pieChartData.length > 0 && <PieStatChart data={pieChartData} />}
+          </div>
         </div>
       </div>
     </div>
