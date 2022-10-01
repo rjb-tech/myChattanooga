@@ -418,9 +418,7 @@ def is_from_today_tfp(link: str) -> bool:
     # Get the page html and load into a bs object
     article_request = requests.get(link)
     article_soup = bs(article_request.text, "lxml")
-    posted_today_indicator = (
-        article_soup.find("p", class_="article__date").text.strip().lower()
-    )
+    posted_today_indicator = article_soup.find("p").text.strip().lower()
 
     if re.search("today", posted_today_indicator):
         return True
