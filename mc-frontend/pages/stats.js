@@ -63,18 +63,18 @@ export default function stats({ filterApplied }) {
   else {
     if (isLoading === true)
       headerClass =
-        "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#f0f0f0] animate-pulse";
+        "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#f0f0f0] py-3 animate-pulse";
     else
       headerClass =
-        "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#f0f0f0]";
+        "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#f0f0f0] py-3";
   }
   return (
     <div className="mx-auto">
       <div className="h-full w-full flex-col px-6">
-        <div className="sticky w-full h-fit top-0 md:pl-2 md:mt-0 lg:mt-0 mb-2">
+        <div className="sticky w-full h-fit top-0 md:pl-2 md:mt-0 lg:mt-0 mb-2 dark:bg-[#222] bg-[#f0f0f0] z-50">
           <h1 className={headerClass}>{header}</h1>
         </div>
-        <div className="w-full mx-auto h-[38rem] md:h-[30rem] pt-8 z-20">
+        <div className="relative w-full mx-auto h-[38rem] md:h-[28rem]">
           {formattedChartData.length > 0 && (
             <StatGraph data={formattedChartData} />
           )}
