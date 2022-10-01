@@ -44,11 +44,6 @@ export default function stats({ filterApplied }) {
   });
 
   useEffect(() => {
-    console.log(formattedChartData);
-    console.log("^^ chart data ^^");
-  }, [formattedChartData]);
-
-  useEffect(() => {
     if (isError) setHeader("Error fetching stats");
     else {
       if (filterApplied === "all") setHeader("All Publisher Stats");
