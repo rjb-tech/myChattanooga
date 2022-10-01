@@ -418,10 +418,11 @@ def is_from_today_tfp(link: str) -> bool:
     # Get the page html and load into a bs object
     article_request = requests.get(link)
     article_soup = bs(article_request.text, "lxml")
+    posted_today_indicator = (
+        article_soup.find("p", class_="article__date").text.strip().lower()
+    )
 
-    posted_today_indicator = article_soup.find("p", class_="article__date").text
-
-    if re.search("today", posted_today_indicator.lower()):
+    if re.search("today", posted_today_indicator):
         return True
 
     return False
@@ -1112,7 +1113,7 @@ def scrape_times_free_press(
     content_section = times_soup.find("ul", class_="archive__list | card-list")
 
     # Priming read for scraping loop
-    current_article = content_section.find("article", "card")
+    current_article = content_section.find("li")
     current_headline = current_article.find("h3", "card__title").a.text.rstrip()
     current_excerpt = current_article.find("p", "card__tease").text.lower()
     current_link = current_article.find("a", "card__link")["href"]
@@ -1142,13 +1143,13 @@ def scrape_times_free_press(
                     )
                 )
 
-            # Break out of the loop if an article not from today is found
-            # Every article after that will be from another day, so this improved speed
-            else:
-                break
+        # Break out of the loop if an article not from today is found
+        # Every article after that will be from another day, so this improved speed
+        else:
+            break
 
         # Gather data
-        current_article = current_article.find_next("article", "card")
+        current_article = current_article.find_next("li")
 
         # This if check is needed to not fail out when no articles are left
         # GO HERE NEXT
