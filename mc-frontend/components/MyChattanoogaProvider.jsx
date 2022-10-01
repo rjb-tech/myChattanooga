@@ -89,10 +89,11 @@ export const MyChattanoogaProvider = ({ children }) => {
   const [currentUserMetadata, setCurrentUserMetadata] = useState();
   // const [currentUserBrews, setCurrentUserBrews] = useState([]);
 
-  const showFilters =
-    (currentPage === "/" || currentPage === "/brews") &&
-    router.query.view !== "create" &&
-    pageContent.length > 0;
+  const showFilters = currentPage === "/" && pageContent.length > 0;
+
+  useEffect(() => {
+    setCurrentPage(router.pathname);
+  }, [router.pathname]);
 
   function toggleMobileNav() {
     setMenuExpanded((menuExpanded) => !menuExpanded);
