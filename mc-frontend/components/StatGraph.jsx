@@ -24,12 +24,11 @@ export const StatGraph = ({ data }) => {
           bottom: 5,
         }}
       >
-        <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="publisher" tickLine={false} />
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="scraped" fill="#BEFCFE" />
+        <Bar dataKey="scraped" fill="#D48193" />
         <Bar dataKey="relevant" fill="#005C6D" />
       </BarChart>
     </ResponsiveContainer>
