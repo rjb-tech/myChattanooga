@@ -18,7 +18,7 @@ export default function Faq({
     <div className="mx-auto">
       <div className="h-full w-full flex-col px-6">
         <div className="w-full h-fit top-0 md:pl-2 md:mt-0 lg:mt-0 mb-2 text-[#222] dark:text-[#f0f0f0] text-left">
-          <h1 className="font-bold text-3xl md:text-4xl py-3">
+          <h1 className="font-bold text-3xl md:text-4xl pt-3">
             About myChattanooga
           </h1>
           <p className="py-4">
