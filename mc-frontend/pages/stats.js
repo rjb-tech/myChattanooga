@@ -1,5 +1,5 @@
 import axios from "axios";
-import { StatGraph } from "../components/StatGraph";
+import { BarGraph } from "../components/BarGraph";
 import formatISO from "date-fns/formatISO";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -31,7 +31,7 @@ export default function Stats({ filterApplied }) {
       ? data?.filter((entry) => entry.date_saved === todayISO)
       : [];
   const labels = [...new Set(rawChartData?.map((entry) => entry.publisher))];
-  const formattedChartData = labels.map((currentPublisher) => {
+  const barChartData = labels.map((currentPublisher) => {
     return {
       publisher: currentPublisher,
       scraped: rawChartData
@@ -42,8 +42,7 @@ export default function Stats({ filterApplied }) {
         .reduce((prev, current) => prev + current.relevant, 0),
     };
   });
-
-  useEffect(() => {
+  const piChartData = useEffect(() => {
     if (isError) setHeader("Error fetching stats");
     else {
       if (filterApplied === "all") setHeader("All Publisher Stats");
@@ -66,13 +65,14 @@ export default function Stats({ filterApplied }) {
   return (
     <div className="mx-auto">
       <div className="h-full w-full flex-col px-6">
-        <div className="sticky w-full h-fit top-0 md:pl-2 md:mt-0 lg:mt-0 mb-2 dark:bg-[#222] bg-[#f0f0f0] z-50">
+        <div className="sticky top-0 w-full h-fit md:pl-2 md:mt-0 lg:mt-0 mb-2 bg-[#f0f0f0] dark:bg-[#222] z-50">
           <h1 className={headerClass}>{header}</h1>
         </div>
         <div className="relative w-full mx-auto h-[38rem] md:h-[28rem]">
-          {formattedChartData.length > 0 && (
-            <StatGraph data={formattedChartData} />
-          )}
+          {barChartData.length > 0 && <BarGraph data={barChartData} />}
+        </div>
+        <div className="w-full h-fit md:pl-2 md:mt-0 lg:mt-0 mb-2">
+          <h1 className="text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-[#222] dark:text-[#f0f0f0] py-3"></h1>
         </div>
       </div>
     </div>

@@ -10,7 +10,7 @@ import {
   LabelList,
 } from "recharts";
 
-export const StatGraph = ({ data }) => {
+export const BarGraph = ({ data }) => {
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart
