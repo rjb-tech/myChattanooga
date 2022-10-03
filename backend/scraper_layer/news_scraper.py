@@ -20,6 +20,7 @@ import requests
 import facebook
 import sqlalchemy
 from typing import Any, Dict, Optional, Tuple, List, NamedTuple
+from dateutil.parser import parse
 from pytz import timezone
 from databases import Database
 from sqlite3 import Cursor, Error
@@ -106,9 +107,11 @@ links = {
     "chattanooga_news_chronicle": {
         "base": "https://chattnewschronicle.com",
         "top_stories": "/category/top-stories/",
-        "community": "/category/community-connection/",
         "health": "/category/health/",
         "featured": "/category/featured/",
+        "local": "/category/local",
+        "business": "/category/business",
+        "entertainment": "/category/entertainment",
     },
     "local_three": {"base": "https://local3news.com", "local_news": "/local-news/"},
     "youtube": {
@@ -364,6 +367,13 @@ def refine_article_time(time: str) -> str:
             return str(hour) + ":" + minute
 
 
+def refine_chronicle_img_src(src_string: str) -> str:
+    format_one = src_string.replace("background-image: url(", "")
+    formatted_string = format_one.replace("(", "")
+
+    return formatted_string
+
+
 # This is used for determining posted times for Times Free Press articles
 def calculate_time_posted(time_since_posted, hour_or_minute):
     # Load current time into a variable
@@ -563,7 +573,7 @@ def get_pulse_article_content(link: str, session: requests.Session) -> str:
     return text_to_return
 
 
-def get_wdef_article_content(link, session) -> str:
+def get_wdef_article_content(link: str, session: requests.Session) -> str:
     # Make a string to return
     string_to_return = ""
 
@@ -584,6 +594,33 @@ def get_wdef_article_content(link, session) -> str:
         current_p_tag = current_p_tag.find_next("p")
 
     return string_to_return
+
+
+def get_chronicle_post_content(link: str, session: requests.Session) -> str:
+    article_page = session.get(link)
+    article_soup = bs(article_page.text, "lxml")
+    article_content = article_soup.find("div", class_="td-post-content")
+
+    # Get rid of figcaptions so the text ONLY includes the article
+    keep_a_searchin = True
+    while keep_a_searchin:
+        try:
+            article_content.figcaption.decompose()
+        except:
+            keep_a_searchin = False
+
+    return article_content.text
+
+
+def get_chronicle_posted_info(link: str, session: requests.Session) -> Tuple[str, str]:
+    article_page = session.get(link)
+    article_soup = bs(article_page.text, "lxml")
+    article_time = article_soup.find("time")["datetime"]
+    parsed_datetime = parse(article_time)
+    date_ = parsed_datetime.strftime("%Y-%m-%d")
+    time_ = parsed_datetime.strftime("%H:%M")
+
+    return date_, time_
 
 
 def scrape_chattanoogan(
@@ -1239,7 +1276,7 @@ def scrape_nooga_today(url: str, date: str) -> Tuple[List[ArticleEntry], Optiona
                             publisher=publisher,
                             link=current_link,
                             image=current_image_link,
-                            date_posted=current_date_posted,
+                            date_posted=get_date(7),
                             # Nooga today doesn't post their times, so we just put the time we first find the article
                             time_posted=get_time_now(),
                         )
@@ -1395,7 +1432,7 @@ def scrape_pulse(
     return approved_articles, total_articles_scraped
 
 
-def scrape_chattanooga_news_chronicle(url, date):
+def scrape_chattanooga_news_chronicle(url: str, date: str, session: requests.Session):
     # Create a list to return
     approved_articles = list()
 
@@ -1416,8 +1453,9 @@ def scrape_chattanooga_news_chronicle(url, date):
         # Open the page and load the source into a soup object
         headless_browser.get(url)
 
+        time.sleep(5)
+
         chronicle_soup = bs(headless_browser.page_source, "lxml")
-        content_section = chronicle_soup.find("div", class_="article-container")
 
     except:
 
@@ -1426,93 +1464,48 @@ def scrape_chattanooga_news_chronicle(url, date):
         # Return a status indicating the site is down or can't be reached
         raise ConnectionError
 
-    # Isolate the content section and get the first article listed
-    current_article = content_section.find("article")
+    # This is brittle and could cause false counts, therefore we kill it if the content section is not found
+    content_section = chronicle_soup.find("div", class_="td-big-grid-flex-posts")
+    if content_section == None:
+        raise ValueError
 
-    # Priming read for the main scraping loop
-    current_headline = current_article.find("h2", class_="entry-title").text.strip()
-    try:
-        current_excerpt = (
-            current_article.find("div", class_="entry-content").p.text.lower().strip()
+    # There are 5 articles on the main carousel, same class with incrementing numbers
+    for article_num in range(0, 5):
+        current_article = content_section.find(
+            "div", class_=f"td-big-grid-flex-post-{article_num}"
         )
-    except:
-        current_excerpt = ""
-    current_link = current_article.find("h2", class_="entry-title").a["href"]
-    try:
-        current_image_link = current_article.find("img")["src"]
-    except:
-        current_image_link = "https://mychattanooga-files.nyc3.digitaloceanspaces.com/news_chronicle_logo.jpeg"
-    current_datetime = current_article.find("time", class_="published")["datetime"]
-    current_date_posted = current_datetime[:10].strip()
-    current_time_posted = current_datetime[11:16]
+        # Some headers are different
+        try:
+            current_meta = current_article.find("h2", class_="entry-title").a
+        except:
+            current_meta = current_article.find("h3", class_="entry-title").a
+        current_headline = current_meta.text
+        current_link = current_meta["href"]
+        current_image_link = refine_chronicle_img_src(
+            current_article.find("span", class_="entry-thumb")["style"]
+        )
+        current_article_content = get_chronicle_post_content(current_link, session)
+        current_date_posted, current_time_posted = get_chronicle_posted_info(
+            current_link, session
+        )
 
-    if int(get_date(10)[:2]) - int(current_time_posted[:2]) < 0:
-        now_or_later = "later"
-    else:
-        now_or_later = "now"
-
-    while current_article:
-
-        # for the main scraping loop
-        if current_date_posted.strip() == date:
-
+        if current_date_posted == date:
             total_articles_scraped += 1
 
-            if (
-                is_relevant_article(current_headline, current_excerpt)
-                and now_or_later == "now"
-            ):
-                # Append to approved_articles
+            if is_relevant_article(current_headline, current_article_content):
                 approved_articles.append(
-                    {
-                        "headline": current_headline,
-                        "link": current_link,
-                        "image": current_image_link,
-                        "date_posted": get_date(7),
-                        "time_posted": current_time_posted,
-                        "publisher": publisher,
-                    }
+                    ArticleEntry(
+                        headline=current_headline,
+                        link=current_link,
+                        image=current_image_link,
+                        date_posted=get_date(7),
+                        time_posted=current_time_posted,
+                        publisher=publisher,
+                    )
                 )
 
         else:
-            # Break the loop if an article found is not from today
-            return approved_articles, total_articles_scraped
-
-        # Isolate the content section and get the first article listed
-        current_article = current_article.find_next("article")
-
-        if current_article:
-            # Priming read for the main scraping loop
-            current_headline = current_article.find(
-                "h2", class_="entry-title"
-            ).text.strip()
-            try:
-                current_excerpt = current_article.find(
-                    "div", class_="entry-content"
-                ).p.text.lower()
-            except:
-                current_excerpt = ""
-            current_link = current_article.find("h2", class_="entry-title").a["href"]
-            try:
-                current_image_link = current_article.find("img")["src"]
-            except:
-                current_image_link = "https://mychattanooga-files.nyc3.digitaloceanspaces.com/news_chronicle_logo.jpeg"
-            current_datetime = current_article.find("time", class_="published")[
-                "datetime"
-            ]
-            current_date_posted = current_datetime[:10]
-            current_time_posted = current_datetime[11:16]
-
-            if int(get_date(10)[:2]) - int(current_time_posted[:2]) < 0:
-                now_or_later = "later"
-            else:
-                now_or_later = "now"
-
-            # Reformat date
-            # current_year = current_date_posted[:4]
-            # current_month = current_date_posted[5:7]
-            # current_day = current_date_posted[8:10]
-            # current_date_posted = current_date_posted[5:7] + '/' + current_date_posted[8:10] + '/' + current_date_posted[:4]
+            break
 
     headless_browser.quit()
 
@@ -2214,34 +2207,110 @@ async def scrape_news() -> Tuple[List[ArticleEntry], List[StatEntry]]:
         logging.error("Exception caught in Pulse scraper", exc_info=True)
 
     # ---------- CHATTANOOGA NEWS CHRONICLE ---------- #
-    # try:
-    #     chronicle_top_articles, scraped_chronicle_top = scrape_chattanooga_news_chronicle(links['chattanooga_news_chronicle']['base'] + links['chattanooga_news_chronicle']['top_stories'], get_date(6))
-    #     chronicle_community_articles, scraped_chronicle_community = scrape_chattanooga_news_chronicle(links['chattanooga_news_chronicle']['base'] + links['chattanooga_news_chronicle']['community'], get_date(6))
-    #     #chronicle_health_articles = scrape_chattanooga_news_chronicle(links['chattanooga_news_chronicle']['base'] + links['chattanooga_news_chronicle']['health'], get_date(6))
-    #     chronicle_featured_articles, scraped_chronicle_featured = scrape_chattanooga_news_chronicle(links['chattanooga_news_chronicle']['base'] + links['chattanooga_news_chronicle']['featured'], get_date(6))
-    #     articles.extend(chronicle_top_articles)
-    #     articles.extend(chronicle_community_articles)
-    #     articles.extend(chronicle_featured_articles)
+    try:
+        logging.info("Chronicle scraper started")
 
-    #     scraped_chronicle = scraped_chronicle_featured + scraped_chronicle_community + scraped_chronicle_top
-    #     relevant_chronicle = len(chronicle_featured_articles) + len(chronicle_top_articles) + len(chronicle_community_articles)
+        (
+            chronicle_top_articles,
+            scraped_chronicle_top,
+        ) = scrape_chattanooga_news_chronicle(
+            links["chattanooga_news_chronicle"]["base"]
+            + links["chattanooga_news_chronicle"]["top_stories"],
+            get_date(6),
+            scraper_session,
+        )
+        (
+            chronicle_health_articles,
+            scraped_chronicle_health,
+        ) = scrape_chattanooga_news_chronicle(
+            links["chattanooga_news_chronicle"]["base"]
+            + links["chattanooga_news_chronicle"]["health"],
+            get_date(6),
+            scraper_session,
+        )
 
-    #     stats['scraped_chronicle'] = scraped_chronicle
-    #     stats['relevant_chronicle'] = relevant_chronicle
+        (
+            chronicle_featured_articles,
+            scraped_chronicle_featured,
+        ) = scrape_chattanooga_news_chronicle(
+            links["chattanooga_news_chronicle"]["base"]
+            + links["chattanooga_news_chronicle"]["featured"],
+            get_date(6),
+            scraper_session,
+        )
 
-    # except Exception as e:
-    #     print('\tException caught in Chronicle scraper')
-    #     print(e)
-    #     print()
+        (
+            chronicle_local_articles,
+            scraped_chronicle_local,
+        ) = scrape_chattanooga_news_chronicle(
+            links["chattanooga_news_chronicle"]["base"]
+            + links["chattanooga_news_chronicle"]["local"],
+            get_date(6),
+            scraper_session,
+        )
 
-    #     try:
-    #         stats['scraped_chronicle'] = current_stats['scraped_chronicle']
-    #         stats['relevant_chronicle'] = current_stats['relevant_chronicle']
-    #     except:
-    #         stats['scraped_chronicle'] = 0
-    #         stats['relevant_chronicle'] = 0
+        (
+            chronicle_business_articles,
+            scraped_chronicle_business,
+        ) = scrape_chattanooga_news_chronicle(
+            links["chattanooga_news_chronicle"]["base"]
+            + links["chattanooga_news_chronicle"]["business"],
+            get_date(6),
+            scraper_session,
+        )
 
-    # os.system('pkill -f firefox')
+        (
+            chronicle_entertainment_articles,
+            scraped_chronicle_entertainment,
+        ) = scrape_chattanooga_news_chronicle(
+            links["chattanooga_news_chronicle"]["base"]
+            + links["chattanooga_news_chronicle"]["entertainment"],
+            get_date(6),
+            scraper_session,
+        )
+
+        articles.extend(chronicle_top_articles)
+        articles.extend(chronicle_health_articles)
+        articles.extend(chronicle_featured_articles)
+        articles.extend(chronicle_local_articles)
+        articles.extend(chronicle_business_articles)
+        articles.extend(chronicle_entertainment_articles)
+
+        scraped_chronicle = (
+            scraped_chronicle_top
+            + scraped_chronicle_health
+            + scraped_chronicle_featured
+            + scraped_chronicle_local
+            + scraped_chronicle_business
+            + scraped_chronicle_entertainment
+        )
+
+        relevant_chronicle = (
+            len(chronicle_top_articles)
+            + len(chronicle_health_articles)
+            + len(chronicle_featured_articles)
+            + len(chronicle_local_articles)
+            + len(chronicle_business_articles)
+            + len(chronicle_entertainment_articles)
+        )
+
+        stats.append(
+            StatEntry(
+                scraped=scraped_chronicle,
+                relevant=relevant_chronicle,
+                publisher="Chattanooga News Chronicle",
+            )
+        )
+
+    except ConnectionError:
+        logging.error("Chronicle connection error")
+
+    except Exception as e:
+        logging.error("Exception caught in Chronicle scraper", exc_info=True)
+
+    finally:
+        os.system("pkill -f firefox")
+        logging.info("Firefox pkill, RAM cleared")
 
     # ---------- Local 3 News ---------- #
     try:
@@ -2268,11 +2337,13 @@ async def scrape_news() -> Tuple[List[ArticleEntry], List[StatEntry]]:
     except Exception as e:
         logging.error("Exception caught in Local 3 News scraper", exc_info=True)
 
+    finally:
+        os.system("pkill -f firefox")
+        logging.info("Firefox pkill, RAM cleared")
+
     # Unpack set into a list
     deduped_articles = [*set(articles)]
 
-    os.system("pkill -f firefox")
-    logging.info("Firefox pkill, RAM cleared")
     logging.info("--- SCRAPER EXITING --- \n")
 
     return deduped_articles, stats
