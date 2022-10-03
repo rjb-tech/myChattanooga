@@ -209,6 +209,12 @@ def print_keywords():
         print(x + "<br>")
 
 
+def get_time_now() -> str:
+    today = datetime.now()
+
+    return today.strftime("%-H:%M")
+
+
 # This function is just an easy way to query the current date
 def get_date(format: int) -> str:
     suffixes = {
@@ -279,6 +285,8 @@ def get_date(format: int) -> str:
         return today.strftime("%A")
     elif format == 12:
         return today.strftime("%-H:%M")
+    elif format == 13:
+        return today.strftime("%B %-d %Y")
     return "oops not a correct input"
 
 
@@ -1162,9 +1170,7 @@ def scrape_times_free_press(
     return approved_articles, total_articles_scraped
 
 
-def scrape_nooga_today_breaking_political(
-    url: str, date: str, category: str
-) -> Tuple[List[ArticleEntry], Optional[int]]:
+def scrape_nooga_today(url: str, date: str) -> Tuple[List[ArticleEntry], Optional[int]]:
     # Scraper variables
     approved_articles = []
     publisher = "Nooga Today"
@@ -1188,9 +1194,7 @@ def scrape_nooga_today_breaking_political(
         # Open the page and load the source into a soup object
         headless_browser.get(url)
 
-        browser_wait = WebDriverWait(headless_browser, 15).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "alm-reveal"))
-        )
+        time.sleep(5)
 
         nooga_soup = bs(headless_browser.page_source, "lxml")
 
@@ -1201,444 +1205,55 @@ def scrape_nooga_today_breaking_political(
         # Return a status indicating the site is down or can't be reached
         raise ConnectionError
 
-    # Isolate the content section and get the first article listed
-    content_section = nooga_soup.find("div", class_="alm-reveal")
-    current_article = content_section.find("article")
+    content_section = nooga_soup.find("main")
 
-    # Priming read for the main scraping loop
-    current_headline = current_article.find("h2", class_="entry-title").text
-    # current_excerpt = current_article.find('div', class_ = 'entry-excerpt').p.text.lower()
-    current_link = current_article.find("h2", class_="entry-title").a["href"]
-    try:
-        current_image_link = current_article.find("img")["src"]
-    except:
-        current_image_link = (
-            "https://mychattanooga-files.nyc3.digitaloceanspaces.com/nooga_today.png"
-        )
-    current_date_posted = current_article.find("time")["datetime"][:10]
-    current_time_posted = current_article.find("time")["datetime"][11:16]
-    current_category = (
-        current_article.find("span", class_="category").text.lower().strip()
+    current_section = content_section.find(
+        "bsp-list-loadmore", class_="PageListStandardB"
     )
 
-    # Reformat date
-    # current_year = current_date_posted[:4]
-    # current_month = current_date_posted[5:7]
-    # current_day = current_date_posted[8:10]
-    current_date_posted = (
-        current_date_posted[5:7]
-        + "/"
-        + current_date_posted[8:10]
-        + "/"
-        + current_date_posted[:4]
-    )
+    while current_section:
+        current_article = current_section.find("div", class_="PageList-items-item")
 
-    # Check if the current article is from today
-    if current_date_posted == date:
+        while current_article:
+            current_headline = current_article.find(
+                "div", class_="PagePromo-title"
+            ).a.text.strip()
+            current_link = current_article.find("div", class_="PagePromo-title").a[
+                "href"
+            ]
+            current_date_posted = current_article.find(
+                "div", class_="PagePromo-date"
+            ).text.strip()
+            try:
+                current_image_link = current_article.find("img")["src"]
+            except:
+                current_image_link = "https://mychattanooga-files.nyc3.digitaloceanspaces.com/nooga_today.png"
 
-        total_articles_scraped += 1
-
-        # Convert time and date posted to datetime objects
-        current_date_posted = datetime.strptime(current_date_posted, "%m/%d/%Y").date()
-        current_time_posted = datetime.strptime(
-            current_time_posted.strip(), "%H:%M"
-        ).strftime("%H:%M")
-
-        # Append the current article if it is a single category post
-        if re.search(",", current_category) == None and current_category == category:
-
-            approved_articles.append(
-                ArticleEntry(
-                    headline=current_headline,
-                    link=current_link,
-                    image=current_image_link,
-                    date_posted=get_date(7),
-                    time_posted=current_time_posted,
-                    publisher=publisher,
-                )
-            )
-
-        # For the breaking/political scraper, the city category will sometimes have multiple tags
-        # I only want the city, news articles if they are from multiple categories
-        # The other multiple category posts will be picked up by the other scraper
-        elif re.search(",", current_category):
-            if category == "news":
-                if re.search("city, news", current_category) or re.search(
-                    "lifestyle, news", current_category
-                ):
-                    approved_articles.append(
-                        ArticleEntry(
-                            headline=current_headline,
-                            link=current_link,
-                            image=current_image_link,
-                            date_posted=get_date(7),
-                            time_posted=current_time_posted,
-                            publisher=publisher,
-                        )
-                    )
-    else:
-
-        # Return approved articles to break the function call if the first article isn't from today
-        return approved_articles, total_articles_scraped
-
-    for story in range(4):
-
-        # Move to the next article on the page and gather info
-        current_article = current_article.find_next("article")
-        current_headline = current_article.find("h2", class_="entry-title").text
-        # current_excerpt = current_article.find('div', class_='entry-excerpt').p.text.lower()
-        current_link = current_article.find("h2", class_="entry-title").a["href"]
-        try:
-            current_image_link = current_article.find("img")["src"]
-        except:
-            current_image_link = "https://mychattanooga-files.nyc3.digitaloceanspaces.com/nooga_today.png"
-        current_date_posted = current_article.find("time")["datetime"][:10]
-        current_time_posted = current_article.find("time")["datetime"][11:16]
-        current_category = (
-            current_article.find("span", class_="category").text.lower().strip()
-        )
-
-        # Reformat date
-        # current_year = current_date_posted[:4]
-        # current_month = current_date_posted[5:7]
-        # current_day = current_date_posted[8:10]
-        current_date_posted = (
-            current_date_posted[5:7]
-            + "/"
-            + current_date_posted[8:10]
-            + "/"
-            + current_date_posted[:4]
-        )
-
-        # Check if the current article is from today
-        if current_date_posted == date:
-
-            total_articles_scraped += 1
-
-            # Convert time and date posted to datetime objects
-            current_date_posted = datetime.strptime(
-                current_date_posted.strip(), "%m/%d/%Y"
-            ).date()
-            current_time_posted = datetime.strptime(
-                current_time_posted.strip(), "%H:%M"
-            ).strftime("%H:%M")
-
-            # Append the current article if it is a single category post
-            if (
-                re.search(",", current_category) == None
-                and current_category == category
-            ):
-
-                approved_articles.append(
-                    ArticleEntry(
-                        headline=current_headline,
-                        link=current_link,
-                        image=current_image_link,
-                        date_posted=get_date(7),
-                        time_posted=current_time_posted,
-                        publisher=publisher,
-                    )
-                )
-
-            # For the breaking/political scraper, the city category will sometimes have multiple tags
-            # I only want the city, news articles if they are from multiple categories
-            # The other multiple category posts will be picked up by the other scraper
-            elif re.search(",", current_category.lower()):
-                if category == "city":
-                    if re.search("city, news", current_category) or re.search(
-                        "lifestyle, news", current_category
-                    ):
-                        approved_articles.append(
-                            ArticleEntry(
-                                headline=current_headline,
-                                link=current_link,
-                                image=current_image_link,
-                                date_posted=get_date(7),
-                                time_posted=current_time_posted,
-                                publisher=publisher,
-                            )
-                        )
-
-        else:
-
-            # Break if an article from another day is found
-            break
-
-    headless_browser.quit()
-
-    return approved_articles, total_articles_scraped
-
-
-def scrape_nooga_today_non_political(
-    url: str, date: str, category: str
-) -> Tuple[List[ArticleEntry], Optional[int]]:
-    # Scraper variables
-    approved_articles = []
-    publisher = "Nooga Today"
-    total_articles_scraped = 0
-
-    # Load Firefox driver and set headless options
-    # This is needed because channel nine loads its articles using a script upon page load
-    # The browser is headless so this can run on a server command line
-    firefox_options = webdriver.FirefoxOptions()
-    firefox_options.headless = True
-    headless_browser = Firefox(options=firefox_options)
-
-    # New code to work on the raspberry pi
-    # chrome_options = Options()
-    # chrome_options.add_argument('--headless')
-    # chrome_options.BinaryLocation = '/usr/bin/chromium-browser'
-    # headless_browser = webdriver.Chrome(executable_path='/usr/bin/chromedriver', options=chrome_options)
-
-    try:
-
-        # Open the page and load the source into a soup object
-        headless_browser.get(url)
-
-        browser_wait = WebDriverWait(headless_browser, 15).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "alm-reveal"))
-        )
-
-        nooga_soup = bs(headless_browser.page_source, "lxml")
-
-    except:
-
-        headless_browser.quit()
-
-        # Return a status indicating the site is down or can't be reached
-        raise ConnectionError
-
-    # Isolate the content section and get the first article listed
-    content_section = nooga_soup.find("div", class_="alm-reveal")
-    current_article = content_section.find("article")
-
-    # Priming read for the main scraping loop
-    current_headline = current_article.find("h2", class_="entry-title").text
-    # current_excerpt = current_article.find('div', class_ = 'entry-excerpt').p.text.lower()
-    current_link = current_article.find("h2", class_="entry-title").a["href"]
-    try:
-        current_image_link = current_article.find("img")["src"]
-    except:
-        current_image_link = (
-            "https://mychattanooga-files.nyc3.digitaloceanspaces.com/nooga_today.png"
-        )
-    current_date_posted = current_article.find("time")["datetime"][:10]
-    current_time_posted = current_article.find("time")["datetime"][11:16]
-    current_category = (
-        current_article.find("span", class_="category").text.lower().strip()
-    )
-
-    # Reformat date
-    # current_year = current_date_posted[:4]
-    # current_month = current_date_posted[5:7]
-    # current_day = current_date_posted[8:10]
-    current_date_posted = (
-        current_date_posted[5:7]
-        + "/"
-        + current_date_posted[8:10]
-        + "/"
-        + current_date_posted[:4]
-    )
-
-    # Add the current article to the temp list if it is from today
-    if current_date_posted == date:
-
-        if current_category != "city, news" and current_category != "lifestyle, news":
-            total_articles_scraped += 1
-
-        # Convert time and date posted to datetime objects
-        current_date_posted = datetime.strptime(
-            current_date_posted.strip(), "%m/%d/%Y"
-        ).date()
-        current_time_posted = datetime.strptime(
-            current_time_posted.strip(), "%H:%M"
-        ).strftime("%H:%M")
-
-        # Only append the article from the city page if it is only tagged as a city article
-        # ----- START HERE -----
-        # I need some way to differentiate between category types and where to post dual category stories
-        if (
-            re.search(",", current_category.lower()) == None
-            and current_category == category
-        ):
-
-            approved_articles.append(
-                ArticleEntry(
-                    headline=current_headline,
-                    link=current_link,
-                    image=current_image_link,
-                    date_posted=get_date(7),
-                    time_posted=current_time_posted,
-                    publisher=publisher,
-                )
-            )
-
-        # This elif will deal with multiple category posts
-        # Priority for story categories is news > city > lifestyle > food and drink
-        elif re.search(",", current_category.lower()):
-            # This non-political and breaking news scraper will only be used for city, food/drink, and lifestyle sections
-            if category == "city":
-                # if-else statements for nested categories (city, news \ city, lifestyle \ etc.
-                if re.search("city, news", current_category.lower()) == None:
-                    approved_articles.append(
-                        ArticleEntry(
-                            headline=current_headline,
-                            link=current_link,
-                            image=current_image_link,
-                            date_posted=get_date(7),
-                            time_posted=current_time_posted,
-                            publisher=publisher,
-                        )
-                    )
-
-            elif category == "food + drink":
-
-                if re.search("food + drink, news", current_category.lower()):
-
-                    approved_articles.append(
-                        ArticleEntry(
-                            headline=current_headline,
-                            link=current_link,
-                            image=current_image_link,
-                            date_posted=get_date(7),
-                            time_posted=current_time_posted,
-                            publisher=publisher,
-                        )
-                    )
-
-                elif re.search("food + drink, lifestyle", current_category.lower()):
-
-                    approved_articles.append(
-                        ArticleEntry(
-                            headline=current_headline,
-                            link=current_link,
-                            image=current_image_link,
-                            date_posted=get_date(7),
-                            time_posted=current_time_posted,
-                            publisher=publisher,
-                        )
-                    )
-
-    else:
-
-        # Return approved articles and end the function call if article is from another day
-        return approved_articles, total_articles_scraped
-
-    for story in range(4):
-
-        # Move to the next article on the page and gather info
-        current_article = current_article.find_next("article")
-        current_headline = current_article.find("h2", class_="entry-title").text
-        # current_excerpt = current_article.find('div', class_='entry-excerpt').p.text.lower()
-        current_link = current_article.find("h2", class_="entry-title").a["href"]
-        try:
-            current_image_link = current_article.find("img")["src"]
-        except:
-            current_image_link = "https://mychattanooga-files.nyc3.digitaloceanspaces.com/nooga_today.png"
-        current_date_posted = current_article.find("time")["datetime"][:10]
-        current_time_posted = current_article.find("time")["datetime"][11:16]
-        current_category = (
-            current_article.find("span", class_="category").text.lower().strip()
-        )
-
-        # Reformat date
-        # current_year = current_date_posted[:4]
-        # current_month = current_date_posted[5:7]
-        # current_day = current_date_posted[8:10]
-        current_date_posted = (
-            current_date_posted[5:7]
-            + "/"
-            + current_date_posted[8:10]
-            + "/"
-            + current_date_posted[:4]
-        )
-
-        # Add the current article to the temp list if it is from today
-        if current_date_posted == date:
-
-            if (
-                current_category != "city, news"
-                and current_category != "lifestyle, news"
-            ):
+            if current_date_posted == date:
                 total_articles_scraped += 1
 
-            # Convert time and date posted to datetime objects
-            current_date_posted = datetime.strptime(
-                current_date_posted.strip(), "%m/%d/%Y"
-            ).date()
-            current_time_posted = datetime.strptime(
-                current_time_posted.strip(), "%H:%M"
-            ).strftime("%H:%M")
-
-            # Only append the article from the city page if it is only tagged as a city article
-            # ----- START HERE -----
-            # I need some way to differentiate between category types and where to post dual category stories
-            if (
-                re.search(",", current_category.lower()) == None
-                and current_category == category
-            ):
-
-                approved_articles.append(
-                    ArticleEntry(
-                        headline=current_headline,
-                        link=current_link,
-                        image=current_image_link,
-                        date_posted=get_date(7),
-                        time_posted=current_time_posted,
-                        publisher=publisher,
+                if is_relevant_article:
+                    approved_articles.append(
+                        ArticleEntry(
+                            headline=current_headline,
+                            publisher=publisher,
+                            link=current_link,
+                            image=current_image_link,
+                            date_posted=current_date_posted,
+                            # Nooga today doesn't post their times, so we just put the time we first find the article
+                            time_posted=get_time_now(),
+                        )
                     )
-                )
+            else:
+                break
 
-            # This elif will deal with multiple category posts
-            # Priority for story categories is news > city > lifestyle > food and drink
-            elif re.search(",", current_category.lower()):
-                # This non-political and breaking news scraper will only be used for city, food/drink, and lifestyle sections
-                if category == "city":
-                    # if-else statements for nested categories (city, news \ city, lifestyle \ etc.
-                    if re.search("city, news", current_category.lower()) == None:
-                        approved_articles.append(
-                            ArticleEntry(
-                                headline=current_headline,
-                                link=current_link,
-                                image=current_image_link,
-                                date_posted=get_date(7),
-                                time_posted=current_time_posted,
-                                publisher=publisher,
-                            )
-                        )
+            current_article = current_article.find_next(
+                "div", class_="PageList-items-item"
+            )
 
-                elif category == "food + drink":
-
-                    if re.search("food + drink, news", current_category.lower()):
-
-                        approved_articles.append(
-                            ArticleEntry(
-                                headline=current_headline,
-                                link=current_link,
-                                image=current_image_link,
-                                date_posted=get_date(7),
-                                time_posted=current_time_posted,
-                                publisher=publisher,
-                            )
-                        )
-
-                    elif re.search("food + drink, lifestyle", current_category.lower()):
-
-                        approved_articles.append(
-                            ArticleEntry(
-                                headline=current_headline,
-                                link=current_link,
-                                image=current_image_link,
-                                date_posted=get_date(7),
-                                time_posted=current_time_posted,
-                                publisher=publisher,
-                            )
-                        )
-
-        else:
-
-            # Break the loop if the article isn't from today
-            break
+        current_section = current_section.find_next(
+            "bsp-list-loadmore", class_="PageListStandardB"
+        )
 
     headless_browser.quit()
 
@@ -2535,50 +2150,16 @@ async def scrape_news() -> Tuple[List[ArticleEntry], List[StatEntry]]:
     try:
         logging.info("Nooga Today scraper started")
 
-        (
-            nooga_today_news_articles,
-            scraped_nooga_today_news,
-        ) = scrape_nooga_today_breaking_political(
-            links["nooga_today"]["base"] + links["nooga_today"]["local_news"],
-            get_date(1),
-            "news",
+        nooga_today_articles, scraped_nooga_today = scrape_nooga_today(
+            links["nooga_today"]["base"],
+            get_date(13),
         )
-        (
-            nooga_today_city_articles,
-            scraped_nooga_today_city,
-        ) = scrape_nooga_today_non_political(
-            links["nooga_today"]["base"] + links["nooga_today"]["city"],
-            get_date(1),
-            "city",
-        )
-        (
-            nooga_today_food_articles,
-            scraped_nooga_today_food,
-        ) = scrape_nooga_today_non_political(
-            links["nooga_today"]["base"] + links["nooga_today"]["food_drink"],
-            get_date(1),
-            "food + drink",
-        )
-        articles.extend(nooga_today_news_articles)
-        articles.extend(nooga_today_city_articles)
-        articles.extend(nooga_today_food_articles)
-
-        scraped_nooga_today = (
-            scraped_nooga_today_city
-            + scraped_nooga_today_food
-            + scraped_nooga_today_news
-        )
-
-        relevant_nooga_today = (
-            len(nooga_today_news_articles)
-            + len(nooga_today_city_articles)
-            + len(nooga_today_food_articles)
-        )
+        articles.extend(nooga_today_articles)
 
         stats.append(
             StatEntry(
                 scraped=scraped_nooga_today,
-                relevant=relevant_nooga_today,
+                relevant=len(nooga_today_articles),
                 publisher="Nooga Today",
             )
         )
