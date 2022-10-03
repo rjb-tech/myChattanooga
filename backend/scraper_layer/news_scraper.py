@@ -1432,7 +1432,9 @@ def scrape_pulse(
     return approved_articles, total_articles_scraped
 
 
-def scrape_chattanooga_news_chronicle(url: str, date: str, session: requests.Session):
+def scrape_chattanooga_news_chronicle(
+    url: str, date: str, session: requests.Session
+) -> Tuple[List[ArticleEntry], int]:
     # Create a list to return
     approved_articles = list()
 
@@ -1489,6 +1491,7 @@ def scrape_chattanooga_news_chronicle(url: str, date: str, session: requests.Ses
             current_link, session
         )
 
+        # Not all stories are in date_posted order, so all of the articles need scraping
         if current_date_posted == date:
             total_articles_scraped += 1
 
@@ -1503,9 +1506,6 @@ def scrape_chattanooga_news_chronicle(url: str, date: str, session: requests.Ses
                         publisher=publisher,
                     )
                 )
-
-        else:
-            break
 
     headless_browser.quit()
 
