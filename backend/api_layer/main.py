@@ -330,11 +330,8 @@ async def today_stats(response: Response, query_date: str):
                 response.status_code = status.HTTP_400_BAD_REQUEST
                 return "Invalid value for query_date"
             table = table_wrap.unwrap()
-            date_week_before = get_date_week_before(filter_date)
-            query = select(table).where(
-                (table.c.date_saved <= filter_date)
-                & (table.c.date_saved >= date_week_before)
-            )
+            # date_week_before = get_date_week_before(filter_date)
+            query = select(table).where(table.c.date_saved == filter_date)
             data = await database.get_db_obj().fetch_all(query)
             return [row for row in data]
 
