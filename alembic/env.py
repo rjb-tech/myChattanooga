@@ -13,7 +13,7 @@ config = context.config
 load_dotenv()
 config.set_main_option(
     "sqlalchemy.url",
-    f"postgresql://{os.environ['POSTGRES_USER_PROD']}:{os.environ['POSTGRES_PASSWORD_PROD']}@mychattanooga-prod-do-user-9032420-0.b.db.ondigitalocean.com:25060/mychattanooga?sslmode=require",
+    os.environ.get("DATABASE_URL_ALEMBIC"),
 )
 
 # Interpret the config file for Python logging.

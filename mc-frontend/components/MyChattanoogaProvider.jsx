@@ -1,57 +1,57 @@
-import { StickyHeader } from "./StickyHeader"
-import Head from 'next/head'
-import { useState, createContext, useEffect, cloneElement } from "react"
-import { MobileNav } from "./MobileNav"
-import { MobileUserPanel } from "./MobileUserPanel"
-import { motion } from "framer-motion"
-import { UserPanel } from "./UserPanel"
-import { faChevronUp } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { useRouter } from "next/router"
-import { useAuth0 } from "@auth0/auth0-react"
-import axios from "axios"
+import { StickyHeader } from "./StickyHeader";
+import Head from "next/head";
+import { useState, createContext, useEffect, cloneElement } from "react";
+import { MobileNav } from "./MobileNav";
+import { MobileUserPanel } from "./MobileUserPanel";
+import { motion } from "framer-motion";
+import { UserPanel } from "./UserPanel";
+import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRouter } from "next/router";
+import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
 
 const MyChattanoogaContext = createContext();
 
 const childrenComponentVariants = {
   normal: { y: "0%" },
-  extended: { y: "5rem" }
-}
+  extended: { y: "5rem" },
+};
 
 const userPanelVariants = {
   open: { opacity: 1, y: "0%" },
   closed: { opacity: 0, y: "-100%" },
-}
+};
 
 const scrollTopButtonVariants = {
-  visible: { opacity: .7 },
-  closed: { opacity: 0 }
-}
+  visible: { opacity: 0.7 },
+  closed: { opacity: 0 },
+};
 
 export const MyChattanoogaProvider = ({ children }) => {
-
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
 
   const useDarkModePreference = () => {
     useEffect(() => {
-      const isDarkMode = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const isDarkMode =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
       setDark(isDarkMode);
       // if (isDark===true && !document.body.classList.contains('dark')) {document.body.classList.add("dark")}
-    }, [])
-  }
+    }, []);
+  };
 
   const useWeatherLocation = () => {
     useEffect(() => {
-      const lsWeatherLocation = localStorage.getItem('weatherLocation')
+      const lsWeatherLocation = localStorage.getItem("weatherLocation");
       if (lsWeatherLocation && lsWeatherLocation !== "undefined") {
-        setCurrentWeatherLocation(lsWeatherLocation)
+        setCurrentWeatherLocation(lsWeatherLocation);
+      } else {
+        setCurrentWeatherLocation("northChattanooga");
+        localStorage.setItem("weatherLocation", "northChattanooga");
       }
-      else {
-        setCurrentWeatherLocation("northChattanooga")
-        localStorage.setItem('weatherLocation', 'northChattanooga')
-      }
-    }, [])
-  }
+    }, []);
+  };
 
   useEffect(() => {
     const fetchMetadata = async () => {
@@ -71,7 +71,9 @@ export const MyChattanoogaProvider = ({ children }) => {
 
   const router = useRouter();
   const [isDark, setDark] = useState(useDarkModePreference());
-  const [currentWeatherLocation, setCurrentWeatherLocation] = useState(useWeatherLocation());
+  const [currentWeatherLocation, setCurrentWeatherLocation] = useState(
+    useWeatherLocation()
+  );
   const [menuExpanded, setMenuExpanded] = useState(false);
   const [panelExpanded, setPanelExpanded] = useState(false);
   const [settingsPanelExpanded, setSettingsPanelExpanded] = useState(false);
@@ -87,36 +89,36 @@ export const MyChattanoogaProvider = ({ children }) => {
   const [currentUserMetadata, setCurrentUserMetadata] = useState();
   // const [currentUserBrews, setCurrentUserBrews] = useState([]);
 
-  const showFilters = 
-    (currentPage === '/' || currentPage === '/brews')
-    && router.query.view !== "create" 
-    && pageContent.length > 0
+  const showFilters = currentPage === "/" && pageContent.length > 0;
+
+  useEffect(() => {
+    setCurrentPage(router.pathname);
+  }, [router.pathname]);
 
   function toggleMobileNav() {
-    setMenuExpanded(menuExpanded => !menuExpanded);
+    setMenuExpanded((menuExpanded) => !menuExpanded);
   }
   function toggleMobileUserPanel() {
     if (auxPanelExpanded === true) {
-      setAuxPanelExpanded(auxPanelExpanded => !auxPanelExpanded);
+      setAuxPanelExpanded((auxPanelExpanded) => !auxPanelExpanded);
       // This conditional accounts for this function being called from a non mobile view
       if (panelExpanded === true) {
         setTimeout(function () {
-          setPanelExpanded(panelExpanded => !panelExpanded)
-          setCurrentAuxSection("")
+          setPanelExpanded((panelExpanded) => !panelExpanded);
+          setCurrentAuxSection("");
         }, 150);
       }
       setTimeout(function () {
-        setCurrentAuxSection("")
+        setCurrentAuxSection("");
       }, 150);
-    }
-    else {
-      setPanelExpanded(panelExpanded => !panelExpanded);
+    } else {
+      setPanelExpanded((panelExpanded) => !panelExpanded);
     }
   }
 
   function toggleDarkMode() {
-    setDark(isDark => !isDark)
-    localStorage.setItem("dark", isDark)
+    setDark((isDark) => !isDark);
+    localStorage.setItem("dark", isDark);
   }
 
   // This needs to be dealt with
@@ -132,47 +134,49 @@ export const MyChattanoogaProvider = ({ children }) => {
     setAuxPanelExpanded: { setAuxPanelExpanded },
     filterApplied: { filterApplied },
     setFilterApplied: { setFilterApplied },
-    currentUserMetadata: {currentUserMetadata},
-    setCurrentUserMetadata: {setCurrentUserMetadata}
-  }
+    currentUserMetadata: { currentUserMetadata },
+    setCurrentUserMetadata: { setCurrentUserMetadata },
+  };
 
   useEffect(() => {
-    const publishers = [...new Set(pageContent.map((contentItem) => contentItem?.publisher))].sort();
+    const publishers = [
+      ...new Set(pageContent.map((contentItem) => contentItem?.publisher)),
+    ].sort();
     setFilterOptions(publishers);
-  }, [pageContent])
+  }, [pageContent]);
 
   useEffect(() => {
-    localStorage.setItem("weatherLocation", currentWeatherLocation)
-  }, [currentWeatherLocation])
+    localStorage.setItem("weatherLocation", currentWeatherLocation);
+  }, [currentWeatherLocation]);
 
   useEffect(() => {
-    localStorage.setItem("dark", isDark)
-    !document.body.classList.contains('dark') && isDark === true
-      ? (document.body.classList.add("dark"))
-      : (document.body.classList.remove("dark"))
-  }, [isDark])
+    localStorage.setItem("dark", isDark);
+    !document.body.classList.contains("dark") && isDark === true
+      ? document.body.classList.add("dark")
+      : document.body.classList.remove("dark");
+  }, [isDark]);
 
   // Scroll window to top on page change
   // USE THIS ELEMENT FOR SCROLL TO TOP BUTTON
   useEffect(() => {
-    const element = document.getElementById("content")
-    element.scrollTop = 0
-    setFilterApplied("all")
-  }, [currentPage])
+    const element = document.getElementById("content");
+    element.scrollTop = 0;
+    setFilterApplied("all");
+  }, [currentPage]);
 
   // https://www.kindacode.com/article/how-to-create-a-scroll-to-top-button-in-react/
   useEffect(() => {
-    const element = document.getElementById("content")
+    const element = document.getElementById("content");
     const handleScroll = (scrollAmount) => {
-      const element = document.getElementById("content")
+      const element = document.getElementById("content");
       if (element.scrollTop > 200) {
         setShowTopButton(true);
       } else {
         setShowTopButton(false);
       }
-    }
+    };
     element.addEventListener("scroll", () => {
-      handleScroll(element.scrollTop)
+      handleScroll(element.scrollTop);
     });
   }, []);
 
@@ -188,16 +192,17 @@ export const MyChattanoogaProvider = ({ children }) => {
   // }, [currentUserMetadata])
 
   const scrollToTop = () => {
-    const element = document.getElementById("content")
+    const element = document.getElementById("content");
     element.scrollTo({
       top: 0,
-      behavior: 'smooth' // for smoothly scrolling
+      behavior: "smooth", // for smoothly scrolling
     });
   };
 
-  const childrenWrapperClassString = (menuExpanded === true)
-    ? "overscroll-contain transition duration-[300ms] blur-sm ease-linear relative"
-    : "overscroll-contain transition duration-[300ms] relative"
+  const childrenWrapperClassString =
+    menuExpanded === true
+      ? "overscroll-contain transition duration-[300ms] blur-sm ease-linear relative"
+      : "overscroll-contain transition duration-[300ms] relative";
 
   return (
     <MyChattanoogaContext.Provider value={value}>
@@ -210,12 +215,14 @@ export const MyChattanoogaProvider = ({ children }) => {
             key="siteDescription"
           />
           <link rel="icon" href="/myChattanooga_small-icon.png" />
-          {process.env.DEPLOYMENT_ENV === "prod" && <script
-            async
-            defer
-            data-domain="mychattanooga.app"
-            src="https://plausible.io/js/plausible.js"
-          />}
+          {process.env.DEPLOYMENT_ENV === "prod" && (
+            <script
+              async
+              defer
+              data-domain="mychattanooga.app"
+              src="https://plausible.io/js/plausible.js"
+            />
+          )}
         </Head>
 
         <header className="w-screen bg-[#f0f0f0] dark:bg-[#222] overscroll-none sticky z-[99]">
@@ -228,7 +235,8 @@ export const MyChattanoogaProvider = ({ children }) => {
             panelExpanded={panelExpanded}
           />
           {/* TECH DEBT: Put motion element here instead of in MobileNav component */}
-          <div className="sm:hidden absolute w-full h-fit object-center overscroll-none -left-full z-20 flex mx-auto"
+          <div
+            className="sm:hidden absolute w-full h-fit object-center overscroll-none -left-full z-20 flex mx-auto"
             key="MobileNav"
           >
             <MobileNav
@@ -244,10 +252,10 @@ export const MyChattanoogaProvider = ({ children }) => {
           <motion.div
             className="sm:hidden w-full h-fit object-center absolute z-10 mx-auto opacity-0 overscroll-contain"
             key="MobileUserPanel"
-            animate={panelExpanded === true ? 'open' : 'closed'}
+            animate={panelExpanded === true ? "open" : "closed"}
             transition={{
-              duration: panelExpanded === true ? .3 : .3,
-              type: "tween"
+              duration: panelExpanded === true ? 0.3 : 0.3,
+              type: "tween",
             }}
             variants={userPanelVariants}
           >
@@ -285,11 +293,11 @@ export const MyChattanoogaProvider = ({ children }) => {
         >
           <div className={childrenWrapperClassString}>
             <motion.div
-              animate={panelExpanded === true ? 'extended' : 'normal'}
+              animate={panelExpanded === true ? "extended" : "normal"}
               className="flex justify-center scroll-smooth p-2 py-4 lg:px-0 lg:pt-8 flex w-screen"
               transition={{
-                duration: panelExpanded === true ? .3 : .5,
-                type: "tween"
+                duration: panelExpanded === true ? 0.3 : 0.5,
+                type: "tween",
               }}
               variants={childrenComponentVariants}
             >
@@ -328,16 +336,13 @@ export const MyChattanoogaProvider = ({ children }) => {
                   contentLoading: contentLoading,
                   setContentLoading: setContentLoading,
                   currentUserMetadata: currentUserMetadata,
-                  setCurrentUserMetadata: setCurrentUserMetadata
+                  setCurrentUserMetadata: setCurrentUserMetadata,
                 })}
               </div>
               {/* {children} */}
             </motion.div>
           </div>
-          <div className="lg:hidden h-16 w-screen">
-
-          </div>
-
+          <div className="lg:hidden h-16 w-screen"></div>
         </main>
         <motion.button
           aria-label="Go To Top Button"
@@ -345,9 +350,15 @@ export const MyChattanoogaProvider = ({ children }) => {
           onClick={scrollToTop}
           animate={showTopButton === true ? "visible" : "notVisible"}
           variants={scrollTopButtonVariants}
-          whileTap={{ scale: .85 }}
+          whileTap={{ scale: 0.85 }}
         >
-          <FontAwesomeIcon icon={faChevronUp} height={20} width={20} className="mx-auto" color={isDark === true ? "#222" : "#f0f0f0"} />
+          <FontAwesomeIcon
+            icon={faChevronUp}
+            height={20}
+            width={20}
+            className="mx-auto"
+            color={isDark === true ? "#222" : "#f0f0f0"}
+          />
         </motion.button>
         {/* <scrollToTop /> */}
         {/* <footer className="flex items-center w-screen">
@@ -358,9 +369,8 @@ export const MyChattanoogaProvider = ({ children }) => {
             
         </footer> */}
       </div>
-
     </MyChattanoogaContext.Provider>
-  )
-}
+  );
+};
 
-export default MyChattanoogaContext
+export default MyChattanoogaContext;

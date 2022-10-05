@@ -7,15 +7,17 @@ CREATE TABLE articles
                         link        TEXT    NOT NULL,
                         image       TEXT    NOT NULL,
                         time_posted TEXT    NOT NULL,
-                        publisher   TEXT    NOT NULL
+                        publisher   TEXT    NOT NULL,
+                        date_saved  DATE    DEFAULT CURRENT_DATE
                     );
 
 CREATE TABLE stats
                     (
-                        publisher   TEXT    PRIMARY KEY     NOT NULL,
-                        scraped     TEXT                    NOT NULL,
-                        relevant    TEXT                    NOT NULL,
-                        date        TIMESTAMPTZ             NOT NULL                       
+                        id              SERIAL      PRIMARY KEY,
+                        publisher       TEXT        NOT NULL,
+                        relevant        INTEGER     NOT NULL,
+                        scraped         INTEGER     NOT NULL,
+                        date_saved      DATE        DEFAULT CURRENT_DATE                     
                     );
             
 CREATE TABLE tfp

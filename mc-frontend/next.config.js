@@ -22,6 +22,7 @@ module.exports = {
       "mychattanooga-files.nyc3.digitaloceanspaces.com",
       "s.gravatar.com",
       "wehco.media.clients.ellingtoncms.com",
+      "chattnewschronicle.com",
     ],
   },
   reactStrictMode: false,

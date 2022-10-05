@@ -1,3 +1,4 @@
+import axios from "axios";
 const url = require("url");
 
 export default function handler(req, res) {
@@ -9,18 +10,17 @@ export default function handler(req, res) {
   }
   if (req.method === "GET") {
     const parsedURL = url.parse(req.url, true);
-    try {
-      const result = fetch(
-        `${apiURL}/weather?location=${parsedURL.query.location}`
-      ).then(async (response) => {
-        const data = await response.json();
-        res.json(data);
+
+    const result = axios
+      .get(`${apiURL}/weather?location=${parsedURL.query.location}`)
+      .then(async (response) => {
+        res.json(response.data);
+        res.end();
+      })
+      .catch((error) => {
+        res.json(error);
         res.end();
       });
-    } catch (error) {
-      res.json(error);
-      res.end();
-    }
   } else {
     res.status(404);
     res.end();
