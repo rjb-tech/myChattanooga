@@ -2,10 +2,6 @@ import { useEffect } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
 
 export const PieStatChart = ({ data }) => {
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   const RADIAN = Math.PI / 180;
   const renderCustomizedLabel = ({
     cx,
