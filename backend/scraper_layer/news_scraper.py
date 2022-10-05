@@ -368,8 +368,11 @@ def refine_article_time(time: str) -> str:
 
 
 def refine_chronicle_img_src(src_string: str) -> str:
-    format_one = src_string.replace("background-image: url(", "")
-    formatted_string = format_one.replace("(", "")
+    formatted_string = (
+        src_string.replace("background-image: url(", "")
+        .replace(")", "")
+        .replace("'", "")
+    )
 
     return formatted_string
 
