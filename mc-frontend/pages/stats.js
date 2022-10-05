@@ -6,10 +6,11 @@ import { useEffect, useState } from "react";
 import { PieStatChart } from "../components/PieChart";
 
 export default function Stats({ filterApplied }) {
+  const ISOdate = formatISO(new Date(), { representation: "date" });
   const { isLoading, isError, isSuccess, data } = useQuery(
     ["stats"],
     async () => {
-      const { data } = await axios.get("/api/stats");
+      const { data } = await axios.get(`/api/stats?query_date=${ISOdate}`);
       return data;
     }
   );
