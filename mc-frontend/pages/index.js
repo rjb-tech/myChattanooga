@@ -6,8 +6,9 @@ import { useQuery } from "@tanstack/react-query";
 const axios = require("axios");
 
 export default function Home({ filterApplied, pageContent, setPageContent }) {
+  const ISOdate = formatISO(new Date(), { representation: "date" });
   const { isLoading, isError, data } = useQuery(["articles"], async () => {
-    const { data } = await axios.get("/api/articles");
+    const { data } = await axios.get(`/api/articles?query_date=${ISOdate}`);
     return data;
   });
 
