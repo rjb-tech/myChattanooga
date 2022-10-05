@@ -275,9 +275,12 @@ async def today_articles(
         datetime.fromisoformat(query_date)
         query_results = await get_query_results(get_articles)
         return query_results
-    except:
+    except ValueError:
         response.status_code = status.HTTP_400_BAD_REQUEST
         return "Incorrect date format"
+    except:
+        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+        return "Server error, try again later"
 
 
 @app.get(
@@ -339,9 +342,12 @@ async def today_stats(response: Response, query_date: str):
         datetime.fromisoformat(query_date)
         query_results = await get_query_results(get_stats)
         return query_results
-    except:
+    except ValueError:
         response.status_code = status.HTTP_400_BAD_REQUEST
         return "Incorrect date format"
+    except:
+        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+        return "Server error, try again later"
 
 
 # UTILITY FUNCTION FOR QUERIES
