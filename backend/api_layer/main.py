@@ -236,8 +236,8 @@ async def expire_brews_release(
 )
 async def today_articles(
     response: Response,
+    query_date: str,
     publishers: list = Query(["all"]),
-    query_date: str = Query(date.today().isoformat()),
 ):
     async def get_articles():
         # Get result from the MC_Connection method and check for validity
@@ -271,8 +271,13 @@ async def today_articles(
         else:
             return "DB Module error"
 
-    query_results = await get_query_results(get_articles)
-    return query_results
+    try:
+        datetime.fromisoformat(query_date)
+        query_results = await get_query_results(get_articles)
+        return query_results
+    except:
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return "Incorrect date format"
 
 
 @app.get(
@@ -305,9 +310,7 @@ async def today_weather(location: str = "all"):
     status_code=status.HTTP_200_OK,
     response_model_exclude_none=True,
 )
-async def today_stats(
-    response: Response, query_date: str = Query(date.today().isoformat())
-):
+async def today_stats(response: Response, query_date: str):
     def get_date_week_before(current_date: date) -> date:
         date_modifier = timedelta(days=7)
 
@@ -332,8 +335,13 @@ async def today_stats(
             data = await database.get_db_obj().fetch_all(query)
             return [row for row in data]
 
-    query_results = await get_query_results(get_stats)
-    return query_results
+    try:
+        datetime.fromisoformat(query_date)
+        query_results = await get_query_results(get_stats)
+        return query_results
+    except:
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return "Incorrect date format"
 
 
 # UTILITY FUNCTION FOR QUERIES
