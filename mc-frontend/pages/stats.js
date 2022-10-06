@@ -82,10 +82,10 @@ export default function Stats({ filterApplied }) {
           <h1 className={headerClass}>{header}</h1>
         </div>
         <div className="pb-20">
-          <div className="relative w-full mx-auto h-[38rem] md:h-[28rem]">
+          <div className="relative w-full mx-auto h-[38rem] md:h-[28rem] mt-12">
             {barChartData.length > 0 && <BarGraph data={barChartData} />}
           </div>
-          <div className="relative w-full md:w-1/3 mx-auto h-[28rem] pt-20 mx-auto">
+          <div className="relative w-full md:w-1/3 mx-auto h-[28rem] pt-20 mx-auto mt-20">
             {pieChartData.length > 0 && <PieStatChart data={pieChartData} />}
           </div>
         </div>
