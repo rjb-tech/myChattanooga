@@ -80,10 +80,8 @@ export const MyChattanoogaProvider = ({ children }) => {
     (state) => state.main
   );
 
-  const [currentAuxSection, setCurrentAuxSection] = useState("");
   const [showTopButton, setShowTopButton] = useState(false);
   const [currentUserMetadata, setCurrentUserMetadata] = useState();
-  // const [currentUserBrews, setCurrentUserBrews] = useState([]);
 
   const showFilters = router.pathname === "/" && pageContent.length > 0;
 
@@ -211,8 +209,6 @@ export const MyChattanoogaProvider = ({ children }) => {
             <MobileUserPanel
               isDark={isDark}
               toggleDarkMode={toggleDarkMode}
-              currentAuxSection={currentAuxSection}
-              setCurrentAuxSection={setCurrentAuxSection}
               showFilters={showFilters}
               currentUserMetadata={currentUserMetadata}
               // currentUserBrews={currentUserBrews}
@@ -239,8 +235,6 @@ export const MyChattanoogaProvider = ({ children }) => {
                 <UserPanel
                   isDark={isDark}
                   toggleDarkMode={toggleDarkMode}
-                  currentAuxSection={currentAuxSection}
-                  setCurrentAuxSection={setCurrentAuxSection}
                   showFilters={showFilters}
                   currentUserMetadata={currentUserMetadata}
                   // currentUserBrews={currentUserBrews}

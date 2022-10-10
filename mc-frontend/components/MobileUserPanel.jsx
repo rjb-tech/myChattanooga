@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { MobileAuxillaryPanel } from "./MobileAuxillaryPanel";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from "react-redux";
-import { setAuxPanelExpanded } from "../redux/mainSlice";
+import { setAuxPanelExpanded, setCurrentAuxSection } from "../redux/mainSlice";
 
 const axios = require("axios");
 
@@ -18,14 +18,14 @@ const auxVariants = {
 export const MobileUserPanel = ({
   isDark,
   toggleDarkMode,
-  currentAuxSection,
-  setCurrentAuxSection,
   showFilters,
   currentUserMetadata,
   // currentUserBrews,
 }) => {
   const dispatch = useDispatch();
-  const { auxPanelExpanded, pageContent } = useSelector((state) => state.main);
+  const { auxPanelExpanded, currentAuxSection } = useSelector(
+    (state) => state.main
+  );
   const iconColor = isDark === true ? "#f0f0f0" : "#222";
   // const thereAreBrews = currentUserBrews.length > 0
 
@@ -35,13 +35,13 @@ export const MobileUserPanel = ({
   const handleAuxPanel = (incomingSection) => {
     if (auxPanelExpanded === false) {
       dispatch(setAuxPanelExpanded(true));
-      setCurrentAuxSection(incomingSection);
+      dispatch(setCurrentAuxSection(incomingSection));
     } else {
       if (incomingSection === currentAuxSection) {
         dispatch(setAuxPanelExpanded(false));
-        setTimeout(() => setCurrentAuxSection(""), 150);
+        setTimeout(() => dispatch(setCurrentAuxSection("")), 150);
       } else {
-        setCurrentAuxSection(incomingSection);
+        dispatch(setCurrentAuxSection(incomingSection));
       }
     }
   };
