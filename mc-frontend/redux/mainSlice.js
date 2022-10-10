@@ -9,8 +9,7 @@ export const mainSlice = createSlice({
     filterApplied: "all",
     previousFilter: "",
     pageContent: [], // hopefully this is temporary
-    filterOptions: {}, // hopefully this can be derived later on
-    currentPage: "",
+    filterOptions: [],
     currentAuxSection: "",
     isDark: true,
     currentWeatherLocation: "",
@@ -34,9 +33,6 @@ export const mainSlice = createSlice({
     },
     setFilterOptions: (state, action) => {
       state.filterOptions = action.payload;
-    },
-    setCurrentPage: (state) => {
-      state.currentPage = window.location.pathname;
     },
     setCurrentAuxSection: (state, action) => {
       state.currentAuxSection = action.payload;
@@ -64,7 +60,6 @@ export const {
   setFilterApplied,
   setPageContent,
   setFilterOptions,
-  setCurrentPage,
   setCurrentAuxSection,
   setPreviousFilter,
   setCurrentWeatherLocation,

@@ -2,10 +2,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 
 // Hide filters here
-export default function Faq({ currentPage, setCurrentPage }) {
-  useEffect(() => {
-    setCurrentPage(window.location.pathname);
-  }, []);
+export default function Faq() {
   return (
     <div className="mx-auto">
       <div className="h-full w-full flex-col px-6">

@@ -54,24 +54,6 @@ export function isFromTheFuture(timePosted) {
   }
 }
 
-export function getFilteredQueryString(filtersToApply, currentPage) {
-  // Having the trailing ? here shouldn't affect the query
-  //  and it makes it simpler to add on filters
-  const urlList = {
-    "/": "/api/articles?",
-    "/brews": "/api/brews?",
-  };
-
-  // Make query string based on selected publishers
-  var urlToReturn = urlList[currentPage];
-  for (let i = 0; i < filtersToApply.length; i++) {
-    urlToReturn = urlToReturn + "publishers=" + filtersToApply[i] + "&";
-  }
-
-  // The slice takes out the trailing & character left by the loop logic
-  return urlToReturn.slice(0, -1);
-}
-
 import {
   setAuxPanelExpanded,
   setCurrentAuxSection,

@@ -80,16 +80,18 @@ export const MyChattanoogaProvider = ({ children }) => {
     (state) => state.main
   );
 
-  const [currentPage, setCurrentPage] = useState("");
   const [currentAuxSection, setCurrentAuxSection] = useState("");
   const [showTopButton, setShowTopButton] = useState(false);
   const [currentUserMetadata, setCurrentUserMetadata] = useState();
   // const [currentUserBrews, setCurrentUserBrews] = useState([]);
 
-  const showFilters = currentPage === "/" && pageContent.length > 0;
+  const showFilters = router.pathname === "/" && pageContent.length > 0;
 
   useEffect(() => {
-    setCurrentPage(router.pathname);
+    // Scroll window to top on page change
+    const element = document.getElementById("content");
+    element.scrollTop = 0;
+    dispatch(setFilterApplied("all"));
   }, [router.pathname]);
 
   function toggleDarkMode() {
@@ -114,14 +116,6 @@ export const MyChattanoogaProvider = ({ children }) => {
       ? document.body.classList.add("dark")
       : document.body.classList.remove("dark");
   }, [isDark]);
-
-  // Scroll window to top on page change
-  // USE THIS ELEMENT FOR SCROLL TO TOP BUTTON
-  useEffect(() => {
-    const element = document.getElementById("content");
-    element.scrollTop = 0;
-    dispatch(setFilterApplied("all"));
-  }, [currentPage]);
 
   // https://www.kindacode.com/article/how-to-create-a-scroll-to-top-button-in-react/
   useEffect(() => {
@@ -217,8 +211,6 @@ export const MyChattanoogaProvider = ({ children }) => {
             <MobileUserPanel
               isDark={isDark}
               toggleDarkMode={toggleDarkMode}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
               currentAuxSection={currentAuxSection}
               setCurrentAuxSection={setCurrentAuxSection}
               showFilters={showFilters}
@@ -247,8 +239,6 @@ export const MyChattanoogaProvider = ({ children }) => {
                 <UserPanel
                   isDark={isDark}
                   toggleDarkMode={toggleDarkMode}
-                  currentPage={currentPage}
-                  setCurrentPage={setCurrentPage}
                   currentAuxSection={currentAuxSection}
                   setCurrentAuxSection={setCurrentAuxSection}
                   showFilters={showFilters}
@@ -259,8 +249,6 @@ export const MyChattanoogaProvider = ({ children }) => {
               <div className="w-full md:w-10/12">
                 {cloneElement(children, {
                   isDark: isDark,
-                  currentPage: currentPage,
-                  setCurrentPage: setCurrentPage,
                   currentUserMetadata: currentUserMetadata,
                   setCurrentUserMetadata: setCurrentUserMetadata,
                 })}

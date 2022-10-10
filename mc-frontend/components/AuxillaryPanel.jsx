@@ -10,7 +10,6 @@ const variants = {
 export const AuxillaryPanel = ({
   section,
   isDark,
-  currentPage,
   auxPanelExpanded,
   currentUserMetadata,
 }) => {

@@ -41,7 +41,6 @@ export const BrewsViews = ({ isDark, currentUserMetadata }) => {
           setContentLoading(false);
         });
     };
-    // setCurrentPage(window.location.pathname);
     fetchData();
   }, []);
 

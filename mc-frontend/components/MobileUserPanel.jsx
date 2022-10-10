@@ -18,8 +18,6 @@ const auxVariants = {
 export const MobileUserPanel = ({
   isDark,
   toggleDarkMode,
-  currentPage,
-  setCurrentPage,
   currentAuxSection,
   setCurrentAuxSection,
   showFilters,
@@ -36,9 +34,6 @@ export const MobileUserPanel = ({
 
   const handleAuxPanel = (incomingSection) => {
     if (auxPanelExpanded === false) {
-      if (incomingSection === "filters") {
-        setFilters(currentPage);
-      }
       dispatch(setAuxPanelExpanded(true));
       setCurrentAuxSection(incomingSection);
     } else {
@@ -50,10 +45,6 @@ export const MobileUserPanel = ({
       }
     }
   };
-
-  useEffect(() => {
-    setCurrentPage(window.location.pathname);
-  }, []);
 
   return (
     <div className="flex-col items-center">
@@ -120,7 +111,6 @@ export const MobileUserPanel = ({
         <MobileAuxillaryPanel
           section={currentAuxSection}
           isDark={isDark}
-          currentPage={currentPage}
           auxPanelExpanded={auxPanelExpanded}
           currentUserMetadata={currentUserMetadata}
           // currentUserBrews={currentUserBrews}

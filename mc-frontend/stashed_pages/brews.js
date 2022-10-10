@@ -7,15 +7,9 @@ import { CreateBrews } from "../components/CreateBrews";
 
 export default function Brews({
   isDark,
-  currentPage,
-  setCurrentPage,
   currentUserMetadata,
   setCurrentUserMetadata,
 }) {
-  useEffect(() => {
-    setCurrentPage("/brews");
-  }, []);
-
   const router = useRouter();
   const { view } = router.query;
 

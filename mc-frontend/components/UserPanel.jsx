@@ -16,8 +16,6 @@ const auxVariants = {
 export const UserPanel = ({
   isDark,
   toggleDarkMode,
-  currentPage,
-  setCurrentPage,
   currentAuxSection,
   setCurrentAuxSection,
   showFilters,
@@ -96,14 +94,13 @@ export const UserPanel = ({
           <AuxillaryPanel
             section={currentAuxSection}
             isDark={isDark}
-            currentPage={currentPage}
             auxPanelExpanded={auxPanelExpanded}
             currentUserMetadata={currentUserMetadata}
           />
         </div>
         {showFilters === true && (
           <div>
-            <FiltersPanel currentPage={currentPage} />
+            <FiltersPanel />
           </div>
         )}
         <div>

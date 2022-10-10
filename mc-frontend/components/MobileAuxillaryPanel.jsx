@@ -13,7 +13,6 @@ const variants = {
 export const MobileAuxillaryPanel = ({
   section,
   isDark,
-  currentPage,
   auxPanelExpanded,
   currentUserMetadata,
   // currentUserBrews
