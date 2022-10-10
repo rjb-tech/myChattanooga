@@ -1,16 +1,12 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
-import {
-  faFilter,
-  faUser,
-  faBeer,
-  faPlusCircle,
-} from "@fortawesome/free-solid-svg-icons";
+import { faFilter, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { MobileAuxillaryPanel } from "./MobileAuxillaryPanel";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useDispatch, useSelector } from "react-redux";
+import { setAuxPanelExpanded } from "../redux/mainSlice";
 
 const axios = require("axios");
 
@@ -23,8 +19,6 @@ export const MobileUserPanel = ({
   isDark,
   panelExpanded,
   toggleDarkMode,
-  setAuxPanelExpanded,
-  auxPanelExpanded,
   filterApplied,
   setFilterApplied,
   previousFilter,
@@ -40,7 +34,8 @@ export const MobileUserPanel = ({
   currentUserMetadata,
   // currentUserBrews,
 }) => {
-  const router = useRouter();
+  const dispatch = useDispatch();
+  const { auxPanelExpanded } = useSelector((state) => state.main);
   const iconColor = isDark === true ? "#f0f0f0" : "#222";
   // const thereAreBrews = currentUserBrews.length > 0
 
@@ -62,11 +57,11 @@ export const MobileUserPanel = ({
       if (incomingSection === "filters") {
         setFilters(currentPage);
       }
-      setAuxPanelExpanded(true);
+      dispatch(setAuxPanelExpanded(true));
       setCurrentAuxSection(incomingSection);
     } else {
       if (incomingSection === currentAuxSection) {
-        setAuxPanelExpanded(false);
+        dispatch(setAuxPanelExpanded(false));
         setTimeout(() => setCurrentAuxSection(""), 150);
       } else {
         // This may be unnecessary sometime in the future
@@ -76,7 +71,6 @@ export const MobileUserPanel = ({
         setCurrentAuxSection(incomingSection);
       }
     }
-    // setAuxPanelExpanded(auxPanelExpanded => !auxPanelExpanded)
   };
 
   useEffect(() => {

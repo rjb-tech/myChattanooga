@@ -76,7 +76,6 @@ export const MyChattanoogaProvider = ({ children }) => {
 
   const { navExpanded } = useSelector((state) => state.main);
   const [panelExpanded, setPanelExpanded] = useState(false);
-  const [auxPanelExpanded, setAuxPanelExpanded] = useState(false);
   const [filterApplied, setFilterApplied] = useState("all");
   const [pageContent, setPageContent] = useState([]);
   const [contentLoading, setContentLoading] = useState(true);
@@ -222,8 +221,6 @@ export const MyChattanoogaProvider = ({ children }) => {
               isDark={isDark}
               panelExpanded={panelExpanded}
               toggleDarkMode={toggleDarkMode}
-              setAuxPanelExpanded={setAuxPanelExpanded}
-              auxPanelExpanded={auxPanelExpanded}
               filterApplied={filterApplied}
               setFilterApplied={setFilterApplied}
               previousFilter={previousFilter}
@@ -262,8 +259,6 @@ export const MyChattanoogaProvider = ({ children }) => {
                   isDark={isDark}
                   panelExpanded={panelExpanded}
                   toggleDarkMode={toggleDarkMode}
-                  setAuxPanelExpanded={setAuxPanelExpanded}
-                  auxPanelExpanded={auxPanelExpanded}
                   filterApplied={filterApplied}
                   setFilterApplied={setFilterApplied}
                   previousFilter={previousFilter}

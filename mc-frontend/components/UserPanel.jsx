@@ -1,17 +1,12 @@
 import { motion } from "framer-motion";
-import {
-  faSun,
-  faMoon,
-  faUser,
-  faPencil,
-  faBeer,
-} from "@fortawesome/free-solid-svg-icons";
+import { faSun, faMoon, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FiltersPanel } from "./FiltersPanel";
 import { Socials } from "./Socials";
 import { AuxillaryPanel } from "./AuxillaryPanel";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setAuxPanelExpanded } from "../redux/mainSlice";
 
 const auxVariants = {
   shown: { opacity: 1, y: "20rem" },
@@ -22,8 +17,6 @@ export const UserPanel = ({
   isDark,
   panelExpanded,
   toggleDarkMode,
-  setAuxPanelExpanded,
-  auxPanelExpanded,
   filterApplied,
   setFilterApplied,
   previousFilter,
@@ -39,6 +32,8 @@ export const UserPanel = ({
   currentUserMetadata,
   // currentUserBrews,
 }) => {
+  const dispatch = useDispatch();
+  const { auxPanelExpanded } = useSelector((state = state.main));
   const iconColor = isDark === true ? "#f0f0f0" : "#222";
   const darkModeIcon = isDark === true ? faSun : faMoon;
   // const thereAreBrews = currentUserBrews.length > 0
@@ -59,11 +54,11 @@ export const UserPanel = ({
       if (incomingSection === "filters") {
         setFilters(currentPage);
       }
-      setAuxPanelExpanded(true);
+      dispatch(setAuxPanelExpanded(true));
       setCurrentAuxSection(incomingSection);
     } else {
       if (incomingSection === currentAuxSection) {
-        setAuxPanelExpanded(false);
+        dispatch(setAuxPanelExpanded(false));
         setTimeout(() => setCurrentAuxSection(""), 150);
       } else {
         // This may be unnecessary sometime in the future
@@ -73,7 +68,6 @@ export const UserPanel = ({
         setCurrentAuxSection(incomingSection);
       }
     }
-    // setAuxPanelExpanded(auxPanelExpanded => !auxPanelExpanded)
   }
   return (
     <div className="flex-auto h-fit w-5/6 flex-col flex-auto bg-[#f0f0f0] text-[#222] dark:bg-[#222] dark:text-[#f0f0f0] mx-auto z-50">
