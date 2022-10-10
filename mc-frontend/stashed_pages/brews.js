@@ -7,7 +7,6 @@ import { CreateBrews } from "../components/CreateBrews";
 
 export default function Brews({
   isDark,
-  filterApplied,
   pageContent,
   setPageContent,
   currentPage,
@@ -38,7 +37,6 @@ export default function Brews({
           pageContent={pageContent}
           contentLoading={contentLoading}
           setContentLoading={setContentLoading}
-          filterApplied={filterApplied}
           currentUserMetadata={currentUserMetadata}
         />
       )}
@@ -50,7 +48,6 @@ export default function Brews({
           pageContent={pageContent}
           contentLoading={contentLoading}
           setContentLoading={setContentLoading}
-          filterApplied={filterApplied}
           currentUserMetadata={currentUserMetadata}
         />
       )}

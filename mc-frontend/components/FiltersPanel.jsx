@@ -1,16 +1,16 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setFilterApplied } from "../redux/mainSlice";
 
 export const FiltersPanel = ({
   currentPage,
   filterOptions,
-  filterApplied,
   previousFilter,
   setPreviousFilter,
 }) => {
   const dispatch = useDispatch();
+  const { filterApplied } = useSelector((state) => state.main);
 
   useEffect(() => {
     document

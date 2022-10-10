@@ -1,12 +1,13 @@
-import axios from "axios";
 import { BarGraph } from "../components/BarGraph";
 import formatISO from "date-fns/formatISO";
 import { useEffect, useState } from "react";
 import { useGetStatsByDateQuery } from "../redux/services/statsService";
 import { PieStatChart } from "../components/PieChart";
+import { useSelector } from "react-redux";
 
-export default function Stats({ filterApplied }) {
+export default function Stats() {
   const ISOdate = formatISO(new Date(), { representation: "date" });
+  const { filterApplied } = useSelector((state) => state.main);
   const { isLoading, data, error } = useGetStatsByDateQuery(ISOdate);
 
   const MODES = {

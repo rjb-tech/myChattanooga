@@ -3,7 +3,6 @@ import { useEffect } from "react";
 
 // Hide filters here
 export default function Faq({
-  filterApplied,
   pageContent,
   setPageContent,
   currentPage,

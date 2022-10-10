@@ -16,7 +16,6 @@ const auxVariants = {
 export const UserPanel = ({
   isDark,
   toggleDarkMode,
-  filterApplied,
   previousFilter,
   setPreviousFilter,
   filterOptions,
@@ -121,7 +120,6 @@ export const UserPanel = ({
             isDark={isDark}
             currentPage={currentPage}
             filterOptions={filterOptions}
-            filterApplied={filterApplied}
             auxPanelExpanded={auxPanelExpanded}
             currentUserMetadata={currentUserMetadata}
           />
@@ -131,7 +129,6 @@ export const UserPanel = ({
             <FiltersPanel
               currentPage={currentPage}
               filterOptions={filterOptions}
-              filterApplied={filterApplied}
               previousFilter={previousFilter}
               setPreviousFilter={setPreviousFilter}
             />

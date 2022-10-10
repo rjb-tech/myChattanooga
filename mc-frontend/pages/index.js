@@ -4,9 +4,11 @@ import formatISO from "date-fns/formatISO";
 import { isFromTheFuture } from "../components/helpers";
 import { useGetArticlesByDateQuery } from "../redux/services/articlesService";
 const axios = require("axios");
+import { useSelector } from "react-redux";
 
-export default function Home({ filterApplied, pageContent, setPageContent }) {
+export default function Home({ pageContent, setPageContent }) {
   const ISOdate = formatISO(new Date(), { representation: "date" });
+  const { filterApplied } = useSelector((state) => state.main);
   const { data, error, isLoading } = useGetArticlesByDateQuery(ISOdate);
 
   const [header, setHeader] = useState("All Local Articles");

@@ -219,7 +219,6 @@ export const MyChattanoogaProvider = ({ children }) => {
             <MobileUserPanel
               isDark={isDark}
               toggleDarkMode={toggleDarkMode}
-              filterApplied={filterApplied}
               previousFilter={previousFilter}
               setPreviousFilter={setPreviousFilter}
               filterOptions={filterOptions}
@@ -255,7 +254,6 @@ export const MyChattanoogaProvider = ({ children }) => {
                 <UserPanel
                   isDark={isDark}
                   toggleDarkMode={toggleDarkMode}
-                  filterApplied={filterApplied}
                   previousFilter={previousFilter}
                   setPreviousFilter={setPreviousFilter}
                   filterOptions={filterOptions}
@@ -273,7 +271,6 @@ export const MyChattanoogaProvider = ({ children }) => {
               <div className="w-full md:w-10/12">
                 {cloneElement(children, {
                   isDark: isDark,
-                  filterApplied: filterApplied,
                   pageContent: pageContent,
                   setPageContent: setPageContent,
                   currentPage: currentPage,
