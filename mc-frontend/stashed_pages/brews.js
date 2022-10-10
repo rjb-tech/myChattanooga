@@ -9,8 +9,6 @@ export default function Brews({
   isDark,
   currentPage,
   setCurrentPage,
-  contentLoading,
-  setContentLoading,
   currentUserMetadata,
   setCurrentUserMetadata,
 }) {
@@ -29,21 +27,11 @@ export default function Brews({
   return (
     <div className="dark:text-white mx-auto w-full">
       {publicBrews && (
-        <BrewsViews
-          isDark={isDark}
-          contentLoading={contentLoading}
-          setContentLoading={setContentLoading}
-          currentUserMetadata={currentUserMetadata}
-        />
+        <BrewsViews isDark={isDark} currentUserMetadata={currentUserMetadata} />
       )}
       {/* This gives me a refresh state to use after submitting a brews release and prevents page flashing */}
       {refreshedBrews && (
-        <BrewsViews
-          isDark={isDark}
-          contentLoading={contentLoading}
-          setContentLoading={setContentLoading}
-          currentUserMetadata={currentUserMetadata}
-        />
+        <BrewsViews isDark={isDark} currentUserMetadata={currentUserMetadata} />
       )}
       {create && <CreateBrews />}
       {/* {privateBrews && <MyBrews publisher="{ }" expired />} */}

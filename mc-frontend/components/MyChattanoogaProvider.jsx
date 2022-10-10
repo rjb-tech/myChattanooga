@@ -80,7 +80,6 @@ export const MyChattanoogaProvider = ({ children }) => {
     (state) => state.main
   );
 
-  const [contentLoading, setContentLoading] = useState(true);
   const [filterOptions, setFilterOptions] = useState([]);
   const [currentPage, setCurrentPage] = useState("");
   const [currentAuxSection, setCurrentAuxSection] = useState("");
@@ -267,8 +266,6 @@ export const MyChattanoogaProvider = ({ children }) => {
                   isDark: isDark,
                   currentPage: currentPage,
                   setCurrentPage: setCurrentPage,
-                  contentLoading: contentLoading,
-                  setContentLoading: setContentLoading,
                   currentUserMetadata: currentUserMetadata,
                   setCurrentUserMetadata: setCurrentUserMetadata,
                 })}

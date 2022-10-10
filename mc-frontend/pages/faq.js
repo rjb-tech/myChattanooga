@@ -2,12 +2,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 
 // Hide filters here
-export default function Faq({
-  currentPage,
-  setCurrentPage,
-  contentLoading,
-  setContentLoading,
-}) {
+export default function Faq({ currentPage, setCurrentPage }) {
   useEffect(() => {
     setCurrentPage(window.location.pathname);
   }, []);

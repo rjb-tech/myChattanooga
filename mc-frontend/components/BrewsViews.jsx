@@ -9,13 +9,8 @@ const loadingVariants = {
   loading: { opacity: 0 },
   loaded: { opacity: 1 },
 };
-
-export const BrewsViews = ({
-  isDark,
-  contentLoading,
-  setContentLoading,
-  currentUserMetadata,
-}) => {
+// CONTENT LOADING AND SETTER TO BE TAKEN CARE OF BY RTK QUERY
+export const BrewsViews = ({ isDark, currentUserMetadata }) => {
   const dispatch = useDispatch();
   const { filterApplied, pageContent } = useSelector((state) => state.main);
   var headerString = "";
