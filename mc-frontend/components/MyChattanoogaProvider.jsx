@@ -218,7 +218,6 @@ export const MyChattanoogaProvider = ({ children }) => {
             <MobileUserPanel
               isDark={isDark}
               toggleDarkMode={toggleDarkMode}
-              previousFilter={previousFilter}
               filterOptions={filterOptions}
               setFilterOptions={setFilterOptions}
               pageContent={pageContent}
@@ -252,7 +251,6 @@ export const MyChattanoogaProvider = ({ children }) => {
                 <UserPanel
                   isDark={isDark}
                   toggleDarkMode={toggleDarkMode}
-                  previousFilter={previousFilter}
                   filterOptions={filterOptions}
                   setFilterOptions={setFilterOptions}
                   pageContent={pageContent}

@@ -15,18 +15,12 @@ export const MobileAuxillaryPanel = ({
   isDark,
   currentPage,
   filterOptions,
-  previousFilter,
   auxPanelExpanded,
   currentUserMetadata,
   // currentUserBrews
 }) => {
   const sections = {
-    filters: (
-      <FiltersPanel
-        filterOptions={filterOptions}
-        previousFilter={previousFilter}
-      />
-    ),
+    filters: <FiltersPanel filterOptions={filterOptions} />,
     settings: <SettingsPanel isDark={isDark} />,
     create_brews: (
       <CreateBrews isDark={isDark} currentUserMetadata={currentUserMetadata} />

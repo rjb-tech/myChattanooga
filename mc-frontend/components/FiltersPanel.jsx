@@ -3,13 +3,9 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setFilterApplied, setPreviousFilter } from "../redux/mainSlice";
 
-export const FiltersPanel = ({
-  currentPage,
-  filterOptions,
-  previousFilter,
-}) => {
+export const FiltersPanel = ({ currentPage, filterOptions }) => {
   const dispatch = useDispatch();
-  const { filterApplied } = useSelector((state) => state.main);
+  const { filterApplied, previousFilter } = useSelector((state) => state.main);
 
   useEffect(() => {
     document
