@@ -9,7 +9,8 @@ import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setFilterApplied } from "../redux/mainSlice";
 import axios from "axios";
 
 const childrenComponentVariants = {
@@ -69,13 +70,14 @@ export const MyChattanoogaProvider = ({ children }) => {
   }, [isAuthenticated]);
 
   const router = useRouter();
+  const dispatch = useDispatch();
   const [isDark, setDark] = useState(useDarkModePreference());
   const [currentWeatherLocation, setCurrentWeatherLocation] = useState(
     useWeatherLocation()
   );
 
   const { navExpanded, panelExpanded } = useSelector((state) => state.main);
-  const [filterApplied, setFilterApplied] = useState("all");
+
   const [pageContent, setPageContent] = useState([]);
   const [contentLoading, setContentLoading] = useState(true);
   const [filterOptions, setFilterOptions] = useState([]);
@@ -120,7 +122,7 @@ export const MyChattanoogaProvider = ({ children }) => {
   useEffect(() => {
     const element = document.getElementById("content");
     element.scrollTop = 0;
-    setFilterApplied("all");
+    dispatch(setFilterApplied("all"));
   }, [currentPage]);
 
   // https://www.kindacode.com/article/how-to-create-a-scroll-to-top-button-in-react/
@@ -218,7 +220,6 @@ export const MyChattanoogaProvider = ({ children }) => {
               isDark={isDark}
               toggleDarkMode={toggleDarkMode}
               filterApplied={filterApplied}
-              setFilterApplied={setFilterApplied}
               previousFilter={previousFilter}
               setPreviousFilter={setPreviousFilter}
               filterOptions={filterOptions}
@@ -255,7 +256,6 @@ export const MyChattanoogaProvider = ({ children }) => {
                   isDark={isDark}
                   toggleDarkMode={toggleDarkMode}
                   filterApplied={filterApplied}
-                  setFilterApplied={setFilterApplied}
                   previousFilter={previousFilter}
                   setPreviousFilter={setPreviousFilter}
                   filterOptions={filterOptions}

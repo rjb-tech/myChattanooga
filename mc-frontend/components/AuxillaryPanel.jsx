@@ -13,7 +13,6 @@ export const AuxillaryPanel = ({
   currentPage,
   filterOptions,
   filterApplied,
-  setFilterApplied,
   auxPanelExpanded,
   currentUserMetadata,
 }) => {

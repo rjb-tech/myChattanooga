@@ -16,7 +16,6 @@ export const MobileAuxillaryPanel = ({
   currentPage,
   filterOptions,
   filterApplied,
-  setFilterApplied,
   previousFilter,
   setPreviousFilter,
   auxPanelExpanded,
@@ -28,7 +27,6 @@ export const MobileAuxillaryPanel = ({
       <FiltersPanel
         filterOptions={filterOptions}
         filterApplied={filterApplied}
-        setFilterApplied={setFilterApplied}
         previousFilter={previousFilter}
         setPreviousFilter={setPreviousFilter}
       />
