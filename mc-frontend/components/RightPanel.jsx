@@ -4,7 +4,7 @@ import { faSliders } from "@fortawesome/free-solid-svg-icons";
 import { WeatherStation } from "./WeatherStation";
 import { toggleMobileNav } from "../redux/mainSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleMobileUserPanel } from "../redux/mainSlice";
+import { toggleMobileUserPanel } from "./helpers";
 
 export const RightPanel = ({
   isDark,
@@ -12,13 +12,15 @@ export const RightPanel = ({
   setCurrentWeatherLocation,
 }) => {
   const dispatch = useDispatch();
-  const { navExpanded, panelExpanded } = useSelector((state) => state.main);
+  const { navExpanded, panelExpanded, auxPanelExpanded } = useSelector(
+    (state) => state.main
+  );
   const iconColor = isDark === true ? "#f0f0f0" : "#222";
   const userPanelAction = () => {
     if (navExpanded === true && panelExpanded === false) {
       dispatch(toggleMobileNav());
     }
-    dispatch(toggleMobileUserPanel());
+    toggleMobileUserPanel(dispatch, auxPanelExpanded, panelExpanded);
   };
   return (
     <div className="flex w-1/4 md:w-1/12 flex-auto h-full relative z-[100]">

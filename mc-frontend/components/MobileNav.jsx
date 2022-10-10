@@ -4,7 +4,7 @@ import { WeatherStation } from "./WeatherStation";
 import { Socials } from "./Socials";
 import { useSelector, useDispatch } from "react-redux";
 import { setNavExpanded } from "../redux/mainSlice";
-import { toggleMobileUserPanel } from "../redux/mainSlice";
+import { toggleMobileUserPanel } from "./helpers";
 
 const variants = {
   open: { opacity: 1, x: "99%" },
@@ -17,7 +17,9 @@ export const MobileNav = ({
   setCurrentWeatherLocation,
 }) => {
   const dispatch = useDispatch();
-  const { navExpanded, panelExpanded } = useSelector((state) => state.main);
+  const { navExpanded, panelExpanded, auxPanelExpanded } = useSelector(
+    (state) => state.main
+  );
   return (
     <motion.nav
       className="items-center w-full shadow-lg mx-auto bg-[#f0f0f0] text-[#222] dark:bg-[#222] dark:text-[#f0f0f0] rounded-b-xl overscroll-none"
@@ -42,7 +44,11 @@ export const MobileNav = ({
                 onClick={() => {
                   dispatch(setNavExpanded(false));
                   if (panelExpanded === true) {
-                    dispatch(toggleMobileUserPanel());
+                    toggleMobileUserPanel(
+                      dispatch,
+                      auxPanelExpanded,
+                      panelExpanded
+                    );
                   }
                 }}
               >
@@ -59,7 +65,11 @@ export const MobileNav = ({
                 onClick={() => {
                   dispatch(setNavExpanded(false));
                   if (panelExpanded === true) {
-                    dispatch(toggleMobileUserPanel());
+                    toggleMobileUserPanel(
+                      dispatch,
+                      auxPanelExpanded,
+                      panelExpanded
+                    );
                   }
                 }}
               >
@@ -76,7 +86,11 @@ export const MobileNav = ({
                 onClick={() => {
                   dispatch(setNavExpanded(false));
                   if (panelExpanded === true) {
-                    dispatch(toggleMobileUserPanel());
+                    toggleMobileUserPanel(
+                      dispatch,
+                      auxPanelExpanded,
+                      panelExpanded
+                    );
                   }
                 }}
               >

@@ -19,6 +19,9 @@ export const mainSlice = createSlice({
     setNavExpanded: (state, action) => {
       state.navExpanded = action.payload;
     },
+    setPanelExpanded: (state, action) => {
+      state.panelExpanded = action.payload;
+    },
     setAuxPanelExpanded: (state, action) => {
       state.auxPanelExpanded = action.payload;
     },
@@ -50,29 +53,13 @@ export const mainSlice = createSlice({
     toggleMobileNav: (state) => {
       state.navExpanded = !state.navExpanded;
     },
-    toggleMobileUserPanel: (state) => {
-      if (state.auxPanelExpanded === true) {
-        state.auxPanelExpanded = !state.auxPanelExpanded;
-        // This conditional accounts for this function being called from a non mobile view
-        if (state.panelExpanded === true) {
-          setTimeout(() => {
-            state.panelExpanded = !state.panelExpanded;
-            state.currentAuxSection = "";
-          }, 150);
-        }
-        setTimeout(() => {
-          state.currentAuxSection = "";
-        }, 150);
-      } else {
-        state.panelExpanded = !state.panelExpanded;
-      }
-    },
   },
 });
 
 // This makes action creators
 export const {
   setNavExpanded,
+  setPanelExpanded,
   setAuxPanelExpanded,
   setFilterApplied,
   setPageContent,
@@ -82,7 +69,6 @@ export const {
   setPreviousFilter,
   setCurrentWeatherLocation,
   toggleMobileNav,
-  toggleMobileUserPanel,
 } = mainSlice.actions;
 
 export default mainSlice.reducer;

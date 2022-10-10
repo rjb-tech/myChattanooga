@@ -6,12 +6,15 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useRouter } from "next/router";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useDispatch } from "react-redux";
-import { toggleMobileUserPanel } from "../redux/mainSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleMobileUserPanel } from "./helpers";
 
 export const CreateBrews = ({ isDark, currentUserMetadata }) => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const { auxPanelExpanded, panelExpanded } = useSelector(
+    (state) => state.main
+  );
 
   const { user, getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [formSending, setFormSending] = useState(false);
@@ -73,7 +76,11 @@ export const CreateBrews = ({ isDark, currentUserMetadata }) => {
               )
               .then((response) => {
                 setFormSent(true);
-                dispatch(toggleMobileUserPanel());
+                toggleMobileUserPanel(
+                  dispatch,
+                  auxPanelExpanded,
+                  panelExpanded
+                );
                 setFormSending(false);
                 if (window.location.pathname === "/brews") {
                   if (router.query.view !== undefined) {
