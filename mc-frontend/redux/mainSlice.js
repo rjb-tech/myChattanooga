@@ -68,3 +68,18 @@ export const mainSlice = createSlice({
     },
   },
 });
+
+// This makes action creators
+export const {
+  setMenuExpanded,
+  setAuxPanelExpanded,
+  setFilterApplied,
+  setPageContent,
+  setFilterOptions,
+  setCurrentPage,
+  setCurrentAuxSection,
+  setPreviousFilter,
+  setCurrentWeatherLocation,
+  toggleMobileNav,
+  toggleMobileUserPanel,
+} = mainSlice.actions;
