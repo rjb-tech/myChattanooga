@@ -16,7 +16,6 @@ export const MobileAuxillaryPanel = ({
   currentPage,
   filterOptions,
   previousFilter,
-  setPreviousFilter,
   auxPanelExpanded,
   currentUserMetadata,
   // currentUserBrews
@@ -26,7 +25,6 @@ export const MobileAuxillaryPanel = ({
       <FiltersPanel
         filterOptions={filterOptions}
         previousFilter={previousFilter}
-        setPreviousFilter={setPreviousFilter}
       />
     ),
     settings: <SettingsPanel isDark={isDark} />,

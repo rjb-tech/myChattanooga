@@ -1,13 +1,12 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setFilterApplied } from "../redux/mainSlice";
+import { setFilterApplied, setPreviousFilter } from "../redux/mainSlice";
 
 export const FiltersPanel = ({
   currentPage,
   filterOptions,
   previousFilter,
-  setPreviousFilter,
 }) => {
   const dispatch = useDispatch();
   const { filterApplied } = useSelector((state) => state.main);
@@ -35,7 +34,7 @@ export const FiltersPanel = ({
             id="all-button"
             className="flex-auto mx-auto border py-2 rounded-xl w-full hover:border-[#F7BCB1] border-[#F7BCB1] ring-[#F7BCB1] ring-2 border-[#222] dark:border-[#f0f0f0]"
             onClick={() => {
-              setPreviousFilter(filterApplied);
+              dispatch(setPreviousFilter(filterApplied));
               dispatch(setFilterApplied("all"));
             }}
           >
@@ -53,10 +52,10 @@ export const FiltersPanel = ({
               className="flex-auto mx-auto border py-2 rounded-xl w-full hover:border-[#F7BCB1] border-[#222] dark:border-[#f0f0f0]"
               onClick={() => {
                 if (filterApplied != `${currentOption}`) {
-                  setPreviousFilter(filterApplied);
+                  dispatch(setPreviousFilter(filterApplied));
                   dispatch(setFilterApplied(`${currentOption}`));
                 } else {
-                  setPreviousFilter(filterApplied);
+                  dispatch(setPreviousFilter(filterApplied));
                   dispatch(setFilterApplied("all"));
                 }
               }}

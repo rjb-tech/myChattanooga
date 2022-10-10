@@ -19,7 +19,6 @@ export const MobileUserPanel = ({
   isDark,
   toggleDarkMode,
   previousFilter,
-  setPreviousFilter,
   filterOptions,
   setFilterOptions,
   pageContent,
@@ -142,7 +141,6 @@ export const MobileUserPanel = ({
           currentPage={currentPage}
           filterOptions={filterOptions}
           previousFilter={previousFilter}
-          setPreviousFilter={setPreviousFilter}
           auxPanelExpanded={auxPanelExpanded}
           currentUserMetadata={currentUserMetadata}
           // currentUserBrews={currentUserBrews}

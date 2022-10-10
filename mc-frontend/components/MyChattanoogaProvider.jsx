@@ -84,7 +84,6 @@ export const MyChattanoogaProvider = ({ children }) => {
   const [currentPage, setCurrentPage] = useState("");
   const [currentAuxSection, setCurrentAuxSection] = useState("");
   const [showTopButton, setShowTopButton] = useState(false);
-  const [previousFilter, setPreviousFilter] = useState("");
   const [currentUserMetadata, setCurrentUserMetadata] = useState();
   // const [currentUserBrews, setCurrentUserBrews] = useState([]);
 
@@ -220,7 +219,6 @@ export const MyChattanoogaProvider = ({ children }) => {
               isDark={isDark}
               toggleDarkMode={toggleDarkMode}
               previousFilter={previousFilter}
-              setPreviousFilter={setPreviousFilter}
               filterOptions={filterOptions}
               setFilterOptions={setFilterOptions}
               pageContent={pageContent}
@@ -255,7 +253,6 @@ export const MyChattanoogaProvider = ({ children }) => {
                   isDark={isDark}
                   toggleDarkMode={toggleDarkMode}
                   previousFilter={previousFilter}
-                  setPreviousFilter={setPreviousFilter}
                   filterOptions={filterOptions}
                   setFilterOptions={setFilterOptions}
                   pageContent={pageContent}

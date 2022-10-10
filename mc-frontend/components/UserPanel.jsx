@@ -17,7 +17,6 @@ export const UserPanel = ({
   isDark,
   toggleDarkMode,
   previousFilter,
-  setPreviousFilter,
   filterOptions,
   setFilterOptions,
   pageContent,
@@ -130,7 +129,6 @@ export const UserPanel = ({
               currentPage={currentPage}
               filterOptions={filterOptions}
               previousFilter={previousFilter}
-              setPreviousFilter={setPreviousFilter}
             />
           </div>
         )}
