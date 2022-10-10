@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const mainSlice = createSlice({
   name: "main",
   initialState: {
-    menuExpanded: false,
+    navExpanded: false,
     panelExpanded: false,
     auxPanelExpanded: false,
     filterApplied: "all",
@@ -16,8 +16,8 @@ export const mainSlice = createSlice({
     currentWeatherLocation: "",
   },
   reducers: {
-    setMenuExpanded: (state, action) => {
-      state.menuExpanded = action.payload;
+    setNavExpanded: (state, action) => {
+      state.navExpanded = action.payload;
     },
     setAuxPanelExpanded: (state, action) => {
       state.auxPanelExpanded = action.payload;
@@ -48,7 +48,7 @@ export const mainSlice = createSlice({
       state.currentWeatherLocation = action.payload;
     },
     toggleMobileNav: (state) => {
-      state.menuExpanded = !state.menuExpanded;
+      state.navExpanded = !state.navExpanded;
     },
     toggleMobileUserPanel: (state) => {
       if (state.auxPanelExpanded === true) {
@@ -72,7 +72,7 @@ export const mainSlice = createSlice({
 
 // This makes action creators
 export const {
-  setMenuExpanded,
+  setNavExpanded,
   setAuxPanelExpanded,
   setFilterApplied,
   setPageContent,

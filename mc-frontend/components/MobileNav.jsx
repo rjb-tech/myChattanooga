@@ -2,6 +2,8 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { WeatherStation } from "./WeatherStation";
 import { Socials } from "./Socials";
+import { useSelector, useDispatch } from "react-redux";
+import { setNavExpanded } from "../redux/mainSlice";
 
 const variants = {
   open: { opacity: 1, x: "99%" },
@@ -9,18 +11,18 @@ const variants = {
 };
 
 export const MobileNav = ({
-  menuExpanded,
   isDark,
-  setMenuExpanded,
   toggleMobileUserPanel,
   panelExpanded,
   currentWeatherLocation,
   setCurrentWeatherLocation,
 }) => {
+  const dispatch = useDispatch();
+  const { navExpanded } = useSelector((state) => state.main);
   return (
     <motion.nav
       className="items-center w-full shadow-lg mx-auto bg-[#f0f0f0] text-[#222] dark:bg-[#222] dark:text-[#f0f0f0] rounded-b-xl overscroll-none"
-      animate={menuExpanded ? "open" : "closed"}
+      animate={navExpanded ? "open" : "closed"}
       transition={{ duration: 0.3, type: "tween" }}
       variants={variants}
     >
@@ -39,7 +41,7 @@ export const MobileNav = ({
               <button
                 className="w-screen h-5/6"
                 onClick={() => {
-                  setMenuExpanded(false);
+                  dispatch(setNavExpanded(false));
                   if (panelExpanded === true) {
                     toggleMobileUserPanel();
                   }
@@ -56,7 +58,7 @@ export const MobileNav = ({
               <button
                 className="w-screen h-5/6"
                 onClick={() => {
-                  setMenuExpanded(false);
+                  dispatch(setNavExpanded(false));
                   if (panelExpanded === true) {
                     toggleMobileUserPanel();
                   }
@@ -73,7 +75,7 @@ export const MobileNav = ({
               <button
                 className="w-screen h-5/6"
                 onClick={() => {
-                  setMenuExpanded(false);
+                  dispatch(setNavExpanded(false));
                   if (panelExpanded === true) {
                     toggleMobileUserPanel();
                   }

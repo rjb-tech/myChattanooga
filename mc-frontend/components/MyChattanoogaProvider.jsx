@@ -1,6 +1,6 @@
 import { StickyHeader } from "./StickyHeader";
 import Head from "next/head";
-import { useState, createContext, useEffect, cloneElement } from "react";
+import { useState, useEffect, cloneElement } from "react";
 import { MobileNav } from "./MobileNav";
 import { MobileUserPanel } from "./MobileUserPanel";
 import { motion } from "framer-motion";
@@ -9,6 +9,7 @@ import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useSelector } from "react-redux";
 import axios from "axios";
 
 const childrenComponentVariants = {
@@ -72,7 +73,8 @@ export const MyChattanoogaProvider = ({ children }) => {
   const [currentWeatherLocation, setCurrentWeatherLocation] = useState(
     useWeatherLocation()
   );
-  const [menuExpanded, setMenuExpanded] = useState(false);
+
+  const { navExpanded } = useSelector((state) => state.main);
   const [panelExpanded, setPanelExpanded] = useState(false);
   const [settingsPanelExpanded, setSettingsPanelExpanded] = useState(false);
   const [auxPanelExpanded, setAuxPanelExpanded] = useState(false);
@@ -93,9 +95,6 @@ export const MyChattanoogaProvider = ({ children }) => {
     setCurrentPage(router.pathname);
   }, [router.pathname]);
 
-  function toggleMobileNav() {
-    setMenuExpanded((menuExpanded) => !menuExpanded);
-  }
   function toggleMobileUserPanel() {
     if (auxPanelExpanded === true) {
       setAuxPanelExpanded((auxPanelExpanded) => !auxPanelExpanded);
@@ -184,7 +183,7 @@ export const MyChattanoogaProvider = ({ children }) => {
   };
 
   const childrenWrapperClassString =
-    menuExpanded === true
+    navExpanded === true
       ? "overscroll-contain transition duration-[300ms] blur-sm ease-linear relative"
       : "overscroll-contain transition duration-[300ms] relative";
 
@@ -211,13 +210,10 @@ export const MyChattanoogaProvider = ({ children }) => {
 
         <header className="w-screen bg-[#f0f0f0] dark:bg-[#222] overscroll-none sticky z-[99]">
           <StickyHeader
-            menuExpanded={menuExpanded}
             isDark={isDark}
-            toggleDarkMode={toggleDarkMode}
             currentWeatherLocation={currentWeatherLocation}
             setCurrentWeatherLocation={setCurrentWeatherLocation}
             panelExpanded={panelExpanded}
-            toggleMobileNav={toggleMobileNav}
             toggleMobileUserPanel={toggleMobileUserPanel}
           />
           {/* TECH DEBT: Put motion element here instead of in MobileNav component */}
@@ -227,8 +223,6 @@ export const MyChattanoogaProvider = ({ children }) => {
           >
             <MobileNav
               isDark={isDark}
-              menuExpanded={menuExpanded}
-              setMenuExpanded={setMenuExpanded}
               toggleMobileUserPanel={toggleMobileUserPanel}
               panelExpanded={panelExpanded}
               currentWeatherLocation={currentWeatherLocation}
@@ -262,9 +256,7 @@ export const MyChattanoogaProvider = ({ children }) => {
               setCurrentPage={setCurrentPage}
               currentAuxSection={currentAuxSection}
               setCurrentAuxSection={setCurrentAuxSection}
-              toggleMobileNav={toggleMobileNav}
               toggleMobileUserPanel={toggleMobileUserPanel}
-              menuExpanded={menuExpanded}
               showFilters={showFilters}
               currentUserMetadata={currentUserMetadata}
               // currentUserBrews={currentUserBrews}
