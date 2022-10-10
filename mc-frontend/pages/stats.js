@@ -1,19 +1,13 @@
 import axios from "axios";
 import { BarGraph } from "../components/BarGraph";
 import formatISO from "date-fns/formatISO";
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { useGetStatsByDateQuery } from "../redux/services/statsService";
 import { PieStatChart } from "../components/PieChart";
 
 export default function Stats({ filterApplied }) {
   const ISOdate = formatISO(new Date(), { representation: "date" });
-  const { isLoading, isError, isSuccess, data } = useQuery(
-    ["stats"],
-    async () => {
-      const { data } = await axios.get(`/api/stats?query_date=${ISOdate}`);
-      return data;
-    }
-  );
+  const { isLoading, data, error } = useGetStatsByDateQuery(ISOdate);
 
   const MODES = {
     1: {
@@ -56,15 +50,15 @@ export default function Stats({ filterApplied }) {
   ];
 
   useEffect(() => {
-    if (isError) setHeader("Error fetching stats");
+    if (error) setHeader("Error fetching stats");
     else {
       if (filterApplied === "all") setHeader("All Publisher Stats");
       else setHeader(`${filterApplied} Stats`);
     }
-  }, [isError, filterApplied]);
+  }, [error, filterApplied]);
 
   let headerClass = "";
-  if (isError === true)
+  if (error === true)
     headerClass =
       "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-red-500";
   else {

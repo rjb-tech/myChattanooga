@@ -2,28 +2,25 @@ import { useEffect, useState } from "react";
 import { Article } from "../components/Article";
 import formatISO from "date-fns/formatISO";
 import { isFromTheFuture } from "../components/helpers";
-import { useQuery } from "@tanstack/react-query";
+import { useGetArticlesByDateQuery } from "../redux/services/articlesService";
 const axios = require("axios");
 
 export default function Home({ filterApplied, pageContent, setPageContent }) {
   const ISOdate = formatISO(new Date(), { representation: "date" });
-  const { isLoading, isError, data } = useQuery(["articles"], async () => {
-    const { data } = await axios.get(`/api/articles?query_date=${ISOdate}`);
-    return data;
-  });
+  const { data, error, isLoading } = useGetArticlesByDateQuery(ISOdate);
 
   const [header, setHeader] = useState("All Local Articles");
 
   useEffect(() => {
-    if (isError) setHeader("Error fetching articles");
+    if (error) setHeader("Error fetching articles");
     else {
       if (filterApplied === "all") setHeader("All Local Articles");
       else setHeader(`${filterApplied} Articles`);
     }
-  }, [isError, filterApplied]);
+  }, [error, filterApplied]);
 
   useEffect(() => {
-    if (!isLoading && !isError && data !== undefined) {
+    if (!isLoading && !error && data !== undefined) {
       const ISOdate = formatISO(new Date(), { representation: "date" });
       const filteredData = data?.filter(
         (entry) =>
@@ -34,7 +31,7 @@ export default function Home({ filterApplied, pageContent, setPageContent }) {
   }, [data]);
 
   let headerClass = "";
-  if (isError === true)
+  if (error === true)
     headerClass =
       "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-red-500";
   else {
