@@ -33,7 +33,7 @@ export const UserPanel = ({
   // currentUserBrews,
 }) => {
   const dispatch = useDispatch();
-  const { auxPanelExpanded } = useSelector((state = state.main));
+  const { auxPanelExpanded } = useSelector((state) => state.main);
   const iconColor = isDark === true ? "#f0f0f0" : "#222";
   const darkModeIcon = isDark === true ? faSun : faMoon;
   // const thereAreBrews = currentUserBrews.length > 0
