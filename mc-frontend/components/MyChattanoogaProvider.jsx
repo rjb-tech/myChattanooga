@@ -157,6 +157,11 @@ export const MyChattanoogaProvider = ({ children }) => {
       }
     };
     element.addEventListener("scroll", handleScroll);
+
+    // This may not be needed, but just in case :)
+    return () => {
+      removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   // This useEffect block enables the myBrewsJournal component
