@@ -148,7 +148,7 @@ export const MyChattanoogaProvider = ({ children }) => {
   // https://www.kindacode.com/article/how-to-create-a-scroll-to-top-button-in-react/
   useEffect(() => {
     const element = document.getElementById("content");
-    const handleScroll = (scrollAmount) => {
+    const handleScroll = () => {
       const element = document.getElementById("content");
       if (element.scrollTop > 200) {
         setShowTopButton(true);
@@ -156,9 +156,7 @@ export const MyChattanoogaProvider = ({ children }) => {
         setShowTopButton(false);
       }
     };
-    element.addEventListener("scroll", () => {
-      handleScroll(element.scrollTop);
-    });
+    element.addEventListener("scroll", handleScroll);
   }, []);
 
   // This useEffect block enables the myBrewsJournal component
