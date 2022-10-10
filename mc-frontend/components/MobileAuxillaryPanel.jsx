@@ -14,18 +14,13 @@ export const MobileAuxillaryPanel = ({
   section,
   isDark,
   auxPanelExpanded,
-  currentUserMetadata,
   // currentUserBrews
 }) => {
   const sections = {
     filters: <FiltersPanel />,
     settings: <SettingsPanel isDark={isDark} />,
-    create_brews: (
-      <CreateBrews isDark={isDark} currentUserMetadata={currentUserMetadata} />
-    ),
-    account: (
-      <AccountPanel isDark={isDark} currentUserMetadata={currentUserMetadata} />
-    ),
+    create_brews: <CreateBrews isDark={isDark} />,
+    account: <AccountPanel isDark={isDark} />,
     my_brews: <MyBrewsJournal /*brews={currentUserBrews}*/ isDark={isDark} />,
   };
 

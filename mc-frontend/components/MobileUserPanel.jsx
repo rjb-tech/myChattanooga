@@ -19,7 +19,6 @@ export const MobileUserPanel = ({
   isDark,
   toggleDarkMode,
   showFilters,
-  currentUserMetadata,
   // currentUserBrews,
 }) => {
   const dispatch = useDispatch();
@@ -112,7 +111,6 @@ export const MobileUserPanel = ({
           section={currentAuxSection}
           isDark={isDark}
           auxPanelExpanded={auxPanelExpanded}
-          currentUserMetadata={currentUserMetadata}
           // currentUserBrews={currentUserBrews}
         />
       </motion.div>

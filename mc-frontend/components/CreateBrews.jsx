@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMobileUserPanel } from "./helpers";
 
-export const CreateBrews = ({ isDark, currentUserMetadata }) => {
+export const CreateBrews = ({ isDark }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { auxPanelExpanded, panelExpanded } = useSelector(

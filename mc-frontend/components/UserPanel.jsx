@@ -17,7 +17,6 @@ export const UserPanel = ({
   isDark,
   toggleDarkMode,
   showFilters,
-  currentUserMetadata,
   // currentUserBrews,
 }) => {
   const dispatch = useDispatch();
@@ -95,7 +94,6 @@ export const UserPanel = ({
             section={currentAuxSection}
             isDark={isDark}
             auxPanelExpanded={auxPanelExpanded}
-            currentUserMetadata={currentUserMetadata}
           />
         </div>
         {showFilters === true && (

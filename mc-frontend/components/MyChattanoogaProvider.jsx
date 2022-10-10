@@ -11,7 +11,6 @@ import { useRouter } from "next/router";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from "react-redux";
 import { setFilterApplied, setFilterOptions } from "../redux/mainSlice";
-import axios from "axios";
 
 const childrenComponentVariants = {
   normal: { y: "0%" },
@@ -53,22 +52,6 @@ export const MyChattanoogaProvider = ({ children }) => {
     }, []);
   };
 
-  useEffect(() => {
-    const fetchMetadata = async () => {
-      const token = await getAccessTokenSilently();
-      axios
-        .get(`/api/get-metadata?user=${user.sub}&field=user_metadata`, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((response) => {
-          setCurrentUserMetadata(response.data);
-        });
-    };
-    if (isAuthenticated) {
-      fetchMetadata();
-    }
-  }, [isAuthenticated]);
-
   const router = useRouter();
   const dispatch = useDispatch();
   const [isDark, setDark] = useState(useDarkModePreference());
@@ -81,7 +64,6 @@ export const MyChattanoogaProvider = ({ children }) => {
   );
 
   const [showTopButton, setShowTopButton] = useState(false);
-  const [currentUserMetadata, setCurrentUserMetadata] = useState();
 
   const showFilters = router.pathname === "/" && pageContent.length > 0;
 
@@ -133,17 +115,6 @@ export const MyChattanoogaProvider = ({ children }) => {
       removeEventListener("scroll", handleScroll);
     };
   }, []);
-
-  // This useEffect block enables the myBrewsJournal component
-  // useEffect(() => {
-  //   if (isAuthenticated === true) {
-  //     axios
-  //     .get(
-  //       `/api/brews?publishers=${currentUserMetadata.publisher}`
-  //     )
-  //     .then(response => setCurrentUserBrews(response.data))
-  //   }
-  // }, [currentUserMetadata])
 
   const scrollToTop = () => {
     const element = document.getElementById("content");
@@ -210,8 +181,6 @@ export const MyChattanoogaProvider = ({ children }) => {
               isDark={isDark}
               toggleDarkMode={toggleDarkMode}
               showFilters={showFilters}
-              currentUserMetadata={currentUserMetadata}
-              // currentUserBrews={currentUserBrews}
             />
           </motion.div>
         </header>
@@ -236,18 +205,9 @@ export const MyChattanoogaProvider = ({ children }) => {
                   isDark={isDark}
                   toggleDarkMode={toggleDarkMode}
                   showFilters={showFilters}
-                  currentUserMetadata={currentUserMetadata}
-                  // currentUserBrews={currentUserBrews}
                 />
               </div>
-              <div className="w-full md:w-10/12">
-                {cloneElement(children, {
-                  isDark: isDark,
-                  currentUserMetadata: currentUserMetadata,
-                  setCurrentUserMetadata: setCurrentUserMetadata,
-                })}
-              </div>
-              {/* {children} */}
+              <div className="w-full md:w-10/12">{children}</div>
             </motion.div>
           </div>
           <div className="lg:hidden h-16 w-screen"></div>

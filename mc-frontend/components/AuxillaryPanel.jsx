@@ -7,20 +7,11 @@ const variants = {
   closed: { opacity: 0 },
 };
 
-export const AuxillaryPanel = ({
-  section,
-  isDark,
-  auxPanelExpanded,
-  currentUserMetadata,
-}) => {
+export const AuxillaryPanel = ({ section, isDark, auxPanelExpanded }) => {
   const sections = {
     create: <></>,
-    account: (
-      <AccountPanel isDark={isDark} currentUserMetadata={currentUserMetadata} />
-    ),
-    create_brews: (
-      <CreateBrews isDark={isDark} currentUserMetadata={currentUserMetadata} />
-    ),
+    account: <AccountPanel isDark={isDark} />,
+    create_brews: <CreateBrews isDark={isDark} />,
   };
   const sectionToRender = sections[`${section}`];
   const auxPanelBaseClass =
