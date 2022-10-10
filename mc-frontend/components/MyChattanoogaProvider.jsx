@@ -11,8 +11,6 @@ import { useRouter } from "next/router";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 
-const MyChattanoogaContext = createContext();
-
 const childrenComponentVariants = {
   normal: { y: "0%" },
   extended: { y: "5rem" },
@@ -121,23 +119,6 @@ export const MyChattanoogaProvider = ({ children }) => {
     localStorage.setItem("dark", isDark);
   }
 
-  // This needs to be dealt with
-  const value = {
-    isExpanded: { menuExpanded },
-    toggleMobileNav: { toggleMobileNav },
-    panelExpanded: { panelExpanded },
-    toggleMobileUserPanel: { toggleMobileUserPanel },
-    toggleDarkMode: { toggleDarkMode },
-    settingsPanelExpanded: { settingsPanelExpanded },
-    setSettingsPanelExpanded: { setSettingsPanelExpanded },
-    auxPanelExpanded: { auxPanelExpanded },
-    setAuxPanelExpanded: { setAuxPanelExpanded },
-    filterApplied: { filterApplied },
-    setFilterApplied: { setFilterApplied },
-    currentUserMetadata: { currentUserMetadata },
-    setCurrentUserMetadata: { setCurrentUserMetadata },
-  };
-
   useEffect(() => {
     const publishers = [
       ...new Set(pageContent.map((contentItem) => contentItem?.publisher)),
@@ -205,7 +186,7 @@ export const MyChattanoogaProvider = ({ children }) => {
       : "overscroll-contain transition duration-[300ms] relative";
 
   return (
-    <MyChattanoogaContext.Provider value={value}>
+    <>
       <div className="flex flex-col h-screen bg-[#f0f0f0] dark:bg-[#222]">
         <Head>
           <title>myChattanooga</title>
@@ -233,6 +214,8 @@ export const MyChattanoogaProvider = ({ children }) => {
             currentWeatherLocation={currentWeatherLocation}
             setCurrentWeatherLocation={setCurrentWeatherLocation}
             panelExpanded={panelExpanded}
+            toggleMobileNav={toggleMobileNav}
+            toggleMobileUserPanel={toggleMobileUserPanel}
           />
           {/* TECH DEBT: Put motion element here instead of in MobileNav component */}
           <div
@@ -369,8 +352,6 @@ export const MyChattanoogaProvider = ({ children }) => {
             
         </footer> */}
       </div>
-    </MyChattanoogaContext.Provider>
+    </>
   );
 };
-
-export default MyChattanoogaContext;
