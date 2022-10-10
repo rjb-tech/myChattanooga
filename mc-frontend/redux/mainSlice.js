@@ -12,9 +12,7 @@ export const mainSlice = createSlice({
     filterOptions: {}, // hopefully this can be derived later on
     currentPage: "",
     currentAuxSection: "",
-    isDark:
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches,
+    isDark: true,
     currentWeatherLocation: "",
   },
   reducers: {
@@ -42,6 +40,9 @@ export const mainSlice = createSlice({
     },
     setPreviousFilter: (state, action) => {
       state.previousFilter = action.payload;
+    },
+    setIsDark: (state, action) => {
+      state.isDark = action.payload;
     },
     setCurrentWeatherLocation: (state, action) => {
       state.currentWeatherLocation = action.payload;
@@ -83,3 +84,5 @@ export const {
   toggleMobileNav,
   toggleMobileUserPanel,
 } = mainSlice.actions;
+
+export default mainSlice.reducer;
