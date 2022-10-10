@@ -36,7 +36,6 @@ export const MobileUserPanel = ({
   setCurrentPage,
   currentAuxSection,
   setCurrentAuxSection,
-  toggleMobileUserPanel,
   showFilters,
   currentUserMetadata,
   // currentUserBrews,
@@ -156,7 +155,6 @@ export const MobileUserPanel = ({
           previousFilter={previousFilter}
           setPreviousFilter={setPreviousFilter}
           auxPanelExpanded={auxPanelExpanded}
-          toggleMobileUserPanel={toggleMobileUserPanel}
           currentUserMetadata={currentUserMetadata}
           // currentUserBrews={currentUserBrews}
         />

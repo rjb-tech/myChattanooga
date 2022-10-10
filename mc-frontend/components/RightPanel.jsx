@@ -4,9 +4,9 @@ import { faSliders } from "@fortawesome/free-solid-svg-icons";
 import { WeatherStation } from "./WeatherStation";
 import { toggleMobileNav } from "../redux/mainSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { toggleMobileUserPanel } from "../redux/mainSlice";
 
 export const RightPanel = ({
-  toggleMobileUserPanel,
   isDark,
   currentWeatherLocation,
   setCurrentWeatherLocation,
@@ -19,7 +19,7 @@ export const RightPanel = ({
     if (navExpanded === true && panelExpanded === false) {
       dispatch(toggleMobileNav());
     }
-    toggleMobileUserPanel();
+    dispatch(toggleMobileUserPanel());
   };
   return (
     <div className="flex w-1/4 md:w-1/12 flex-auto h-full relative z-[100]">

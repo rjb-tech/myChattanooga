@@ -76,7 +76,6 @@ export const MyChattanoogaProvider = ({ children }) => {
 
   const { navExpanded } = useSelector((state) => state.main);
   const [panelExpanded, setPanelExpanded] = useState(false);
-  const [settingsPanelExpanded, setSettingsPanelExpanded] = useState(false);
   const [auxPanelExpanded, setAuxPanelExpanded] = useState(false);
   const [filterApplied, setFilterApplied] = useState("all");
   const [pageContent, setPageContent] = useState([]);
@@ -94,24 +93,6 @@ export const MyChattanoogaProvider = ({ children }) => {
   useEffect(() => {
     setCurrentPage(router.pathname);
   }, [router.pathname]);
-
-  function toggleMobileUserPanel() {
-    if (auxPanelExpanded === true) {
-      setAuxPanelExpanded((auxPanelExpanded) => !auxPanelExpanded);
-      // This conditional accounts for this function being called from a non mobile view
-      if (panelExpanded === true) {
-        setTimeout(function () {
-          setPanelExpanded((panelExpanded) => !panelExpanded);
-          setCurrentAuxSection("");
-        }, 150);
-      }
-      setTimeout(function () {
-        setCurrentAuxSection("");
-      }, 150);
-    } else {
-      setPanelExpanded((panelExpanded) => !panelExpanded);
-    }
-  }
 
   function toggleDarkMode() {
     setDark((isDark) => !isDark);
@@ -214,7 +195,6 @@ export const MyChattanoogaProvider = ({ children }) => {
             currentWeatherLocation={currentWeatherLocation}
             setCurrentWeatherLocation={setCurrentWeatherLocation}
             panelExpanded={panelExpanded}
-            toggleMobileUserPanel={toggleMobileUserPanel}
           />
           {/* TECH DEBT: Put motion element here instead of in MobileNav component */}
           <div
@@ -223,7 +203,6 @@ export const MyChattanoogaProvider = ({ children }) => {
           >
             <MobileNav
               isDark={isDark}
-              toggleMobileUserPanel={toggleMobileUserPanel}
               panelExpanded={panelExpanded}
               currentWeatherLocation={currentWeatherLocation}
               setCurrentWeatherLocation={setCurrentWeatherLocation}
@@ -256,7 +235,6 @@ export const MyChattanoogaProvider = ({ children }) => {
               setCurrentPage={setCurrentPage}
               currentAuxSection={currentAuxSection}
               setCurrentAuxSection={setCurrentAuxSection}
-              toggleMobileUserPanel={toggleMobileUserPanel}
               showFilters={showFilters}
               currentUserMetadata={currentUserMetadata}
               // currentUserBrews={currentUserBrews}
@@ -298,7 +276,6 @@ export const MyChattanoogaProvider = ({ children }) => {
                   currentAuxSection={currentAuxSection}
                   setCurrentAuxSection={setCurrentAuxSection}
                   showFilters={showFilters}
-                  toggleMobileUserPanel={toggleMobileUserPanel}
                   currentUserMetadata={currentUserMetadata}
                   // currentUserBrews={currentUserBrews}
                 />

@@ -4,6 +4,7 @@ import { WeatherStation } from "./WeatherStation";
 import { Socials } from "./Socials";
 import { useSelector, useDispatch } from "react-redux";
 import { setNavExpanded } from "../redux/mainSlice";
+import { toggleMobileUserPanel } from "../redux/mainSlice";
 
 const variants = {
   open: { opacity: 1, x: "99%" },
@@ -12,7 +13,6 @@ const variants = {
 
 export const MobileNav = ({
   isDark,
-  toggleMobileUserPanel,
   panelExpanded,
   currentWeatherLocation,
   setCurrentWeatherLocation,
@@ -43,7 +43,7 @@ export const MobileNav = ({
                 onClick={() => {
                   dispatch(setNavExpanded(false));
                   if (panelExpanded === true) {
-                    toggleMobileUserPanel();
+                    dispatch(toggleMobileUserPanel());
                   }
                 }}
               >
@@ -60,7 +60,7 @@ export const MobileNav = ({
                 onClick={() => {
                   dispatch(setNavExpanded(false));
                   if (panelExpanded === true) {
-                    toggleMobileUserPanel();
+                    dispatch(toggleMobileUserPanel());
                   }
                 }}
               >
@@ -77,7 +77,7 @@ export const MobileNav = ({
                 onClick={() => {
                   dispatch(setNavExpanded(false));
                   if (panelExpanded === true) {
-                    toggleMobileUserPanel();
+                    dispatch(toggleMobileUserPanel());
                   }
                 }}
               >
