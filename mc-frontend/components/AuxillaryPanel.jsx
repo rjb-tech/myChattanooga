@@ -11,7 +11,6 @@ export const AuxillaryPanel = ({
   section,
   isDark,
   currentPage,
-  filterOptions,
   auxPanelExpanded,
   currentUserMetadata,
 }) => {

@@ -18,8 +18,6 @@ const auxVariants = {
 export const MobileUserPanel = ({
   isDark,
   toggleDarkMode,
-  filterOptions,
-  setFilterOptions,
   currentPage,
   setCurrentPage,
   currentAuxSection,
@@ -37,16 +35,6 @@ export const MobileUserPanel = ({
   const isAdmin = user?.email === "admin@mychattanooga.app";
 
   const handleAuxPanel = (incomingSection) => {
-    function setFilters(page) {
-      // This isn't done, still figuring out the data.map
-      if (currentPage === "/") {
-        const publishers = [
-          ...new Set(pageContent.map((contentItem) => contentItem.publisher)),
-        ].sort();
-        setFilterOptions(publishers);
-      } else if (currentPage === "/brews") {
-      }
-    }
     if (auxPanelExpanded === false) {
       if (incomingSection === "filters") {
         setFilters(currentPage);
@@ -58,10 +46,6 @@ export const MobileUserPanel = ({
         dispatch(setAuxPanelExpanded(false));
         setTimeout(() => setCurrentAuxSection(""), 150);
       } else {
-        // This may be unnecessary sometime in the future
-        if (incomingSection === "filters") {
-          setFilters(currentPage);
-        }
         setCurrentAuxSection(incomingSection);
       }
     }
@@ -137,7 +121,6 @@ export const MobileUserPanel = ({
           section={currentAuxSection}
           isDark={isDark}
           currentPage={currentPage}
-          filterOptions={filterOptions}
           auxPanelExpanded={auxPanelExpanded}
           currentUserMetadata={currentUserMetadata}
           // currentUserBrews={currentUserBrews}

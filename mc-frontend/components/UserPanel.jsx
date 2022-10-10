@@ -16,8 +16,6 @@ const auxVariants = {
 export const UserPanel = ({
   isDark,
   toggleDarkMode,
-  filterOptions,
-  setFilterOptions,
   currentPage,
   setCurrentPage,
   currentAuxSection,
@@ -34,20 +32,7 @@ export const UserPanel = ({
 
   const { loginWithRedirect, user, isAuthenticated, isLoading } = useAuth0();
   function handleAuxPanel(incomingSection) {
-    function setFilters(page) {
-      // This isn't done, still figuring out the data.map
-      if (currentPage === "/") {
-        const publishers = [
-          ...new Set(pageContent.map((contentItem) => contentItem.publisher)),
-        ].sort();
-        setFilterOptions(publishers);
-      } else if (currentPage === "/brews") {
-      }
-    }
     if (auxPanelExpanded === false) {
-      if (incomingSection === "filters") {
-        setFilters(currentPage);
-      }
       dispatch(setAuxPanelExpanded(true));
       setCurrentAuxSection(incomingSection);
     } else {
@@ -55,10 +40,6 @@ export const UserPanel = ({
         dispatch(setAuxPanelExpanded(false));
         setTimeout(() => setCurrentAuxSection(""), 150);
       } else {
-        // This may be unnecessary sometime in the future
-        if (incomingSection === "filters") {
-          setFilters(currentPage);
-        }
         setCurrentAuxSection(incomingSection);
       }
     }
@@ -116,17 +97,13 @@ export const UserPanel = ({
             section={currentAuxSection}
             isDark={isDark}
             currentPage={currentPage}
-            filterOptions={filterOptions}
             auxPanelExpanded={auxPanelExpanded}
             currentUserMetadata={currentUserMetadata}
           />
         </div>
         {showFilters === true && (
           <div>
-            <FiltersPanel
-              currentPage={currentPage}
-              filterOptions={filterOptions}
-            />
+            <FiltersPanel currentPage={currentPage} />
           </div>
         )}
         <div>

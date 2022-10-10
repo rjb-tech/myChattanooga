@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from "react-redux";
-import { setFilterApplied } from "../redux/mainSlice";
+import { setFilterApplied, setFilterOptions } from "../redux/mainSlice";
 import axios from "axios";
 
 const childrenComponentVariants = {
@@ -80,7 +80,6 @@ export const MyChattanoogaProvider = ({ children }) => {
     (state) => state.main
   );
 
-  const [filterOptions, setFilterOptions] = useState([]);
   const [currentPage, setCurrentPage] = useState("");
   const [currentAuxSection, setCurrentAuxSection] = useState("");
   const [showTopButton, setShowTopButton] = useState(false);
@@ -102,7 +101,7 @@ export const MyChattanoogaProvider = ({ children }) => {
     const publishers = [
       ...new Set(pageContent.map((contentItem) => contentItem?.publisher)),
     ].sort();
-    setFilterOptions(publishers);
+    dispatch(setFilterOptions(publishers));
   }, [pageContent]);
 
   useEffect(() => {
@@ -218,8 +217,6 @@ export const MyChattanoogaProvider = ({ children }) => {
             <MobileUserPanel
               isDark={isDark}
               toggleDarkMode={toggleDarkMode}
-              filterOptions={filterOptions}
-              setFilterOptions={setFilterOptions}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
               currentAuxSection={currentAuxSection}
@@ -250,8 +247,6 @@ export const MyChattanoogaProvider = ({ children }) => {
                 <UserPanel
                   isDark={isDark}
                   toggleDarkMode={toggleDarkMode}
-                  filterOptions={filterOptions}
-                  setFilterOptions={setFilterOptions}
                   currentPage={currentPage}
                   setCurrentPage={setCurrentPage}
                   currentAuxSection={currentAuxSection}
