@@ -17,7 +17,6 @@ const auxVariants = {
 
 export const MobileUserPanel = ({
   isDark,
-  panelExpanded,
   toggleDarkMode,
   filterApplied,
   setFilterApplied,

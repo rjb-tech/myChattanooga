@@ -74,8 +74,7 @@ export const MyChattanoogaProvider = ({ children }) => {
     useWeatherLocation()
   );
 
-  const { navExpanded } = useSelector((state) => state.main);
-  const [panelExpanded, setPanelExpanded] = useState(false);
+  const { navExpanded, panelExpanded } = useSelector((state) => state.main);
   const [filterApplied, setFilterApplied] = useState("all");
   const [pageContent, setPageContent] = useState([]);
   const [contentLoading, setContentLoading] = useState(true);
@@ -193,7 +192,6 @@ export const MyChattanoogaProvider = ({ children }) => {
             isDark={isDark}
             currentWeatherLocation={currentWeatherLocation}
             setCurrentWeatherLocation={setCurrentWeatherLocation}
-            panelExpanded={panelExpanded}
           />
           {/* TECH DEBT: Put motion element here instead of in MobileNav component */}
           <div
@@ -202,7 +200,6 @@ export const MyChattanoogaProvider = ({ children }) => {
           >
             <MobileNav
               isDark={isDark}
-              panelExpanded={panelExpanded}
               currentWeatherLocation={currentWeatherLocation}
               setCurrentWeatherLocation={setCurrentWeatherLocation}
             />
@@ -219,7 +216,6 @@ export const MyChattanoogaProvider = ({ children }) => {
           >
             <MobileUserPanel
               isDark={isDark}
-              panelExpanded={panelExpanded}
               toggleDarkMode={toggleDarkMode}
               filterApplied={filterApplied}
               setFilterApplied={setFilterApplied}
@@ -257,7 +253,6 @@ export const MyChattanoogaProvider = ({ children }) => {
               <div className="hidden relative flex-col md:block w-1/3 xl:w-1/5 w-full h-fit border-r-2 sticky top-4 pr-2">
                 <UserPanel
                   isDark={isDark}
-                  panelExpanded={panelExpanded}
                   toggleDarkMode={toggleDarkMode}
                   filterApplied={filterApplied}
                   setFilterApplied={setFilterApplied}

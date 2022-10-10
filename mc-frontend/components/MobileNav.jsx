@@ -13,12 +13,11 @@ const variants = {
 
 export const MobileNav = ({
   isDark,
-  panelExpanded,
   currentWeatherLocation,
   setCurrentWeatherLocation,
 }) => {
   const dispatch = useDispatch();
-  const { navExpanded } = useSelector((state) => state.main);
+  const { navExpanded, panelExpanded } = useSelector((state) => state.main);
   return (
     <motion.nav
       className="items-center w-full shadow-lg mx-auto bg-[#f0f0f0] text-[#222] dark:bg-[#222] dark:text-[#f0f0f0] rounded-b-xl overscroll-none"

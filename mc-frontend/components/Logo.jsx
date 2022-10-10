@@ -3,10 +3,11 @@ import logo from "../public/myChattanooga_long-dark.png";
 import logo_dark from "../public/myChattanooga_long-light.png";
 import Link from "next/link";
 import { toggleMobileUserPanel } from "../redux/mainSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-export const Logo = ({ isDark, panelExpanded }) => {
+export const Logo = ({ isDark }) => {
   const dispatch = useDispatch();
+  const { panelExpanded } = useSelector((state) => state.main);
   const dynamicLogo = isDark === true ? logo_dark : logo;
   return (
     <div

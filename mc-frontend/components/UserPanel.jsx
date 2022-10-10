@@ -15,7 +15,6 @@ const auxVariants = {
 
 export const UserPanel = ({
   isDark,
-  panelExpanded,
   toggleDarkMode,
   filterApplied,
   setFilterApplied,

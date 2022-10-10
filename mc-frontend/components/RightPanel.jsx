@@ -10,10 +10,9 @@ export const RightPanel = ({
   isDark,
   currentWeatherLocation,
   setCurrentWeatherLocation,
-  panelExpanded,
 }) => {
   const dispatch = useDispatch();
-  const { navExpanded } = useSelector((state) => state.main);
+  const { navExpanded, panelExpanded } = useSelector((state) => state.main);
   const iconColor = isDark === true ? "#f0f0f0" : "#222";
   const userPanelAction = () => {
     if (navExpanded === true && panelExpanded === false) {
