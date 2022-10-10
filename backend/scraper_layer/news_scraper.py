@@ -2416,6 +2416,7 @@ async def save_articles(conn: MC_Connection, articles: List[ArticleEntry]) -> No
                     image=article.image,
                     time_posted=article.time_posted,
                     publisher=article.publisher,
+                    date_saved=datetime.now(),
                 )
                 await conn.get_db_obj().execute(query)
                 articles_saved += 1
@@ -2448,6 +2449,7 @@ async def save_stats(conn: MC_Connection, stats: List[StatEntry]) -> None:
                     scraped=entry.scraped,
                     relevant=entry.relevant,
                     publisher=entry.publisher,
+                    date_saved=datetime.now(),
                 )
                 logging.info(f"Inserting stats for {entry.publisher}")
             try:
