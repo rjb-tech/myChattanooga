@@ -28,9 +28,7 @@ export const RightPanel = ({
         whileTap={{ scale: 0.9 }}
         className="sm:hidden flex-auto pt-3"
         type="button"
-        onClick={() => {
-          userPanelAction();
-        }}
+        onClick={userPanelAction}
       >
         <div className="p-6">
           <FontAwesomeIcon icon={faSliders} style={{ color: `${iconColor}` }} />
