@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { Article } from "../components/Article";
 import formatISO from "date-fns/formatISO";
 import { isFromTheFuture } from "../components/helpers";
+import { setPageContent } from "../redux/mainSlice";
 import { useGetArticlesByDateQuery } from "../redux/services/articlesService";
-const axios = require("axios");
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
-export default function Home({ pageContent, setPageContent }) {
+export default function Home() {
+  const dispatch = useDispatch();
   const ISOdate = formatISO(new Date(), { representation: "date" });
-  const { filterApplied } = useSelector((state) => state.main);
+  const { filterApplied, pageContent } = useSelector((state) => state.main);
   const { data, error, isLoading } = useGetArticlesByDateQuery(ISOdate);
 
   const [header, setHeader] = useState("All Local Articles");
@@ -28,7 +29,7 @@ export default function Home({ pageContent, setPageContent }) {
         (entry) =>
           !isFromTheFuture(entry.time_posted) && entry.date_saved === ISOdate
       );
-      setPageContent(filteredData);
+      dispatch(setPageContent(filteredData));
     }
   }, [data]);
 

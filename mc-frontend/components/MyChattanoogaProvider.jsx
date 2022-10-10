@@ -76,9 +76,10 @@ export const MyChattanoogaProvider = ({ children }) => {
     useWeatherLocation()
   );
 
-  const { navExpanded, panelExpanded } = useSelector((state) => state.main);
+  const { navExpanded, panelExpanded, pageContent } = useSelector(
+    (state) => state.main
+  );
 
-  const [pageContent, setPageContent] = useState([]);
   const [contentLoading, setContentLoading] = useState(true);
   const [filterOptions, setFilterOptions] = useState([]);
   const [currentPage, setCurrentPage] = useState("");
@@ -220,7 +221,6 @@ export const MyChattanoogaProvider = ({ children }) => {
               toggleDarkMode={toggleDarkMode}
               filterOptions={filterOptions}
               setFilterOptions={setFilterOptions}
-              pageContent={pageContent}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
               currentAuxSection={currentAuxSection}
@@ -253,7 +253,6 @@ export const MyChattanoogaProvider = ({ children }) => {
                   toggleDarkMode={toggleDarkMode}
                   filterOptions={filterOptions}
                   setFilterOptions={setFilterOptions}
-                  pageContent={pageContent}
                   currentPage={currentPage}
                   setCurrentPage={setCurrentPage}
                   currentAuxSection={currentAuxSection}
@@ -266,8 +265,6 @@ export const MyChattanoogaProvider = ({ children }) => {
               <div className="w-full md:w-10/12">
                 {cloneElement(children, {
                   isDark: isDark,
-                  pageContent: pageContent,
-                  setPageContent: setPageContent,
                   currentPage: currentPage,
                   setCurrentPage: setCurrentPage,
                   contentLoading: contentLoading,

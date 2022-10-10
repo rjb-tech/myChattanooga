@@ -7,8 +7,6 @@ import { CreateBrews } from "../components/CreateBrews";
 
 export default function Brews({
   isDark,
-  pageContent,
-  setPageContent,
   currentPage,
   setCurrentPage,
   contentLoading,
@@ -33,8 +31,6 @@ export default function Brews({
       {publicBrews && (
         <BrewsViews
           isDark={isDark}
-          setPageContent={setPageContent}
-          pageContent={pageContent}
           contentLoading={contentLoading}
           setContentLoading={setContentLoading}
           currentUserMetadata={currentUserMetadata}
@@ -44,8 +40,6 @@ export default function Brews({
       {refreshedBrews && (
         <BrewsViews
           isDark={isDark}
-          setPageContent={setPageContent}
-          pageContent={pageContent}
           contentLoading={contentLoading}
           setContentLoading={setContentLoading}
           currentUserMetadata={currentUserMetadata}

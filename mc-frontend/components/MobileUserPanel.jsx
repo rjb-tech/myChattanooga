@@ -20,7 +20,6 @@ export const MobileUserPanel = ({
   toggleDarkMode,
   filterOptions,
   setFilterOptions,
-  pageContent,
   currentPage,
   setCurrentPage,
   currentAuxSection,
@@ -30,7 +29,7 @@ export const MobileUserPanel = ({
   // currentUserBrews,
 }) => {
   const dispatch = useDispatch();
-  const { auxPanelExpanded } = useSelector((state) => state.main);
+  const { auxPanelExpanded, pageContent } = useSelector((state) => state.main);
   const iconColor = isDark === true ? "#f0f0f0" : "#222";
   // const thereAreBrews = currentUserBrews.length > 0
 

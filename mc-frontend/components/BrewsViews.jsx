@@ -1,7 +1,8 @@
 import { BrewsRelease } from "./BrewsRelease";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { useSelector } from "react-redux";
+import { setPageContent } from "../redux/mainSlice";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
 const loadingVariants = {
@@ -11,13 +12,12 @@ const loadingVariants = {
 
 export const BrewsViews = ({
   isDark,
-  setPageContent,
-  pageContent,
   contentLoading,
   setContentLoading,
   currentUserMetadata,
 }) => {
-  const { filterApplied } = useSelector((state) => state.main);
+  const dispatch = useDispatch();
+  const { filterApplied, pageContent } = useSelector((state) => state.main);
   var headerString = "";
   if (filterApplied === "all") {
     headerString = "All Local Releases";
@@ -38,7 +38,7 @@ export const BrewsViews = ({
       const result = await axios
         .get("/api/brews")
         .then((response) => {
-          setPageContent(Object.values(response.data));
+          dispatch(setPageContent(Object.values(response.data)));
           setContentLoading(false);
         })
         .catch(function (error) {
