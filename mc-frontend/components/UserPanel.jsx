@@ -13,14 +13,9 @@ const auxVariants = {
   hidden: { opacity: 1, y: "0rem" },
 };
 
-export const UserPanel = ({
-  isDark,
-  toggleDarkMode,
-  showFilters,
-  // currentUserBrews,
-}) => {
+export const UserPanel = ({ showFilters }) => {
   const dispatch = useDispatch();
-  const { auxPanelExpanded, currentAuxSection } = useSelector(
+  const { auxPanelExpanded, currentAuxSection, isDark } = useSelector(
     (state) => state.main
   );
   const iconColor = isDark === true ? "#f0f0f0" : "#222";

@@ -7,14 +7,19 @@ import { setNavExpanded } from "../redux/mainSlice";
 import { toggleMobileUserPanel } from "./helpers";
 
 const variants = {
-  open: { opacity: 1, x: "99%" },
+  open: { opacity: 1, x: "98.8%" },
   closed: { opacity: 0, x: "-5%" },
 };
 
-export const MobileNav = ({ isDark }) => {
+export const MobileNav = () => {
   const dispatch = useDispatch();
-  const { navExpanded, panelExpanded, auxPanelExpanded, weatherLocation } =
-    useSelector((state) => state.main);
+  const {
+    navExpanded,
+    panelExpanded,
+    auxPanelExpanded,
+    weatherLocation,
+    isDark,
+  } = useSelector((state) => state.main);
   return (
     <motion.nav
       className="items-center w-full shadow-lg mx-auto bg-[#f0f0f0] text-[#222] dark:bg-[#222] dark:text-[#f0f0f0] rounded-b-xl overscroll-none"

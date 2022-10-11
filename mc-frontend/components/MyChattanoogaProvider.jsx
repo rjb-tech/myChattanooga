@@ -36,17 +36,13 @@ export const MyChattanoogaProvider = ({ children }) => {
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
   const router = useRouter();
   const dispatch = useDispatch();
-  const { navExpanded, panelExpanded, pageContent, isDark, weatherLocation } =
-    useSelector((state) => state.main);
+  const { navExpanded, panelExpanded, pageContent, isDark } = useSelector(
+    (state) => state.main
+  );
 
   const [showTopButton, setShowTopButton] = useState(false);
 
   const showFilters = router.pathname === "/" && pageContent.length > 0;
-
-  function toggleDarkMode() {
-    dispatch(setIsDark((isDark) => !isDark));
-    localStorage.setItem("dark", isDark);
-  }
 
   useEffect(() => {
     // Scroll window to top on page change
@@ -61,14 +57,6 @@ export const MyChattanoogaProvider = ({ children }) => {
     ].sort();
     dispatch(setFilterOptions(publishers));
   }, [pageContent]);
-
-  useEffect(() => {
-    localStorage.setItem("dark", isDark);
-    !document.body.classList.contains("dark") && isDark === true
-      ? document.body.classList.add("dark")
-      : document.body.classList.remove("dark");
-    dispatch(setIsDark);
-  }, [isDark]);
 
   useEffect(() => {
     // Set dark mode
@@ -130,13 +118,13 @@ export const MyChattanoogaProvider = ({ children }) => {
         </Head>
 
         <header className="w-screen bg-[#f0f0f0] dark:bg-[#222] overscroll-none sticky z-[99]">
-          <StickyHeader isDark={isDark} />
+          <StickyHeader />
           {/* TECH DEBT: Put motion element here instead of in MobileNav component */}
           <div
             className="sm:hidden absolute w-full h-fit object-center overscroll-none -left-full z-20 flex mx-auto"
             key="MobileNav"
           >
-            <MobileNav isDark={isDark} />
+            <MobileNav />
           </div>
           <motion.div
             className="sm:hidden w-full h-fit object-center absolute z-10 mx-auto opacity-0 overscroll-contain"
@@ -148,11 +136,7 @@ export const MyChattanoogaProvider = ({ children }) => {
             }}
             variants={userPanelVariants}
           >
-            <MobileUserPanel
-              isDark={isDark}
-              toggleDarkMode={toggleDarkMode}
-              showFilters={showFilters}
-            />
+            <MobileUserPanel showFilters={showFilters} />
           </motion.div>
         </header>
 
@@ -172,11 +156,7 @@ export const MyChattanoogaProvider = ({ children }) => {
               variants={childrenComponentVariants}
             >
               <div className="hidden relative flex-col md:block w-1/3 xl:w-1/5 w-full h-fit border-r-2 sticky top-4 pr-2">
-                <UserPanel
-                  isDark={isDark}
-                  toggleDarkMode={toggleDarkMode}
-                  showFilters={showFilters}
-                />
+                <UserPanel showFilters={showFilters} />
               </div>
               <div className="w-full md:w-10/12">{children}</div>
             </motion.div>
