@@ -2,6 +2,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const articlesApi = createApi({
   reducerPath: "articlesApi",
+  refetchOnFocus: true,
+  refetchOnReconnect: true,
   refetchOnMountOrArgChange: 300,
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/articles`,
