@@ -89,7 +89,7 @@ export const MyChattanoogaProvider = ({ children }) => {
 
   const childrenWrapperClassString =
     mobileNavExpanded === true
-      ? "overscroll-contain transition duration-[300ms] blur-sm ease-linear relative"
+      ? "overscroll-contain transition duration-[300ms] relative blur-sm ease-linear "
       : "overscroll-contain transition duration-[300ms] relative";
 
   return (
