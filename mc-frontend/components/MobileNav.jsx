@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { toggleMobileUserPanel } from "./helpers";
 import { WeatherStation } from "./WeatherStation";
 import { useSelector, useDispatch } from "react-redux";
+import { setMobileNavExpanded } from "../redux/mainSlice";
 
 const variants = {
   open: { opacity: 1, x: "98.8%" },
@@ -40,7 +41,7 @@ export const MobileNav = () => {
               <button
                 className="w-screen h-5/6"
                 onClick={() => {
-                  dispatch(setNavExpanded(false));
+                  dispatch(setMobileNavExpanded(false));
                   if (panelExpanded === true) {
                     toggleMobileUserPanel(
                       dispatch,
@@ -61,7 +62,7 @@ export const MobileNav = () => {
               <button
                 className="w-screen h-5/6"
                 onClick={() => {
-                  dispatch(setNavExpanded(false));
+                  dispatch(setMobileNavExpanded(false));
                   if (panelExpanded === true) {
                     toggleMobileUserPanel(
                       dispatch,
@@ -82,7 +83,7 @@ export const MobileNav = () => {
               <button
                 className="w-screen h-5/6"
                 onClick={() => {
-                  dispatch(setNavExpanded(false));
+                  dispatch(setMobileNavExpanded(false));
                   if (panelExpanded === true) {
                     toggleMobileUserPanel(
                       dispatch,
