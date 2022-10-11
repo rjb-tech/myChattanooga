@@ -6,7 +6,10 @@ import { AuxillaryPanel } from "./AuxillaryPanel";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon, faUser } from "@fortawesome/free-solid-svg-icons";
-import { setAuxPanelExpanded, setCurrentAuxSection } from "../redux/mainSlice";
+import {
+  setAuxPanelExpanded,
+  setCurrentAuxSection,
+} from "../redux/slices/mainSlice";
 
 const auxVariants = {
   shown: { opacity: 1, y: "20rem" },

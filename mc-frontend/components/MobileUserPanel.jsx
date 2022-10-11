@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { MobileAuxillaryPanel } from "./MobileAuxillaryPanel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faUser } from "@fortawesome/free-solid-svg-icons";
-import { setAuxPanelExpanded, setCurrentAuxSection } from "../redux/mainSlice";
+import {
+  setAuxPanelExpanded,
+  setCurrentAuxSection,
+} from "../redux/slices/mainSlice";
 
 const axios = require("axios");
 

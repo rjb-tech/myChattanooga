@@ -13,7 +13,7 @@ import {
   setFilterApplied,
   setFilterOptions,
   setIsDark,
-} from "../redux/mainSlice";
+} from "../redux/slices/mainSlice";
 
 const childrenComponentVariants = {
   normal: { y: "0%" },

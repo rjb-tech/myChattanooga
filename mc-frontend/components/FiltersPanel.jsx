@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setFilterApplied, setPreviousFilter } from "../redux/mainSlice";
+import { setFilterApplied, setPreviousFilter } from "../redux/slices/mainSlice";
 
 export const FiltersPanel = () => {
   const dispatch = useDispatch();

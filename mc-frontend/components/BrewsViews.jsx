@@ -2,8 +2,8 @@ import axios from "axios";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { BrewsRelease } from "./BrewsRelease";
-import { setPageContent } from "../redux/mainSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { setPageContent } from "../redux/slices/mainSlice";
 
 const loadingVariants = {
   loading: { opacity: 0 },

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useDispatch } from "react-redux";
-import { toggleMobileNav } from "../redux/mainSlice";
+import { toggleMobileNav } from "../redux/slices/mainSlice";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
