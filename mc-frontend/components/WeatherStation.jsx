@@ -442,7 +442,6 @@ export const WeatherStation = ({ isDark, currentWeatherLocation }) => {
       }
       const newLocation = locationsIterHelper[index];
       dispatch(setWeatherLocation(newLocation));
-      localStorage.setItem("weatherLocation", newLocation);
     } else {
       const index = locationsIterHelper.indexOf(currentWeatherLocation) - 1;
       if (index < 0) {
@@ -451,7 +450,6 @@ export const WeatherStation = ({ isDark, currentWeatherLocation }) => {
       }
       const newLocation = locationsIterHelper[index];
       dispatch(setWeatherLocation(newLocation));
-      localStorage.setItem("weatherLocation", newLocation);
     }
   };
 

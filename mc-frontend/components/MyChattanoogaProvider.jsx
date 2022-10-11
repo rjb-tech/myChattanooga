@@ -63,11 +63,6 @@ export const MyChattanoogaProvider = ({ children }) => {
   }, [pageContent]);
 
   useEffect(() => {
-    if (weatherLocation !== "")
-      localStorage.setItem("weatherLocation", weatherLocation);
-  }, [weatherLocation]);
-
-  useEffect(() => {
     localStorage.setItem("dark", isDark);
     !document.body.classList.contains("dark") && isDark === true
       ? document.body.classList.add("dark")
@@ -81,15 +76,6 @@ export const MyChattanoogaProvider = ({ children }) => {
       window.matchMedia &&
       window.matchMedia("(prefers-color-scheme: dark)").matches;
     dispatch(setIsDark(isDarkMode));
-
-    // Set weather location
-    const lsWeatherLocation = localStorage.getItem("weatherLocation");
-    if (lsWeatherLocation !== "" && lsWeatherLocation !== "undefined") {
-      dispatch(setWeatherLocation(lsWeatherLocation));
-    } else {
-      dispatch(setWeatherLocation("northChattanooga"));
-      localStorage.setItem("weatherLocation", "northChattanooga");
-    }
 
     // https://www.kindacode.com/article/how-to-create-a-scroll-to-top-button-in-react/
     const element = document.getElementById("content");
