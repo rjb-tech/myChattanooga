@@ -8,7 +8,6 @@ import { UserPanel } from "./UserPanel";
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
-import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setFilterApplied,
@@ -32,7 +31,6 @@ const scrollTopButtonVariants = {
 };
 
 export const MyChattanoogaProvider = ({ children }) => {
-  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
   const router = useRouter();
   const dispatch = useDispatch();
   const { navExpanded, panelExpanded, pageContent, isDark } = useSelector(
@@ -40,7 +38,6 @@ export const MyChattanoogaProvider = ({ children }) => {
   );
 
   const [showTopButton, setShowTopButton] = useState(false);
-
   const showFilters = router.pathname === "/" && pageContent.length > 0;
 
   useEffect(() => {
@@ -178,14 +175,6 @@ export const MyChattanoogaProvider = ({ children }) => {
             color={isDark === true ? "#222" : "#f0f0f0"}
           />
         </motion.button>
-        {/* <scrollToTop /> */}
-        {/* <footer className="flex items-center w-screen">
-          
-          <div className="flex-auto">
-            Hi
-          </div>
-            
-        </footer> */}
       </div>
     </>
   );
