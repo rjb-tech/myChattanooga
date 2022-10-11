@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { useEffect } from "react";
 
 // Hide filters here
 export default function Faq() {
