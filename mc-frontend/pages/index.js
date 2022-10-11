@@ -1,10 +1,10 @@
+import formatISO from "date-fns/formatISO";
 import { useEffect, useState } from "react";
 import { Article } from "../components/Article";
-import formatISO from "date-fns/formatISO";
-import { isFromTheFuture } from "../components/helpers";
-import { setPageContent } from "../redux/mainSlice";
-import { useGetArticlesByDateQuery } from "../redux/services/articlesService";
 import { useSelector, useDispatch } from "react-redux";
+import { isFromTheFuture } from "../components/helpers";
+import { setPageContent } from "../redux/slices/mainSlice";
+import { useGetArticlesByDateQuery } from "../redux/services/articlesService";
 
 export default function Home() {
   const dispatch = useDispatch();

@@ -1,9 +1,9 @@
-import { BarGraph } from "../components/BarGraph";
+import { useSelector } from "react-redux";
 import formatISO from "date-fns/formatISO";
 import { useEffect, useState } from "react";
-import { useGetStatsByDateQuery } from "../redux/services/statsService";
+import { BarGraph } from "../components/BarGraph";
 import { PieStatChart } from "../components/PieChart";
-import { useSelector } from "react-redux";
+import { useGetStatsByDateQuery } from "../redux/services/statsService";
 
 export default function Stats() {
   const ISOdate = formatISO(new Date(), { representation: "date" });
