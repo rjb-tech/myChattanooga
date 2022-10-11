@@ -1,6 +1,6 @@
 import { StickyHeader } from "./StickyHeader";
 import Head from "next/head";
-import { useState, useEffect, cloneElement } from "react";
+import { useState, useEffect } from "react";
 import { MobileNav } from "./MobileNav";
 import { MobileUserPanel } from "./MobileUserPanel";
 import { motion } from "framer-motion";
