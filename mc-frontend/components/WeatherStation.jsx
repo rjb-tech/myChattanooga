@@ -477,80 +477,78 @@ export const WeatherStation = ({ isDark, currentWeatherLocation }) => {
 
   return (
     <>
-      <motion.div
-        className="w-10/12 md:w-5/6 mx-auto opacity-0"
-        animate={isLoading === true ? "loading" : "loaded"}
-        transition={{
-          duration: 0.5,
-          type: "tween",
-        }}
-        variants={loadingVariants}
-      >
-        {!isLoading && (
-          <div className="flex-col w-full h-fit">
-            <div className="flex place-items-center">
-              <motion.button
-                aria-label="Toggle Weather Location Backward"
-                whileTap={{ scale: 0.8 }}
-                className="w-1/12 h-full flex-auto"
-                onClick={() => switchWeatherLocation(false)}
-              >
-                <FontAwesomeIcon
-                  icon={faAngleLeft}
-                  style={{ color: `${weatherConfig.color}` }}
-                  className="w-1/2 h-1/2 md:w-1/3 md:h-1/3 xl:w-1/5 xl:h-1/5 flex-auto mx-auto"
-                />
-              </motion.button>
-              <div className="flex-auto text-2xl md:text-xl xl:text-3xl text-center font-bold pb-2 sm:pt-2 w-5/6 md:w-4/6">
-                {!isError
-                  ? weatherLocations[`${currentWeatherLocation}`].name
-                  : `Error w/ ${
-                      weatherLocations[`${currentWeatherLocation}`].name
-                    }`}
+      {!isError && (
+        <motion.div
+          className="w-10/12 md:w-5/6 mx-auto opacity-0"
+          animate={isLoading === true ? "loading" : "loaded"}
+          transition={{
+            duration: 0.5,
+            type: "tween",
+          }}
+          variants={loadingVariants}
+        >
+          {!isLoading && (
+            <div className="flex-col w-full h-fit">
+              <div className="flex place-items-center">
+                <motion.button
+                  aria-label="Toggle Weather Location Backward"
+                  whileTap={{ scale: 0.8 }}
+                  className="w-1/12 h-full flex-auto"
+                  onClick={() => switchWeatherLocation(false)}
+                >
+                  <FontAwesomeIcon
+                    icon={faAngleLeft}
+                    style={{ color: `${weatherConfig.color}` }}
+                    className="w-1/2 h-1/2 md:w-1/3 md:h-1/3 xl:w-1/5 xl:h-1/5 flex-auto mx-auto"
+                  />
+                </motion.button>
+                <div className="flex-auto text-2xl md:text-xl xl:text-3xl text-center font-bold pb-2 sm:pt-2 w-5/6 md:w-4/6">
+                  {weatherLocations[`${currentWeatherLocation}`].name}
+                </div>
+                <motion.button
+                  aria-label="Toggle Weather Location Forward"
+                  whileTap={{ scale: 0.8 }}
+                  className="w-1/12 h-full flex-auto"
+                  onClick={() => switchWeatherLocation(true)}
+                >
+                  <FontAwesomeIcon
+                    icon={faAngleRight}
+                    style={{ color: `${weatherConfig.color}` }}
+                    className="w-1/2 h-1/2 md:w-1/3 md:h-1/3 xl:w-1/5 xl:h-1/5 flex-auto mx-auto"
+                  />
+                </motion.button>
               </div>
-              <motion.button
-                aria-label="Toggle Weather Location Forward"
-                whileTap={{ scale: 0.8 }}
-                className="w-1/12 h-full flex-auto"
-                onClick={() => switchWeatherLocation(true)}
-              >
-                <FontAwesomeIcon
-                  icon={faAngleRight}
-                  style={{ color: `${weatherConfig.color}` }}
-                  className="w-1/2 h-1/2 md:w-1/3 md:h-1/3 xl:w-1/5 xl:h-1/5 flex-auto mx-auto"
-                />
-              </motion.button>
-            </div>
-            {!isError && (
-              <div className="flex w-full">
+              {!isError && (
                 <div className="flex w-full">
-                  <div className="w-1/2 flex-auto flex justify-end items-center">
-                    <ReactSkycon
-                      className="w-fit h-fit"
-                      icon={weatherConfig.icon}
-                      size={weatherConfig.size}
-                      animate={weatherConfig.animate}
-                      color={weatherConfig.color}
-                    />
-                  </div>
-                  <div className="w-1/2 container pl-4">
-                    <div className="justify-start flex text-center text-5xl md:text-3xl">
-                      {currentTemp}
-                      <p className="text-2xl mt-1 text-left">&#176;F</p>
+                  <div className="flex w-full">
+                    <div className="w-1/2 flex-auto flex justify-end items-center">
+                      <ReactSkycon
+                        className="w-fit h-fit"
+                        icon={weatherConfig.icon}
+                        size={weatherConfig.size}
+                        animate={weatherConfig.animate}
+                        color={weatherConfig.color}
+                      />
                     </div>
-                    <p className="text-lg md:text-base justify-center py-2 text-left italic">
-                      {weatherDescription}
-                    </p>
-                    <p className="text-base md:text-sm justify-center text-left">
-                      {currentHumidity}% Humidity
-                    </p>
+                    <div className="w-1/2 container pl-4">
+                      <div className="justify-start flex text-center text-5xl md:text-3xl">
+                        {currentTemp}
+                        <p className="text-2xl mt-1 text-left">&#176;F</p>
+                      </div>
+                      <p className="text-lg md:text-base justify-center py-2 text-left italic">
+                        {weatherDescription}
+                      </p>
+                      <p className="text-base md:text-sm justify-center text-left">
+                        {currentHumidity}% Humidity
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
-          </div>
-        )}
-      </motion.div>
+              )}
+            </div>
+          )}
+        </motion.div>
+      )}
     </>
   );
 };
