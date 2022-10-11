@@ -13,4 +13,4 @@ export const weatherApi = createApi({
 });
 
 // Auto generated from the createApi endpoint
-export const { useGetWeatherByLocationQuery } = articlesApi;
+export const { useGetWeatherByLocationQuery } = weatherApi;
