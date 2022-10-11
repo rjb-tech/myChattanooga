@@ -3,9 +3,10 @@ import weatherSlice from "./slices/weatherSlice";
 import { statsApi } from "./services/statsService";
 import { weatherApi } from "./services/weatherService";
 import { articlesApi } from "./services/articlesService";
+import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 
-export default configureStore({
+export const store = configureStore({
   reducer: {
     main: mainSlice,
     weather: weatherSlice,
@@ -19,3 +20,6 @@ export default configureStore({
       .concat(weatherApi.middleware)
       .concat(statsApi.middleware),
 });
+
+// This enables refetch on focus capabilities
+setupListeners(store.dispatch);

@@ -1,5 +1,5 @@
 import "../styles/globals.css";
-import store from "../redux/store";
+import { store } from "../redux/store";
 import { Provider } from "react-redux";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { MyChattanoogaProvider } from "../components/MyChattanoogaProvider";
