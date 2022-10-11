@@ -20,6 +20,3 @@ export const store = configureStore({
       .concat(weatherApi.middleware)
       .concat(statsApi.middleware),
 });
-
-// This enables refetch on focus capabilities
-setupListeners(store.dispatch);
