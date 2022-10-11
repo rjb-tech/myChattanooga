@@ -1,5 +1,3 @@
-import { useDispatch, useSelector } from "react-redux";
-
 // This is covering some tech debt related to the scraper passing back date as strings
 export function calculateTimeSincePosted(timePosted) {
   const currentDate = new Date();

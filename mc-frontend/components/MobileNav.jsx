@@ -1,10 +1,9 @@
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { WeatherStation } from "./WeatherStation";
 import { Socials } from "./Socials";
-import { useSelector, useDispatch } from "react-redux";
-import { setMobileNavExpanded } from "../redux/mainSlice";
+import { motion } from "framer-motion";
 import { toggleMobileUserPanel } from "./helpers";
+import { WeatherStation } from "./WeatherStation";
+import { useSelector, useDispatch } from "react-redux";
 
 const variants = {
   open: { opacity: 1, x: "98.8%" },

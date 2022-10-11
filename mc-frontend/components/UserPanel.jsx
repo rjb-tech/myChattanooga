@@ -1,11 +1,11 @@
-import { motion } from "framer-motion";
-import { faSun, faMoon, faUser } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { FiltersPanel } from "./FiltersPanel";
 import { Socials } from "./Socials";
-import { AuxillaryPanel } from "./AuxillaryPanel";
+import { motion } from "framer-motion";
 import { useAuth0 } from "@auth0/auth0-react";
+import { FiltersPanel } from "./FiltersPanel";
+import { AuxillaryPanel } from "./AuxillaryPanel";
 import { useDispatch, useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSun, faMoon, faUser } from "@fortawesome/free-solid-svg-icons";
 import { setAuxPanelExpanded, setCurrentAuxSection } from "../redux/mainSlice";
 
 const auxVariants = {

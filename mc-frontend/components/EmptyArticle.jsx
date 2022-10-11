@@ -1,7 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
-import { calculateTimeSincePosted } from "./helpers";
 import { motion } from "framer-motion";
+
 const accentColor = "#F39887";
 
 export const EmptyArticle = ({ delay }) => {

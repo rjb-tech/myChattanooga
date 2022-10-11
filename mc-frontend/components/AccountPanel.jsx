@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { motion } from "framer-motion";
+import React, { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import Image from "next/image";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-const axios = require("axios");
 
 const variants = {
   loading: { opacity: 0 },

@@ -1,8 +1,8 @@
-import { SettingsPanel } from "./SettingsPanel";
-import { AccountPanel } from "./AccountPanel";
-import { FiltersPanel } from "./FiltersPanel";
 import { motion } from "framer-motion";
 import { CreateBrews } from "./CreateBrews";
+import { AccountPanel } from "./AccountPanel";
+import { FiltersPanel } from "./FiltersPanel";
+import { SettingsPanel } from "./SettingsPanel";
 import { MyBrewsJournal } from "./MyBrewsJournal";
 
 const variants = {

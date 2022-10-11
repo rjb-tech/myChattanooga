@@ -1,7 +1,7 @@
 import { Logo } from "./Logo";
 import { NavBar } from "./NavBar";
-import { RightPanel } from "./RightPanel";
 import { LeftPanel } from "./LeftPanel";
+import { RightPanel } from "./RightPanel";
 import { useSelector } from "react-redux";
 
 export const StickyHeader = () => {

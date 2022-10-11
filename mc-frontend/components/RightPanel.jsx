@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSliders } from "@fortawesome/free-solid-svg-icons";
 import { WeatherStation } from "./WeatherStation";
+import { toggleMobileUserPanel } from "./helpers";
 import { toggleMobileNav } from "../redux/mainSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleMobileUserPanel } from "./helpers";
+import { faSliders } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const RightPanel = ({ isDark }) => {
   const dispatch = useDispatch();

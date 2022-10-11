@@ -1,14 +1,14 @@
-import { StickyHeader } from "./StickyHeader";
 import Head from "next/head";
-import { useState, useEffect } from "react";
-import { MobileNav } from "./MobileNav";
-import { MobileUserPanel } from "./MobileUserPanel";
 import { motion } from "framer-motion";
+import { useRouter } from "next/router";
+import { MobileNav } from "./MobileNav";
 import { UserPanel } from "./UserPanel";
+import { useState, useEffect } from "react";
+import { StickyHeader } from "./StickyHeader";
+import { MobileUserPanel } from "./MobileUserPanel";
+import { useDispatch, useSelector } from "react-redux";
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
 import {
   setFilterApplied,
   setFilterOptions,

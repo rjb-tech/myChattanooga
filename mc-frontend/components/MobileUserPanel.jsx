@@ -1,11 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
-import { faFilter, faUser } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { MobileAuxillaryPanel } from "./MobileAuxillaryPanel";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from "react-redux";
+import { MobileAuxillaryPanel } from "./MobileAuxillaryPanel";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilter, faUser } from "@fortawesome/free-solid-svg-icons";
 import { setAuxPanelExpanded, setCurrentAuxSection } from "../redux/mainSlice";
 
 const axios = require("axios");

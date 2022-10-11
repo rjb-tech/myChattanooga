@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { toggleMobileNav } from "../redux/mainSlice";
 import { useDispatch } from "react-redux";
+import { toggleMobileNav } from "../redux/mainSlice";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const LeftPanel = ({ isDark }) => {
   const dispatch = useDispatch();

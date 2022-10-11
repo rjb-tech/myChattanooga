@@ -1,9 +1,9 @@
-import Image from "next/image";
-import logo from "../public/myChattanooga_long-dark.png";
-import logo_dark from "../public/myChattanooga_long-light.png";
 import Link from "next/link";
+import Image from "next/image";
 import { toggleMobileUserPanel } from "./helpers";
 import { useDispatch, useSelector } from "react-redux";
+import logo from "../public/myChattanooga_long-dark.png";
+import logo_dark from "../public/myChattanooga_long-light.png";
 
 export const Logo = ({ isDark }) => {
   const dispatch = useDispatch();

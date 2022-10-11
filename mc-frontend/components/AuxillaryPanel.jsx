@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { AccountPanel } from "./AccountPanel";
 import { CreateBrews } from "./CreateBrews";
+import { AccountPanel } from "./AccountPanel";
 
 const variants = {
   open: { opacity: 1 },

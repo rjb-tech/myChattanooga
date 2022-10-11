@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { ReactSkycon, SkyconType } from "react-skycons-extended";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 import { motion } from "framer-motion";
 import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
 import { setWeatherLocation } from "../redux/mainSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ReactSkycon, SkyconType } from "react-skycons-extended";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
-const axios = require("axios");
 
 const loadingVariants = {
   loading: { opacity: 0 },

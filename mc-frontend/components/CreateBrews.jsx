@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
+import * as Yup from "yup";
 import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { toggleMobileUserPanel } from "./helpers";
+import { useDispatch, useSelector } from "react-redux";
+import { Formik, Field, Form, ErrorMessage } from "formik";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useDispatch, useSelector } from "react-redux";
-import { toggleMobileUserPanel } from "./helpers";
 
 export const CreateBrews = ({ isDark }) => {
   const dispatch = useDispatch();
