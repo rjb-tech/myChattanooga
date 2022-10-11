@@ -56,7 +56,7 @@ import {
   setAuxPanelExpanded,
   setCurrentAuxSection,
   setPanelExpanded,
-} from "../redux/mainSlice";
+} from "../redux/slices/mainSlice";
 const TIMEOUT_VALUE = 150;
 export function toggleMobileUserPanel(
   dispatch,
