@@ -1,8 +1,7 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
-import { setupListeners } from "@reduxjs/toolkit/dist/query";
-import mainSlice from "./mainSlice";
-import { articlesApi } from "./services/articlesService";
+import mainSlice from "./slices/mainSlice";
 import { statsApi } from "./services/statsService";
+import { articlesApi } from "./services/articlesService";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 
 export default configureStore({
   reducer: {
