@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const articlesApi = createApi({
   reducerPath: "articlesApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://api.mychattanooga.app/articles",
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/articles`,
   }),
   endpoints: (builder) => ({
     getArticlesByDate: builder.query({
