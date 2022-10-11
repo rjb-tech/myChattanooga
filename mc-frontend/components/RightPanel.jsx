@@ -6,15 +6,10 @@ import { toggleMobileNav } from "../redux/mainSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMobileUserPanel } from "./helpers";
 
-export const RightPanel = ({
-  isDark,
-  currentWeatherLocation,
-  setCurrentWeatherLocation,
-}) => {
+export const RightPanel = ({ isDark }) => {
   const dispatch = useDispatch();
-  const { navExpanded, panelExpanded, auxPanelExpanded } = useSelector(
-    (state) => state.main
-  );
+  const { navExpanded, panelExpanded, auxPanelExpanded, weatherLocation } =
+    useSelector((state) => state.main);
   const iconColor = isDark === true ? "#f0f0f0" : "#222";
   const userPanelAction = () => {
     if (navExpanded === true && panelExpanded === false) {
@@ -38,8 +33,7 @@ export const RightPanel = ({
       <div className="hidden md:block w-full bg-[#f0f0f0] text-[#222] dark:bg-[#222] dark:text-[#f0f0f0] relative z-[100]">
         <WeatherStation
           isDark={isDark}
-          currentWeatherLocation={currentWeatherLocation}
-          setCurrentWeatherLocation={setCurrentWeatherLocation}
+          currentWeatherLocation={weatherLocation}
         />
       </div>
     </div>

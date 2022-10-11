@@ -11,15 +11,10 @@ const variants = {
   closed: { opacity: 0, x: "-5%" },
 };
 
-export const MobileNav = ({
-  isDark,
-  currentWeatherLocation,
-  setCurrentWeatherLocation,
-}) => {
+export const MobileNav = ({ isDark }) => {
   const dispatch = useDispatch();
-  const { navExpanded, panelExpanded, auxPanelExpanded } = useSelector(
-    (state) => state.main
-  );
+  const { navExpanded, panelExpanded, auxPanelExpanded, weatherLocation } =
+    useSelector((state) => state.main);
   return (
     <motion.nav
       className="items-center w-full shadow-lg mx-auto bg-[#f0f0f0] text-[#222] dark:bg-[#222] dark:text-[#f0f0f0] rounded-b-xl overscroll-none"
@@ -31,8 +26,7 @@ export const MobileNav = ({
         <div className="h-fit mx-auto py-6">
           <WeatherStation
             isDark={isDark}
-            currentWeatherLocation={currentWeatherLocation}
-            setCurrentWeatherLocation={setCurrentWeatherLocation}
+            currentWeatherLocation={weatherLocation}
           />
           <Socials />
         </div>

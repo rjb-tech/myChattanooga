@@ -10,7 +10,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from "react-redux";
-import { setFilterApplied, setFilterOptions } from "../redux/mainSlice";
+import {
+  setWeatherLocation,
+  setFilterApplied,
+  setFilterOptions,
+  setIsDark,
+} from "../redux/mainSlice";
 
 const childrenComponentVariants = {
   normal: { y: "0%" },
@@ -29,43 +34,19 @@ const scrollTopButtonVariants = {
 
 export const MyChattanoogaProvider = ({ children }) => {
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
-
-  const useDarkModePreference = () => {
-    useEffect(() => {
-      const isDarkMode =
-        window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches;
-      setDark(isDarkMode);
-      // if (isDark===true && !document.body.classList.contains('dark')) {document.body.classList.add("dark")}
-    }, []);
-  };
-
-  const useWeatherLocation = () => {
-    useEffect(() => {
-      const lsWeatherLocation = localStorage.getItem("weatherLocation");
-      if (lsWeatherLocation && lsWeatherLocation !== "undefined") {
-        setCurrentWeatherLocation(lsWeatherLocation);
-      } else {
-        setCurrentWeatherLocation("northChattanooga");
-        localStorage.setItem("weatherLocation", "northChattanooga");
-      }
-    }, []);
-  };
-
   const router = useRouter();
   const dispatch = useDispatch();
-  const [isDark, setDark] = useState(useDarkModePreference());
-  const [currentWeatherLocation, setCurrentWeatherLocation] = useState(
-    useWeatherLocation()
-  );
-
-  const { navExpanded, panelExpanded, pageContent } = useSelector(
-    (state) => state.main
-  );
+  const { navExpanded, panelExpanded, pageContent, isDark, weatherLocation } =
+    useSelector((state) => state.main);
 
   const [showTopButton, setShowTopButton] = useState(false);
 
   const showFilters = router.pathname === "/" && pageContent.length > 0;
+
+  function toggleDarkMode() {
+    dispatch(setIsDark((isDark) => !isDark));
+    localStorage.setItem("dark", isDark);
+  }
 
   useEffect(() => {
     // Scroll window to top on page change
@@ -73,11 +54,6 @@ export const MyChattanoogaProvider = ({ children }) => {
     element.scrollTop = 0;
     dispatch(setFilterApplied("all"));
   }, [router.pathname]);
-
-  function toggleDarkMode() {
-    setDark((isDark) => !isDark);
-    localStorage.setItem("dark", isDark);
-  }
 
   useEffect(() => {
     const publishers = [
@@ -87,18 +63,35 @@ export const MyChattanoogaProvider = ({ children }) => {
   }, [pageContent]);
 
   useEffect(() => {
-    localStorage.setItem("weatherLocation", currentWeatherLocation);
-  }, [currentWeatherLocation]);
+    if (weatherLocation !== "")
+      localStorage.setItem("weatherLocation", weatherLocation);
+  }, [weatherLocation]);
 
   useEffect(() => {
     localStorage.setItem("dark", isDark);
     !document.body.classList.contains("dark") && isDark === true
       ? document.body.classList.add("dark")
       : document.body.classList.remove("dark");
+    dispatch(setIsDark);
   }, [isDark]);
 
-  // https://www.kindacode.com/article/how-to-create-a-scroll-to-top-button-in-react/
   useEffect(() => {
+    // Set dark mode
+    const isDarkMode =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    dispatch(setIsDark(isDarkMode));
+
+    // Set weather location
+    const lsWeatherLocation = localStorage.getItem("weatherLocation");
+    if (lsWeatherLocation !== "" && lsWeatherLocation !== "undefined") {
+      dispatch(setWeatherLocation(lsWeatherLocation));
+    } else {
+      dispatch(setWeatherLocation("northChattanooga"));
+      localStorage.setItem("weatherLocation", "northChattanooga");
+    }
+
+    // https://www.kindacode.com/article/how-to-create-a-scroll-to-top-button-in-react/
     const element = document.getElementById("content");
     const handleScroll = () => {
       const element = document.getElementById("content");
@@ -151,21 +144,13 @@ export const MyChattanoogaProvider = ({ children }) => {
         </Head>
 
         <header className="w-screen bg-[#f0f0f0] dark:bg-[#222] overscroll-none sticky z-[99]">
-          <StickyHeader
-            isDark={isDark}
-            currentWeatherLocation={currentWeatherLocation}
-            setCurrentWeatherLocation={setCurrentWeatherLocation}
-          />
+          <StickyHeader isDark={isDark} />
           {/* TECH DEBT: Put motion element here instead of in MobileNav component */}
           <div
             className="sm:hidden absolute w-full h-fit object-center overscroll-none -left-full z-20 flex mx-auto"
             key="MobileNav"
           >
-            <MobileNav
-              isDark={isDark}
-              currentWeatherLocation={currentWeatherLocation}
-              setCurrentWeatherLocation={setCurrentWeatherLocation}
-            />
+            <MobileNav isDark={isDark} />
           </div>
           <motion.div
             className="sm:hidden w-full h-fit object-center absolute z-10 mx-auto opacity-0 overscroll-contain"

@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { ReactSkycon, SkyconType } from "react-skycons-extended";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
+import { useDispatch } from "react-redux";
+import { setWeatherLocation } from "../redux/mainSlice";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 const axios = require("axios");
 
@@ -10,11 +12,9 @@ const loadingVariants = {
   loaded: { opacity: 1 },
 };
 
-export const WeatherStation = ({
-  isDark,
-  currentWeatherLocation,
-  setCurrentWeatherLocation,
-}) => {
+export const WeatherStation = ({ isDark, currentWeatherLocation }) => {
+  const dispatch = useDispatch();
+
   // https://openweathermap.org/weather-conditions#Weather-Condition-Codes-2
   // https://www.npmjs.com/package/react-skycons-extended
   const weatherCodeMappings = {
@@ -441,7 +441,7 @@ export const WeatherStation = ({
         index = 0;
       }
       const newLocation = locationsIterHelper[index];
-      setCurrentWeatherLocation(newLocation);
+      dispatch(setWeatherLocation(newLocation));
       localStorage.setItem("weatherLocation", newLocation);
     } else {
       const index = locationsIterHelper.indexOf(currentWeatherLocation) - 1;
@@ -450,7 +450,7 @@ export const WeatherStation = ({
         index = locationsIterHelper.length - 2;
       }
       const newLocation = locationsIterHelper[index];
-      setCurrentWeatherLocation(newLocation);
+      dispatch(setWeatherLocation(newLocation));
       localStorage.setItem("weatherLocation", newLocation);
     }
   };
