@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import store from "../redux/store";
 import { MyChattanoogaProvider } from "../components/MyChattanoogaProvider";
 
-function MyApp({ Component, pageProps }) {
+function MyChattanooga({ Component, pageProps }) {
   return (
     <Auth0Provider
       domain="mychattanooga.us.auth0.com"
@@ -27,4 +27,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp;
+export default MyChattanooga;
