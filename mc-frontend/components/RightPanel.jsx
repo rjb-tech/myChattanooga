@@ -8,11 +8,15 @@ import { toggleMobileUserPanel } from "./helpers";
 
 export const RightPanel = ({ isDark }) => {
   const dispatch = useDispatch();
-  const { navExpanded, panelExpanded, auxPanelExpanded, weatherLocation } =
-    useSelector((state) => state.main);
+  const {
+    mobileNavExpanded,
+    panelExpanded,
+    auxPanelExpanded,
+    weatherLocation,
+  } = useSelector((state) => state.main);
   const iconColor = isDark === true ? "#f0f0f0" : "#222";
   const userPanelAction = () => {
-    if (navExpanded === true && panelExpanded === false) {
+    if (mobileNavExpanded === true && panelExpanded === false) {
       dispatch(toggleMobileNav());
     }
     toggleMobileUserPanel(dispatch, auxPanelExpanded, panelExpanded);

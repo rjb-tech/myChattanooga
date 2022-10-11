@@ -33,7 +33,7 @@ const scrollTopButtonVariants = {
 export const MyChattanoogaProvider = ({ children }) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { navExpanded, panelExpanded, pageContent, isDark } = useSelector(
+  const { mobileNavExpanded, panelExpanded, pageContent, isDark } = useSelector(
     (state) => state.main
   );
 
@@ -88,7 +88,7 @@ export const MyChattanoogaProvider = ({ children }) => {
   };
 
   const childrenWrapperClassString =
-    navExpanded === true
+    mobileNavExpanded === true
       ? "overscroll-contain transition duration-[300ms] blur-sm ease-linear relative"
       : "overscroll-contain transition duration-[300ms] relative";
 

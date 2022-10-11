@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const mainSlice = createSlice({
   name: "main",
   initialState: {
-    navExpanded: false,
+    mobileNavExpanded: false,
     panelExpanded: false,
     auxPanelExpanded: false,
     filterApplied: "all",
@@ -15,8 +15,8 @@ export const mainSlice = createSlice({
     weatherLocation: "northChattanooga",
   },
   reducers: {
-    setNavExpanded: (state, action) => {
-      state.navExpanded = action.payload;
+    setMobileNavExpanded: (state, action) => {
+      state.mobileNavExpanded = action.payload;
     },
     setPanelExpanded: (state, action) => {
       state.panelExpanded = action.payload;
@@ -47,14 +47,14 @@ export const mainSlice = createSlice({
       state.weatherLocation = action.payload;
     },
     toggleMobileNav: (state) => {
-      state.navExpanded = !state.navExpanded;
+      state.mobileNavExpanded = !state.mobileNavExpanded;
     },
   },
 });
 
 // This makes action creators
 export const {
-  setNavExpanded,
+  setMobileNavExpanded,
   setPanelExpanded,
   setAuxPanelExpanded,
   setFilterApplied,

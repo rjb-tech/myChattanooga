@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { WeatherStation } from "./WeatherStation";
 import { Socials } from "./Socials";
 import { useSelector, useDispatch } from "react-redux";
-import { setNavExpanded } from "../redux/mainSlice";
+import { setMobileNavExpanded } from "../redux/mainSlice";
 import { toggleMobileUserPanel } from "./helpers";
 
 const variants = {
@@ -14,7 +14,7 @@ const variants = {
 export const MobileNav = () => {
   const dispatch = useDispatch();
   const {
-    navExpanded,
+    mobileNavExpanded,
     panelExpanded,
     auxPanelExpanded,
     weatherLocation,
@@ -23,7 +23,7 @@ export const MobileNav = () => {
   return (
     <motion.nav
       className="items-center w-full shadow-lg mx-auto bg-[#f0f0f0] text-[#222] dark:bg-[#222] dark:text-[#f0f0f0] rounded-b-xl overscroll-none"
-      animate={navExpanded ? "open" : "closed"}
+      animate={mobileNavExpanded ? "open" : "closed"}
       transition={{ duration: 0.3, type: "tween" }}
       variants={variants}
     >
