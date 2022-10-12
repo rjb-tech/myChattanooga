@@ -1,15 +1,14 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { setWeatherLocation } from "../redux/slices/mainSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ReactSkycon, SkyconType } from "react-skycons-extended";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { useGetWeatherByLocationQuery } from "../redux/services/weatherService";
 import {
   setCurrentTemp,
-  setCurrentWeatherCode,
+  setWeatherCode,
+  setWeatherLocation,
   setWeatherDescription,
   setCurrentSunrise,
   setCurrentSunset,
@@ -383,64 +382,42 @@ export const WeatherStation = ({ isDark, currentWeatherLocation }) => {
   const dispatch = useDispatch();
   const {
     currentTemp,
-    currentWeatherCode,
+    weatherCode,
     weatherDescription,
     currentSunrise,
     currentSunset,
     currentHumidity,
   } = useSelector((state) => state.weather);
-  const { data, error, isError, isLoading, isSuccess } =
-    useGetWeatherByLocationQuery(
-      weatherLocations[currentWeatherLocation]["name"]
-    );
+  const { data, isError, isLoading, isSuccess } = useGetWeatherByLocationQuery(
+    weatherLocations[currentWeatherLocation]["name"]
+  );
 
   const locationsIterHelper = Object.keys(weatherLocations);
 
   useEffect(() => {
     if (isSuccess) {
-      const weatherEntry = data[0];
-      dispatch(setCurrentTemp(weatherEntry?.temp?.toFixed()));
-      dispatch(setCurrentWeatherCode(weatherEntry?.weather_code));
-      dispatch(setWeatherDescription(weatherEntry?.weather_description));
-      dispatch(setCurrentSunrise(weatherEntry?.sunrise));
-      dispatch(setCurrentSunset(weatherEntry?.sunset));
-      dispatch(setCurrentHumidity(weatherEntry?.humidity));
+      const {
+        temp,
+        weather_code,
+        weather_description,
+        sunrise,
+        sunset,
+        humidity,
+      } = data[0];
+      dispatch(setCurrentTemp(temp?.toFixed()));
+      dispatch(setWeatherCode(weather_code));
+      dispatch(setWeatherDescription(weather_description));
+      dispatch(setCurrentSunrise(sunrise));
+      dispatch(setCurrentSunset(sunset));
+      dispatch(setCurrentHumidity(humidity));
     }
   }, [data, isSuccess]);
-
-  // Source: https://sherryhsu.medium.com/react-async-data-fetch-f5ccb107d02b
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     if (currentWeatherLocation != null) {
-  //       const response = await axios
-  //         .get(
-  //           `/api/weather?location=${weatherLocations[currentWeatherLocation]["name"]}`
-  //         )
-  //         .then((response) => {
-  //           const data = response.data[0];
-  //           setCurrentTemp(data["temp"].toFixed());
-  //           setCurrentWeatherCode(data["weather_code"]);
-  //           setWeatherDescription(data["weather_description"]);
-  //           setCurrentSunrise(data["sunrise"]);
-  //           setCurrentSunset(data["sunset"]);
-  //           setCurrentHumidity(data["humidity"]);
-  //           setWindSpeed(data["wind_speed"]);
-  //           setWindDirectionInDegrees(data["wind_direction"]);
-  //         })
-  //         .catch(function (error) {
-  //           console.log(error);
-  //         });
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [currentWeatherLocation]);
 
   const weatherConfig = {
     icon:
       isDay(currentSunrise, currentSunset) === true
-        ? SkyconType[weatherCodeMappings[currentWeatherCode]?.day]
-        : SkyconType[weatherCodeMappings[currentWeatherCode]?.night],
+        ? SkyconType[weatherCodeMappings[weatherCode]?.day]
+        : SkyconType[weatherCodeMappings[weatherCode]?.night],
     size: 100,
     animate: true,
     color: isDark === true ? "#f0f0f0" : "#222",

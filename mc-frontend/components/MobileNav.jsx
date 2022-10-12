@@ -7,21 +7,15 @@ import { setMobileNavExpanded } from "../redux/slices/mainSlice";
 
 export const MobileNav = () => {
   const dispatch = useDispatch();
-  const {
-    mobileNavExpanded,
-    panelExpanded,
-    auxPanelExpanded,
-    weatherLocation,
-    isDark,
-  } = useSelector((state) => state.main);
+  const { location } = useSelector((state) => state.weather);
+  const { panelExpanded, auxPanelExpanded, isDark } = useSelector(
+    (state) => state.main
+  );
   return (
     <nav className="items-center w-full shadow-lg mx-auto bg-[#f0f0f0] text-[#222] dark:bg-[#222] dark:text-[#f0f0f0] rounded-b-xl overscroll-none">
       <div className="h-fit w-full divide-y-2 flex-col flex-auto text-center">
         <div className="h-fit mx-auto py-6">
-          <WeatherStation
-            isDark={isDark}
-            currentWeatherLocation={weatherLocation}
-          />
+          <WeatherStation isDark={isDark} currentWeatherLocation={location} />
           <Socials />
         </div>
         <div className="h-12 w-full p-1 flex items-center">

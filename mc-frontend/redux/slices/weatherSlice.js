@@ -4,18 +4,22 @@ export const weatherSlice = createSlice({
   name: "weather",
   initialState: {
     currentTemp: "",
-    currentWeatherCode: "",
+    weatherCode: "",
     weatherDescription: "",
     currentSunrise: 0,
     currentSunset: 0,
     currentHumidity: 0,
+    location: "northChattanooga",
   },
   reducers: {
     setCurrentTemp: (state, action) => {
       state.currentTemp = action.payload;
     },
-    setCurrentWeatherCode: (state, action) => {
+    setWeatherCode: (state, action) => {
       state.currentWeatherCode = action.payload;
+    },
+    setWeatherLocation: (state, action) => {
+      state.location = action.payload;
     },
     setWeatherDescription: (state, action) => {
       state.weatherDescription = action.payload;
@@ -34,7 +38,8 @@ export const weatherSlice = createSlice({
 
 export const {
   setCurrentTemp,
-  setCurrentWeatherCode,
+  setWeatherCode,
+  setWeatherLocation,
   setWeatherDescription,
   setCurrentSunrise,
   setCurrentSunset,

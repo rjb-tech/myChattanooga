@@ -12,7 +12,6 @@ export const mainSlice = createSlice({
     filterOptions: [],
     currentAuxSection: "",
     isDark: true,
-    weatherLocation: "northChattanooga",
   },
   reducers: {
     setMobileNavExpanded: (state, action) => {
@@ -43,9 +42,6 @@ export const mainSlice = createSlice({
     setIsDark: (state, action) => {
       state.isDark = action.payload;
     },
-    setWeatherLocation: (state, action) => {
-      state.weatherLocation = action.payload;
-    },
     toggleMobileNav: (state) => {
       state.mobileNavExpanded = !state.mobileNavExpanded;
     },
@@ -62,7 +58,6 @@ export const {
   setFilterOptions,
   setCurrentAuxSection,
   setPreviousFilter,
-  setWeatherLocation,
   toggleMobileNav,
   setIsDark,
 } = mainSlice.actions;
