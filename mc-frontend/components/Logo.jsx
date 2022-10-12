@@ -10,7 +10,9 @@ export const Logo = () => {
   const dispatch = useDispatch();
   const { panelExpanded, auxPanelExpanded, mobileNavExpanded, isDark } =
     useSelector((state) => state.main);
+
   const dynamicLogo = isDark === true ? logo_dark : logo;
+
   return (
     <div
       className="w-2/3 sm:w-2/6 xl:w-1/5 relative z-[100]"

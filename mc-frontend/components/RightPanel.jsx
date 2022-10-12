@@ -11,13 +11,16 @@ export const RightPanel = () => {
   const { location } = useSelector((state) => state.weather);
   const { mobileNavExpanded, panelExpanded, auxPanelExpanded, isDark } =
     useSelector((state) => state.main);
+
   const iconColor = isDark === true ? "#f0f0f0" : "#222";
+
   const userPanelAction = () => {
     if (mobileNavExpanded === true && panelExpanded === false) {
       dispatch(toggleMobileNav());
     }
     toggleMobileUserPanel(dispatch, auxPanelExpanded, panelExpanded);
   };
+
   return (
     <div className="flex w-1/4 md:w-1/12 flex-auto h-full relative z-[100]">
       <motion.button
