@@ -3,11 +3,12 @@ import Image from "next/image";
 import { toggleMobileUserPanel } from "./helpers";
 import { useDispatch, useSelector } from "react-redux";
 import logo from "../public/myChattanooga_long-dark.png";
+import { toggleMobileNav } from "../redux/slices/mainSlice";
 import logo_dark from "../public/myChattanooga_long-light.png";
 
 export const Logo = ({ isDark }) => {
   const dispatch = useDispatch();
-  const { panelExpanded, auxPanelExpanded } = useSelector(
+  const { panelExpanded, auxPanelExpanded, mobileNavExpanded } = useSelector(
     (state) => state.main
   );
   const dynamicLogo = isDark === true ? logo_dark : logo;
@@ -15,6 +16,9 @@ export const Logo = ({ isDark }) => {
     <div
       className="w-2/3 sm:w-2/6 xl:w-1/5 relative z-[100]"
       onClick={() => {
+        if (mobileNavExpanded) {
+          dispatch(toggleMobileNav());
+        }
         if (panelExpanded === true) {
           toggleMobileUserPanel(dispatch, auxPanelExpanded, panelExpanded);
         }
