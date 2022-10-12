@@ -8,7 +8,7 @@ import { setMobileNavExpanded } from "../redux/slices/mainSlice";
 export const MobileNav = () => {
   const dispatch = useDispatch();
   const { location } = useSelector((state) => state.weather);
-  const { panelExpanded, auxPanelExpanded, isDark } = useSelector(
+  const { panelExpanded, auxPanelExpanded, isDark, pageContent } = useSelector(
     (state) => state.main
   );
   return (
@@ -39,27 +39,29 @@ export const MobileNav = () => {
             </a>
           </Link>
         </div>
-        <div className="h-12 w-full p-1 flex items-center">
-          <Link href="/stats">
-            <a>
-              <button
-                className="w-screen h-5/6"
-                onClick={() => {
-                  dispatch(setMobileNavExpanded(false));
-                  if (panelExpanded === true) {
-                    toggleMobileUserPanel(
-                      dispatch,
-                      auxPanelExpanded,
-                      panelExpanded
-                    );
-                  }
-                }}
-              >
-                Stats
-              </button>
-            </a>
-          </Link>
-        </div>
+        {pageContent.length > 0 && (
+          <div className="h-12 w-full p-1 flex items-center">
+            <Link href="/stats">
+              <a>
+                <button
+                  className="w-screen h-5/6"
+                  onClick={() => {
+                    dispatch(setMobileNavExpanded(false));
+                    if (panelExpanded === true) {
+                      toggleMobileUserPanel(
+                        dispatch,
+                        auxPanelExpanded,
+                        panelExpanded
+                      );
+                    }
+                  }}
+                >
+                  Stats
+                </button>
+              </a>
+            </Link>
+          </div>
+        )}
         <div className="h-12 w-full p-1 flex items-center">
           <Link href="/faq">
             <a>
