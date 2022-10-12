@@ -20,3 +20,5 @@ export const store = configureStore({
       .concat(weatherApi.middleware)
       .concat(statsApi.middleware),
 });
+
+setupListeners(store.dispatch);
