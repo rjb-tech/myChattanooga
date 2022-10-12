@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const weatherApi = createApi({
   reducerPath: "weatherApi",
+  skip: true,
   mode: "cors",
   refetchOnFocus: true,
   refetchOnReconnect: true,
