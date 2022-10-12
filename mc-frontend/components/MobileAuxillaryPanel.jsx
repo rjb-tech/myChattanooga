@@ -16,7 +16,7 @@ export const MobileAuxillaryPanel = ({ section, isDark, auxPanelExpanded }) => {
     settings: <SettingsPanel isDark={isDark} />,
     create_brews: <CreateBrews isDark={isDark} />,
     account: <AccountPanel isDark={isDark} />,
-    my_brews: <MyBrewsJournal /*brews={currentUserBrews}*/ isDark={isDark} />,
+    my_brews: <MyBrewsJournal isDark={isDark} />,
   };
 
   const sectionToRender = sections[`${section}`];
