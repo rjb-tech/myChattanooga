@@ -6,11 +6,10 @@ import logo from "../public/myChattanooga_long-dark.png";
 import { toggleMobileNav } from "../redux/slices/mainSlice";
 import logo_dark from "../public/myChattanooga_long-light.png";
 
-export const Logo = ({ isDark }) => {
+export const Logo = () => {
   const dispatch = useDispatch();
-  const { panelExpanded, auxPanelExpanded, mobileNavExpanded } = useSelector(
-    (state) => state.main
-  );
+  const { panelExpanded, auxPanelExpanded, mobileNavExpanded, isDark } =
+    useSelector((state) => state.main);
   const dynamicLogo = isDark === true ? logo_dark : logo;
   return (
     <div

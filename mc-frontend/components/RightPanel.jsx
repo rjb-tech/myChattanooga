@@ -6,12 +6,11 @@ import { toggleMobileNav } from "../redux/slices/mainSlice";
 import { faSliders } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export const RightPanel = ({ isDark }) => {
+export const RightPanel = () => {
   const dispatch = useDispatch();
   const { location } = useSelector((state) => state.weather);
-  const { mobileNavExpanded, panelExpanded, auxPanelExpanded } = useSelector(
-    (state) => state.main
-  );
+  const { mobileNavExpanded, panelExpanded, auxPanelExpanded, isDark } =
+    useSelector((state) => state.main);
   const iconColor = isDark === true ? "#f0f0f0" : "#222";
   const userPanelAction = () => {
     if (mobileNavExpanded === true && panelExpanded === false) {

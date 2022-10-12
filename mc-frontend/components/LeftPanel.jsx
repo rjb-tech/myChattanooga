@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMobileNav } from "../redux/slices/mainSlice";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export const LeftPanel = ({ isDark }) => {
+export const LeftPanel = () => {
   const dispatch = useDispatch();
+  const { isDark } = useSelector((state) => state.main);
   const iconColor = isDark === true ? "#f0f0f0" : "#222";
   return (
     <div className="flex w-1/4 md:w-1/12 flex-auto h-full relative z-[100]">
