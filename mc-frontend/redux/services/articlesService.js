@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const articlesApi = createApi({
   reducerPath: "articlesApi",
   skip: true,
-  mode: "cors",
+  mode: "no-cors",
   refetchOnFocus: true,
   refetchOnReconnect: true,
   refetchOnMountOrArgChange: 300,

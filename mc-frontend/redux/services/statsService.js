@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const statsApi = createApi({
   reducerPath: "statsApi",
   skip: true,
-  mode: "cors",
+  mode: "no-cors",
   refetchOnFocus: true,
   refetchOnReconnect: true,
   refetchOnMountOrArgChange: 300,
