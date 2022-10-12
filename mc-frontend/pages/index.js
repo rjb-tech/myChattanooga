@@ -15,12 +15,9 @@ export default function Home() {
   const [header, setHeader] = useState("All Local Articles");
 
   useEffect(() => {
-    if (error) setHeader("Error fetching articles");
-    else {
-      if (filterApplied === "all") setHeader("All Local Articles");
-      else setHeader(`${filterApplied} Articles`);
-    }
-  }, [error, filterApplied]);
+    if (filterApplied === "all") setHeader("All Local Articles");
+    else setHeader(`${filterApplied} Articles`);
+  }, [filterApplied]);
 
   useEffect(() => {
     if (!isLoading && !error && data !== undefined) {
