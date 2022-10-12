@@ -31,6 +31,7 @@ const scrollTopButtonVariants = {
 };
 
 const mobileNavVariants = {
+  // Any value higher causes content shift
   open: { opacity: 1, x: "98.8%" },
   closed: { opacity: 0, x: "-5%" },
 };
