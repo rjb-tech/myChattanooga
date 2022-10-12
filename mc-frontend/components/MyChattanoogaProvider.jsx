@@ -38,12 +38,16 @@ const mobileNavVariants = {
 export const MyChattanoogaProvider = ({ children }) => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const [showTopButton, setShowTopButton] = useState(false);
   const { mobileNavExpanded, panelExpanded, pageContent, isDark } = useSelector(
     (state) => state.main
   );
 
-  const [showTopButton, setShowTopButton] = useState(false);
   const showFilters = router.pathname === "/" && pageContent.length > 0;
+  const childrenWrapperClassString =
+    mobileNavExpanded === true
+      ? "overscroll-contain transition duration-[300ms] relative blur-sm ease-linear "
+      : "overscroll-contain transition duration-[300ms] relative";
 
   useEffect(() => {
     // Scroll window to top on page change
@@ -91,11 +95,6 @@ export const MyChattanoogaProvider = ({ children }) => {
       behavior: "smooth", // for smoothly scrolling
     });
   };
-
-  const childrenWrapperClassString =
-    mobileNavExpanded === true
-      ? "overscroll-contain transition duration-[300ms] relative blur-sm ease-linear "
-      : "overscroll-contain transition duration-[300ms] relative";
 
   return (
     <>
