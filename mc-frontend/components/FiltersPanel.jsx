@@ -30,7 +30,7 @@ export const FiltersPanel = () => {
             whileTap={{ scale: 0.9 }}
             aria-label="Apply All Filters Button"
             id="all-button"
-            className="flex-auto mx-auto border py-2 rounded-xl w-full hover:border-[#F7BCB1] border-[#222] dark:border-[#f0f0f0]"
+            className="flex-auto mx-auto border py-2 rounded-xl w-full hover:ring-[#F7BCB1] hover:ring border-[#222] dark:border-[#f0f0f0]"
             onClick={() => {
               dispatch(setPreviousFilter(filterApplied));
               dispatch(setFilterApplied("all"));
@@ -47,7 +47,7 @@ export const FiltersPanel = () => {
               aria-label={`${currentOption} filter selector`}
               whileTap={{ scale: 0.9 }}
               id={`${currentOption?.replace(" ", "-").toLowerCase()}-button`}
-              className="flex-auto mx-auto border py-2 rounded-xl w-full hover:border-[#F7BCB1] border-[#222] dark:border-[#f0f0f0]"
+              className="flex-auto mx-auto border py-2 rounded-xl w-full hover:ring-[#F7BCB1] hover:ring border-[#222] dark:border-[#f0f0f0]"
               onClick={() => {
                 if (filterApplied != `${currentOption}`) {
                   dispatch(setPreviousFilter(filterApplied));
