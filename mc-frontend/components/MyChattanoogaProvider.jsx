@@ -30,6 +30,11 @@ const scrollTopButtonVariants = {
   closed: { opacity: 0 },
 };
 
+const mobileNavVariants = {
+  open: { opacity: 1, x: "98.8%" },
+  closed: { opacity: 0, x: "-5%" },
+};
+
 export const MyChattanoogaProvider = ({ children }) => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -115,13 +120,17 @@ export const MyChattanoogaProvider = ({ children }) => {
 
         <header className="w-screen bg-[#f0f0f0] dark:bg-[#222] overscroll-none sticky z-[99]">
           <StickyHeader />
-          {/* TECH DEBT: Put motion element here instead of in MobileNav component */}
-          <div
+
+          <motion.div
             className="sm:hidden absolute w-full h-fit object-center overscroll-none -left-full z-20 flex mx-auto"
+            animate={mobileNavExpanded ? "open" : "closed"}
+            transition={{ duration: 0.3, type: "tween" }}
+            variants={mobileNavVariants}
             key="MobileNav"
           >
             <MobileNav />
-          </div>
+          </motion.div>
+
           <motion.div
             className="sm:hidden w-full h-fit object-center absolute z-10 mx-auto opacity-0 overscroll-contain"
             key="MobileUserPanel"

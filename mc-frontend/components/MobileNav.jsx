@@ -1,15 +1,9 @@
 import Link from "next/link";
 import { Socials } from "./Socials";
-import { motion } from "framer-motion";
 import { toggleMobileUserPanel } from "./helpers";
 import { WeatherStation } from "./WeatherStation";
 import { useSelector, useDispatch } from "react-redux";
 import { setMobileNavExpanded } from "../redux/slices/mainSlice";
-
-const variants = {
-  open: { opacity: 1, x: "98.8%" },
-  closed: { opacity: 0, x: "-5%" },
-};
 
 export const MobileNav = () => {
   const dispatch = useDispatch();
@@ -21,12 +15,7 @@ export const MobileNav = () => {
     isDark,
   } = useSelector((state) => state.main);
   return (
-    <motion.nav
-      className="items-center w-full shadow-lg mx-auto bg-[#f0f0f0] text-[#222] dark:bg-[#222] dark:text-[#f0f0f0] rounded-b-xl overscroll-none"
-      animate={mobileNavExpanded ? "open" : "closed"}
-      transition={{ duration: 0.3, type: "tween" }}
-      variants={variants}
-    >
+    <nav className="items-center w-full shadow-lg mx-auto bg-[#f0f0f0] text-[#222] dark:bg-[#222] dark:text-[#f0f0f0] rounded-b-xl overscroll-none">
       <div className="h-fit w-full divide-y-2 flex-col flex-auto text-center">
         <div className="h-fit mx-auto py-6">
           <WeatherStation
@@ -99,6 +88,6 @@ export const MobileNav = () => {
           </Link>
         </div>
       </div>
-    </motion.nav>
+    </nav>
   );
 };
