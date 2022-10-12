@@ -10,12 +10,7 @@ const variants = {
   closed: { opacity: 0 },
 };
 
-export const MobileAuxillaryPanel = ({
-  section,
-  isDark,
-  auxPanelExpanded,
-  // currentUserBrews
-}) => {
+export const MobileAuxillaryPanel = ({ section, isDark, auxPanelExpanded }) => {
   const sections = {
     filters: <FiltersPanel />,
     settings: <SettingsPanel isDark={isDark} />,
