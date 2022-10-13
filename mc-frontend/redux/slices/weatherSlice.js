@@ -16,7 +16,7 @@ export const weatherSlice = createSlice({
       state.currentTemp = action.payload;
     },
     setWeatherCode: (state, action) => {
-      state.currentWeatherCode = action.payload;
+      state.weatherCode = action.payload;
     },
     setWeatherLocation: (state, action) => {
       state.location = action.payload;
