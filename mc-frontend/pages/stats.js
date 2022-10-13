@@ -18,7 +18,6 @@ export default function Stats() {
     },
   };
 
-  const [mode, setMode] = useState(MODES[1]);
   const [header, setHeader] = useState("All Publisher Stats");
   const todayISO = formatISO(new Date(), { representation: "date" });
   // rawChartData will need to be filtered based on selected mode (daily or weekly stats)
