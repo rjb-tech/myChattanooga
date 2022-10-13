@@ -6,13 +6,13 @@ import { ReactSkycon, SkyconType } from "react-skycons-extended";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { useGetWeatherByLocationQuery } from "../redux/services/weatherService";
 import {
-  setCurrentTemp,
-  setWeatherCode,
-  setWeatherLocation,
-  setWeatherDescription,
-  setCurrentSunrise,
-  setCurrentSunset,
-  setCurrentHumidity,
+  setTemperature,
+  setIconCode,
+  setLocation,
+  setDesciption,
+  setSunrise,
+  setSunset,
+  setHumidity,
 } from "../redux/slices/weatherSlice";
 
 const loadingVariants = {
@@ -380,14 +380,8 @@ const weatherLocations = {
 
 export const WeatherStation = ({ isDark, currentWeatherLocation }) => {
   const dispatch = useDispatch();
-  const {
-    currentTemp,
-    weatherCode,
-    weatherDescription,
-    currentSunrise,
-    currentSunset,
-    currentHumidity,
-  } = useSelector((state) => state.weather);
+  const { temperature, iconCode, description, sunrise, sunset, humidity } =
+    useSelector((state) => state.weather);
   const { data, isError, isLoading, isSuccess } = useGetWeatherByLocationQuery(
     weatherLocations[currentWeatherLocation]["name"]
   );
@@ -404,20 +398,20 @@ export const WeatherStation = ({ isDark, currentWeatherLocation }) => {
         sunset,
         humidity,
       } = data[0];
-      dispatch(setCurrentTemp(temp?.toFixed()));
-      dispatch(setWeatherCode(weather_code));
-      dispatch(setWeatherDescription(weather_description));
-      dispatch(setCurrentSunrise(sunrise));
-      dispatch(setCurrentSunset(sunset));
-      dispatch(setCurrentHumidity(humidity));
+      dispatch(setTemperature(temp?.toFixed()));
+      dispatch(setIconCode(weather_code));
+      dispatch(setDesciption(weather_description));
+      dispatch(setSunrise(sunrise));
+      dispatch(setSunset(sunset));
+      dispatch(setHumidity(humidity));
     }
   }, [data, isSuccess]);
 
   const weatherConfig = {
     icon:
-      isDay(currentSunrise, currentSunset) === true
-        ? SkyconType[weatherCodeMappings[weatherCode]?.day]
-        : SkyconType[weatherCodeMappings[weatherCode]?.night],
+      isDay(sunrise, sunset) === true
+        ? SkyconType[weatherCodeMappings[iconCode]?.day]
+        : SkyconType[weatherCodeMappings[iconCode]?.night],
     size: 100,
     animate: true,
     color: isDark === true ? "#f0f0f0" : "#222",
@@ -440,7 +434,7 @@ export const WeatherStation = ({ isDark, currentWeatherLocation }) => {
         index = 0;
       }
       const newLocation = locationsIterHelper[index];
-      dispatch(setWeatherLocation(newLocation));
+      dispatch(setLocation(newLocation));
     } else {
       const index = locationsIterHelper.indexOf(currentWeatherLocation) - 1;
       if (index < 0) {
@@ -448,7 +442,7 @@ export const WeatherStation = ({ isDark, currentWeatherLocation }) => {
         index = locationsIterHelper.length - 2;
       }
       const newLocation = locationsIterHelper[index];
-      dispatch(setWeatherLocation(newLocation));
+      dispatch(setLocation(newLocation));
     }
   };
 
@@ -509,14 +503,14 @@ export const WeatherStation = ({ isDark, currentWeatherLocation }) => {
                     </div>
                     <div className="w-1/2 container pl-4">
                       <div className="justify-start flex text-center text-5xl md:text-3xl">
-                        {currentTemp}
+                        {temperature}
                         <p className="text-2xl mt-1 text-left">&#176;F</p>
                       </div>
                       <p className="text-lg md:text-base justify-center py-2 text-left italic">
-                        {weatherDescription}
+                        {description}
                       </p>
                       <p className="text-base md:text-sm justify-center text-left">
-                        {currentHumidity}% Humidity
+                        {humidity}% Humidity
                       </p>
                     </div>
                   </div>

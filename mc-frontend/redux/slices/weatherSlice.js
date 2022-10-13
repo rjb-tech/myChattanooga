@@ -3,47 +3,47 @@ import { createSlice } from "@reduxjs/toolkit";
 export const weatherSlice = createSlice({
   name: "weather",
   initialState: {
-    currentTemp: "",
-    weatherCode: "",
-    weatherDescription: "",
-    currentSunrise: 0,
-    currentSunset: 0,
-    currentHumidity: 0,
+    temperature: "",
+    iconCode: "",
+    description: "",
+    sunrise: 0,
+    sunset: 0,
+    humidity: 0,
     location: "northChattanooga",
   },
   reducers: {
-    setCurrentTemp: (state, action) => {
-      state.currentTemp = action.payload;
+    setTemperature: (state, action) => {
+      state.temperature = action.payload;
     },
-    setWeatherCode: (state, action) => {
-      state.weatherCode = action.payload;
+    setIconCode: (state, action) => {
+      state.iconCode = action.payload;
     },
-    setWeatherLocation: (state, action) => {
+    setLocation: (state, action) => {
       state.location = action.payload;
     },
-    setWeatherDescription: (state, action) => {
-      state.weatherDescription = action.payload;
+    setDesciption: (state, action) => {
+      state.description = action.payload;
     },
-    setCurrentSunrise: (state, action) => {
-      state.currentSunrise = action.payload;
+    setSunrise: (state, action) => {
+      state.sunrise = action.payload;
     },
-    setCurrentSunset: (state, action) => {
-      state.currentSunset = action.payload;
+    setSunset: (state, action) => {
+      state.sunset = action.payload;
     },
-    setCurrentHumidity: (state, action) => {
-      state.currentHumidity = action.payload;
+    setHumidity: (state, action) => {
+      state.humidity = action.payload;
     },
   },
 });
 
 export const {
-  setCurrentTemp,
-  setWeatherCode,
-  setWeatherLocation,
-  setWeatherDescription,
-  setCurrentSunrise,
-  setCurrentSunset,
-  setCurrentHumidity,
+  setTemperature,
+  setIconCode,
+  setLocation,
+  setDesciption,
+  setSunrise,
+  setSunset,
+  setHumidity,
 } = weatherSlice.actions;
 
 export default weatherSlice.reducer;
