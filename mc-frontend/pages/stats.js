@@ -6,9 +6,8 @@ import { PieStatChart } from "../components/PieChart";
 import { useGetStatsByDateQuery } from "../redux/services/statsService";
 
 export default function Stats() {
-  const ISOdate = formatISO(new Date(), { representation: "date" });
-  const { filterApplied } = useSelector((state) => state.main);
-  const { isLoading, data, error } = useGetStatsByDateQuery(ISOdate);
+  const { filterApplied, currentDate } = useSelector((state) => state.main);
+  const { isLoading, data, error } = useGetStatsByDateQuery(currentDate);
 
   const MODES = {
     1: {
@@ -51,12 +50,9 @@ export default function Stats() {
   ];
 
   useEffect(() => {
-    if (error) setHeader("Error fetching stats");
-    else {
-      if (filterApplied === "all") setHeader("All Publisher Stats");
-      else setHeader(`${filterApplied} Stats`);
-    }
-  }, [error, filterApplied]);
+    if (filterApplied === "all") setHeader("All Publisher Stats");
+    else setHeader(`${filterApplied} Stats`);
+  }, [filterApplied]);
 
   let headerClass = "";
   if (error === true)
@@ -73,7 +69,7 @@ export default function Stats() {
   return (
     <div className="mx-auto">
       <div className="h-full w-full flex-col px-6">
-        <div className="sticky top-0 w-full h-fit md:pl-2 md:mt-0 lg:mt-0 mb-2 bg-[#f0f0f0] dark:bg-[#222] z-50">
+        <div className="sticky top-0 w-full h-fit md:pl-2 md:mt-0 lg:mt-0 bg-[#f0f0f0] dark:bg-[#222] z-50">
           <h1 className={headerClass}>{header}</h1>
         </div>
         <div className="pb-20">

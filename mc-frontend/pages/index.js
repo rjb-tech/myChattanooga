@@ -8,9 +8,10 @@ import { useGetArticlesByDateQuery } from "../redux/services/articlesService";
 
 export default function Home() {
   const dispatch = useDispatch();
-  const ISOdate = formatISO(new Date(), { representation: "date" });
-  const { filterApplied, pageContent } = useSelector((state) => state.main);
-  const { data, error, isLoading } = useGetArticlesByDateQuery(ISOdate);
+  const { filterApplied, pageContent, currentDate } = useSelector(
+    (state) => state.main
+  );
+  const { data, error, isLoading } = useGetArticlesByDateQuery(currentDate);
 
   const [header, setHeader] = useState("All Local Articles");
 

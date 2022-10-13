@@ -1,3 +1,4 @@
+import formatISO from "date-fns/formatISO";
 import { createSlice } from "@reduxjs/toolkit";
 
 export const mainSlice = createSlice({
@@ -12,6 +13,7 @@ export const mainSlice = createSlice({
     filterOptions: [],
     currentAuxSection: "",
     isDark: true,
+    currentDate: formatISO(new Date(), { representation: "date" }),
   },
   reducers: {
     setMobileNavExpanded: (state, action) => {
@@ -45,6 +47,9 @@ export const mainSlice = createSlice({
     toggleMobileNav: (state) => {
       state.mobileNavExpanded = !state.mobileNavExpanded;
     },
+    setCurrentDate: (state, action) => {
+      state.currentDate = action.payload;
+    },
   },
 });
 
@@ -60,6 +65,7 @@ export const {
   setPreviousFilter,
   toggleMobileNav,
   setIsDark,
+  setCurrentDate,
 } = mainSlice.actions;
 
 export default mainSlice.reducer;
