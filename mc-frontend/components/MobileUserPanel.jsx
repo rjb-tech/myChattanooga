@@ -14,8 +14,6 @@ import {
   setCurrentAuxSection,
 } from "../redux/slices/mainSlice";
 
-const axios = require("axios");
-
 const auxVariants = {
   shown: { opacity: 1, y: "-1%" },
   hidden: { opacity: 1, y: "-100%" },
@@ -88,7 +86,7 @@ export const MobileUserPanel = ({ showFilters }) => {
               whileTap={{ scale: 0.85 }}
               className="bg-[#f0f0f0] dark:bg-[#222] h-2/3 rounded-full flex-1 z-10"
               onClick={() => {
-                handleAuxPanel("filters");
+                handleAuxPanel("datepicker");
               }}
             >
               <FontAwesomeIcon
