@@ -14,12 +14,15 @@ export const MobileDatePicker = () => {
   const dispatch = useDispatch();
   const { currentDate, isDark } = useSelector((state) => state.main);
 
+  const todaySelected =
+    currentDate === formatISO(new Date(), { representation: "date" });
+
   const theme = createTheme({
     components: {
       MuiCalendarPicker: {
         styleOverrides: {
           root: {
-            "background-color": isDark === true ? "#222" : "#f0f0f0",
+            backgroundColor: isDark === true ? "#222" : "#f0f0f0",
           },
         },
       },
@@ -58,7 +61,7 @@ export const MobileDatePicker = () => {
         styleOverrides: {
           root: {
             color: isDark === true ? "#f0f0f0" : "#222",
-            "background-color": isDark === true ? "#222" : "#f0f0f0",
+            backgroundColor: isDark === true ? "#222" : "#f0f0f0",
           },
         },
       },
@@ -79,7 +82,18 @@ export const MobileDatePicker = () => {
       MuiCalendarOrClockPicker: {
         styleOverrides: {
           root: {
-            "background-color": isDark === true ? "#222" : "#f0f0f0",
+            backgroundColor: isDark === true ? "#222" : "#f0f0f0",
+          },
+        },
+      },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            color: todaySelected
+              ? "#F39887"
+              : isDark === true
+              ? "#f0f0f0"
+              : "#222",
           },
         },
       },
@@ -92,10 +106,10 @@ export const MobileDatePicker = () => {
         {...pickersDayProps}
         sx={{
           [`&&.${pickersDayClasses.selected}`]: {
-            "background-color": "#F39887",
+            backgroundColor: "#F39887",
           },
           [`&&.${pickersDayClasses.root}:hover`]: {
-            "background-color": "#F39887",
+            backgroundColor: "#F39887",
           },
         }}
       />
@@ -103,7 +117,7 @@ export const MobileDatePicker = () => {
   };
 
   return (
-    <div className="flex-auto mx-auto">
+    <div className="mx-auto">
       <ThemeProvider theme={theme}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <StaticDatePicker
