@@ -111,21 +111,21 @@ export const MobileDatePicker = () => {
               const isoDate = formatISO(date, { representation: "date" });
               dispatch(setCurrentDate(isoDate));
             }}
-            value={parseISO(currentDate)}
+            renderInput={(params) => <TextInput {...params} />}
             componentsProps={{
               actionBar: {
                 actions: ["today", "yesterday"],
               },
             }}
-            renderDay={renderWeekPickerDay}
             displayStaticWrapperAs="desktop"
-            renderInput={(params) => <TextInput {...params} />}
             minDate={parseISO("2022-10-04")}
-            disableFuture
+            renderDay={renderWeekPickerDay}
             InputProps={{
               className: "text-yellow-800",
             }}
+            value={parseISO(currentDate)}
             views={["month", "day"]}
+            disableFuture
           />
         </LocalizationProvider>
       </ThemeProvider>
