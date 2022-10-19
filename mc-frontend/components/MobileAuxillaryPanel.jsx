@@ -4,7 +4,7 @@ import { AccountPanel } from "./AccountPanel";
 import { FiltersPanel } from "./FiltersPanel";
 import { SettingsPanel } from "./SettingsPanel";
 import { MyBrewsJournal } from "./MyBrewsJournal";
-import { DatePicker } from "./DatePicker";
+import { MobileDatePicker } from "./MobileDatePicker";
 
 const variants = {
   open: { opacity: 0.99 },
@@ -18,7 +18,7 @@ export const MobileAuxillaryPanel = ({ section, isDark, auxPanelExpanded }) => {
     create_brews: <CreateBrews isDark={isDark} />,
     account: <AccountPanel isDark={isDark} />,
     my_brews: <MyBrewsJournal isDark={isDark} />,
-    datepicker: <DatePicker />,
+    datepicker: <MobileDatePicker />,
   };
 
   const sectionToRender = sections[`${section}`];

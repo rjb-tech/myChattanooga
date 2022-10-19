@@ -10,7 +10,7 @@ import {
   pickersDayClasses,
 } from "@mui/x-date-pickers";
 
-export const DatePicker = () => {
+export const MobileDatePicker = () => {
   const dispatch = useDispatch();
   const { currentDate, isDark } = useSelector((state) => state.main);
 
@@ -76,6 +76,13 @@ export const DatePicker = () => {
           },
         },
       },
+      MuiCalendarOrClockPicker: {
+        styleOverrides: {
+          root: {
+            "background-color": isDark === true ? "#222" : "#f0f0f0",
+          },
+        },
+      },
     },
   });
 
@@ -96,7 +103,7 @@ export const DatePicker = () => {
   };
 
   return (
-    <div className="mx-auto">
+    <div className="flex-auto mx-auto">
       <ThemeProvider theme={theme}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <StaticDatePicker
