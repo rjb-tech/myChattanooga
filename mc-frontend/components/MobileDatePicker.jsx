@@ -34,6 +34,9 @@ export const MobileDatePicker = () => {
           root: {
             color: isDark === true ? "#f0f0f0" : "#222",
           },
+          labelContainer: {
+            fontSize: "1.2rem",
+          },
         },
       },
       MuiPickersArrowSwitcher: {
@@ -111,6 +114,9 @@ export const MobileDatePicker = () => {
           [`&&.${pickersDayClasses.root}:hover`]: {
             backgroundColor: "#F39887",
           },
+          [`&&.${pickersDayClasses.root}`]: {
+            fontSize: "1rem",
+          },
         }}
       />
     );
@@ -118,6 +124,9 @@ export const MobileDatePicker = () => {
 
   return (
     <div className="mx-auto">
+      <h1 className="text-center md:text-left font-bold text-2xl md:text-4xl z-30 py-3">
+        View Past Articles
+      </h1>
       <ThemeProvider theme={theme}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <StaticDatePicker
