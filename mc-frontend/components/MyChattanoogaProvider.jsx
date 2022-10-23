@@ -10,9 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  setDatePickerModalOpen,
   setFilterApplied,
   setFilterOptions,
   setIsDark,
+  setPanelExpanded,
 } from "../redux/slices/mainSlice";
 
 const childrenComponentVariants = {
@@ -56,8 +58,11 @@ export const MyChattanoogaProvider = ({ children }) => {
     dispatch(setFilterApplied("all"));
   }, [router.pathname]);
 
+  // Close modal and user panel on new date select, reset filter as well
   useEffect(() => {
     dispatch(setFilterApplied("all"));
+    dispatch(setPanelExpanded(false));
+    dispatch(setDatePickerModalOpen(false));
   }, [currentDate]);
 
   useEffect(() => {
