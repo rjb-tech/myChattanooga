@@ -1,11 +1,16 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
 import { calculateTimeSincePosted } from "./helpers";
+import { formatISO } from "date-fns";
 
 const accentColor = "#F39887";
 
 export const Article = ({ publisher, headline, timePosted, image, link }) => {
+  const { currentDate } = useSelector((state) => state.main);
+  const todayISO = formatISO(new Date(), { representation: "date" });
+  const isToday = currentDate === todayISO;
   return (
     <motion.div
       whileTap={{ scale: 0.95 }}
@@ -32,7 +37,7 @@ export const Article = ({ publisher, headline, timePosted, image, link }) => {
                 {headline}
               </p>
               <p className="pt-4 text-md italic text-[#F39887] dark:text-[#BBB]">
-                {calculateTimeSincePosted(timePosted)}
+                {isToday && calculateTimeSincePosted(timePosted)}
               </p>
               <p className="hidden">{timePosted}</p>
             </div>

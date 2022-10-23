@@ -15,6 +15,9 @@ export default function Home() {
 
   const [header, setHeader] = useState("All Local Articles");
 
+  const todayISO = formatISO(new Date(), { representation: "date" });
+  const currentIsToday = currentDate === todayISO;
+
   useEffect(() => {
     if (filterApplied === "all") setHeader("All Local Articles");
     else setHeader(`${filterApplied} Articles`);
@@ -23,10 +26,11 @@ export default function Home() {
   useEffect(() => {
     if (!isLoading && !error && data !== undefined) {
       const ISOdate = formatISO(new Date(), { representation: "date" });
-      const filteredData = data?.filter(
-        (entry) =>
-          !isFromTheFuture(entry.time_posted) && entry.date_saved === ISOdate
-      );
+      const filteredData = data?.filter((entry) => {
+        return currentIsToday
+          ? !isFromTheFuture(entry.time_posted) && entry.date_saved === ISOdate
+          : entry.date_saved === currentDate;
+      });
       dispatch(setPageContent(filteredData));
     }
   }, [data]);
