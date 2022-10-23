@@ -36,11 +36,9 @@ export const Article = ({ publisher, headline, timePosted, image, link }) => {
               <p className="pt-4 text-xl text-[#333] dark:text-[#f0f0f0]">
                 {headline}
               </p>
-              {isToday && (
-                <p className="pt-4 text-md italic text-[#F39887] dark:text-[#BBB]">
-                  {calculateTimeSincePosted(timePosted)}
-                </p>
-              )}
+              <p className="pt-4 text-md italic text-[#F39887] dark:text-[#BBB]">
+                {isToday && calculateTimeSincePosted(timePosted)}
+              </p>
               <p className="hidden">{timePosted}</p>
             </div>
           </div>

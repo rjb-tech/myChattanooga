@@ -40,9 +40,8 @@ export const MyChattanoogaProvider = ({ children }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [showTopButton, setShowTopButton] = useState(false);
-  const { mobileNavExpanded, panelExpanded, pageContent, isDark } = useSelector(
-    (state) => state.main
-  );
+  const { mobileNavExpanded, panelExpanded, pageContent, isDark, currentDate } =
+    useSelector((state) => state.main);
 
   const showFilters = router.pathname === "/" && pageContent.length > 0;
   const childrenWrapperClassString =
@@ -56,6 +55,10 @@ export const MyChattanoogaProvider = ({ children }) => {
     element.scrollTop = 0;
     dispatch(setFilterApplied("all"));
   }, [router.pathname]);
+
+  useEffect(() => {
+    dispatch(setFilterApplied("all"));
+  }, [currentDate]);
 
   useEffect(() => {
     const publishers = [
