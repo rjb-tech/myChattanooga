@@ -14,6 +14,7 @@ export const mainSlice = createSlice({
     currentAuxSection: "",
     isDark: true,
     currentDate: formatISO(new Date(), { representation: "date" }),
+    datePickerModalOpen: false,
   },
   reducers: {
     setMobileNavExpanded: (state, action) => {
@@ -50,6 +51,9 @@ export const mainSlice = createSlice({
     setCurrentDate: (state, action) => {
       state.currentDate = action.payload;
     },
+    setDatePickerModalOpen: (state, action) => {
+      state.datePickerModalOpen = action.payload;
+    },
   },
 });
 
@@ -66,6 +70,7 @@ export const {
   toggleMobileNav,
   setIsDark,
   setCurrentDate,
+  setDatePickerModalOpen,
 } = mainSlice.actions;
 
 export default mainSlice.reducer;

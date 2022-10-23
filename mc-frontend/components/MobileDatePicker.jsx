@@ -10,7 +10,7 @@ import {
   pickersDayClasses,
 } from "@mui/x-date-pickers";
 
-export const MobileDatePicker = () => {
+export const MobileDatePicker = ({ isWeb }) => {
   const dispatch = useDispatch();
   const { currentDate, isDark } = useSelector((state) => state.main);
 
@@ -100,6 +100,13 @@ export const MobileDatePicker = () => {
           },
         },
       },
+      MuiPickerStaticWrapper: {
+        styleOverrides: {
+          content: {
+            borderRadius: "12px",
+          },
+        },
+      },
     },
   });
 
@@ -117,23 +124,31 @@ export const MobileDatePicker = () => {
           [`&&.${pickersDayClasses.root}`]: {
             fontSize: "1rem",
           },
+          [`&&.${pickersDayClasses.disabled}`]: {
+            textDecoration: "line-through",
+            color: isDark ? "#848484" : "#c4c4c4",
+          },
         }}
       />
     );
   };
 
+  const handleDateChange = (date) => {
+    const isoDate = formatISO(date, { representation: "date" });
+    dispatch(setCurrentDate(isoDate));
+  };
+
   return (
     <div className="mx-auto">
-      <h1 className="text-center md:text-left font-bold text-2xl md:text-4xl z-30 py-3">
-        View Past Articles
-      </h1>
+      {!isWeb && (
+        <h1 className="text-center md:text-left font-bold text-2xl md:text-4xl z-30 py-3 text-[#222] dark:text-[#f0f0f0]">
+          View Past Articles
+        </h1>
+      )}
       <ThemeProvider theme={theme}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <StaticDatePicker
-            onChange={(date) => {
-              const isoDate = formatISO(date, { representation: "date" });
-              dispatch(setCurrentDate(isoDate));
-            }}
+            onChange={handleDateChange}
             renderInput={(params) => <TextInput {...params} />}
             componentsProps={{
               actionBar: {
@@ -143,10 +158,8 @@ export const MobileDatePicker = () => {
             displayStaticWrapperAs="desktop"
             minDate={parseISO("2022-10-04")}
             renderDay={renderWeekPickerDay}
-            InputProps={{
-              className: "text-yellow-800",
-            }}
             value={parseISO(currentDate)}
+            // Year will go in this list once 2023 rolls around
             views={["month", "day"]}
             disableFuture
           />
