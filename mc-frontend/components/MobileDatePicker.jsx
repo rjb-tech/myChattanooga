@@ -149,7 +149,7 @@ export const MobileDatePicker = ({ isWeb }) => {
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <StaticDatePicker
             onChange={handleDateChange}
-            renderInput={(params) => <TextInput {...params} />}
+            renderInput={(params) => <div {...params} />}
             componentsProps={{
               actionBar: {
                 actions: ["today", "yesterday"],
