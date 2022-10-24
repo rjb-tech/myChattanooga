@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
 
 export const PieStatChart = ({ data }) => {

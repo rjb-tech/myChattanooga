@@ -1,40 +1,42 @@
+import formatISO from "date-fns/formatISO";
 import { useEffect, useState } from "react";
 import { Article } from "../components/Article";
-import formatISO from "date-fns/formatISO";
+import { useSelector, useDispatch } from "react-redux";
 import { isFromTheFuture } from "../components/helpers";
-import { useQuery } from "@tanstack/react-query";
-const axios = require("axios");
+import { setPageContent } from "../redux/slices/mainSlice";
+import { useGetArticlesByDateQuery } from "../redux/services/articlesService";
 
-export default function Home({ filterApplied, pageContent, setPageContent }) {
-  const ISOdate = formatISO(new Date(), { representation: "date" });
-  const { isLoading, isError, data } = useQuery(["articles"], async () => {
-    const { data } = await axios.get(`/api/articles?query_date=${ISOdate}`);
-    return data;
-  });
+export default function Home() {
+  const dispatch = useDispatch();
+  const { filterApplied, pageContent, currentDate } = useSelector(
+    (state) => state.main
+  );
+  const { data, error, isLoading } = useGetArticlesByDateQuery(currentDate);
 
   const [header, setHeader] = useState("All Local Articles");
 
-  useEffect(() => {
-    if (isError) setHeader("Error fetching articles");
-    else {
-      if (filterApplied === "all") setHeader("All Local Articles");
-      else setHeader(`${filterApplied} Articles`);
-    }
-  }, [isError, filterApplied]);
+  const todayISO = formatISO(new Date(), { representation: "date" });
+  const currentIsToday = currentDate === todayISO;
 
   useEffect(() => {
-    if (!isLoading && !isError && data !== undefined) {
+    if (filterApplied === "all") setHeader("All Local Articles");
+    else setHeader(`${filterApplied} Articles`);
+  }, [filterApplied]);
+
+  useEffect(() => {
+    if (!isLoading && !error && data !== undefined) {
       const ISOdate = formatISO(new Date(), { representation: "date" });
-      const filteredData = data?.filter(
-        (entry) =>
-          !isFromTheFuture(entry.time_posted) && entry.date_saved === ISOdate
-      );
-      setPageContent(filteredData);
+      const filteredData = data?.filter((entry) => {
+        return currentIsToday
+          ? !isFromTheFuture(entry.time_posted) && entry.date_saved === ISOdate
+          : entry.date_saved === currentDate;
+      });
+      dispatch(setPageContent(filteredData));
     }
   }, [data]);
 
   let headerClass = "";
-  if (isError === true)
+  if (error === true)
     headerClass =
       "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-red-500";
   else {

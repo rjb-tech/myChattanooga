@@ -1,6 +1,5 @@
-export const SettingsPanel = ({ isDark }) => {
+export const SettingsPanel = () => {
   return (
-
     <form className="w-full">
       <fieldset>
         <label className="flex justify-start pb-2">
@@ -12,7 +11,7 @@ export const SettingsPanel = ({ isDark }) => {
             {/* Put weather location map here for option tags */}
           </select>
         </div>
-      </fieldset>        
+      </fieldset>
     </form>
-  )
-}
+  );
+};

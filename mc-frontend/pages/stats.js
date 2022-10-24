@@ -1,19 +1,13 @@
-import axios from "axios";
-import { BarGraph } from "../components/BarGraph";
+import { useSelector } from "react-redux";
 import formatISO from "date-fns/formatISO";
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { BarGraph } from "../components/BarGraph";
 import { PieStatChart } from "../components/PieChart";
+import { useGetStatsByDateQuery } from "../redux/services/statsService";
 
-export default function Stats({ filterApplied }) {
-  const ISOdate = formatISO(new Date(), { representation: "date" });
-  const { isLoading, isError, isSuccess, data } = useQuery(
-    ["stats"],
-    async () => {
-      const { data } = await axios.get(`/api/stats?query_date=${ISOdate}`);
-      return data;
-    }
-  );
+export default function Stats() {
+  const { filterApplied, currentDate } = useSelector((state) => state.main);
+  const { isLoading, data, error } = useGetStatsByDateQuery(currentDate);
 
   const MODES = {
     1: {
@@ -24,7 +18,6 @@ export default function Stats({ filterApplied }) {
     },
   };
 
-  const [mode, setMode] = useState(MODES[1]);
   const [header, setHeader] = useState("All Publisher Stats");
   const todayISO = formatISO(new Date(), { representation: "date" });
   // rawChartData will need to be filtered based on selected mode (daily or weekly stats)
@@ -56,15 +49,12 @@ export default function Stats({ filterApplied }) {
   ];
 
   useEffect(() => {
-    if (isError) setHeader("Error fetching stats");
-    else {
-      if (filterApplied === "all") setHeader("All Publisher Stats");
-      else setHeader(`${filterApplied} Stats`);
-    }
-  }, [isError, filterApplied]);
+    if (filterApplied === "all") setHeader("All Publisher Stats");
+    else setHeader(`${filterApplied} Stats`);
+  }, [filterApplied]);
 
   let headerClass = "";
-  if (isError === true)
+  if (error === true)
     headerClass =
       "text-center md:text-left font-bold text-3xl md:text-4xl z-30 text-red-500";
   else {
@@ -78,7 +68,7 @@ export default function Stats({ filterApplied }) {
   return (
     <div className="mx-auto">
       <div className="h-full w-full flex-col px-6">
-        <div className="sticky top-0 w-full h-fit md:pl-2 md:mt-0 lg:mt-0 mb-2 bg-[#f0f0f0] dark:bg-[#222] z-50">
+        <div className="sticky top-0 w-full h-fit md:pl-2 md:mt-0 lg:mt-0 bg-[#f0f0f0] dark:bg-[#222] z-50">
           <h1 className={headerClass}>{header}</h1>
         </div>
         <div className="pb-20">

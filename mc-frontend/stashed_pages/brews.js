@@ -7,20 +7,9 @@ import { CreateBrews } from "../components/CreateBrews";
 
 export default function Brews({
   isDark,
-  filterApplied,
-  pageContent,
-  setPageContent,
-  currentPage,
-  setCurrentPage,
-  contentLoading,
-  setContentLoading,
   currentUserMetadata,
   setCurrentUserMetadata,
 }) {
-  useEffect(() => {
-    setCurrentPage("/brews");
-  }, []);
-
   const router = useRouter();
   const { view } = router.query;
 
@@ -32,27 +21,11 @@ export default function Brews({
   return (
     <div className="dark:text-white mx-auto w-full">
       {publicBrews && (
-        <BrewsViews
-          isDark={isDark}
-          setPageContent={setPageContent}
-          pageContent={pageContent}
-          contentLoading={contentLoading}
-          setContentLoading={setContentLoading}
-          filterApplied={filterApplied}
-          currentUserMetadata={currentUserMetadata}
-        />
+        <BrewsViews isDark={isDark} currentUserMetadata={currentUserMetadata} />
       )}
       {/* This gives me a refresh state to use after submitting a brews release and prevents page flashing */}
       {refreshedBrews && (
-        <BrewsViews
-          isDark={isDark}
-          setPageContent={setPageContent}
-          pageContent={pageContent}
-          contentLoading={contentLoading}
-          setContentLoading={setContentLoading}
-          filterApplied={filterApplied}
-          currentUserMetadata={currentUserMetadata}
-        />
+        <BrewsViews isDark={isDark} currentUserMetadata={currentUserMetadata} />
       )}
       {create && <CreateBrews />}
       {/* {privateBrews && <MyBrews publisher="{ }" expired />} */}

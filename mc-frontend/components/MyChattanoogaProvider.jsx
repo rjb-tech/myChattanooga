@@ -1,17 +1,21 @@
-import { StickyHeader } from "./StickyHeader";
 import Head from "next/head";
-import { useState, createContext, useEffect, cloneElement } from "react";
-import { MobileNav } from "./MobileNav";
-import { MobileUserPanel } from "./MobileUserPanel";
 import { motion } from "framer-motion";
+import { useRouter } from "next/router";
+import { MobileNav } from "./MobileNav";
 import { UserPanel } from "./UserPanel";
+import { useState, useEffect } from "react";
+import { StickyHeader } from "./StickyHeader";
+import { MobileUserPanel } from "./MobileUserPanel";
+import { useDispatch, useSelector } from "react-redux";
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useRouter } from "next/router";
-import { useAuth0 } from "@auth0/auth0-react";
-import axios from "axios";
-
-const MyChattanoogaContext = createContext();
+import {
+  setDatePickerModalOpen,
+  setFilterApplied,
+  setFilterOptions,
+  setIsDark,
+  setPanelExpanded,
+} from "../redux/slices/mainSlice";
 
 const childrenComponentVariants = {
   normal: { y: "0%" },
@@ -28,146 +32,56 @@ const scrollTopButtonVariants = {
   closed: { opacity: 0 },
 };
 
+const mobileNavVariants = {
+  // Any value higher causes content shift
+  open: { opacity: 1, x: "98.8%" },
+  closed: { opacity: 0, x: "-5%" },
+};
+
 export const MyChattanoogaProvider = ({ children }) => {
-  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
-
-  const useDarkModePreference = () => {
-    useEffect(() => {
-      const isDarkMode =
-        window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches;
-      setDark(isDarkMode);
-      // if (isDark===true && !document.body.classList.contains('dark')) {document.body.classList.add("dark")}
-    }, []);
-  };
-
-  const useWeatherLocation = () => {
-    useEffect(() => {
-      const lsWeatherLocation = localStorage.getItem("weatherLocation");
-      if (lsWeatherLocation && lsWeatherLocation !== "undefined") {
-        setCurrentWeatherLocation(lsWeatherLocation);
-      } else {
-        setCurrentWeatherLocation("northChattanooga");
-        localStorage.setItem("weatherLocation", "northChattanooga");
-      }
-    }, []);
-  };
-
-  useEffect(() => {
-    const fetchMetadata = async () => {
-      const token = await getAccessTokenSilently();
-      axios
-        .get(`/api/get-metadata?user=${user.sub}&field=user_metadata`, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((response) => {
-          setCurrentUserMetadata(response.data);
-        });
-    };
-    if (isAuthenticated) {
-      fetchMetadata();
-    }
-  }, [isAuthenticated]);
-
   const router = useRouter();
-  const [isDark, setDark] = useState(useDarkModePreference());
-  const [currentWeatherLocation, setCurrentWeatherLocation] = useState(
-    useWeatherLocation()
-  );
-  const [menuExpanded, setMenuExpanded] = useState(false);
-  const [panelExpanded, setPanelExpanded] = useState(false);
-  const [settingsPanelExpanded, setSettingsPanelExpanded] = useState(false);
-  const [auxPanelExpanded, setAuxPanelExpanded] = useState(false);
-  const [filterApplied, setFilterApplied] = useState("all");
-  const [pageContent, setPageContent] = useState([]);
-  const [contentLoading, setContentLoading] = useState(true);
-  const [filterOptions, setFilterOptions] = useState([]);
-  const [currentPage, setCurrentPage] = useState("");
-  const [currentAuxSection, setCurrentAuxSection] = useState("");
+  const dispatch = useDispatch();
   const [showTopButton, setShowTopButton] = useState(false);
-  const [previousFilter, setPreviousFilter] = useState("");
-  const [currentUserMetadata, setCurrentUserMetadata] = useState();
-  // const [currentUserBrews, setCurrentUserBrews] = useState([]);
+  const { mobileNavExpanded, panelExpanded, pageContent, isDark, currentDate } =
+    useSelector((state) => state.main);
 
-  const showFilters = currentPage === "/" && pageContent.length > 0;
+  const showFilters = router.pathname === "/" && pageContent.length > 0;
+  const childrenWrapperClassString =
+    mobileNavExpanded === true
+      ? "overscroll-contain transition duration-[300ms] relative blur-sm ease-linear "
+      : "overscroll-contain transition duration-[300ms] relative";
 
   useEffect(() => {
-    setCurrentPage(router.pathname);
+    // Scroll window to top on page change
+    const element = document.getElementById("content");
+    element.scrollTop = 0;
+    dispatch(setFilterApplied("all"));
   }, [router.pathname]);
 
-  function toggleMobileNav() {
-    setMenuExpanded((menuExpanded) => !menuExpanded);
-  }
-  function toggleMobileUserPanel() {
-    if (auxPanelExpanded === true) {
-      setAuxPanelExpanded((auxPanelExpanded) => !auxPanelExpanded);
-      // This conditional accounts for this function being called from a non mobile view
-      if (panelExpanded === true) {
-        setTimeout(function () {
-          setPanelExpanded((panelExpanded) => !panelExpanded);
-          setCurrentAuxSection("");
-        }, 150);
-      }
-      setTimeout(function () {
-        setCurrentAuxSection("");
-      }, 150);
-    } else {
-      setPanelExpanded((panelExpanded) => !panelExpanded);
-    }
-  }
-
-  function toggleDarkMode() {
-    setDark((isDark) => !isDark);
-    localStorage.setItem("dark", isDark);
-  }
-
-  // This needs to be dealt with
-  const value = {
-    isExpanded: { menuExpanded },
-    toggleMobileNav: { toggleMobileNav },
-    panelExpanded: { panelExpanded },
-    toggleMobileUserPanel: { toggleMobileUserPanel },
-    toggleDarkMode: { toggleDarkMode },
-    settingsPanelExpanded: { settingsPanelExpanded },
-    setSettingsPanelExpanded: { setSettingsPanelExpanded },
-    auxPanelExpanded: { auxPanelExpanded },
-    setAuxPanelExpanded: { setAuxPanelExpanded },
-    filterApplied: { filterApplied },
-    setFilterApplied: { setFilterApplied },
-    currentUserMetadata: { currentUserMetadata },
-    setCurrentUserMetadata: { setCurrentUserMetadata },
-  };
+  // Close modal and user panel on new date select, reset filter as well
+  useEffect(() => {
+    dispatch(setFilterApplied("all"));
+    dispatch(setPanelExpanded(false));
+    dispatch(setDatePickerModalOpen(false));
+  }, [currentDate]);
 
   useEffect(() => {
     const publishers = [
       ...new Set(pageContent.map((contentItem) => contentItem?.publisher)),
     ].sort();
-    setFilterOptions(publishers);
+    dispatch(setFilterOptions(publishers));
   }, [pageContent]);
 
   useEffect(() => {
-    localStorage.setItem("weatherLocation", currentWeatherLocation);
-  }, [currentWeatherLocation]);
+    // Set dark mode
+    const isDarkMode =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    dispatch(setIsDark(isDarkMode));
 
-  useEffect(() => {
-    localStorage.setItem("dark", isDark);
-    !document.body.classList.contains("dark") && isDark === true
-      ? document.body.classList.add("dark")
-      : document.body.classList.remove("dark");
-  }, [isDark]);
-
-  // Scroll window to top on page change
-  // USE THIS ELEMENT FOR SCROLL TO TOP BUTTON
-  useEffect(() => {
+    // https://www.kindacode.com/article/how-to-create-a-scroll-to-top-button-in-react/
     const element = document.getElementById("content");
-    element.scrollTop = 0;
-    setFilterApplied("all");
-  }, [currentPage]);
-
-  // https://www.kindacode.com/article/how-to-create-a-scroll-to-top-button-in-react/
-  useEffect(() => {
-    const element = document.getElementById("content");
-    const handleScroll = (scrollAmount) => {
+    const handleScroll = () => {
       const element = document.getElementById("content");
       if (element.scrollTop > 200) {
         setShowTopButton(true);
@@ -175,21 +89,13 @@ export const MyChattanoogaProvider = ({ children }) => {
         setShowTopButton(false);
       }
     };
-    element.addEventListener("scroll", () => {
-      handleScroll(element.scrollTop);
-    });
-  }, []);
+    element.addEventListener("scroll", handleScroll);
 
-  // This useEffect block enables the myBrewsJournal component
-  // useEffect(() => {
-  //   if (isAuthenticated === true) {
-  //     axios
-  //     .get(
-  //       `/api/brews?publishers=${currentUserMetadata.publisher}`
-  //     )
-  //     .then(response => setCurrentUserBrews(response.data))
-  //   }
-  // }, [currentUserMetadata])
+    // This may not be needed, but just in case :)
+    return () => {
+      removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const scrollToTop = () => {
     const element = document.getElementById("content");
@@ -199,13 +105,8 @@ export const MyChattanoogaProvider = ({ children }) => {
     });
   };
 
-  const childrenWrapperClassString =
-    menuExpanded === true
-      ? "overscroll-contain transition duration-[300ms] blur-sm ease-linear relative"
-      : "overscroll-contain transition duration-[300ms] relative";
-
   return (
-    <MyChattanoogaContext.Provider value={value}>
+    <>
       <div className="flex flex-col h-screen bg-[#f0f0f0] dark:bg-[#222]">
         <Head>
           <title>myChattanooga</title>
@@ -226,29 +127,18 @@ export const MyChattanoogaProvider = ({ children }) => {
         </Head>
 
         <header className="w-screen bg-[#f0f0f0] dark:bg-[#222] overscroll-none sticky z-[99]">
-          <StickyHeader
-            menuExpanded={menuExpanded}
-            isDark={isDark}
-            toggleDarkMode={toggleDarkMode}
-            currentWeatherLocation={currentWeatherLocation}
-            setCurrentWeatherLocation={setCurrentWeatherLocation}
-            panelExpanded={panelExpanded}
-          />
-          {/* TECH DEBT: Put motion element here instead of in MobileNav component */}
-          <div
+          <StickyHeader />
+
+          <motion.div
             className="sm:hidden absolute w-full h-fit object-center overscroll-none -left-full z-20 flex mx-auto"
+            animate={mobileNavExpanded ? "open" : "closed"}
+            transition={{ duration: 0.3, type: "tween" }}
+            variants={mobileNavVariants}
             key="MobileNav"
           >
-            <MobileNav
-              isDark={isDark}
-              menuExpanded={menuExpanded}
-              setMenuExpanded={setMenuExpanded}
-              toggleMobileUserPanel={toggleMobileUserPanel}
-              panelExpanded={panelExpanded}
-              currentWeatherLocation={currentWeatherLocation}
-              setCurrentWeatherLocation={setCurrentWeatherLocation}
-            />
-          </div>
+            <MobileNav />
+          </motion.div>
+
           <motion.div
             className="sm:hidden w-full h-fit object-center absolute z-10 mx-auto opacity-0 overscroll-contain"
             key="MobileUserPanel"
@@ -259,30 +149,7 @@ export const MyChattanoogaProvider = ({ children }) => {
             }}
             variants={userPanelVariants}
           >
-            <MobileUserPanel
-              isDark={isDark}
-              panelExpanded={panelExpanded}
-              toggleDarkMode={toggleDarkMode}
-              setAuxPanelExpanded={setAuxPanelExpanded}
-              auxPanelExpanded={auxPanelExpanded}
-              filterApplied={filterApplied}
-              setFilterApplied={setFilterApplied}
-              previousFilter={previousFilter}
-              setPreviousFilter={setPreviousFilter}
-              filterOptions={filterOptions}
-              setFilterOptions={setFilterOptions}
-              pageContent={pageContent}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              currentAuxSection={currentAuxSection}
-              setCurrentAuxSection={setCurrentAuxSection}
-              toggleMobileNav={toggleMobileNav}
-              toggleMobileUserPanel={toggleMobileUserPanel}
-              menuExpanded={menuExpanded}
-              showFilters={showFilters}
-              currentUserMetadata={currentUserMetadata}
-              // currentUserBrews={currentUserBrews}
-            />
+            <MobileUserPanel showFilters={showFilters} />
           </motion.div>
         </header>
 
@@ -302,44 +169,9 @@ export const MyChattanoogaProvider = ({ children }) => {
               variants={childrenComponentVariants}
             >
               <div className="hidden relative flex-col md:block w-1/3 xl:w-1/5 w-full h-fit border-r-2 sticky top-4 pr-2">
-                <UserPanel
-                  isDark={isDark}
-                  panelExpanded={panelExpanded}
-                  toggleDarkMode={toggleDarkMode}
-                  setAuxPanelExpanded={setAuxPanelExpanded}
-                  auxPanelExpanded={auxPanelExpanded}
-                  filterApplied={filterApplied}
-                  setFilterApplied={setFilterApplied}
-                  previousFilter={previousFilter}
-                  setPreviousFilter={setPreviousFilter}
-                  filterOptions={filterOptions}
-                  setFilterOptions={setFilterOptions}
-                  pageContent={pageContent}
-                  currentPage={currentPage}
-                  setCurrentPage={setCurrentPage}
-                  currentAuxSection={currentAuxSection}
-                  setCurrentAuxSection={setCurrentAuxSection}
-                  showFilters={showFilters}
-                  toggleMobileUserPanel={toggleMobileUserPanel}
-                  currentUserMetadata={currentUserMetadata}
-                  // currentUserBrews={currentUserBrews}
-                />
+                <UserPanel showFilters={showFilters} />
               </div>
-              <div className="w-full md:w-10/12">
-                {cloneElement(children, {
-                  isDark: isDark,
-                  filterApplied: filterApplied,
-                  pageContent: pageContent,
-                  setPageContent: setPageContent,
-                  currentPage: currentPage,
-                  setCurrentPage: setCurrentPage,
-                  contentLoading: contentLoading,
-                  setContentLoading: setContentLoading,
-                  currentUserMetadata: currentUserMetadata,
-                  setCurrentUserMetadata: setCurrentUserMetadata,
-                })}
-              </div>
-              {/* {children} */}
+              <div className="w-full md:w-10/12">{children}</div>
             </motion.div>
           </div>
           <div className="lg:hidden h-16 w-screen"></div>
@@ -360,17 +192,7 @@ export const MyChattanoogaProvider = ({ children }) => {
             color={isDark === true ? "#222" : "#f0f0f0"}
           />
         </motion.button>
-        {/* <scrollToTop /> */}
-        {/* <footer className="flex items-center w-screen">
-          
-          <div className="flex-auto">
-            Hi
-          </div>
-            
-        </footer> */}
       </div>
-    </MyChattanoogaContext.Provider>
+    </>
   );
 };
-
-export default MyChattanoogaContext;

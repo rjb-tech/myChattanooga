@@ -1458,7 +1458,7 @@ def scrape_chattanooga_news_chronicle(
         # Open the page and load the source into a soup object
         headless_browser.get(url)
 
-        time.sleep(5)
+        time.sleep(10)
 
         chronicle_soup = bs(headless_browser.page_source, "lxml")
 
@@ -1472,7 +1472,7 @@ def scrape_chattanooga_news_chronicle(
     # This is brittle and could cause false counts, therefore we kill it if the content section is not found
     content_section = chronicle_soup.find("div", class_="td-big-grid-flex-posts")
     if content_section == None:
-        raise ValueError
+        return [], None
 
     # There are 5 articles on the main carousel, same class with incrementing numbers
     for article_num in range(0, 5):
