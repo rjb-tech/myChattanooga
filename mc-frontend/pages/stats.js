@@ -23,7 +23,9 @@ export default function Stats() {
   // rawChartData will need to be filtered based on selected mode (daily or weekly stats)
   const rawChartData =
     data !== undefined && data.length > 0
-      ? data?.filter((entry) => entry.date_saved === todayISO)
+      ? data?.filter((entry) =>
+          currentDate === todayISO ? entry.date_saved === todayISO : entry
+        )
       : [];
   const labels = [...new Set(rawChartData?.map((entry) => entry.publisher))];
   const barChartData = labels.map((currentPublisher) => {
