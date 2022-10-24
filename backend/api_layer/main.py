@@ -36,6 +36,10 @@ class BrewsRequestInfo(BaseModel):
     user: str
 
 
+database = MC_Connection()
+
+app = FastAPI(docs_url=None)
+
 origins = [
     "http://localhost:3000",
     "https://api.mychattanooga.app",
@@ -45,18 +49,12 @@ origins = [
     "http://127.0.0.1:3000",
 ]
 
-app = FastAPI(docs_url=None)
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["GET", "POST", "PATCH", "OPTIONS"],
+    allow_origins=["*"],
+    allow_methods=["*"],
     allow_headers=["*"],
-    expose_headers=["Access-Control-Allow-Origin"],
 )
-
-database = MC_Connection()
 
 
 @app.on_event("startup")
