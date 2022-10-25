@@ -407,23 +407,13 @@ export const WeatherStation = ({ isDark, currentWeatherLocation }) => {
     }
   }, [data, isSuccess]);
 
-  const weatherConfig = {
-    icon:
-      isDay(sunrise, sunset) === true
-        ? SkyconType[weatherCodeMappings[iconCode]?.day]
-        : SkyconType[weatherCodeMappings[iconCode]?.night],
-    size: 100,
-    animate: true,
-    color: isDark === true ? "#f0f0f0" : "#222",
-  };
-
   // The sunrise and sunset
-  function isDay(sunrise, sunset) {
+  const isDay = (sunrise, sunset) => {
     const currentDate = new Date();
     const now = currentDate.getTime() / 1000;
 
     return now > sunrise && now < sunset ? true : false;
-  }
+  };
 
   const switchWeatherLocation = (increasing) => {
     // The -2 in the following code ignores the undefined key in the weatherLocations object
@@ -444,6 +434,16 @@ export const WeatherStation = ({ isDark, currentWeatherLocation }) => {
       const newLocation = locationsIterHelper[index];
       dispatch(setLocation(newLocation));
     }
+  };
+
+  const weatherConfig = {
+    icon:
+      isDay(sunrise, sunset) === true
+        ? SkyconType[weatherCodeMappings[iconCode]?.day]
+        : SkyconType[weatherCodeMappings[iconCode]?.night],
+    size: 100,
+    animate: true,
+    color: isDark === true ? "#f0f0f0" : "#222",
   };
 
   return (
