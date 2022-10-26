@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  setAuxPanelExpanded,
   setDatePickerModalOpen,
   setFilterApplied,
   setFilterOptions,
@@ -62,6 +63,7 @@ export const MyChattanoogaProvider = ({ children }) => {
   useEffect(() => {
     dispatch(setFilterApplied("all"));
     dispatch(setPanelExpanded(false));
+    dispatch(setAuxPanelExpanded(false));
     dispatch(setDatePickerModalOpen(false));
   }, [currentDate]);
 
