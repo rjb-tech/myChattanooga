@@ -22,6 +22,13 @@ export const NavBar = () => {
           </Link>
         </div>
       )}
+      <div className="text-center content-center items-center">
+        <Link href="https://www.buymeacoffee.com/mychattanooga">
+          <a className="text-center" target="_blank">
+            Support Us
+          </a>
+        </Link>
+      </div>
     </div>
   );
 };

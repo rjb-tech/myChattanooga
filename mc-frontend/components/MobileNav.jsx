@@ -83,6 +83,13 @@ export const MobileNav = () => {
             </a>
           </Link>
         </div>
+        <div className="h-12 w-full p-1 flex items-center">
+          <Link href="https://www.buymeacoffee.com/mychattanooga">
+            <a target="_blank">
+              <button className="w-screen h-5/6">Support Us</button>
+            </a>
+          </Link>
+        </div>
       </div>
     </nav>
   );
