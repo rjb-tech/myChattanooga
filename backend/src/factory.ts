@@ -2,7 +2,7 @@ import { ChattanooganScraper } from "./scrapers/ChattanooganScraper";
 
 export interface Scraper {
   // This should return a list of articles, prisma models need to be built
-  scrape(): void;
+  scrapeArticles(): void;
 }
 
 class ScraperFactory {
