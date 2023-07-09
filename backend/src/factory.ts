@@ -2,6 +2,11 @@ import { ChattanooganScraper } from './scrapers/ChattanooganScraper';
 
 /* https://medium.com/codex/factory-pattern-type-script-implementation-with-type-map-ea422f38862 */
 
+export interface Scraper {
+  // This should return a list of articles, prisma models need to be built
+  scrapeArticles(): void;
+}
+
 export const ScraperFactoryOptions = {
   Chattanoogan: ChattanooganScraper,
 } as const;
