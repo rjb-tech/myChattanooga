@@ -5,12 +5,20 @@
   "main": "src/index.js",
   "scripts": {
     "start": "ts-node ./src/scrape.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "eslint ./src",
+    "format": "npx prettier --write ./src",
+    "format-check": "npx prettier --check ./src"
   },
   "author": "Ryne Burden",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.4.1",
+    "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "eslint": "^8.44.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^3.0.0",
     "prisma": "^4.16.2",
     "supabase": "^1.75.3",
     "ts-node": "^10.9.1",
