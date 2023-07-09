@@ -1,5 +1,7 @@
-import { Scraper } from "../factory";
+import { Scraper } from '../types';
 
 export class ChattanooganScraper implements Scraper {
-  scrapeArticles(): void {}
+  scrapeArticles(): void {
+    console.log('hey');
+  }
 }
