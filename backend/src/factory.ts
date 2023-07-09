@@ -1,10 +1,11 @@
-import { ChattanooganScraper } from './scrapers/ChattanooganScraper';
+import { Page } from 'playwright';
+import { ChattanooganScraper } from './scrapers/chattanoogan';
 
 /* https://medium.com/codex/factory-pattern-type-script-implementation-with-type-map-ea422f38862 */
 
 export interface Scraper {
   // This should return a list of articles, prisma models need to be built
-  scrapeArticles(): void;
+  scrapeArticles(page: Page): void;
 }
 
 export const ScraperFactoryOptions = {
