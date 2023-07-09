@@ -5,5 +5,9 @@ import { ChattanooganSections } from './info';
 export class ChattanooganScraper implements Scraper {
   scrapeArticles(page: Page): void {
     const baseUrl = 'https://www.chattanoogan.com';
+
+    ChattanooganSections.forEach((section) => {
+      console.log(`${baseUrl}/${section.link}`);
+    });
   }
 }

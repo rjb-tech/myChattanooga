@@ -8,16 +8,22 @@ export interface Scraper {
   scrapeArticles(page: Page): void;
 }
 
-export const ScraperFactoryOptions = {
+// Add new scrapers here
+type ScraperFactoryOptions = {
+  readonly [key: string]: typeof ChattanooganScraper;
+};
+
+// Add new scrapers here
+export const ScraperFactoryOptions: ScraperFactoryOptions = {
   Chattanoogan: ChattanooganScraper,
 } as const;
 
-type Keys = keyof typeof ScraperFactoryOptions;
-type Websites = (typeof ScraperFactoryOptions)[Keys];
+type Sites = keyof typeof ScraperFactoryOptions;
+type Scrapers = (typeof ScraperFactoryOptions)[Sites];
 type ExtractInstanceType<T> = T extends new () => infer R ? R : never;
 
 export default class ScraperFactory {
-  static getScraperInstance(k: Keys): ExtractInstanceType<Websites> {
+  getScraperInstance(k: Sites): ExtractInstanceType<Scrapers> {
     return new ScraperFactoryOptions[k]();
   }
 }
