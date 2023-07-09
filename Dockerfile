@@ -10,10 +10,10 @@ ENV DOMAIN "${DOMAIN}"
 ENV API_AUDIENCE "${API_AUDIENCE}"
 ENV ALGORITHMS "${ALGORITHMS}"
 ENV ISSUER "${ISSUER}"
-COPY ./backend/shared_tech .
-COPY ./backend/api_layer .
+COPY ./backend/old/shared_tech .
+COPY ./backend/old/api_layer .
 # THIS WILL BE CHANGED WHEN THE FILE IS SPLIT
-COPY ./backend/requirements.txt .
+COPY ./backend/old/requirements.txt .
 # install dependencies
 RUN apt update && apt upgrade -y && \
     apt install -y --no-install-recommends \
@@ -39,10 +39,10 @@ ENV DOMAIN "${DOMAIN}"
 ENV API_AUDIENCE "${API_AUDIENCE}"
 ENV ALGORITHMS "${ALGORITHMS}"
 ENV ISSUER "${ISSUER}"
-COPY ./backend/shared_tech .
-COPY ./backend/api_layer .
+COPY ./backend/old/old/shared_tech .
+COPY ./backend/old/old/api_layer .
 # THIS WILL BE CHANGED WHEN THE FILE IS SPLIT
-COPY ./backend/requirements.txt .
+COPY ./backend/old/old/requirements.txt .
 # install dependencies
 RUN apt update && apt upgrade -y && \
     apt install -y --no-install-recommends \
@@ -69,8 +69,8 @@ ENV POSTGRES_DB "${POSTGRES_DB}"
 ENV CONTAINER "${CONTAINER}"
 ENV DEPLOYMENT_ENV "${DEPLOYMENT_ENV}"
 # Copy SQL init file to make tables
-COPY ./backend/shared_tech .
-COPY ./backend/data_layer .
+COPY ./backend/old/shared_tech .
+COPY ./backend/old/data_layer .
 RUN mv ./init.sql /docker-entrypoint-initdb.d/init.sql
 EXPOSE 5432
 
@@ -82,9 +82,9 @@ ENV TZ="America/New_York"
 ENV DATABASE_URL="${DATABASE_URL}"
 ENV CONTAINER "${CONTAINER}"
 ENV DEPLOYMENT_ENV "${DEPLOYMENT_ENV}"
-COPY ./backend/shared_tech .
-COPY ./backend/scraper_layer .
-COPY ./backend/requirements.txt .
+COPY ./backend/old/shared_tech .
+COPY ./backend/old/scraper_layer .
+COPY ./backend/old/requirements.txt .
 RUN mv ./geckodriver /usr/bin
 RUN chmod +x /usr/bin/geckodriver
 RUN apt update && apt upgrade -y && \
@@ -108,9 +108,9 @@ ENV TZ="America/New_York"
 ENV DATABASE_URL="${DATABASE_URL}"
 ENV CONTAINER "${CONTAINER}"
 ENV DEPLOYMENT_ENV "prod_vpc"
-COPY ./backend/shared_tech .
-COPY ./backend/scraper_layer .
-COPY ./backend/requirements.txt .
+COPY ./backend/old/shared_tech .
+COPY ./backend/old/scraper_layer .
+COPY ./backend/old/requirements.txt .
 RUN mv ./geckodriver /usr/bin
 RUN chmod +x /usr/bin/geckodriver
 RUN apt update && apt upgrade -y && \
