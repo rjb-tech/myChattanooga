@@ -4,7 +4,7 @@
   "description": "The scraper and database connection code for mychattanooga",
   "main": "src/index.js",
   "scripts": {
-    "scrape": "ts-node ./src/index.ts",
+    "scrape:news": "ts-node ./src/scrapers/news/index.ts",
     "build": "tsc",
     "lint": "eslint ./src",
     "format": "npx prettier --write ./src",
@@ -25,7 +25,8 @@
   },
   "dependencies": {
     "@prisma/client": "^4.16.2",
-    "prisma": "^4.16.2",
-    "playwright": "^1.35.1"
+    "date-fns": "^2.30.0",
+    "playwright": "^1.35.1",
+    "prisma": "^4.16.2"
   }
 }
