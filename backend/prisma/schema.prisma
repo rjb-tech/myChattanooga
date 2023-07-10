@@ -20,7 +20,7 @@ model Article {
   link       String
   image      String
   timePosted DateTime
-  saved      DateTime
+  saved      DateTime   @default(now())
   publisher  Publishers
 
   @@schema("news")
@@ -97,7 +97,7 @@ model StatsEntry {
   publisher Publishers
   scraped   Int
   relevant  Int
-  saved     DateTime
+  saved     DateTime   @default(now())
 
   @@schema("stats")
 }
