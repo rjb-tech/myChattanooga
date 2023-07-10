@@ -36,3 +36,4 @@ const business: WebsiteSection = {
 };
 
 export const ChattanooganSections: WebsiteSection[] = [breaking, happenings];
+export const chattanooganUrl = 'https://www.chattanoogan.com';
