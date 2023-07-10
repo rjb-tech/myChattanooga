@@ -1,5 +1,5 @@
 import { Page } from 'playwright';
-import { ChattanooganScraper } from './scrapers/chattanoogan';
+import { ChattanooganScraper } from './chattanoogan';
 
 /* https://medium.com/codex/factory-pattern-type-script-implementation-with-type-map-ea422f38862 */
 

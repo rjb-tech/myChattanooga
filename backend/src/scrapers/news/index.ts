@@ -1,5 +1,5 @@
 import { firefox } from 'playwright';
-import ScraperFactory, { ScraperFactoryOptions } from './factory';
+import ScraperFactory, { ScraperFactoryOptions } from './scrapers/news/factory';
 
 async function main() {
   const factory = new ScraperFactory();

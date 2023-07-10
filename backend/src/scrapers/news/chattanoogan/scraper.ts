@@ -1,7 +1,7 @@
-import { Scraper } from '../../factory';
+import { Scraper } from '../factory';
 import { Page } from 'playwright';
 import { chattanooganUrl, ChattanooganSections as sections } from './info';
-import { WebsiteSection } from '../../types';
+import { WebsiteSection } from '../../../types';
 
 export class ChattanooganScraper implements Scraper {
   scrapeArticles(page: Page): void {

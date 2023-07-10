@@ -1,4 +1,4 @@
-import { WebsiteSection } from '../../types';
+import { WebsiteSection } from '../../../types';
 import { REGION_KEYWORDS } from '../generalInfo';
 
 const CHATTANOOGAN_HAPPENINGS_KEYWORDS = [
