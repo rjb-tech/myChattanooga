@@ -1,0 +1,105 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["news", "weather", "stats"]
+}
+
+// region: news schema
+
+model Article {
+  id         Int        @id @default(autoincrement())
+  headline   String
+  link       String
+  image      String
+  timePosted DateTime
+  saved      DateTime
+  publisher  Publishers
+
+  @@schema("news")
+}
+
+enum Publishers {
+  Chattanoogan
+
+  @@schema("news")
+}
+
+// endregion
+
+// region: weather schema
+
+model WeatherEntry {
+  location           WeatherLocations @id
+  temp               Decimal
+  humidity           Int
+  weatherCode        Int
+  weatherDescription String
+  sunrise            DateTime
+  sunset             DateTime
+  windSpeed          Decimal
+  windDirection      WindDirections
+
+  @@schema("weather")
+}
+
+enum WindDirections {
+  N
+  NNE
+  NE
+  ENE
+  E
+  ESE
+  SE
+  SSE
+  S
+  SSW
+  SW
+  WSW
+  W
+  WNW
+  NW
+  NNW
+
+  @@schema("weather")
+}
+
+enum WeatherLocations {
+  Airport
+  CoolidgePark
+  Downtown
+  EastBrainerd
+  EastRidge
+  Harrison
+  Hixson
+  NorthChattanooga
+  RedBank
+  SignalMountain
+  SoddyDaisy
+  Southside
+
+  @@schema("weather")
+}
+
+// endregion
+
+// region: stats
+
+model StatsEntry {
+  id        Int        @id @default(autoincrement())
+  publisher Publishers
+  scraped   Int
+  relevant  Int
+  saved     DateTime
+
+  @@schema("stats")
+}
+
+// endregion
