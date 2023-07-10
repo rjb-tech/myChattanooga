@@ -9,13 +9,16 @@ async function main() {
   //   -a scrape all articles
   //   -s <source> to scrape a specific source
   //     match input to ScraperFactoryOptions values
-  for (var x of Object.keys(ScraperFactoryOptions)) {
-    const page = await browser.newPage();
-    const scraper = factory.getScraperInstance(x);
-    scraper.scrapeArticles(page);
+  try {
+    for (var x of Object.keys(ScraperFactoryOptions)) {
+      const context = await browser.newContext();
+      const page = await context.newPage();
+      const scraper = factory.getScraperInstance(x);
+      await scraper.scrapeArticles(page);
+    }
+  } finally {
+    await browser.close();
   }
-
-  browser.close();
 }
 
 main();
