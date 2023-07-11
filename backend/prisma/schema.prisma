@@ -14,19 +14,19 @@ datasource db {
 
 // region: news schema
 
-model Article {
+model articles {
   id         Int        @id @default(autoincrement())
   headline   String
   link       String
   image      String
   timePosted DateTime
   saved      DateTime   @default(now())
-  publisher  Publishers
+  publisher  publishers
 
   @@schema("news")
 }
 
-enum Publishers {
+enum publishers {
   Chattanoogan
 
   @@schema("news")
@@ -36,8 +36,8 @@ enum Publishers {
 
 // region: weather schema
 
-model WeatherEntry {
-  location           WeatherLocations @id
+model weather_entries {
+  location           weather_locations @id
   temp               Decimal
   humidity           Int
   weatherCode        Int
@@ -45,12 +45,12 @@ model WeatherEntry {
   sunrise            DateTime
   sunset             DateTime
   windSpeed          Decimal
-  windDirection      WindDirections
+  windDirection      wind_directions
 
   @@schema("weather")
 }
 
-enum WindDirections {
+enum wind_directions {
   N
   NNE
   NE
@@ -71,7 +71,7 @@ enum WindDirections {
   @@schema("weather")
 }
 
-enum WeatherLocations {
+enum weather_locations {
   Airport
   CoolidgePark
   Downtown
@@ -92,9 +92,9 @@ enum WeatherLocations {
 
 // region: stats
 
-model StatsEntry {
+model stats {
   id        Int        @id @default(autoincrement())
-  publisher Publishers
+  publisher publishers
   scraped   Int
   relevant  Int
   saved     DateTime   @default(now())
