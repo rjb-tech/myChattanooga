@@ -5,20 +5,7 @@ import { parse, subDays } from 'date-fns';
 import { PrismaClient } from '@prisma/client';
 import { isRelevantArticle } from '../generalHelpers';
 import { WebsiteSection } from '../../../types';
-
-interface FoundArticle {
-  headline: string;
-  link: string;
-  date: Date;
-}
-
-interface RelevantArticle {
-  headline: string;
-  link: string;
-  image: string;
-  timePosted: Date;
-  saved: Date;
-}
+import { FoundArticle, RelevantArticle } from '../types';
 
 export class ChattanooganScraper implements Scraper {
   // Most of this function can probably be generalized and split into a reusable function
