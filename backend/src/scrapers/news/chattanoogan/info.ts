@@ -1,4 +1,4 @@
-import { WebsiteSection } from '../../../types';
+import { WebsiteSection } from '../types';
 import { REGION_KEYWORDS } from '../generalInfo';
 
 const CHATTANOOGAN_HAPPENINGS_KEYWORDS = [
@@ -35,5 +35,9 @@ const business: WebsiteSection = {
   keywords: CHATTANOOGAN_BUSINESS_KEYWORDS,
 };
 
-export const ChattanooganSections: WebsiteSection[] = [breaking, happenings];
+export const ChattanooganSections: WebsiteSection[] = [
+  breaking,
+  happenings,
+  business,
+];
 export const chattanooganUrl = 'https://www.chattanoogan.com';

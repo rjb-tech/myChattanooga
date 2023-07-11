@@ -1,5 +1,6 @@
 import { firefox } from 'playwright';
-import ScraperFactory, { ScraperFactoryOptions } from './factory';
+import ScraperFactory from './factory';
+import { publishers } from '@prisma/client';
 
 async function main() {
   const factory = new ScraperFactory();
@@ -10,10 +11,10 @@ async function main() {
   //   -s <source> to scrape a specific source
   //     match input to ScraperFactoryOptions values
   try {
-    for (var x of Object.keys(ScraperFactoryOptions)) {
+    for (const publisher of Object.values(publishers)) {
       const context = await browser.newContext();
       const page = await context.newPage();
-      const scraper = factory.getScraperInstance(x);
+      const scraper = factory.getScraperInstance(publisher);
       await scraper.scrapeArticles(page);
     }
   } finally {

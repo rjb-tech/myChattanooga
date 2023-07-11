@@ -1,3 +1,6 @@
+import { publishers } from '@prisma/client';
+import { Page } from 'playwright';
+
 export interface WebsiteSection {
   link: string;
   keywords: string[];
@@ -15,4 +18,40 @@ export interface RelevantArticle {
   image: string;
   timePosted: Date;
   saved: Date;
+}
+
+interface Scraper {
+  url: string;
+  publisher: publishers;
+  sections: WebsiteSection[];
+  scrapeArticles(page: Page): void;
+}
+
+export abstract class BaseScraper implements Scraper {
+  url: string;
+  publisher: publishers;
+  sections: WebsiteSection[];
+  constructor(url: string, publisher: publishers, sections: WebsiteSection[]) {
+    this.url = url;
+    this.publisher = publisher;
+    this.sections = sections;
+  }
+  async scrapeArticles(page: Page): Promise<void> {
+    const allRelevantArticles = [];
+    for (const section of this.sections) {
+      await page.goto(`${this.url}/${section.link}`);
+      const found = await this.findArticles(page);
+      const relevant = await this.getRelevantArticles(page, section, found);
+      allRelevantArticles.push(...relevant); // filter articles here against existing articles instead of having a large iteration below
+    }
+
+    this.saveArticles(allRelevantArticles);
+  }
+  abstract findArticles(page: Page): Promise<FoundArticle[]>;
+  abstract getRelevantArticles(
+    page: Page,
+    section: WebsiteSection,
+    foundArticles: FoundArticle[],
+  ): Promise<RelevantArticle[]>;
+  abstract saveArticles(articles: RelevantArticle[]): Promise<void>;
 }
