@@ -8,20 +8,6 @@ import { WebsiteSection } from '../types';
 import { FoundArticle, RelevantArticle } from '../types';
 
 export class ChattanooganScraper extends BaseScraper {
-  // Most of this function can probably be generalized and split into a reusable function
-  // since all it's doing is calling other class methods. Maybe implement this in the base class
-  // and make getIncompconsteArticles and getRelevantArticleEntries class methods
-  async scrapeArticles(page: Page): Promise<void> {
-    const allRelevantArticles = [];
-    for (const section of sections) {
-      await page.goto(`${chattanooganUrl}/${section.link}`);
-      const found = await this.findArticles(page);
-      const relevant = await this.getRelevantArticles(page, section, found);
-      allRelevantArticles.push(...relevant); // filter articles here against existing articles instead of having a large iteration below
-    }
-
-    this.saveArticles(allRelevantArticles);
-  }
   async findArticles(page: Page): Promise<FoundArticle[]> {
     const foundArticles = [];
     const table = await page.waitForSelector('table');
