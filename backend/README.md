@@ -10,7 +10,7 @@ DATABASE_URL="postgresql://postgres:postgres@localhost:54322/postgres"
 
 ## Data Models
 
-The data models and migrations are made using [Prisma](https://www.prisma.io/). All the migration files and models can be found in the `/prisma` directory
+The data models and migrations are made using [Prisma](https://www.prisma.io/). All the migration files and models can be found in the `/prisma` directory.
 
 **Apply previous migrations**
 
