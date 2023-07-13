@@ -1,4 +1,4 @@
-import { publishers } from '@prisma/client';
+import { PrismaClient, publishers } from '@prisma/client';
 import { Page } from 'playwright';
 
 export interface WebsiteSection {
@@ -24,6 +24,7 @@ interface Scraper {
   url: string;
   publisher: publishers;
   sections: WebsiteSection[];
+  prisma: PrismaClient;
   scrapeArticles(page: Page): void;
 }
 
@@ -31,10 +32,12 @@ export abstract class BaseScraper implements Scraper {
   url: string;
   publisher: publishers;
   sections: WebsiteSection[];
+  prisma: PrismaClient;
   constructor(url: string, publisher: publishers, sections: WebsiteSection[]) {
     this.url = url;
     this.publisher = publisher;
     this.sections = sections;
+    this.prisma = new PrismaClient();
   }
   async scrapeArticles(page: Page): Promise<void> {
     const allRelevantArticles = [];
@@ -42,6 +45,7 @@ export abstract class BaseScraper implements Scraper {
       await page.goto(`${this.url}/${section.link}`);
       const found = await this.findArticles(page);
       const relevant = await this.getRelevantArticles(page, section, found);
+
       allRelevantArticles.push(...relevant); // filter articles here against existing articles instead of having a large iteration below
     }
 
@@ -54,4 +58,5 @@ export abstract class BaseScraper implements Scraper {
     foundArticles: FoundArticle[],
   ): Promise<RelevantArticle[]>;
   abstract saveArticles(articles: RelevantArticle[]): Promise<void>;
+  abstract saveStats(numPublished: number, numRelevant: number): Promise<void>;
 }

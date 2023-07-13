@@ -72,9 +72,8 @@ export class ChattanooganScraper extends BaseScraper {
     return relevantArticles;
   }
   async saveArticles(articles: RelevantArticle[]): Promise<void> {
-    const prisma = new PrismaClient();
     // Select all of today's chattanoogan articles to be able to do if exists checking outside the db
-    const existingArticles = await prisma.articles.findMany({
+    const existingArticles = await this.prisma.articles.findMany({
       where: {
         publisher: { equals: this.publisher },
         saved: { gt: subDays(new Date(), 1), lte: new Date() },
@@ -91,7 +90,7 @@ export class ChattanooganScraper extends BaseScraper {
           alreadyExists = true;
 
       if (!alreadyExists)
-        await prisma.articles.create({
+        await this.prisma.articles.create({
           data: {
             headline: article.headline,
             link: article.link,
@@ -102,34 +101,7 @@ export class ChattanooganScraper extends BaseScraper {
         });
     }
   }
-  async getIncompconsteArticles(page: Page) {
-    const foundArticles = [];
-    const table = await page.waitForSelector('table');
-    const rows = await table.$$('tr');
-
-    for (const row of rows) {
-      const cells = await row.$$('td');
-
-      if (cells.length === 2) {
-        const link = this.getLink(await row.getAttribute('onClick'));
-
-        if (link) {
-          // The whitespace replacement is necessary to compare text from the web
-          const d = (await cells[1].innerText()).replace(/\s/g, ' ');
-          const date = parse(d, 'M/d/yyyy h:mm a', new Date());
-          const found: FoundArticle = {
-            date,
-            link,
-            headline: await cells[0].innerText(),
-          };
-
-          foundArticles.push(found);
-        }
-      }
-    }
-
-    return foundArticles;
-  }
+  async saveStats(numPublished: number, numRelevant: number): Promise<void> {}
   getLink(potentialMatch: string | null) {
     const linkRegex = /'([^']+)'/;
 
