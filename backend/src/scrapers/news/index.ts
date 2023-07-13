@@ -11,7 +11,7 @@ async function main() {
       const context = await browser.newContext();
       const page = await context.newPage();
       const scraper = factory.getScraperInstance(publisher);
-      await scraper.scrapeArticles(page);
+      await scraper.scrapeAndSaveNews(page);
     }
   } catch {
     // Log something here with something like sentry?

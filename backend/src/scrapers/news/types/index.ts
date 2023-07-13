@@ -25,7 +25,7 @@ interface Scraper {
   publisher: publishers;
   sections: WebsiteSection[];
   prisma: PrismaClient;
-  scrapeArticles(page: Page): void;
+  scrapeAndSaveNews(page: Page): void;
 }
 
 export abstract class BaseScraper implements Scraper {
@@ -41,14 +41,16 @@ export abstract class BaseScraper implements Scraper {
     this.prisma = new PrismaClient();
   }
 
-  async scrapeArticles(page: Page): Promise<void> {
+  async scrapeAndSaveNews(page: Page): Promise<void> {
     const allRelevantArticles = [];
     for (const section of this.sections) {
       await page.goto(`${this.url}/${section.link}`);
+
       const found = await this.findArticles(page);
       const relevant = await this.getRelevantArticles(page, section, found);
 
-      allRelevantArticles.push(...relevant); // filter articles here against existing articles instead of having a large iteration below
+      allRelevantArticles.push(...relevant);
+      await this.saveStats(found.length, relevant.length);
     }
 
     this.saveArticles(allRelevantArticles);
