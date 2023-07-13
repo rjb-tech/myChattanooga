@@ -23,7 +23,7 @@ CREATE TABLE "news"."articles" (
     "link" TEXT NOT NULL,
     "image" TEXT NOT NULL,
     "timePosted" TIMESTAMP(3) NOT NULL,
-    "saved" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "dateSaved" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "publisher" "news"."publishers" NOT NULL,
 
     CONSTRAINT "articles_pkey" PRIMARY KEY ("id")
@@ -48,9 +48,15 @@ CREATE TABLE "weather"."weather_entries" (
 CREATE TABLE "stats"."stats" (
     "id" SERIAL NOT NULL,
     "publisher" "news"."publishers" NOT NULL,
-    "scraped" INTEGER NOT NULL,
-    "relevant" INTEGER NOT NULL,
-    "saved" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "numPublished" INTEGER NOT NULL,
+    "numRelevant" INTEGER NOT NULL,
+    "dateSaved" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "stats_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE INDEX "articles_publisher_dateSaved_idx" ON "news"."articles"("publisher", "dateSaved");
+
+-- CreateIndex
+CREATE INDEX "stats_publisher_dateSaved_idx" ON "stats"."stats"("publisher", "dateSaved");

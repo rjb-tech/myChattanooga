@@ -20,9 +20,10 @@ model articles {
   link       String
   image      String
   timePosted DateTime
-  saved      DateTime   @default(now())
+  dateSaved  DateTime   @default(now())
   publisher  publishers
 
+  @@index([publisher, dateSaved])
   @@schema("news")
 }
 
@@ -93,12 +94,13 @@ enum weather_locations {
 // region: stats
 
 model stats {
-  id        Int        @id @default(autoincrement())
-  publisher publishers
-  scraped   Int
-  relevant  Int
-  saved     DateTime   @default(now())
+  id           Int        @id @default(autoincrement())
+  publisher    publishers
+  numPublished Int
+  numRelevant  Int
+  dateSaved    DateTime   @default(now())
 
+  @@index([publisher, dateSaved])
   @@schema("stats")
 }
 
