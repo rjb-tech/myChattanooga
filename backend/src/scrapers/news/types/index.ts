@@ -33,12 +33,14 @@ export abstract class BaseScraper implements Scraper {
   publisher: publishers;
   sections: WebsiteSection[];
   prisma: PrismaClient;
+
   constructor(url: string, publisher: publishers, sections: WebsiteSection[]) {
     this.url = url;
     this.publisher = publisher;
     this.sections = sections;
     this.prisma = new PrismaClient();
   }
+
   async scrapeArticles(page: Page): Promise<void> {
     const allRelevantArticles = [];
     for (const section of this.sections) {
@@ -51,12 +53,16 @@ export abstract class BaseScraper implements Scraper {
 
     this.saveArticles(allRelevantArticles);
   }
+
   abstract findArticles(page: Page): Promise<FoundArticle[]>;
+
   abstract getRelevantArticles(
     page: Page,
     section: WebsiteSection,
     foundArticles: FoundArticle[],
   ): Promise<RelevantArticle[]>;
+
   abstract saveArticles(articles: RelevantArticle[]): Promise<void>;
+
   abstract saveStats(numPublished: number, numRelevant: number): Promise<void>;
 }

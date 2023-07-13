@@ -36,6 +36,7 @@ export class ChattanooganScraper extends BaseScraper {
 
     return foundArticles;
   }
+
   async getRelevantArticles(
     page: Page,
     section: WebsiteSection,
@@ -71,6 +72,7 @@ export class ChattanooganScraper extends BaseScraper {
 
     return relevantArticles;
   }
+
   async saveArticles(articles: RelevantArticle[]): Promise<void> {
     // Select all of today's chattanoogan articles to be able to do if exists checking outside the db
     const existingArticles = await this.prisma.articles.findMany({
@@ -101,7 +103,9 @@ export class ChattanooganScraper extends BaseScraper {
         });
     }
   }
+
   async saveStats(numPublished: number, numRelevant: number): Promise<void> {}
+
   getLink(potentialMatch: string | null) {
     const linkRegex = /'([^']+)'/;
 
