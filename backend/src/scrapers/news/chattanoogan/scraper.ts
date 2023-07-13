@@ -1,8 +1,7 @@
 import { BaseScraper } from '../types';
 import { Page } from 'playwright';
-import { chattanooganUrl, ChattanooganSections as sections } from './info';
+import { chattanooganUrl } from './info';
 import { parse, subDays } from 'date-fns';
-import { PrismaClient } from '@prisma/client';
 import { isRelevantArticle } from '../generalHelpers';
 import { WebsiteSection } from '../types';
 import { FoundArticle, RelevantArticle } from '../types';
@@ -78,7 +77,7 @@ export class ChattanooganScraper extends BaseScraper {
     const existingArticles = await this.prisma.articles.findMany({
       where: {
         publisher: { equals: this.publisher },
-        saved: { gt: subDays(new Date(), 1), lte: new Date() },
+        dateSaved: { gt: subDays(new Date(), 1), lte: new Date() },
       },
     });
 
@@ -104,7 +103,34 @@ export class ChattanooganScraper extends BaseScraper {
     }
   }
 
-  async saveStats(numPublished: number, numRelevant: number): Promise<void> {}
+  async saveStats(numPublished: number, numRelevant: number): Promise<void> {
+    const existingStat = await this.prisma.stats.findFirst({
+      select: { id: true },
+      where: {
+        publisher: this.publisher,
+        dateSaved: { gt: subDays(new Date(), 1), lte: new Date() },
+      },
+    });
+
+    if (existingStat)
+      await this.prisma.stats.update({
+        where: {
+          id: existingStat.id,
+        },
+        data: {
+          numPublished: numPublished,
+          numRelevant: numRelevant,
+        },
+      });
+    else
+      await this.prisma.stats.create({
+        data: {
+          publisher: this.publisher,
+          numRelevant: numRelevant,
+          numPublished: numPublished,
+        },
+      });
+  }
 
   getLink(potentialMatch: string | null) {
     const linkRegex = /'([^']+)'/;
