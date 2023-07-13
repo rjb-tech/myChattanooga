@@ -10,7 +10,9 @@ async function main() {
     for (const publisher of Object.values(publishers)) {
       const context = await browser.newContext();
       const page = await context.newPage();
+
       const scraper = factory.getScraperInstance(publisher);
+
       await scraper.scrapeAndSaveNews(page);
     }
   } catch {
