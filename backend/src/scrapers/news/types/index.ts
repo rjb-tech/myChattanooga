@@ -1,5 +1,6 @@
 import { PrismaClient, publishers } from '@prisma/client';
 import { Page } from 'playwright';
+import { captureException } from '@sentry/node';
 
 export interface WebsiteSection {
   link: string;
@@ -42,15 +43,23 @@ export abstract class BaseScraper implements Scraper {
   }
 
   async scrapeAndSaveNews(page: Page): Promise<void> {
-    const allRelevantArticles = [];
+    const allRelevantArticles: RelevantArticle[] = [];
     for (const section of this.sections) {
-      await page.goto(`${this.url}/${section.link}`);
+      try {
+        await page.goto(`${this.url}/${section.link}`);
 
-      const found = await this.findArticles(page);
-      const relevant = await this.getRelevantArticles(page, section, found);
+        const found = await this.findArticles(page);
+        const relevant = await this.getRelevantArticles(page, section, found);
 
-      allRelevantArticles.push(...relevant);
-      await this.saveStats(found.length, relevant.length);
+        allRelevantArticles.push(...relevant);
+        await this.saveStats(found.length, relevant.length);
+      } catch (e: any) {
+        captureException(
+          new Error(
+            `Error in ${this.publisher} scraper ${section} section:\n\n ${e}`,
+          ),
+        );
+      }
     }
 
     this.saveArticles(allRelevantArticles);
