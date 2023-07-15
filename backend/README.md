@@ -26,6 +26,12 @@ npx prisma migrate reset
 npx prisma migrate --name <migration_name>
 ```
 
+**Sync schema with prisma client for local development**
+
+```
+npx prisma generate
+```
+
 ## Database
 
 This project uses Supabase for the Database. Built in auth and easy file storage are too good to pass up.
