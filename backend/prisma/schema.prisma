@@ -29,6 +29,7 @@ model articles {
 
 enum publishers {
   Chattanoogan
+  FoxChattanooga
 
   @@schema("news")
 }
