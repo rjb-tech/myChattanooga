@@ -1,4 +1,4 @@
-import { ChattanooganScraper } from './chattanoogan/scraper';
+import ChattanooganScraper from './chattanoogan/scraper';
 import { publishers } from '@prisma/client';
 import { ChattanooganSections, chattanooganUrl } from './chattanoogan/info';
 
