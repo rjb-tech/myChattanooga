@@ -1,7 +1,7 @@
 import { BaseScraper } from '../types';
 import { Page } from 'playwright';
 import { chattanooganUrl } from './info';
-import { parse, subDays } from 'date-fns';
+import { endOfDay, parse, subDays } from 'date-fns';
 import { fromToday, isRelevantArticle } from '../generalHelpers';
 import { WebsiteSection } from '../types';
 import { FoundArticle, RelevantArticle } from '../types';
@@ -76,7 +76,10 @@ export default class ChattanooganScraper extends BaseScraper {
     const existingArticles = await this.prisma.articles.findMany({
       where: {
         publisher: { equals: this.publisher },
-        dateSaved: { gt: subDays(new Date(), 1), lte: new Date() },
+        dateSaved: {
+          gt: endOfDay(subDays(new Date(), 1)),
+          lte: endOfDay(new Date()),
+        },
       },
     });
 
