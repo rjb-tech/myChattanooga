@@ -22,6 +22,7 @@ export default class ChattanooganScraper extends BaseScraper {
           // The whitespace replacement is necessary to compare text from the web
           const d = (await cells[1].innerText()).replace(/\s/g, ' ');
           const datePublished = parse(d, 'M/d/yyyy h:mm a', new Date());
+
           if (fromToday(datePublished))
             foundArticles.push({
               link,

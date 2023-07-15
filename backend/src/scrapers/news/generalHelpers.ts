@@ -1,3 +1,5 @@
+import { format, formatISO, formatISO9075 } from 'date-fns';
+
 export function isRelevantArticle(
   content: string,
   headline: string,
@@ -17,5 +19,8 @@ export function isRelevantArticle(
 }
 
 export const fromToday = (datePublished: Date) => {
-  return datePublished.toISOString() === new Date().toISOString();
+  const articlePublished = format(datePublished, 'yyyy-MM-dd');
+  const today = format(new Date(), 'yyyy-MM-dd');
+
+  return articlePublished === today;
 };
