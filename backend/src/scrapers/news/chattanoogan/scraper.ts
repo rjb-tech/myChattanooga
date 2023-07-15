@@ -2,11 +2,11 @@ import { BaseScraper } from '../types';
 import { Page } from 'playwright';
 import { chattanooganUrl } from './info';
 import { parse, subDays } from 'date-fns';
-import { isRelevantArticle } from '../generalHelpers';
+import { fromToday, isRelevantArticle } from '../generalHelpers';
 import { WebsiteSection } from '../types';
 import { FoundArticle, RelevantArticle } from '../types';
 
-export class ChattanooganScraper extends BaseScraper {
+export default class ChattanooganScraper extends BaseScraper {
   async findArticles(page: Page): Promise<FoundArticle[]> {
     const foundArticles = [];
     const table = await page.waitForSelector('table');
@@ -21,14 +21,13 @@ export class ChattanooganScraper extends BaseScraper {
         if (link) {
           // The whitespace replacement is necessary to compare text from the web
           const d = (await cells[1].innerText()).replace(/\s/g, ' ');
-          const date = parse(d, 'M/d/yyyy h:mm a', new Date());
-          const found: FoundArticle = {
-            date,
-            link,
-            headline: await cells[0].innerText(),
-          };
-
-          foundArticles.push(found);
+          const datePublished = parse(d, 'M/d/yyyy h:mm a', new Date());
+          if (fromToday(datePublished))
+            foundArticles.push({
+              link,
+              date: datePublished,
+              headline: await cells[0].innerText(),
+            });
         }
       }
     }

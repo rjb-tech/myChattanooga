@@ -15,3 +15,7 @@ export function isRelevantArticle(
 
   return true;
 }
+
+export const fromToday = (datePublished: Date) => {
+  return datePublished.toISOString() === new Date().toISOString();
+};
