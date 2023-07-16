@@ -6,6 +6,8 @@ import {
   foxChattanoogaSections,
   foxChattanoogaUrl,
 } from './foxChattanooga/info';
+import WDEFScraper from './wdef/scraper';
+import { wdefRssUrl, wdefSections } from './wdef/info';
 
 /* https://medium.com/codex/factory-pattern-type-script-implementation-with-type-map-ea422f38862 */
 
@@ -24,6 +26,8 @@ export default class ScraperFactory {
           publishers.FoxChattanooga,
           foxChattanoogaSections,
         );
+      case publishers.WDEF:
+        return new WDEFScraper(wdefRssUrl, publishers.WDEF, wdefSections, true);
     }
   }
 }

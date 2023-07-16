@@ -27,6 +27,7 @@ interface Scraper {
   publisher: publishers;
   sections: WebsiteSection[];
   prisma: PrismaClient;
+  isRss: Boolean;
   scrapeAndSaveNews(page: Page): void;
   saveArticles(articles: RelevantArticle[]): void;
   saveStats(numPublished: number, numRelevant: number): void;
@@ -37,19 +38,27 @@ export abstract class BaseScraper implements Scraper {
   publisher: publishers;
   sections: WebsiteSection[];
   prisma: PrismaClient;
+  isRss: Boolean;
 
-  constructor(url: string, publisher: publishers, sections: WebsiteSection[]) {
+  constructor(
+    url: string,
+    publisher: publishers,
+    sections: WebsiteSection[],
+    isRss: Boolean = false,
+  ) {
     this.url = url;
     this.publisher = publisher;
     this.sections = sections;
     this.prisma = new PrismaClient();
+    this.isRss = isRss;
   }
 
-  async scrapeAndSaveNews(page: Page): Promise<void> {
+  async scrapeAndSaveNews(page: Page, isRss: boolean = false): Promise<void> {
     const allRelevantArticles: RelevantArticle[] = [];
     for (const section of this.sections) {
       try {
-        await page.goto(`${this.url}/${section.link}`);
+        // Don't download rss feed
+        if (!isRss) await page.goto(`${this.url}/${section.link}`);
 
         const found = await this.findArticles(page);
         const relevant = await this.getRelevantArticles(page, section, found);
