@@ -13,17 +13,16 @@ async function main() {
   const browser = await firefox.launch();
   const factory = new ScraperFactory();
 
-  const scrapers = [];
   try {
-    for (const publisher of Object.values(publishers)) {
+    const scrapers = Object.values(publishers).map(async (p) => {
       const context = await browser.newContext();
       const page = await context.newPage();
 
-      const scraper = factory.getScraperInstance(publisher);
-      scrapers.push(scraper.scrapeAndSaveNews(page));
-    }
+      const scraper = factory.getScraperInstance(p);
+      return scraper.scrapeAndSaveNews(page);
+    });
 
-    await Promise.all(scrapers);
+    await Promise.allSettled(scrapers);
   } finally {
     await browser.close();
   }
