@@ -100,7 +100,7 @@ export default class ChattanooganScraper extends BaseScraper {
             link: article.link,
             timePosted: article.timePosted,
             image: article.image,
-            publisher: 'Chattanoogan',
+            publisher: this.publisher,
           },
         });
     }
