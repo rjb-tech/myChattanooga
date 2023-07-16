@@ -87,7 +87,7 @@ export abstract class BaseScraper implements Scraper {
 
   async saveArticles(articles: RelevantArticle[]): Promise<void> {
     // Select all of today's chattanoogan articles to be able to do if exists checking outside the db
-    const existingArticles = await this.prisma.articles.findMany({
+    const existingArticles = await this.prisma.article.findMany({
       where: {
         publisher: { equals: this.publisher },
         dateSaved: {
@@ -107,7 +107,7 @@ export abstract class BaseScraper implements Scraper {
           alreadyExists = true;
 
       if (!alreadyExists)
-        await this.prisma.articles.create({
+        await this.prisma.article.create({
           data: {
             headline: article.headline,
             link: article.link,
@@ -120,7 +120,7 @@ export abstract class BaseScraper implements Scraper {
   }
 
   async saveStats(numPublished: number, numRelevant: number): Promise<void> {
-    const existingStat = await this.prisma.stats.findFirst({
+    const existingStat = await this.prisma.stat.findFirst({
       select: { id: true },
       where: {
         publisher: this.publisher,
@@ -129,7 +129,7 @@ export abstract class BaseScraper implements Scraper {
     });
 
     if (existingStat)
-      await this.prisma.stats.update({
+      await this.prisma.stat.update({
         where: {
           id: existingStat.id,
         },
@@ -139,7 +139,7 @@ export abstract class BaseScraper implements Scraper {
         },
       });
     else
-      await this.prisma.stats.create({
+      await this.prisma.stat.create({
         data: {
           publisher: this.publisher,
           numRelevant: numRelevant,

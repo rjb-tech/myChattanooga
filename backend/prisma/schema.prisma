@@ -14,7 +14,7 @@ datasource db {
 
 // region: news schema
 
-model articles {
+model article {
   id         Int        @id @default(autoincrement())
   headline   String
   link       String
@@ -24,12 +24,14 @@ model articles {
   publisher  publishers
 
   @@index([publisher, dateSaved])
+  @@map("articles")
   @@schema("news")
 }
 
 enum publishers {
   Chattanoogan
   FoxChattanooga
+  WDEF
 
   @@schema("news")
 }
@@ -94,7 +96,7 @@ enum weather_locations {
 
 // region: stats
 
-model stats {
+model stat {
   id           Int        @id @default(autoincrement())
   publisher    publishers
   numPublished Int
@@ -102,6 +104,7 @@ model stats {
   dateSaved    DateTime   @default(now())
 
   @@index([publisher, dateSaved])
+  @@map("stats")
   @@schema("stats")
 }
 
