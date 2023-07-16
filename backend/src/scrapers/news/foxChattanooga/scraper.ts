@@ -41,6 +41,7 @@ export default class FoxChattanoogaScraper extends BaseScraper {
 
     return foundArticles;
   }
+
   async getRelevantArticles(
     page: Page,
     section: WebsiteSection,
@@ -81,39 +82,6 @@ export default class FoxChattanoogaScraper extends BaseScraper {
 
     return relevantArticles;
   }
-  async saveArticles(articles: RelevantArticle[]): Promise<void> {
-    const existingArticles = await this.prisma.articles.findMany({
-      where: {
-        publisher: { equals: this.publisher },
-        dateSaved: {
-          gt: endOfDay(subDays(new Date(), 1)),
-          lte: endOfDay(new Date()),
-        },
-      },
-    });
-
-    for (const article of articles) {
-      let alreadyExists = false;
-      for (const existing of existingArticles)
-        if (
-          existing.headline === article.headline ||
-          existing.link === article.link
-        )
-          alreadyExists = true;
-
-      if (!alreadyExists)
-        await this.prisma.articles.create({
-          data: {
-            headline: article.headline,
-            link: article.link,
-            timePosted: article.timePosted,
-            image: article.image,
-            publisher: this.publisher,
-          },
-        });
-    }
-  }
-  async saveStats(numPublished: number, numRelevant: number): Promise<void> {}
 
   async getImageLink(style: string) {
     const regex = /url\((.*?)\)/;
