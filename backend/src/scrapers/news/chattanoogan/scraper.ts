@@ -1,6 +1,6 @@
 import { BaseScraper } from '../types';
 import { Page } from 'playwright';
-import { chattanooganUrl } from './info';
+import { chattanooganUrl } from './config';
 import { parse } from 'date-fns';
 import { fromToday, isRelevantArticle } from '../generalHelpers';
 import { WebsiteSection } from '../types';

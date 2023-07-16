@@ -5,7 +5,7 @@ import {
   RelevantArticle,
   WebsiteSection,
 } from '../types';
-import { foxChattanoogaUrl } from './info';
+import { foxChattanoogaUrl } from './config';
 import { parseJSON } from 'date-fns';
 import { fromToday, isRelevantArticle } from '../generalHelpers';
 

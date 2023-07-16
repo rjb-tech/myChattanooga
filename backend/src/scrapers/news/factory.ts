@@ -1,13 +1,13 @@
 import ChattanooganScraper from './chattanoogan/scraper';
 import { publishers } from '@prisma/client';
-import { ChattanooganSections, chattanooganUrl } from './chattanoogan/info';
+import { ChattanooganSections, chattanooganUrl } from './chattanoogan/config';
 import FoxChattanoogaScraper from './foxChattanooga/scraper';
 import {
   foxChattanoogaSections,
   foxChattanoogaUrl,
-} from './foxChattanooga/info';
+} from './foxChattanooga/config';
 import WDEFScraper from './wdef/scraper';
-import { wdefRssUrl, wdefSections } from './wdef/info';
+import { wdefRssUrl, wdefSections } from './wdef/config';
 
 /* https://medium.com/codex/factory-pattern-type-script-implementation-with-type-map-ea422f38862 */
 
