@@ -6,44 +6,35 @@ import {
   WebsiteSection,
 } from '../types';
 import { foxChattanoogaUrl } from './info';
+import { endOfDay, parseJSON, subDays } from 'date-fns';
+import { fromToday, isRelevantArticle } from '../generalHelpers';
 
 export default class FoxChattanoogaScraper extends BaseScraper {
   async findArticles(page: Page): Promise<FoundArticle[]> {
     const foundArticles: FoundArticle[] = [];
-    const identifier = '.index-module_teaser__1f_o';
+    const articles = await page.$$(
+      "//div[contains(@class, 'index-module_teaser')]",
+    );
 
-    const articles = await page.$$(identifier);
     for (let article of articles) {
-      // const imageContainer = await article.$('.index-module_image__1tqT');
-      // if (!imageContainer)
-      //   throw new Error(
-      //     'Fox Chattanooga image container class name possibly changed. Please advise.',
-      //   );
-
-      // const imageLinkStyle = await imageContainer?.getAttribute('style');
-      // if (!imageLinkStyle)
-      //   throw new Error(
-      //     'Fox Chattanooga image link rendering method possibly changed. Please advise.',
-      //   );
-
       const headlineAndLinkContainer = await article.$$('a');
 
-      const headline = await headlineAndLinkContainer[
+      const currentHeadline = await headlineAndLinkContainer[
         headlineAndLinkContainer.length - 1
       ]?.innerText();
 
-      const link = await headlineAndLinkContainer[
+      const currentLink = await headlineAndLinkContainer[
         headlineAndLinkContainer.length - 1
       ]?.getAttribute('href');
 
-      if (!headline)
+      if (!currentHeadline)
         throw new Error("Couldn't find headline for Fox Chattanooga article");
-      if (!link)
+      if (!currentLink)
         throw new Error('Could find link href for Fox Chattanooga article');
 
       foundArticles.push({
-        headline,
-        link,
+        headline: currentHeadline,
+        link: `${foxChattanoogaUrl}/${currentLink}`,
         date: new Date(), // just a placeholder value since we don't actually get a date from these
       });
     }
@@ -55,9 +46,73 @@ export default class FoxChattanoogaScraper extends BaseScraper {
     section: WebsiteSection,
     foundArticles: FoundArticle[],
   ): Promise<RelevantArticle[]> {
-    return [];
+    const relevantArticles: RelevantArticle[] = [];
+    for (let currentArticle of foundArticles) {
+      await page.goto(currentArticle.link);
+
+      const story = await page.$("//div[contains(@class, 'storyContainer')]");
+      const contentSection = await story?.$(
+        "xpath=//div[contains(@class, 'StoryText')]",
+      );
+      const imageLinkContainer = await story?.$('img');
+      const imageLink = await imageLinkContainer?.getAttribute('src');
+
+      const timeTag = await page.$('time');
+      const time = await timeTag?.getAttribute('datetime');
+      if (time) {
+        const datetime = parseJSON(time);
+        const relevant = isRelevantArticle(
+          (await contentSection?.innerText()) ?? '',
+          currentArticle.headline,
+          section.keywords,
+        );
+
+        if (relevant && fromToday(datetime)) {
+          relevantArticles.push({
+            headline: currentArticle.headline,
+            link: currentArticle.link,
+            image: `${foxChattanoogaUrl}${imageLink}`,
+            timePosted: datetime,
+            saved: new Date(),
+          });
+        }
+      }
+    }
+
+    return relevantArticles;
   }
-  async saveArticles(articles: RelevantArticle[]): Promise<void> {}
+  async saveArticles(articles: RelevantArticle[]): Promise<void> {
+    const existingArticles = await this.prisma.articles.findMany({
+      where: {
+        publisher: { equals: this.publisher },
+        dateSaved: {
+          gt: endOfDay(subDays(new Date(), 1)),
+          lte: endOfDay(new Date()),
+        },
+      },
+    });
+
+    for (const article of articles) {
+      let alreadyExists = false;
+      for (const existing of existingArticles)
+        if (
+          existing.headline === article.headline ||
+          existing.link === article.link
+        )
+          alreadyExists = true;
+
+      if (!alreadyExists)
+        await this.prisma.articles.create({
+          data: {
+            headline: article.headline,
+            link: article.link,
+            timePosted: article.timePosted,
+            image: article.image,
+            publisher: this.publisher,
+          },
+        });
+    }
+  }
   async saveStats(numPublished: number, numRelevant: number): Promise<void> {}
 
   async getImageLink(style: string) {
