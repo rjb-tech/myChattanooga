@@ -1,7 +1,7 @@
 import { BaseScraper } from '../types';
 import { Page } from 'playwright';
 import { chattanooganUrl } from './info';
-import { endOfDay, parse, subDays } from 'date-fns';
+import { parse } from 'date-fns';
 import { fromToday, isRelevantArticle } from '../generalHelpers';
 import { WebsiteSection } from '../types';
 import { FoundArticle, RelevantArticle } from '../types';
@@ -70,69 +70,6 @@ export default class ChattanooganScraper extends BaseScraper {
     }
 
     return relevantArticles;
-  }
-
-  async saveArticles(articles: RelevantArticle[]): Promise<void> {
-    // Select all of today's chattanoogan articles to be able to do if exists checking outside the db
-    const existingArticles = await this.prisma.articles.findMany({
-      where: {
-        publisher: { equals: this.publisher },
-        dateSaved: {
-          gt: endOfDay(subDays(new Date(), 1)),
-          lte: endOfDay(new Date()),
-        },
-      },
-    });
-
-    for (const article of articles) {
-      let alreadyExists = false;
-      for (const existing of existingArticles)
-        if (
-          existing.headline === article.headline ||
-          existing.link === article.link
-        )
-          alreadyExists = true;
-
-      if (!alreadyExists)
-        await this.prisma.articles.create({
-          data: {
-            headline: article.headline,
-            link: article.link,
-            timePosted: article.timePosted,
-            image: article.image,
-            publisher: this.publisher,
-          },
-        });
-    }
-  }
-
-  async saveStats(numPublished: number, numRelevant: number): Promise<void> {
-    const existingStat = await this.prisma.stats.findFirst({
-      select: { id: true },
-      where: {
-        publisher: this.publisher,
-        dateSaved: { gt: subDays(new Date(), 1), lte: new Date() },
-      },
-    });
-
-    if (existingStat)
-      await this.prisma.stats.update({
-        where: {
-          id: existingStat.id,
-        },
-        data: {
-          numPublished: numPublished,
-          numRelevant: numRelevant,
-        },
-      });
-    else
-      await this.prisma.stats.create({
-        data: {
-          publisher: this.publisher,
-          numRelevant: numRelevant,
-          numPublished: numPublished,
-        },
-      });
   }
 
   getLink(potentialMatch: string | null) {
