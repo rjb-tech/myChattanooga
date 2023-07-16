@@ -23,7 +23,7 @@ async function main() {
       scrapers.push(scraper.scrapeAndSaveNews(page));
     }
 
-    const x = await Promise.all(scrapers);
+    await Promise.all(scrapers);
   } finally {
     await browser.close();
   }

@@ -27,7 +27,7 @@ interface Scraper {
   publisher: publishers;
   sections: WebsiteSection[];
   prisma: PrismaClient;
-  isRss: Boolean;
+  isRss: boolean;
   scrapeAndSaveNews(page: Page): void;
   saveArticles(articles: RelevantArticle[]): void;
   saveStats(numPublished: number, numRelevant: number): void;
@@ -38,13 +38,13 @@ export abstract class BaseScraper implements Scraper {
   publisher: publishers;
   sections: WebsiteSection[];
   prisma: PrismaClient;
-  isRss: Boolean;
+  isRss: boolean;
 
   constructor(
     url: string,
     publisher: publishers,
     sections: WebsiteSection[],
-    isRss: Boolean = false,
+    isRss = false,
   ) {
     this.url = url;
     this.publisher = publisher;
@@ -53,7 +53,7 @@ export abstract class BaseScraper implements Scraper {
     this.isRss = isRss;
   }
 
-  async scrapeAndSaveNews(page: Page, isRss: boolean = false): Promise<void> {
+  async scrapeAndSaveNews(page: Page, isRss = false): Promise<void> {
     const allRelevantArticles: RelevantArticle[] = [];
     for (const section of this.sections) {
       try {
@@ -65,6 +65,7 @@ export abstract class BaseScraper implements Scraper {
 
         allRelevantArticles.push(...relevant);
         await this.saveStats(found.length, relevant.length);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
         captureException(
           new Error(

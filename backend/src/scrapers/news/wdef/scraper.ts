@@ -11,12 +11,13 @@ import { fromToday } from '../generalHelpers';
 import { wdefUrl } from './info';
 
 export default class WDEFScraper extends BaseScraper {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async findArticles(page: Page): Promise<FoundArticle[]> {
     const found = [];
     const p = new Parser();
 
     const feed = await p.parseURL('https://wdef.com/feed');
-    for (let article of feed.items) {
+    for (const article of feed.items) {
       const { link, title: headline, isoDate } = article;
 
       if (link && headline && isoDate) {
@@ -38,7 +39,7 @@ export default class WDEFScraper extends BaseScraper {
     foundArticles: FoundArticle[],
   ): Promise<RelevantArticle[]> {
     const relevantArticles: RelevantArticle[] = [];
-    for (let currentArticle of foundArticles) {
+    for (const currentArticle of foundArticles) {
       await page.goto(currentArticle.link);
 
       const article = await page.$('article');

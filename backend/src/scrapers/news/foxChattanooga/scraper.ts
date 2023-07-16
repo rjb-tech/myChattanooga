@@ -6,7 +6,7 @@ import {
   WebsiteSection,
 } from '../types';
 import { foxChattanoogaUrl } from './info';
-import { endOfDay, parseJSON, subDays } from 'date-fns';
+import { parseJSON } from 'date-fns';
 import { fromToday, isRelevantArticle } from '../generalHelpers';
 
 export default class FoxChattanoogaScraper extends BaseScraper {
@@ -16,7 +16,7 @@ export default class FoxChattanoogaScraper extends BaseScraper {
       "//div[contains(@class, 'index-module_teaser')]",
     );
 
-    for (let article of articles) {
+    for (const article of articles) {
       const headlineAndLinkContainer = await article.$$('a');
 
       const currentHeadline = await headlineAndLinkContainer[
@@ -48,7 +48,7 @@ export default class FoxChattanoogaScraper extends BaseScraper {
     foundArticles: FoundArticle[],
   ): Promise<RelevantArticle[]> {
     const relevantArticles: RelevantArticle[] = [];
-    for (let currentArticle of foundArticles) {
+    for (const currentArticle of foundArticles) {
       await page.goto(currentArticle.link);
 
       const story = await page.$("//div[contains(@class, 'storyContainer')]");
