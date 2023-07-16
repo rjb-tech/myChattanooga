@@ -8,7 +8,7 @@ CREATE SCHEMA IF NOT EXISTS "stats";
 CREATE SCHEMA IF NOT EXISTS "weather";
 
 -- CreateEnum
-CREATE TYPE "news"."publishers" AS ENUM ('Chattanoogan');
+CREATE TYPE "news"."publishers" AS ENUM ('Chattanoogan', 'FoxChattanooga');
 
 -- CreateEnum
 CREATE TYPE "weather"."wind_directions" AS ENUM ('N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW');
