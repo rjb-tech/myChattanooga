@@ -4,7 +4,7 @@
   "description": "The scraper and database connection code for mychattanooga",
   "main": "src/index.js",
   "scripts": {
-    "scrape:news": "ts-node ./src/scrapers/news/index.ts",
+    "scrape:news": "ts-node ./src/scrapers/news/index.ts --publisher Chattanoogan",
     "build": "tsc",
     "lint": "eslint ./src",
     "format": "npx prettier --write ./src",
@@ -29,6 +29,7 @@
     "@sentry/node": "^7.58.1",
     "date-fns": "^2.30.0",
     "playwright": "^1.35.1",
-    "rss-parser": "^3.13.0"
+    "rss-parser": "^3.13.0",
+    "yargs": "^17.7.2"
   }
 }
