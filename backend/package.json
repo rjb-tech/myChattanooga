@@ -13,6 +13,7 @@
   "author": "Ryne Burden",
   "license": "ISC",
   "devDependencies": {
+    "@types/jsdom": "^21.1.1",
     "@types/node": "^20.4.1",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "eslint": "^8.44.0",
@@ -27,7 +28,9 @@
   "dependencies": {
     "@prisma/client": "^5.0.0",
     "@sentry/node": "^7.58.1",
+    "axios": "^1.4.0",
     "date-fns": "^2.30.0",
+    "jsdom": "^22.1.0",
     "playwright": "^1.35.1",
     "rss-parser": "^3.13.0",
     "yargs": "^17.7.2"
