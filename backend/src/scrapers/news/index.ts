@@ -1,4 +1,4 @@
-import { firefox } from 'playwright';
+import { Page, chromium } from 'playwright';
 import ScraperFactory from './factory';
 import { publishers } from '@prisma/client';
 import { init as initSentry } from '@sentry/node';
@@ -9,14 +9,33 @@ initSentry({
   tracesSampleRate: 0.75,
 });
 
+async function installUBlockOrigin(page: Page) {
+  await page.goto(
+    'https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm',
+  );
+  const addToChromeButtonSelector = '//*[text()="Add to Chrome"]';
+  await page.waitForSelector(addToChromeButtonSelector);
+  await page.click(addToChromeButtonSelector);
+
+  const secondaryAddToChromeButtonSelector = '//*[text()="Add extension"]';
+  await page.waitForSelector(secondaryAddToChromeButtonSelector);
+  await page.click(secondaryAddToChromeButtonSelector);
+
+  const addedToChromeSelector = '//*[contains(text(),"Added to Chrome")]';
+  await page.waitForSelector(addedToChromeSelector);
+
+  return true;
+}
+
 async function main() {
-  const browser = await firefox.launch();
+  const browser = await chromium.launch();
   const factory = new ScraperFactory();
 
   try {
     const scrapers = Object.values(publishers).map(async (p) => {
       const context = await browser.newContext();
       const page = await context.newPage();
+      await installUBlockOrigin(page);
 
       const scraper = factory.getScraperInstance(p);
       return scraper.scrapeAndSaveNews(page);
