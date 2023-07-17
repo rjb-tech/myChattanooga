@@ -8,6 +8,11 @@ import {
 } from './foxChattanooga/config';
 import WDEFScraper from './wdef/scraper';
 import { wdefRssUrl, wdefSections } from './wdef/config';
+import TimesFreePressScraper from './timesFreePress/scraper';
+import {
+  timesFreePressSections,
+  timesFreePressUrl,
+} from './timesFreePress/config';
 
 /* https://medium.com/codex/factory-pattern-type-script-implementation-with-type-map-ea422f38862 */
 
@@ -28,6 +33,12 @@ export default class ScraperFactory {
         );
       case publishers.WDEF:
         return new WDEFScraper(wdefRssUrl, publishers.WDEF, wdefSections, true);
+      case publishers.TimesFreePress:
+        return new TimesFreePressScraper(
+          timesFreePressUrl,
+          publishers.TimesFreePress,
+          timesFreePressSections,
+        );
     }
   }
 }
