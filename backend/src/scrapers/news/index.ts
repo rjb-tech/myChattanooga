@@ -31,48 +31,50 @@ async function installUBlockOrigin(page: Page) {
   return true;
 }
 
-async function scrapeAllPublishers(browser: Browser, factory: ScraperFactory) {
-  try {
-    const scrapers = Object.values(publishers).map(async (p) => {
-      const context = await browser.newContext();
-      const page = await context.newPage();
-      await installUBlockOrigin(page);
+async function scrapeAllPublishers(
+  browser: Browser,
+  factory: ScraperFactory,
+): Promise<Promise<void>[]> {
+  const scrapers = Object.values(publishers).map(async (p) => {
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    await installUBlockOrigin(page);
 
-      const scraper = factory.getScraperInstance(p);
-      return scraper.scrapeAndSaveNews(page);
-    });
+    const scraper = factory.getScraperInstance(p);
+    return scraper.scrapeAndSaveNews(page);
+  });
 
-    await Promise.allSettled(scrapers);
-  } finally {
-    await browser.close();
-  }
+  return scrapers;
 }
 
 async function scrapeSeparatePublisher(
   browser: Browser,
   factory: ScraperFactory,
   publisher: publishers,
-) {
+): Promise<Promise<void>[]> {
   const context = await browser.newContext();
   const page = await context.newPage();
 
   if (Object.values(publishers).includes(publisher)) {
-    await factory.getScraperInstance(publisher).scrapeAndSaveNews(page);
-    return;
+    return [factory.getScraperInstance(publisher).scrapeAndSaveNews(page)];
   }
 
-  console.log('Invalid publisher, try again.');
-  return;
+  throw new Error('Invalid publisher, try again.');
 }
 
 async function main() {
   const browser = await chromium.launch();
   const factory = new ScraperFactory();
+  const tasks = [];
 
   try {
     if (argv?.publisher)
-      await scrapeSeparatePublisher(browser, factory, argv.publisher);
-    else await scrapeAllPublishers(browser, factory);
+      tasks.push(
+        await scrapeSeparatePublisher(browser, factory, argv.publisher),
+      );
+    else tasks.push(await scrapeAllPublishers(browser, factory));
+
+    await Promise.allSettled(tasks);
   } finally {
     await browser.close();
   }
