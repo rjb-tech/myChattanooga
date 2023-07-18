@@ -19,7 +19,6 @@ export interface RelevantArticle {
   link: string;
   image: string;
   timePosted: Date;
-  saved: Date;
 }
 
 interface Scraper {

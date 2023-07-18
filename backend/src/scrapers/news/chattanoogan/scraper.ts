@@ -63,7 +63,6 @@ export default class ChattanooganScraper extends BaseScraper {
             image:
               'https://mychattanooga-files.nyc3.digitaloceanspaces.com/chattanoogan_logo.webp',
             timePosted: currentArticle.date,
-            saved: new Date(),
           });
         }
       }

@@ -74,7 +74,6 @@ export default class FoxChattanoogaScraper extends BaseScraper {
             link: currentArticle.link,
             image: `${foxChattanoogaUrl}${imageLink}`,
             timePosted: datetime,
-            saved: new Date(),
           });
         }
       }

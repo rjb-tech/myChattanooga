@@ -68,7 +68,6 @@ export default class WDEFScraper extends BaseScraper {
         link: currentArticle.link,
         image: imageLink,
         timePosted: currentArticle.date,
-        saved: new Date(),
       });
     }
 
