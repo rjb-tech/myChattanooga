@@ -34,7 +34,7 @@ export default class FoxChattanoogaScraper extends BaseScraper {
 
       foundArticles.push({
         headline: currentHeadline,
-        link: `${foxChattanoogaUrl}/${currentLink}`,
+        link: `${foxChattanoogaUrl}${currentLink}`,
         date: new Date(), // just a placeholder value since we don't actually get a date from these
       });
     }
