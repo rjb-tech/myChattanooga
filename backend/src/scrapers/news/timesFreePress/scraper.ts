@@ -70,10 +70,7 @@ export default class TimesFreePressScraper extends BaseScraper {
         continue;
       }
 
-      const datePublished = this.getDatePublished(
-        dateString,
-        currentArticle.link,
-      );
+      const datePublished = this.getDatePublished(dateString);
 
       if (!datePublished)
         throw new Error(
@@ -104,7 +101,7 @@ export default class TimesFreePressScraper extends BaseScraper {
     return relevantArticles;
   }
 
-  getDatePublished(dateString: string, link: string): Date | null {
+  getDatePublished(dateString: string): Date | null {
     if (dateString.toLowerCase().includes('today')) {
       // Example: Today at 2:36 p.m.
       const splitDateString = dateString.split(' at ');

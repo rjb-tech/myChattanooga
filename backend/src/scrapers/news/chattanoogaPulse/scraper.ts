@@ -11,6 +11,7 @@ import { parse } from 'date-fns';
 import { fromToday, isRelevantArticle } from '../generalHelpers';
 
 export default class ChattanoogaPulseScraper extends BaseScraper {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async findArticles(page: Page): Promise<FoundArticle[]> {
     const found = [];
     const p = new Parser({
