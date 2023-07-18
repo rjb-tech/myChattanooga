@@ -8,7 +8,7 @@ import {
 import Parser from 'rss-parser';
 import { parseISO } from 'date-fns';
 import { fromToday } from '../generalHelpers';
-import { wdefUrl } from './config';
+import { wdefRssUrl, wdefUrl } from './config';
 
 export default class WDEFScraper extends BaseScraper {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -16,7 +16,7 @@ export default class WDEFScraper extends BaseScraper {
     const found = [];
     const p = new Parser();
 
-    const feed = await p.parseURL('https://wdef.com/feed');
+    const feed = await p.parseURL(wdefRssUrl);
     for (const article of feed.items) {
       const { link, title: headline, isoDate } = article;
 
