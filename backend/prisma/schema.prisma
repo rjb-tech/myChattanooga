@@ -33,6 +33,7 @@ enum publishers {
   FoxChattanooga
   WDEF
   TimesFreePress
+  ChattanoogaPulse
 
   @@schema("news")
 }

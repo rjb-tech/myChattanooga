@@ -13,8 +13,11 @@ import {
   timesFreePressSections,
   timesFreePressUrl,
 } from './timesFreePress/config';
-
-/* https://medium.com/codex/factory-pattern-type-script-implementation-with-type-map-ea422f38862 */
+import ChattanoogaPulseScraper from './chattanoogaPulse/scraper';
+import {
+  chattanoogaPulseRssUrl,
+  chattanoogaPulseSections,
+} from './chattanoogaPulse/config';
 
 export default class ScraperFactory {
   getScraperInstance(publisher: publishers) {
@@ -38,6 +41,13 @@ export default class ScraperFactory {
           timesFreePressUrl,
           publishers.TimesFreePress,
           timesFreePressSections,
+        );
+      case publishers.ChattanoogaPulse:
+        return new ChattanoogaPulseScraper(
+          chattanoogaPulseRssUrl,
+          publishers.ChattanoogaPulse,
+          chattanoogaPulseSections,
+          true,
         );
     }
   }
