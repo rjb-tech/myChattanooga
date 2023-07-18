@@ -93,7 +93,7 @@ export abstract class BaseScraper implements Scraper {
     const existingArticles = await this.prisma.article.findMany({
       where: {
         publisher: { equals: this.publisher },
-        dateSaved: {
+        saved: {
           gt: endOfDay(subDays(new Date(), 1)),
           lte: endOfDay(new Date()),
         },
@@ -114,7 +114,7 @@ export abstract class BaseScraper implements Scraper {
           data: {
             headline: article.headline,
             link: article.link,
-            timePosted: article.timePosted,
+            published: article.timePosted,
             image: article.image,
             publisher: this.publisher,
           },

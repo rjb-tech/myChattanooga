@@ -15,15 +15,15 @@ datasource db {
 // region: news schema
 
 model article {
-  id         Int        @id @default(autoincrement())
-  headline   String
-  link       String
-  image      String
-  timePosted DateTime
-  dateSaved  DateTime   @default(now())
-  publisher  publishers
+  id        Int        @id @default(autoincrement())
+  headline  String
+  link      String
+  image     String
+  published DateTime
+  saved     DateTime   @default(now())
+  publisher publishers
 
-  @@index([publisher, dateSaved])
+  @@index([publisher, saved])
   @@map("articles")
   @@schema("news")
 }

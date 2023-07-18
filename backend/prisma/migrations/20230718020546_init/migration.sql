@@ -8,7 +8,7 @@ CREATE SCHEMA IF NOT EXISTS "stats";
 CREATE SCHEMA IF NOT EXISTS "weather";
 
 -- CreateEnum
-CREATE TYPE "news"."publishers" AS ENUM ('Chattanoogan', 'FoxChattanooga');
+CREATE TYPE "news"."publishers" AS ENUM ('Chattanoogan', 'FoxChattanooga', 'WDEF', 'TimesFreePress');
 
 -- CreateEnum
 CREATE TYPE "weather"."wind_directions" AS ENUM ('N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW');
@@ -22,8 +22,8 @@ CREATE TABLE "news"."articles" (
     "headline" TEXT NOT NULL,
     "link" TEXT NOT NULL,
     "image" TEXT NOT NULL,
-    "timePosted" TIMESTAMP(3) NOT NULL,
-    "dateSaved" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "published" TIMESTAMP(3) NOT NULL,
+    "saved" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "publisher" "news"."publishers" NOT NULL,
 
     CONSTRAINT "articles_pkey" PRIMARY KEY ("id")
@@ -56,7 +56,7 @@ CREATE TABLE "stats"."stats" (
 );
 
 -- CreateIndex
-CREATE INDEX "articles_publisher_dateSaved_idx" ON "news"."articles"("publisher", "dateSaved");
+CREATE INDEX "articles_publisher_saved_idx" ON "news"."articles"("publisher", "saved");
 
 -- CreateIndex
 CREATE INDEX "stats_publisher_dateSaved_idx" ON "stats"."stats"("publisher", "dateSaved");
