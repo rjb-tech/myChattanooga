@@ -8,7 +8,8 @@ export function isRelevantArticle(
   const matchScore = keywords
     .map((key): number => {
       const regex = new RegExp(key, 'i');
-      const isMatch = regex.test(content) || regex.test(headline);
+      const isMatch =
+        regex.test(content.toLowerCase()) || regex.test(headline.toLowerCase());
       return isMatch ? 1 : 0;
     })
     .reduce((prev, curr) => prev + curr, 0);

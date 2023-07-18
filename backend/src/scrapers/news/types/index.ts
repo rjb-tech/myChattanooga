@@ -53,6 +53,7 @@ export abstract class BaseScraper implements Scraper {
   }
 
   async scrapeAndSaveNews(page: Page, isRss = false): Promise<void> {
+    const allFoundArticles: FoundArticle[] = [];
     const allRelevantArticles: RelevantArticle[] = [];
     for (const section of this.sections) {
       try {
@@ -63,7 +64,8 @@ export abstract class BaseScraper implements Scraper {
         const relevant = await this.getRelevantArticles(page, section, found);
 
         allRelevantArticles.push(...relevant);
-        await this.saveStats(found.length, relevant.length);
+        allFoundArticles.push(...found);
+
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
         captureException(
@@ -75,6 +77,7 @@ export abstract class BaseScraper implements Scraper {
     }
 
     this.saveArticles(allRelevantArticles);
+    this.saveStats(allFoundArticles.length, allRelevantArticles.length);
   }
 
   abstract findArticles(page: Page): Promise<FoundArticle[]>;
