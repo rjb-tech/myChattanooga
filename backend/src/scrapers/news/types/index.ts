@@ -68,6 +68,7 @@ export abstract class BaseScraper implements Scraper {
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
+        console.log(e);
         captureException(
           new Error(
             `Error in ${this.publisher} scraper ${section} section:\n\n ${e}`,

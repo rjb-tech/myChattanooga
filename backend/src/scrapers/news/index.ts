@@ -1,7 +1,7 @@
 import { chromium } from 'playwright';
 import ScraperFactory from './factory';
 import { publishers } from '@prisma/client';
-import { init as initSentry } from '@sentry/node';
+import { captureException, init as initSentry } from '@sentry/node';
 
 initSentry({
   dsn: 'https://de875782d88948139f9af89fd16cea3f@o4505525322317824.ingest.sentry.io/4505525386674176',
@@ -23,6 +23,9 @@ async function main() {
     });
 
     await Promise.allSettled(scrapers);
+  } catch (e: any) {
+    console.log(e);
+    captureException(`Root level scraping error:\n\n ${e}`);
   } finally {
     await browser.close();
   }
