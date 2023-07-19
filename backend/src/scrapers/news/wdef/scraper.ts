@@ -22,7 +22,8 @@ export default class WDEFScraper extends BaseScraper {
 
       if (link && headline && isoDate) {
         const date = parseISO(isoDate);
-        if (fromToday(date))
+        // the weatherupdate article is updated every day, we don't want that shit dirtying our data
+        if (fromToday(date) && !link.includes('weatherupdate'))
           found.push({
             headline,
             link,
@@ -52,14 +53,6 @@ export default class WDEFScraper extends BaseScraper {
         throw new Error(
           `Couldn't find article element for WDEF article:\n\n ${currentArticle.link}`,
         );
-      if (!imageContainer)
-        throw new Error(
-          `Couldn't find article image container for WDEF article:\n\n ${currentArticle.link}`,
-        );
-      if (!imageContainerStyle)
-        throw new Error(
-          `Couldn't find image container style attribute for WDEF article:\n\n ${currentArticle.link}`,
-        );
 
       const imageLink = await this.getImageLink(imageContainerStyle);
 
@@ -74,7 +67,9 @@ export default class WDEFScraper extends BaseScraper {
     return relevantArticles;
   }
 
-  async getImageLink(style: string) {
+  async getImageLink(style: string | null | undefined) {
+    if (!style)
+      return 'https://mychattanooga-files.nyc3.digitaloceanspaces.com/wdef_logo.png';
     const regex = /url\((.*?)\)/;
     const match = style.match(regex);
 
