@@ -18,6 +18,12 @@ import {
   chattanoogaPulseRssUrl,
   chattanoogaPulseSections,
 } from './chattanoogaPulse/config';
+import ChattNewsChronicleScraper from './ChattNewsChronicle/scraper';
+import {
+  chattNewsChronicleRssUrl,
+  chattNewsChronicleSections,
+  chattNewsChronicleUrl,
+} from './ChattNewsChronicle/config';
 
 export default class ScraperFactory {
   getScraperInstance(publisher: publishers) {
@@ -47,6 +53,13 @@ export default class ScraperFactory {
           chattanoogaPulseRssUrl,
           publishers.ChattanoogaPulse,
           chattanoogaPulseSections,
+          true,
+        );
+      case publishers.ChattNewsChronicle:
+        return new ChattNewsChronicleScraper(
+          chattNewsChronicleRssUrl,
+          publishers.ChattNewsChronicle,
+          chattNewsChronicleSections,
           true,
         );
     }
