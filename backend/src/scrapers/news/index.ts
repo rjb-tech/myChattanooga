@@ -23,6 +23,7 @@ async function main() {
     });
 
     await Promise.allSettled(scrapers);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {
     console.log(e);
     captureException(`Root level scraping error:\n\n ${e}`);
