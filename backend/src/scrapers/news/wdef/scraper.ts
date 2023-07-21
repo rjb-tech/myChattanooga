@@ -17,8 +17,8 @@ export default class WDEFScraper extends BaseScraper {
     const p = new Parser();
 
     const feed = await p.parseURL(wdefRssUrl);
-    for (const article of feed.items) {
-      const { link, title: headline, isoDate } = article;
+    for (const currentArticle of feed.items) {
+      const { link, title: headline, isoDate } = currentArticle;
 
       if (link && headline && isoDate) {
         const published = parseISO(isoDate);

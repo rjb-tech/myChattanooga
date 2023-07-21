@@ -46,20 +46,20 @@ class ChattNewsChronicleScraper extends BaseScraper {
   ): Promise<RelevantArticle[]> {
     const relevant: RelevantArticle[] = [];
 
-    for (const article of foundArticles) {
-      await page.goto(article.link);
+    for (const currentArticle of foundArticles) {
+      await page.goto(currentArticle.link);
 
       const imageContainer = await page.$('.entry-thumb');
       const content = await page.$('.td-post-content');
 
       if (!imageContainer)
         throw new Error(
-          `Error finding image container for Chattanooga News Chronicle article: ${article.link}`,
+          `Error finding image container for Chattanooga News Chronicle article: ${currentArticle.link}`,
         );
 
       if (!content)
         throw new Error(
-          `Error finding content for Chattanooga News Chronicle article: ${article.link}`,
+          `Error finding content for Chattanooga News Chronicle article: ${currentArticle.link}`,
         );
 
       const articleText = await content.textContent();
@@ -68,17 +68,19 @@ class ChattNewsChronicleScraper extends BaseScraper {
 
       if (!articleText)
         throw new Error(
-          `Error parsing article content for text in Chattanooga News Chronicle article: ${article.link}`,
+          `Error parsing article content for text in Chattanooga News Chronicle article: ${currentArticle.link}`,
         );
 
       if (!image)
         throw new Error(
-          `Error getting image link for Chattanooga News Chronicle article: ${article.link}`,
+          `Error getting image link for Chattanooga News Chronicle article: ${currentArticle.link}`,
         );
 
-      if (isRelevantArticle(articleText, article.headline, REGION_KEYWORDS)) {
+      if (
+        isRelevantArticle(articleText, currentArticle.headline, REGION_KEYWORDS)
+      ) {
         relevant.push({
-          ...article,
+          ...currentArticle,
           image,
         });
       }

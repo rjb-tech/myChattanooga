@@ -21,8 +21,12 @@ export default class ChattanoogaPulseScraper extends BaseScraper {
     });
 
     const feed = await p.parseURL(chattanoogaPulseRssUrl);
-    for (const article of feed.items) {
-      const { title: headline, link, pubDate: publishedString } = article;
+    for (const currentArticle of feed.items) {
+      const {
+        title: headline,
+        link,
+        pubDate: publishedString,
+      } = currentArticle;
 
       if (headline && link && publishedString) {
         const published = parse(
@@ -57,14 +61,15 @@ export default class ChattanoogaPulseScraper extends BaseScraper {
     });
 
     const feed = await p.parseURL(chattanoogaPulseRssUrl);
-    for (const article of feed.items) {
-      const image = article['media:content'].$.url;
+    for (const currentArticle of feed.items) {
+      const image = currentArticle['media:content'].$.url;
       const {
         title: headline,
         link,
         pubDate: publishedString,
         content,
-      } = article;
+      } = currentArticle;
+
       const allElementsExist =
         headline && link && publishedString && content && image;
 

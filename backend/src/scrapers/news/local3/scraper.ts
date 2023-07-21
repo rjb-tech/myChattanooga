@@ -16,8 +16,12 @@ class Local3NewsScraper extends BaseScraper {
     const p = new Parser();
     const feed = await p.parseURL(local3RssUrl);
 
-    for (const article of feed.items) {
-      const { title: headline, pubDate: publishedString, link } = article;
+    for (const currentArticle of feed.items) {
+      const {
+        title: headline,
+        pubDate: publishedString,
+        link,
+      } = currentArticle;
 
       const hasAllElements = headline && publishedString && link;
       if (hasAllElements) {
@@ -44,19 +48,19 @@ class Local3NewsScraper extends BaseScraper {
     const local3ImageUrl =
       'https://mychattanooga-files.nyc3.digitaloceanspaces.com/local_three_logo.jpeg';
 
-    for (const article of foundArticles) {
-      await page.goto(article.link);
+    for (const currentArticle of foundArticles) {
+      await page.goto(currentArticle.link);
       const contentContainer = await page.$('#article-body');
       const content = await contentContainer?.textContent();
 
       if (!contentContainer || !content)
         throw new Error(
-          `Error finding article content for Local 3 article: ${article.link}`,
+          `Error finding article content for Local 3 article: ${currentArticle.link}`,
         );
 
-      if (isRelevantArticle(content, article.headline, section.keywords))
+      if (isRelevantArticle(content, currentArticle.headline, section.keywords))
         relevant.push({
-          ...article,
+          ...currentArticle,
           image: local3ImageUrl,
         });
     }
