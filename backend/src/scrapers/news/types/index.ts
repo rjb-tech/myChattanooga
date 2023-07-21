@@ -18,7 +18,7 @@ export interface RelevantArticle {
   headline: string;
   link: string;
   image: string;
-  timePosted: Date;
+  published: Date;
 }
 
 interface Scraper {
@@ -115,7 +115,7 @@ export abstract class BaseScraper implements Scraper {
           data: {
             headline: article.headline,
             link: article.link,
-            published: article.timePosted,
+            published: article.published,
             image: article.image,
             publisher: this.publisher,
           },

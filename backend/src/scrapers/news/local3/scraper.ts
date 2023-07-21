@@ -57,7 +57,7 @@ class Local3NewsScraper extends BaseScraper {
         relevant.push({
           ...article,
           image: local3ImageUrl,
-          timePosted: article.date,
+          published: article.date,
         });
     }
 
