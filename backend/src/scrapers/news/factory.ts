@@ -22,8 +22,9 @@ import ChattNewsChronicleScraper from './ChattNewsChronicle/scraper';
 import {
   chattNewsChronicleRssUrl,
   chattNewsChronicleSections,
-  chattNewsChronicleUrl,
 } from './ChattNewsChronicle/config';
+import Local3NewsScraper from './local3/scraper';
+import { local3RssUrl, local3Sections } from './local3/config';
 
 export default class ScraperFactory {
   getScraperInstance(publisher: publishers) {
@@ -60,6 +61,13 @@ export default class ScraperFactory {
           chattNewsChronicleRssUrl,
           publishers.ChattNewsChronicle,
           chattNewsChronicleSections,
+          true,
+        );
+      case publishers.Local3News:
+        return new Local3NewsScraper(
+          local3RssUrl,
+          publishers.Local3News,
+          local3Sections,
           true,
         );
     }
