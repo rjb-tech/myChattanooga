@@ -11,7 +11,7 @@ export interface WebsiteSection {
 export interface FoundArticle {
   headline: string;
   link: string;
-  date: Date;
+  published: Date;
 }
 
 export interface RelevantArticle {

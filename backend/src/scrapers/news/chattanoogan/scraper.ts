@@ -8,7 +8,7 @@ import { FoundArticle, RelevantArticle } from '../types';
 
 export default class ChattanooganScraper extends BaseScraper {
   async findArticles(page: Page): Promise<FoundArticle[]> {
-    const foundArticles = [];
+    const foundArticles: FoundArticle[] = [];
     const table = await page.waitForSelector('table');
     const rows = await table.$$('tr');
 
@@ -21,12 +21,12 @@ export default class ChattanooganScraper extends BaseScraper {
         if (link) {
           // The whitespace replacement is necessary to compare text from the web
           const d = (await cells[1].innerText()).replace(/\s/g, ' ');
-          const datePublished = parse(d, 'M/d/yyyy h:mm a', new Date());
+          const published = parse(d, 'M/d/yyyy h:mm a', new Date());
 
-          if (fromToday(datePublished))
+          if (fromToday(published))
             foundArticles.push({
               link,
-              date: datePublished,
+              published,
               headline: await cells[0].innerText(),
             });
         }
@@ -58,11 +58,9 @@ export default class ChattanooganScraper extends BaseScraper {
           // need to get: timePosted
           // image will be the chattanoogan logo asset link constant
           relevantArticles.push({
-            headline: currentArticle.headline,
-            link: currentArticle.link,
+            ...currentArticle,
             image:
               'https://mychattanooga-files.nyc3.digitaloceanspaces.com/chattanoogan_logo.webp',
-            timePosted: currentArticle.date,
           });
         }
       }

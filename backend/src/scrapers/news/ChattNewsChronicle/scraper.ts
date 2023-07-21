@@ -18,21 +18,21 @@ class ChattNewsChronicleScraper extends BaseScraper {
     const feed = await p.parseURL(chattNewsChronicleRssUrl);
 
     for (const article of feed.items) {
-      const { headline, link, pubDate: published } = article;
-      const allElementsExist = headline && link && published;
+      const { headline, link, pubDate: publishedString } = article;
+      const allElementsExist = headline && link && publishedString;
 
       if (allElementsExist) {
-        const date = parse(
-          published,
+        const published = parse(
+          publishedString,
           'EEE, dd MMM yyyy HH:mm:ss xxxx',
           new Date(),
         );
 
-        if (fromToday(date))
+        if (fromToday(published))
           found.push({
             headline,
             link,
-            date,
+            published,
           });
       }
     }
@@ -64,24 +64,22 @@ class ChattNewsChronicleScraper extends BaseScraper {
 
       const articleText = await content.textContent();
 
-      const imageLink = await imageContainer.getAttribute('src');
+      const image = await imageContainer.getAttribute('src');
 
       if (!articleText)
         throw new Error(
           `Error parsing article content for text in Chattanooga News Chronicle article: ${article.link}`,
         );
 
-      if (!imageLink)
+      if (!image)
         throw new Error(
           `Error getting image link for Chattanooga News Chronicle article: ${article.link}`,
         );
 
       if (isRelevantArticle(articleText, article.headline, REGION_KEYWORDS)) {
         relevant.push({
-          headline: article.headline,
-          link: article.link,
-          image: imageLink,
-          timePosted: article.date,
+          ...article,
+          image,
         });
       }
     }

@@ -17,17 +17,18 @@ class Local3NewsScraper extends BaseScraper {
     const feed = await p.parseURL(local3RssUrl);
 
     for (const article of feed.items) {
-      const { title: headline, pubDate: published, link } = article;
+      const { title: headline, pubDate: publishedString, link } = article;
 
-      const hasAllElements = headline && published && link;
+      const hasAllElements = headline && publishedString && link;
       if (hasAllElements) {
-        const date = parse(
-          published,
+        const published = parse(
+          publishedString,
           'EEE, dd MMM yyyy HH:mm:ss xxxx',
           new Date(),
         );
 
-        if (fromToday(date)) found.push({ headline, link: link, date });
+        if (fromToday(published))
+          found.push({ headline, link: link, published });
       }
     }
 
@@ -57,7 +58,6 @@ class Local3NewsScraper extends BaseScraper {
         relevant.push({
           ...article,
           image: local3ImageUrl,
-          published: article.date,
         });
     }
 

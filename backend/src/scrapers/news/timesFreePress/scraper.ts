@@ -19,7 +19,7 @@ export default class TimesFreePressScraper extends BaseScraper {
       const headlineContainer = await currentArticle.$('a');
       const headline = await headlineContainer?.innerText();
       const link = await headlineContainer?.getAttribute('href');
-      const date = new Date(); // dummy date since we have to go into each article to get the actual date
+      const published = new Date(); // dummy date since we have to go into each article to get the actual date
 
       if (!headline)
         throw new Error("Couldn't find headline for Fox Chattanooga article");
@@ -28,8 +28,8 @@ export default class TimesFreePressScraper extends BaseScraper {
 
       found.push({
         headline,
-        link,
-        date,
+        link: `${timesFreePressUrl}${link}`,
+        published,
       });
     }
 
@@ -41,11 +41,10 @@ export default class TimesFreePressScraper extends BaseScraper {
     section: WebsiteSection,
     foundArticles: FoundArticle[],
   ): Promise<RelevantArticle[]> {
-    const relevantArticles = [];
+    const relevantArticles: RelevantArticle[] = [];
 
     for (const currentArticle of foundArticles) {
-      const constructedUrl = `${timesFreePressUrl}${currentArticle.link}`;
-      const articleResponse = await axios.get(constructedUrl);
+      const articleResponse = await axios.get(currentArticle.link);
 
       const parsedArticle = new JSDOM(await articleResponse.data);
       const page = parsedArticle.window.document;
@@ -53,7 +52,7 @@ export default class TimesFreePressScraper extends BaseScraper {
 
       if (!content)
         throw new Error(
-          `Error retrieving content for Times Free Press article: ${constructedUrl}`,
+          `Error retrieving content for Times Free Press article: ${currentArticle.link}`,
         );
 
       const dateString = page
@@ -70,14 +69,14 @@ export default class TimesFreePressScraper extends BaseScraper {
         continue;
       }
 
-      const datePublished = this.getDatePublished(dateString);
+      const published = this.getDatePublished(dateString);
 
-      if (!datePublished)
+      if (!published)
         throw new Error(
-          `Error parsing date string for Times Free Press article, maybe the format changed. ${constructedUrl}`,
+          `Error parsing date string for Times Free Press article, maybe the format changed. ${currentArticle.link}`,
         );
 
-      if (!fromToday(datePublished)) continue;
+      if (!fromToday(published)) continue;
 
       const imageLink = page
         .querySelector('article')
@@ -86,15 +85,13 @@ export default class TimesFreePressScraper extends BaseScraper {
 
       if (!imageLink)
         throw new Error(
-          `Error getting image link from Times Free Press Article: ${constructedUrl}`,
+          `Error getting image link from Times Free Press Article: ${currentArticle.link}`,
         );
 
       if (isRelevantArticle(content, currentArticle.headline, section.keywords))
         relevantArticles.push({
-          headline: currentArticle.headline,
-          link: constructedUrl,
+          ...currentArticle,
           image: imageLink,
-          timePosted: datePublished,
         });
     }
 

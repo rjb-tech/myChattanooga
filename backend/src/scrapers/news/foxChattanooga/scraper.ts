@@ -35,7 +35,7 @@ export default class FoxChattanoogaScraper extends BaseScraper {
       foundArticles.push({
         headline: currentHeadline,
         link: `${foxChattanoogaUrl}${currentLink.split('#')[0]}`, // remove url fragment it's fucking it page load
-        date: new Date(), // just a placeholder value since we don't actually get a date from these
+        published: new Date(), // just a placeholder value since we don't actually get a date from these
       });
     }
 
@@ -61,19 +61,18 @@ export default class FoxChattanoogaScraper extends BaseScraper {
       const timeTag = await page.$('time');
       const time = await timeTag?.getAttribute('datetime');
       if (time) {
-        const datetime = parseJSON(time);
+        const published = parseJSON(time);
         const relevant = isRelevantArticle(
           (await contentSection?.innerText()) ?? '',
           currentArticle.headline,
           section.keywords,
         );
 
-        if (relevant && fromToday(datetime)) {
+        if (relevant && fromToday(published)) {
           relevantArticles.push({
-            headline: currentArticle.headline,
-            link: currentArticle.link,
+            ...currentArticle,
+            published,
             image: `${foxChattanoogaUrl}${imageLink}`,
-            timePosted: datetime,
           });
         }
       }

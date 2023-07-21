@@ -13,7 +13,7 @@ import { wdefRssUrl, wdefUrl } from './config';
 export default class WDEFScraper extends BaseScraper {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async findArticles(page: Page): Promise<FoundArticle[]> {
-    const found = [];
+    const found: FoundArticle[] = [];
     const p = new Parser();
 
     const feed = await p.parseURL(wdefRssUrl);
@@ -21,13 +21,13 @@ export default class WDEFScraper extends BaseScraper {
       const { link, title: headline, isoDate } = article;
 
       if (link && headline && isoDate) {
-        const date = parseISO(isoDate);
+        const published = parseISO(isoDate);
         // the weatherupdate article is updated every day, we don't want that shit dirtying our data
-        if (fromToday(date) && !link.includes('weatherupdate'))
+        if (fromToday(published) && !link.includes('weatherupdate'))
           found.push({
             headline,
             link,
-            date,
+            published,
           });
       }
     }
@@ -57,10 +57,8 @@ export default class WDEFScraper extends BaseScraper {
       const imageLink = await this.getImageLink(imageContainerStyle);
 
       relevantArticles.push({
-        headline: currentArticle.headline,
-        link: currentArticle.link,
+        ...currentArticle,
         image: imageLink,
-        timePosted: currentArticle.date,
       });
     }
 

@@ -13,7 +13,7 @@ import { fromToday, isRelevantArticle } from '../generalHelpers';
 export default class ChattanoogaPulseScraper extends BaseScraper {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async findArticles(page: Page): Promise<FoundArticle[]> {
-    const found = [];
+    const found: FoundArticle[] = [];
     const p = new Parser({
       customFields: {
         item: ['media:content'],
@@ -22,22 +22,20 @@ export default class ChattanoogaPulseScraper extends BaseScraper {
 
     const feed = await p.parseURL(chattanoogaPulseRssUrl);
     for (const article of feed.items) {
-      const { title: headline, link, pubDate: published } = article;
+      const { title: headline, link, pubDate: publishedString } = article;
 
-      if (headline && link && published) {
-        // console.log(published);
-
-        const date = parse(
-          published,
+      if (headline && link && publishedString) {
+        const published = parse(
+          publishedString,
           'EEE, dd MMM yyyy HH:mm:ss xxxx',
           new Date(),
         );
 
-        if (fromToday(date))
+        if (fromToday(published))
           found.push({
             headline,
             link,
-            date,
+            published,
           });
       }
     }
@@ -61,20 +59,28 @@ export default class ChattanoogaPulseScraper extends BaseScraper {
     const feed = await p.parseURL(chattanoogaPulseRssUrl);
     for (const article of feed.items) {
       const image = article['media:content'].$.url;
-      const { title: headline, link, pubDate: published, content } = article;
+      const {
+        title: headline,
+        link,
+        pubDate: publishedString,
+        content,
+      } = article;
       const allElementsExist =
-        headline && link && published && content && image;
+        headline && link && publishedString && content && image;
 
       if (allElementsExist) {
-        const date = parse(
-          published,
+        const published = parse(
+          publishedString,
           'EEE, dd MMM yyyy HH:mm:ss xxxx',
           new Date(),
         );
 
         const shouldSave =
           foundArticles.find(
-            (x) => x.headline === headline && x.link === link && date === date,
+            (x) =>
+              x.headline === headline &&
+              x.link === link &&
+              x.published === published,
           ) &&
           isRelevantArticle(
             content.toLowerCase(),
@@ -87,7 +93,7 @@ export default class ChattanoogaPulseScraper extends BaseScraper {
             headline,
             link,
             image,
-            timePosted: date,
+            published,
           });
         }
       }
