@@ -8,4 +8,18 @@ const localNews: WebsiteSection = {
   keywords: REGION_KEYWORDS,
 };
 
-export const timesFreePressSections: WebsiteSection[] = [localNews];
+const businessNews: WebsiteSection = {
+  link: 'news/business/aroundregion/',
+  keywords: REGION_KEYWORDS,
+};
+
+const regionalPoliticsNews: WebsiteSection = {
+  link: 'news/politics/regional/',
+  keywords: REGION_KEYWORDS,
+};
+
+export const timesFreePressSections: WebsiteSection[] = [
+  localNews,
+  businessNews,
+  regionalPoliticsNews,
+];
