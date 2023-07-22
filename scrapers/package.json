@@ -4,7 +4,7 @@
   "description": "The scraper and database connection code for mychattanooga",
   "main": "src/index.js",
   "scripts": {
-    "scrape:news": "ts-node ./src/scrapers/news/scrape.ts",
+    "scrape:news": "ts-node ./src/news/scrape.ts",
     "build": "tsc",
     "lint": "eslint ./src",
     "format": "npx prettier --write ./src",
