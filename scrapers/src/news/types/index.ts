@@ -1,4 +1,4 @@
-import { PrismaClient, publishers } from '@prisma/client';
+import { PrismaClient, Publishers } from '@prisma/client';
 import { Page } from 'playwright';
 import { captureException } from '@sentry/node';
 import { endOfDay, subDays } from 'date-fns';
@@ -23,7 +23,7 @@ export interface RelevantArticle {
 
 interface Scraper {
   url: string;
-  publisher: publishers;
+  publisher: Publishers;
   sections: WebsiteSection[];
   prisma: PrismaClient;
   isRss: boolean;
@@ -34,14 +34,14 @@ interface Scraper {
 
 export abstract class BaseScraper implements Scraper {
   url: string;
-  publisher: publishers;
+  publisher: Publishers;
   sections: WebsiteSection[];
   prisma: PrismaClient;
   isRss: boolean;
 
   constructor(
     url: string,
-    publisher: publishers,
+    publisher: Publishers,
     sections: WebsiteSection[],
     isRss = false,
   ) {

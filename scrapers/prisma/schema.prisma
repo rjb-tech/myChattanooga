@@ -100,7 +100,7 @@ enum WeatherLocations {
 
 // region: stats
 
-model stat {
+model Stat {
   id           Int        @id @default(autoincrement())
   publisher    Publishers
   numPublished Int
