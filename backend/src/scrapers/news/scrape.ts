@@ -2,6 +2,7 @@ import { chromium } from 'playwright';
 import ScraperFactory from './factory';
 import { publishers } from '@prisma/client';
 import { captureException, init as initSentry } from '@sentry/node';
+import 'dotenv/config';
 
 initSentry({
   dsn: 'https://de875782d88948139f9af89fd16cea3f@o4505525322317824.ingest.sentry.io/4505525386674176',
