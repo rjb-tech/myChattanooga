@@ -1,4 +1,4 @@
-import { PrismaClient, Publishers, WeatherLocations } from '@prisma/client';
+import { PrismaClient, WeatherLocations } from '@prisma/client';
 import { locations } from './config';
 import 'dotenv/config';
 import { getDirection } from './helpers';
