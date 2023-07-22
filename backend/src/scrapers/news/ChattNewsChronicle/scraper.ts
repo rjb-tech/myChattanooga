@@ -12,10 +12,14 @@ import { REGION_KEYWORDS } from '../generalInfo';
 
 class ChattNewsChronicleScraper extends BaseScraper {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async findArticles(page: Page): Promise<FoundArticle[]> {
+  async findArticles(
+    page: Page,
+    section: WebsiteSection,
+  ): Promise<FoundArticle[]> {
     const found: FoundArticle[] = [];
+
     const p = new Parser();
-    const feed = await p.parseURL(this.url);
+    const feed = await p.parseURL(`${this.url}/${section.link}`);
 
     for (const article of feed.items) {
       const { headline, link, pubDate: publishedString } = article;

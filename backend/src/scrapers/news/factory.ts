@@ -7,7 +7,7 @@ import {
   foxChattanoogaUrl,
 } from './foxChattanooga/config';
 import WDEFScraper from './wdef/scraper';
-import { wdefRssUrl, wdefSections } from './wdef/config';
+import { wdefSections, wdefUrl } from './wdef/config';
 import TimesFreePressScraper from './timesFreePress/scraper';
 import {
   timesFreePressSections,
@@ -15,16 +15,16 @@ import {
 } from './timesFreePress/config';
 import ChattanoogaPulseScraper from './chattanoogaPulse/scraper';
 import {
-  chattanoogaPulseRssUrl,
   chattanoogaPulseSections,
+  chattanoogaPulseUrl,
 } from './chattanoogaPulse/config';
 import ChattNewsChronicleScraper from './ChattNewsChronicle/scraper';
 import {
-  chattNewsChronicleRssUrl,
   chattNewsChronicleSections,
+  chattNewsChronicleUrl,
 } from './ChattNewsChronicle/config';
 import Local3NewsScraper from './local3/scraper';
-import { local3RssUrl, local3Sections } from './local3/config';
+import { local3Sections, local3Url } from './local3/config';
 
 export default class ScraperFactory {
   getScraperInstance(publisher: publishers) {
@@ -42,7 +42,7 @@ export default class ScraperFactory {
           foxChattanoogaSections,
         );
       case publishers.WDEF:
-        return new WDEFScraper(wdefRssUrl, publishers.WDEF, wdefSections, true);
+        return new WDEFScraper(wdefUrl, publishers.WDEF, wdefSections);
       case publishers.TimesFreePress:
         return new TimesFreePressScraper(
           timesFreePressUrl,
@@ -51,24 +51,21 @@ export default class ScraperFactory {
         );
       case publishers.ChattanoogaPulse:
         return new ChattanoogaPulseScraper(
-          chattanoogaPulseRssUrl,
+          chattanoogaPulseUrl,
           publishers.ChattanoogaPulse,
           chattanoogaPulseSections,
-          true,
         );
       case publishers.ChattNewsChronicle:
         return new ChattNewsChronicleScraper(
-          chattNewsChronicleRssUrl,
+          chattNewsChronicleUrl,
           publishers.ChattNewsChronicle,
           chattNewsChronicleSections,
-          true,
         );
       case publishers.Local3News:
         return new Local3NewsScraper(
-          local3RssUrl,
+          local3Url,
           publishers.Local3News,
           local3Sections,
-          true,
         );
     }
   }

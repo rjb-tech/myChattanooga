@@ -11,15 +11,19 @@ import { fromToday, isRelevantArticle } from '../generalHelpers';
 
 export default class ChattanoogaPulseScraper extends BaseScraper {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async findArticles(page: Page): Promise<FoundArticle[]> {
+  async findArticles(
+    page: Page,
+    section: WebsiteSection,
+  ): Promise<FoundArticle[]> {
     const found: FoundArticle[] = [];
+
     const p = new Parser({
       customFields: {
         item: ['media:content'],
       },
     });
+    const feed = await p.parseURL(`${this.url}/${section.link}`);
 
-    const feed = await p.parseURL(this.url);
     for (const currentArticle of feed.items) {
       const {
         title: headline,
@@ -58,8 +62,8 @@ export default class ChattanoogaPulseScraper extends BaseScraper {
         item: ['media:content'],
       },
     });
+    const feed = await p.parseURL(`${this.url}/${section.link}`);
 
-    const feed = await p.parseURL(this.url);
     for (const currentArticle of feed.items) {
       const image = currentArticle['media:content'].$.url;
       const {

@@ -52,15 +52,12 @@ export abstract class BaseScraper implements Scraper {
     this.isRss = isRss;
   }
 
-  async scrapeAndSaveNews(page: Page, isRss = false): Promise<void> {
+  async scrapeAndSaveNews(page: Page): Promise<void> {
     const allFoundArticles: FoundArticle[] = [];
     const allRelevantArticles: RelevantArticle[] = [];
     for (const section of this.sections) {
       try {
-        // Don't download rss feed
-        if (!isRss) await page.goto(`${this.url}/${section.link}`);
-
-        const found = await this.findArticles(page);
+        const found = await this.findArticles(page, section);
         const relevant = await this.getRelevantArticles(page, section, found);
 
         allRelevantArticles.push(...relevant);
@@ -81,7 +78,10 @@ export abstract class BaseScraper implements Scraper {
     this.saveStats(allFoundArticles.length, allRelevantArticles.length);
   }
 
-  abstract findArticles(page: Page): Promise<FoundArticle[]>;
+  abstract findArticles(
+    page: Page,
+    section: WebsiteSection,
+  ): Promise<FoundArticle[]>;
 
   abstract getRelevantArticles(
     page: Page,

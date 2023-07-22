@@ -1,13 +1,10 @@
 import { REGION_KEYWORDS } from '../generalInfo';
 import { WebsiteSection } from '../types';
 
-export const chattanoogaPulseUrl = 'https://www.chattanooganpulse.com';
-
-export const chattanoogaPulseRssUrl =
-  'https://www.chattanoogapulse.com/local-news/index.rss';
+export const chattanoogaPulseUrl = 'https://www.chattanoogapulse.com';
 
 const dummySection: WebsiteSection = {
-  link: 'whocares',
+  link: 'local-news/index.rss',
   keywords: REGION_KEYWORDS,
 };
 

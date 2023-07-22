@@ -5,31 +5,39 @@ import { parse } from 'date-fns';
 import { fromToday, isRelevantArticle } from '../generalHelpers';
 import { WebsiteSection } from '../types';
 import { FoundArticle, RelevantArticle } from '../types';
+import Parser from 'rss-parser';
 
 export default class ChattanooganScraper extends BaseScraper {
-  async findArticles(page: Page): Promise<FoundArticle[]> {
+  async findArticles(
+    page: Page,
+    section: WebsiteSection,
+  ): Promise<FoundArticle[]> {
     const foundArticles: FoundArticle[] = [];
-    const table = await page.waitForSelector('table');
-    const rows = await table.$$('tr');
 
-    for (const row of rows) {
-      const cells = await row.$$('td');
+    const p = new Parser();
+    const feed = await p.parseURL(`${this.url}/${section.link}`);
 
-      if (cells.length === 2) {
-        const link = this.getLink(await row.getAttribute('onClick'));
+    for (const currentArticle of feed.items) {
+      const {
+        title: headline,
+        link,
+        pubDate: publishedString,
+      } = currentArticle;
 
-        if (link) {
-          // The whitespace replacement is necessary to compare text from the web
-          const d = (await cells[1].innerText()).replace(/\s/g, ' ');
-          const published = parse(d, 'M/d/yyyy h:mm a', new Date());
+      if (headline && link && publishedString) {
+        const published = parse(
+          // There's no parse option for EDT or EST string values so... here we are
+          publishedString.replace(' EDT', '').replace(' EST', ''),
+          'EEE, dd MMM yyyy HH:mm:ss',
+          new Date(),
+        );
 
-          if (fromToday(published))
-            foundArticles.push({
-              link,
-              published,
-              headline: await cells[0].innerText(),
-            });
-        }
+        if (fromToday(published))
+          foundArticles.push({
+            headline,
+            link,
+            published,
+          });
       }
     }
 
@@ -45,7 +53,7 @@ export default class ChattanooganScraper extends BaseScraper {
     for (const currentArticle of foundArticles) {
       await page.goto(currentArticle.link);
 
-      const contentSection = await page.$('div.news-heading + div'); // The + operator gets the next div sibling
+      const contentSection = await page.$('.news-content');
       const articleContent = await contentSection?.textContent();
       if (articleContent) {
         const relevant = isRelevantArticle(
@@ -55,8 +63,6 @@ export default class ChattanooganScraper extends BaseScraper {
         );
 
         if (relevant) {
-          // need to get: timePosted
-          // image will be the chattanoogan logo asset link constant
           relevantArticles.push({
             ...currentArticle,
             image:

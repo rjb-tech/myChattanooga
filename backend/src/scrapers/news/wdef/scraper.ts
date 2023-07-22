@@ -12,11 +12,15 @@ import { wdefUrl } from './config';
 
 export default class WDEFScraper extends BaseScraper {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async findArticles(page: Page): Promise<FoundArticle[]> {
+  async findArticles(
+    page: Page,
+    section: WebsiteSection,
+  ): Promise<FoundArticle[]> {
     const found: FoundArticle[] = [];
-    const p = new Parser();
 
-    const feed = await p.parseURL(this.url);
+    const p = new Parser();
+    const feed = await p.parseURL(`${this.url}/${section.link}`);
+
     for (const currentArticle of feed.items) {
       const { link, title: headline, isoDate } = currentArticle;
 
@@ -40,6 +44,7 @@ export default class WDEFScraper extends BaseScraper {
     foundArticles: FoundArticle[],
   ): Promise<RelevantArticle[]> {
     const relevantArticles: RelevantArticle[] = [];
+
     for (const currentArticle of foundArticles) {
       await page.goto(currentArticle.link);
 

@@ -21,17 +21,17 @@ const CHATTANOOGAN_BUSINESS_KEYWORDS = [
 ];
 
 const breaking: WebsiteSection = {
-  link: 'Breaking-News/List/',
+  link: 'Breaking-News/feed/',
   keywords: REGION_KEYWORDS,
 };
 
 const happenings: WebsiteSection = {
-  link: 'Leisuretime/Happenings/List/',
+  link: 'Leisuretime/Happenings/feed/',
   keywords: CHATTANOOGAN_HAPPENINGS_KEYWORDS,
 };
 
 const business: WebsiteSection = {
-  link: 'Community/Business/List/',
+  link: 'Community/Business/feed/',
   keywords: CHATTANOOGAN_BUSINESS_KEYWORDS,
 };
 
