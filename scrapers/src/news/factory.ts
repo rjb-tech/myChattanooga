@@ -1,5 +1,5 @@
 import ChattanooganScraper from './chattanoogan/scraper';
-import { publishers } from '@prisma/client';
+import { Publishers } from '@prisma/client';
 import { ChattanooganSections, chattanooganUrl } from './chattanoogan/config';
 import FoxChattanoogaScraper from './foxChattanooga/scraper';
 import {
@@ -27,44 +27,44 @@ import Local3NewsScraper from './local3/scraper';
 import { local3Sections, local3Url } from './local3/config';
 
 export default class ScraperFactory {
-  getScraperInstance(publisher: publishers) {
+  getScraperInstance(publisher: Publishers) {
     switch (publisher) {
-      case publishers.Chattanoogan:
+      case Publishers.Chattanoogan:
         return new ChattanooganScraper(
           chattanooganUrl,
-          publishers.Chattanoogan,
+          Publishers.Chattanoogan,
           ChattanooganSections,
         );
-      case publishers.FoxChattanooga:
+      case Publishers.FoxChattanooga:
         return new FoxChattanoogaScraper(
           foxChattanoogaUrl,
-          publishers.FoxChattanooga,
+          Publishers.FoxChattanooga,
           foxChattanoogaSections,
         );
-      case publishers.WDEF:
-        return new WDEFScraper(wdefUrl, publishers.WDEF, wdefSections);
-      case publishers.TimesFreePress:
+      case Publishers.WDEF:
+        return new WDEFScraper(wdefUrl, Publishers.WDEF, wdefSections);
+      case Publishers.TimesFreePress:
         return new TimesFreePressScraper(
           timesFreePressUrl,
-          publishers.TimesFreePress,
+          Publishers.TimesFreePress,
           timesFreePressSections,
         );
-      case publishers.ChattanoogaPulse:
+      case Publishers.ChattanoogaPulse:
         return new ChattanoogaPulseScraper(
           chattanoogaPulseUrl,
-          publishers.ChattanoogaPulse,
+          Publishers.ChattanoogaPulse,
           chattanoogaPulseSections,
         );
-      case publishers.ChattNewsChronicle:
+      case Publishers.ChattNewsChronicle:
         return new ChattNewsChronicleScraper(
           chattNewsChronicleUrl,
-          publishers.ChattNewsChronicle,
+          Publishers.ChattNewsChronicle,
           chattNewsChronicleSections,
         );
-      case publishers.Local3News:
+      case Publishers.Local3News:
         return new Local3NewsScraper(
           local3Url,
-          publishers.Local3News,
+          Publishers.Local3News,
           local3Sections,
         );
     }

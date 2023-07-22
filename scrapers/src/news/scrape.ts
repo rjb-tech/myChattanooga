@@ -1,6 +1,6 @@
 import { chromium } from 'playwright';
 import ScraperFactory from './factory';
-import { publishers } from '@prisma/client';
+import { Publishers } from '@prisma/client';
 import { captureException, init as initSentry } from '@sentry/node';
 import 'dotenv/config';
 
@@ -15,7 +15,7 @@ async function main() {
   const factory = new ScraperFactory();
 
   try {
-    const scrapers = Object.values(publishers).map(async (p) => {
+    const scrapers = Object.values(Publishers).map(async (p) => {
       const context = await browser.newContext();
       const page = await context.newPage();
 

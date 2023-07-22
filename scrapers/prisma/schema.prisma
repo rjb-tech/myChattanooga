@@ -9,26 +9,26 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  schemas  = ["news", "weather", "stats"]
+  schemas  = ["News", "Weather", "Stats"]
 }
 
 // region: news schema
 
-model article {
+model Article {
   id        Int        @id @default(autoincrement())
   headline  String
   link      String
   image     String
   published DateTime
   saved     DateTime   @default(now())
-  publisher publishers
+  publisher Publishers
 
   @@index([publisher, saved])
-  @@map("articles")
-  @@schema("news")
+  @@map("Articles")
+  @@schema("News")
 }
 
-enum publishers {
+enum Publishers {
   Chattanoogan
   FoxChattanooga
   WDEF
@@ -37,15 +37,15 @@ enum publishers {
   ChattNewsChronicle
   Local3News
 
-  @@schema("news")
+  @@schema("News")
 }
 
 // endregion
 
 // region: weather schema
 
-model weather_entries {
-  location           weather_locations @id
+model Weather {
+  location           WeatherLocations @id
   temp               Decimal
   humidity           Int
   weatherCode        Int
@@ -53,12 +53,12 @@ model weather_entries {
   sunrise            DateTime
   sunset             DateTime
   windSpeed          Decimal
-  windDirection      wind_directions
+  windDirection      WindDirections
 
-  @@schema("weather")
+  @@schema("Weather")
 }
 
-enum wind_directions {
+enum WindDirections {
   N
   NNE
   NE
@@ -76,10 +76,10 @@ enum wind_directions {
   NW
   NNW
 
-  @@schema("weather")
+  @@schema("Weather")
 }
 
-enum weather_locations {
+enum WeatherLocations {
   Airport
   CoolidgePark
   Downtown
@@ -93,7 +93,7 @@ enum weather_locations {
   SoddyDaisy
   Southside
 
-  @@schema("weather")
+  @@schema("Weather")
 }
 
 // endregion
@@ -102,14 +102,14 @@ enum weather_locations {
 
 model stat {
   id           Int        @id @default(autoincrement())
-  publisher    publishers
+  publisher    Publishers
   numPublished Int
   numRelevant  Int
   dateSaved    DateTime   @default(now())
 
   @@index([publisher, dateSaved])
-  @@map("stats")
-  @@schema("stats")
+  @@map("Stats")
+  @@schema("Stats")
 }
 
 // endregion
