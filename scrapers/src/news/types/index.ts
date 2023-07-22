@@ -102,13 +102,10 @@ export abstract class BaseScraper implements Scraper {
     });
 
     for (const article of articles) {
-      let alreadyExists = false;
-      for (const existing of existingArticles)
-        if (
-          existing.headline === article.headline ||
-          existing.link === article.link
-        )
-          alreadyExists = true;
+      const alreadyExists = existingArticles.find((existingArticle) => {
+        existingArticle.headline === article.headline ||
+          existingArticle.link === article.link;
+      });
 
       if (!alreadyExists)
         await this.prisma.article.create({
