@@ -6,7 +6,6 @@ import {
   WebsiteSection,
 } from '../types';
 import Parser from 'rss-parser';
-import { local3RssUrl } from './config';
 import { parse } from 'date-fns';
 import { fromToday, isRelevantArticle } from '../generalHelpers';
 
@@ -15,7 +14,7 @@ class Local3NewsScraper extends BaseScraper {
   async findArticles(page: Page): Promise<FoundArticle[]> {
     const found: FoundArticle[] = [];
     const p = new Parser();
-    const feed = await p.parseURL(local3RssUrl);
+    const feed = await p.parseURL(this.url);
 
     for (const currentArticle of feed.items) {
       const {

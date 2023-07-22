@@ -6,7 +6,6 @@ import {
   WebsiteSection,
 } from '../types';
 import Parser from 'rss-parser';
-import { chattNewsChronicleRssUrl } from './config';
 import { parse } from 'date-fns';
 import { fromToday, isRelevantArticle } from '../generalHelpers';
 import { REGION_KEYWORDS } from '../generalInfo';
@@ -16,7 +15,7 @@ class ChattNewsChronicleScraper extends BaseScraper {
   async findArticles(page: Page): Promise<FoundArticle[]> {
     const found: FoundArticle[] = [];
     const p = new Parser();
-    const feed = await p.parseURL(chattNewsChronicleRssUrl);
+    const feed = await p.parseURL(this.url);
 
     for (const article of feed.items) {
       const { headline, link, pubDate: publishedString } = article;

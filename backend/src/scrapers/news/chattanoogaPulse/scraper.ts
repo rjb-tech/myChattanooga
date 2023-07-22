@@ -6,7 +6,6 @@ import {
   WebsiteSection,
 } from '../types';
 import Parser from 'rss-parser';
-import { chattanoogaPulseRssUrl } from './config';
 import { parse } from 'date-fns';
 import { fromToday, isRelevantArticle } from '../generalHelpers';
 
@@ -20,7 +19,7 @@ export default class ChattanoogaPulseScraper extends BaseScraper {
       },
     });
 
-    const feed = await p.parseURL(chattanoogaPulseRssUrl);
+    const feed = await p.parseURL(this.url);
     for (const currentArticle of feed.items) {
       const {
         title: headline,
@@ -60,7 +59,7 @@ export default class ChattanoogaPulseScraper extends BaseScraper {
       },
     });
 
-    const feed = await p.parseURL(chattanoogaPulseRssUrl);
+    const feed = await p.parseURL(this.url);
     for (const currentArticle of feed.items) {
       const image = currentArticle['media:content'].$.url;
       const {
