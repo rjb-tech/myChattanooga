@@ -9,7 +9,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  schemas  = ["News", "Weather", "Stats"]
+  schemas  = ["news", "weather", "stats"]
 }
 
 // region: news schema
@@ -24,8 +24,8 @@ model Article {
   publisher Publishers
 
   @@index([publisher, saved])
-  @@map("Articles")
-  @@schema("News")
+  @@map("articles")
+  @@schema("news")
 }
 
 enum Publishers {
@@ -37,7 +37,8 @@ enum Publishers {
   ChattNewsChronicle
   Local3News
 
-  @@schema("News")
+  @@map("publishers")
+  @@schema("news")
 }
 
 // endregion
@@ -55,7 +56,8 @@ model Weather {
   windSpeed          Decimal
   windDirection      WindDirections
 
-  @@schema("Weather")
+  @@map("weather")
+  @@schema("weather")
 }
 
 enum WindDirections {
@@ -76,7 +78,8 @@ enum WindDirections {
   NW
   NNW
 
-  @@schema("Weather")
+  @@map("wind_directions")
+  @@schema("weather")
 }
 
 enum WeatherLocations {
@@ -93,7 +96,8 @@ enum WeatherLocations {
   SoddyDaisy
   Southside
 
-  @@schema("Weather")
+  @@map("weather_locations")
+  @@schema("weather")
 }
 
 // endregion
@@ -108,8 +112,8 @@ model Stat {
   dateSaved    DateTime   @default(now())
 
   @@index([publisher, dateSaved])
-  @@map("Stats")
-  @@schema("Stats")
+  @@map("stats")
+  @@schema("stats")
 }
 
 // endregion
