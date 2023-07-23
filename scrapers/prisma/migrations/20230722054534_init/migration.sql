@@ -44,6 +44,7 @@ CREATE TABLE "weather"."weather" (
     CONSTRAINT "weather_pkey" PRIMARY KEY ("location")
 );
 
+-- Add dummy data to weather table so scraper updates work
 INSERT INTO "weather"."weather" ("location", "temp", "humidity", "weatherCode", "weatherDescription", "sunrise", "sunset", "windSpeed", "windDirection")
 VALUES
   ('Airport', 25.5, 60, 800, 'Clear sky', '2023-07-21 06:00:00', '2023-07-21 18:00:00', 12.5, 'N'),
