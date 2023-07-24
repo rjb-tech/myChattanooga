@@ -22,6 +22,7 @@
     "@mui/material": "^5.10.10",
     "@mui/x-date-pickers": "^5.0.4",
     "@next/swc-darwin-arm64": "^13.4.12",
+    "@prisma/client": "^5.0.0",
     "@reduxjs/toolkit": "^1.8.6",
     "axios": "^0.27.2",
     "date-fns": "^2.29.3",
