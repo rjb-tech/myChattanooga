@@ -2,6 +2,7 @@ import { PrismaClient, Publishers } from '@prisma/client';
 import { Page } from 'playwright';
 import { captureException } from '@sentry/node';
 import { endOfDay, subDays } from 'date-fns';
+import scraperPrisma from '../../prisma';
 
 export interface WebsiteSection {
   link: string;
@@ -48,7 +49,7 @@ export abstract class BaseScraper implements Scraper {
     this.url = url;
     this.publisher = publisher;
     this.sections = sections;
-    this.prisma = new PrismaClient();
+    this.prisma = scraperPrisma;
     this.isRss = isRss;
   }
 
