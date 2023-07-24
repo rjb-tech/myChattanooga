@@ -1,32 +1,22 @@
-import axios from "axios";
-const url = require("url");
+import apiSupabase from "../../lib/supabase";
+import { endOfDay, parse, subDays } from "date-fns";
 
-export default function handler(req, res) {
-  let apiURL;
-  if (process.env.DEPLOYMENT_ENV === "prod") {
-    apiURL = "https://api.mychattanooga.app";
-  } else {
-    apiURL = "http://0.0.0.0:8000";
-  }
-  const parsedURL = url.parse(req.url, true);
-  let queryParams = "";
-  // Query date needs to be passed in iso format
-  if (parsedURL.query.query_date !== undefined)
-    queryParams = `query_date=${parsedURL.query.query_date}`;
+export default async function handler(req, res) {
+  if (!req.method !== "GET") res.status(404);
 
-  if (req.method === "GET") {
-    axios
-      .get(`${apiURL}/articles?${queryParams}`)
-      .then((response) => {
-        res.json(response.data);
-        res.end();
-      })
-      .catch((error) => {
-        res.json(error);
-        res.end;
-      });
-  } else {
-    res.status(404);
-    res.end();
-  }
+  const { published: publishedRaw } = req.query;
+  if (!publishedRaw) res.status(404);
+
+  const published = parse(publishedRaw, "yyyy-MM-dd", new Date());
+
+  const { data: articles, error } = await apiSupabase
+    .from("articles")
+    .select("*");
+
+  // console.log(articles);
+  // console.log(error);
+
+  if (error) res.status(404);
+
+  res.status(200).json(articles);
 }

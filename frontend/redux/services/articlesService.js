@@ -8,11 +8,11 @@ export const articlesApi = createApi({
   refetchOnReconnect: true,
   refetchOnMountOrArgChange: 300,
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/articles`,
+    baseUrl: `api/articles`,
   }),
   endpoints: (builder) => ({
     getArticlesByDate: builder.query({
-      query: (date) => `?query_date=${date}`,
+      query: (date) => `?published=${date}`,
     }),
   }),
 });

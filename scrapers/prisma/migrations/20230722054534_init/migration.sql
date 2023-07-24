@@ -1,11 +1,25 @@
 -- CreateSchema
 CREATE SCHEMA IF NOT EXISTS "news";
 
+GRANT USAGE 
+ON SCHEMA "news" 
+TO postgres, anon, authenticated, service_role, dashboard_user;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA "news"
+GRANT ALL ON TABLES TO postgres, anon, authenticated, service_role, dashboard_user;
+
 -- CreateSchema
 CREATE SCHEMA IF NOT EXISTS "stats";
 
 -- CreateSchema
 CREATE SCHEMA IF NOT EXISTS "weather";
+
+GRANT USAGE 
+ON SCHEMA "weather" 
+TO postgres, anon, authenticated, service_role, dashboard_user;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA "weather"
+GRANT ALL ON TABLES TO postgres, anon, authenticated, service_role, dashboard_user;
 
 -- CreateEnum
 CREATE TYPE "news"."publishers" AS ENUM ('Chattanoogan', 'FoxChattanooga', 'WDEF', 'TimesFreePress', 'ChattanoogaPulse', 'ChattNewsChronicle', 'Local3News');
