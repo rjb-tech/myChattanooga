@@ -9,8 +9,7 @@
     "build": "tsc",
     "lint": "eslint ./src",
     "format": "npx prettier --write ./src",
-    "format-check": "npx prettier --check ./src",
-    "generate": "npx prisma generate --schema=../prisma/schema.prisma"
+    "format-check": "npx prettier --check ./src"
   },
   "author": "Ryne Burden",
   "license": "ISC",
