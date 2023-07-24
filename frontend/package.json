@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate": "npx prisma generate --schema=../prisma/schema.prisma"
   },
   "dependencies": {
     "@auth0/auth0-react": "^1.10.1",
@@ -18,9 +19,9 @@
     "@fortawesome/free-regular-svg-icons": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/react-fontawesome": "^0.1.18",
-    "@next/swc-linux-x64-gnu": "^12.1.4",
     "@mui/material": "^5.10.10",
     "@mui/x-date-pickers": "^5.0.4",
+    "@next/swc-darwin-arm64": "^13.4.12",
     "@reduxjs/toolkit": "^1.8.6",
     "axios": "^0.27.2",
     "date-fns": "^2.29.3",
@@ -28,6 +29,7 @@
     "framer-motion": "^6.2.10",
     "next": "^12.2",
     "postcss": "^8.4.12",
+    "prisma": "^5.0.0",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-redux": "^8.0.4",
