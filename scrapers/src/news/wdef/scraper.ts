@@ -7,7 +7,7 @@ import {
 } from '../types';
 import Parser from 'rss-parser';
 import { parseISO } from 'date-fns';
-import { fromToday } from '../generalHelpers';
+import { fromToday, isRelevantArticle } from '../generalHelpers';
 import { wdefUrl } from './config';
 
 export default class WDEFScraper extends BaseScraper {
@@ -61,10 +61,17 @@ export default class WDEFScraper extends BaseScraper {
 
       const imageLink = await this.getImageLink(imageContainerStyle);
 
-      relevantArticles.push({
-        ...currentArticle,
-        image: imageLink,
-      });
+      if (
+        isRelevantArticle(
+          (await article.textContent()) ?? '',
+          currentArticle.headline,
+          section.keywords,
+        )
+      )
+        relevantArticles.push({
+          ...currentArticle,
+          image: imageLink,
+        });
     }
 
     return relevantArticles;
