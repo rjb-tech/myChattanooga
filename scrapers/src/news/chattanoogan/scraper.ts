@@ -32,10 +32,12 @@ export default class ChattanooganScraper extends BaseScraper {
           new Date(),
         );
 
+        const isHttps = link.includes('https');
+
         if (fromToday(published))
           foundArticles.push({
             headline,
-            link,
+            link: isHttps ? link : link.replace('http', 'https'),
             published,
           });
       }
