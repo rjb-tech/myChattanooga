@@ -88,15 +88,12 @@ export default class TimesFreePressScraper extends BaseScraper {
         ?.querySelector('img')
         ?.getAttribute('src');
 
-      if (!imageLink)
-        throw new Error(
-          `Error getting image link from Times Free Press Article: ${currentArticle.link}`,
-        );
-
       if (isRelevantArticle(content, currentArticle.headline, section.keywords))
         relevantArticles.push({
           ...currentArticle,
-          image: imageLink,
+          image:
+            imageLink ??
+            'https://mychattanooga-files.nyc3.digitaloceanspaces.com/TFP.jpg',
         });
     }
 
