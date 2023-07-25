@@ -69,7 +69,7 @@ export abstract class BaseScraper implements Scraper {
         console.log(e);
         captureException(
           new Error(
-            `Error in ${this.publisher} scraper ${section} section:\n\n ${e}`,
+            `Error in ${this.publisher} scraper ${section.link}:\n\n ${e}`,
           ),
         );
       }
