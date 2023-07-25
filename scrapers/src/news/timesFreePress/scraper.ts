@@ -12,7 +12,12 @@ import { parse } from 'date-fns';
 import { fromToday, isRelevantArticle } from '../generalHelpers';
 
 export default class TimesFreePressScraper extends BaseScraper {
-  async findArticles(page: Page): Promise<FoundArticle[]> {
+  async findArticles(
+    page: Page,
+    section: WebsiteSection,
+  ): Promise<FoundArticle[]> {
+    await page.goto(`${this.url}/${section.link}`);
+
     const found: FoundArticle[] = [];
     const articles = await page.$$('article');
     for (const currentArticle of articles) {

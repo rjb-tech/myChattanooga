@@ -10,11 +10,19 @@ import { parseJSON } from 'date-fns';
 import { fromToday, isRelevantArticle } from '../generalHelpers';
 
 export default class FoxChattanoogaScraper extends BaseScraper {
-  async findArticles(page: Page): Promise<FoundArticle[]> {
+  async findArticles(
+    page: Page,
+    section: WebsiteSection,
+  ): Promise<FoundArticle[]> {
+    await page.goto(`${this.url}/${section.link}`);
+
     const foundArticles: FoundArticle[] = [];
     const articles = await page.$$(
       "//div[contains(@class, 'index-module_teaser')]",
     );
+
+    if (articles.length === 0)
+      throw new Error('Fox Chattanooga article selector broken');
 
     for (const article of articles) {
       const headlineAndLinkContainer = await article.$$('a');
@@ -38,8 +46,9 @@ export default class FoxChattanoogaScraper extends BaseScraper {
         published: new Date(), // just a placeholder value since we don't actually get a date from these
       });
     }
-
-    return foundArticles;
+    // Only grab the first 5 articles bc there are too damn many to always send them all.
+    // Repeats are fine
+    return foundArticles.filter((x, idx) => idx < 5);
   }
 
   async getRelevantArticles(
@@ -48,18 +57,29 @@ export default class FoxChattanoogaScraper extends BaseScraper {
     foundArticles: FoundArticle[],
   ): Promise<RelevantArticle[]> {
     const relevantArticles: RelevantArticle[] = [];
+
     for (const currentArticle of foundArticles) {
       await page.goto(currentArticle.link);
 
-      const story = await page.$("//div[contains(@class, 'storyContainer')]");
-      const contentSection = await story?.$(
-        "xpath=//div[contains(@class, 'StoryText')]",
+      const story = await page.$(
+        "xpath=//div[contains(@class, 'storyContainer')]",
       );
+
+      if (!story)
+        throw new Error('Fox Chattanooga article element selector broken');
+
+      // Sometimes the class containing storytext renders with weird casing
+      // This converts it to lower and searches. Weird shit just letting you know
+      const contentSection = await story?.$(
+        `xpath=//div[contains(translate(@class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'storytext')]`,
+      );
+
       const imageLinkContainer = await story?.$('img');
       const imageLink = await imageLinkContainer?.getAttribute('src');
 
       const timeTag = await page.$('time');
       const time = await timeTag?.getAttribute('datetime');
+
       if (time) {
         const published = parseJSON(time);
         const relevant = isRelevantArticle(
