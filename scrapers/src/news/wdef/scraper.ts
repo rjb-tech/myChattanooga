@@ -83,7 +83,7 @@ export default class WDEFScraper extends BaseScraper {
     const regex = /url\((.*?)\)/;
     const match = style.match(regex);
 
-    if (match && match[1]) return `${wdefUrl}/${match[1]}`;
+    if (match && match[1]) return `${match[1]}`;
 
     throw new Error('WDEF image link regex done goofed.');
   }
