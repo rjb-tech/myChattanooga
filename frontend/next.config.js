@@ -23,6 +23,7 @@ module.exports = {
       "s.gravatar.com",
       "wehco.media.clients.ellingtoncms.com",
       "chattnewschronicle.com",
+      "cdn.field59.com",
     ],
   },
   reactStrictMode: false,

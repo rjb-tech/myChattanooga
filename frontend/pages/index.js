@@ -25,13 +25,14 @@ export default function Home() {
 
   useEffect(() => {
     if (!isLoading && !error && data !== undefined) {
+      // this shit right here needs editing
       const ISOdate = formatISO(new Date(), { representation: "date" });
       const filteredData = data?.filter((entry) => {
         return currentIsToday
           ? !isFromTheFuture(entry.time_posted) && entry.date_saved === ISOdate
           : entry.date_saved === currentDate;
       });
-      dispatch(setPageContent(filteredData));
+      dispatch(setPageContent(data));
     }
   }, [data]);
 
@@ -67,7 +68,7 @@ export default function Home() {
                 <div className="py-2 sm:px-2" key={story.headline}>
                   <Article
                     headline={story.headline}
-                    timePosted={story.time_posted}
+                    timePosted={story.published}
                     publisher={story.publisher}
                     image={story.image}
                     link={story.link}
