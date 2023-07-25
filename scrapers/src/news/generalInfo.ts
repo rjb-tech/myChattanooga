@@ -17,7 +17,6 @@ export const REGION_KEYWORDS = [
   'soddy-daisy',
   'collegedale',
   'ridgeside',
-  'tennessee valley',
   'hixson',
   'east ridge',
   'brainerd',
