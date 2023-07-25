@@ -45,6 +45,7 @@ function scrape() {
           },
         });
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
       console.log(e);
       captureException(`Error in weather scraper: ${e}`);
