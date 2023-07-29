@@ -2,6 +2,7 @@ import { PrismaClient, Publishers } from '@prisma/client';
 import { Page } from 'playwright';
 import { captureException } from '@sentry/node';
 import { endOfDay, subDays } from 'date-fns';
+import { zonedTimeToUtc } from 'date-fns-tz';
 import scraperPrisma from '../../prisma';
 
 export interface WebsiteSection {
@@ -75,8 +76,26 @@ export abstract class BaseScraper implements Scraper {
       }
     }
 
-    this.saveArticles(allRelevantArticles);
-    this.saveStats(allFoundArticles.length, allRelevantArticles.length);
+    // Sometime there are multiple repeated articles
+    //   gotta trow those out Ton'
+    const filteredRelevant = allRelevantArticles.filter(
+      (article, idx, self) =>
+        idx ===
+        self.findIndex(
+          (x) => x.headline === article.headline || x.link === article.link,
+        ),
+    );
+
+    const filteredFound = allFoundArticles.filter(
+      (article, idx, self) =>
+        idx ===
+        self.findIndex(
+          (x) => x.headline === article.headline || x.link === article.link,
+        ),
+    );
+
+    this.saveArticles(filteredRelevant);
+    this.saveStats(filteredFound.length, filteredRelevant.length);
   }
 
   abstract findArticles(
@@ -92,21 +111,23 @@ export abstract class BaseScraper implements Scraper {
 
   async saveArticles(articles: RelevantArticle[]): Promise<void> {
     // Select all of today's chattanoogan articles to be able to do if exists checking outside the db
+    const dayQueried = endOfDay(zonedTimeToUtc(new Date(), 'America/New_York'));
     const existingArticles = await this.prisma.article.findMany({
       where: {
         publisher: { equals: this.publisher },
         saved: {
-          gt: endOfDay(subDays(new Date(), 1)),
-          lte: endOfDay(new Date()),
+          gt: subDays(dayQueried, 1),
+          lte: dayQueried,
         },
       },
     });
 
     for (const article of articles) {
-      const alreadyExists = existingArticles.find((existingArticle) => {
-        existingArticle.headline === article.headline ||
-          existingArticle.link === article.link;
-      });
+      const alreadyExists = existingArticles.find(
+        (existingArticle) =>
+          existingArticle.headline === article.headline ||
+          existingArticle.link === article.link,
+      );
 
       if (!alreadyExists)
         await this.prisma.article.create({
@@ -122,11 +143,12 @@ export abstract class BaseScraper implements Scraper {
   }
 
   async saveStats(numPublished: number, numRelevant: number): Promise<void> {
+    const dayQueried = endOfDay(zonedTimeToUtc(new Date(), 'America/New_York'));
     const existingStat = await this.prisma.stat.findFirst({
       select: { id: true },
       where: {
         publisher: this.publisher,
-        dateSaved: { gt: subDays(new Date(), 1), lte: new Date() },
+        dateSaved: { gt: subDays(dayQueried, 1), lte: dayQueried },
       },
     });
 
