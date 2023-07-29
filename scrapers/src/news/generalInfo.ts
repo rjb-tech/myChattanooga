@@ -59,4 +59,5 @@ export const KEYWORDS_TO_AVOID = [
   'white house',
   'get emailed headlines from chattanoogan.com',
   'tech byte',
+  'remember when, chattanooga',
 ];
