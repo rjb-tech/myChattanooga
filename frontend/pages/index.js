@@ -32,7 +32,7 @@ export default function Home() {
           ? !isFromTheFuture(entry.time_posted) && entry.date_saved === ISOdate
           : entry.date_saved === currentDate;
       });
-      dispatch(setPageContent(data));
+      dispatch(setPageContent(data ?? []));
     }
   }, [data]);
 
