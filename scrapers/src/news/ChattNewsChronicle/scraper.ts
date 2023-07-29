@@ -68,16 +68,9 @@ class ChattNewsChronicleScraper extends BaseScraper {
 
       const articleText = await content.textContent();
 
-      const image = await imageContainer.getAttribute('src');
-
       if (!articleText)
         throw new Error(
           `Error parsing article content for text in Chattanooga News Chronicle article: ${currentArticle.link}`,
-        );
-
-      if (!image)
-        throw new Error(
-          `Error getting image link for Chattanooga News Chronicle article: ${currentArticle.link}`,
         );
 
       if (
@@ -85,7 +78,8 @@ class ChattNewsChronicleScraper extends BaseScraper {
       ) {
         relevant.push({
           ...currentArticle,
-          image,
+          image:
+            'https://mychattanooga-files.nyc3.digitaloceanspaces.com/ChattNewsChronicleLogo.png',
         });
       }
     }

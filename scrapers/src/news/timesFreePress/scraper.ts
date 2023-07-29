@@ -83,16 +83,10 @@ export default class TimesFreePressScraper extends BaseScraper {
 
       if (!fromToday(published)) continue;
 
-      const imageLink = page
-        .querySelector('article')
-        ?.querySelector('img')
-        ?.getAttribute('src');
-
       if (isRelevantArticle(content, currentArticle.headline, section.keywords))
         relevantArticles.push({
           ...currentArticle,
           image:
-            imageLink ??
             'https://mychattanooga-files.nyc3.digitaloceanspaces.com/TFP.jpg',
         });
     }

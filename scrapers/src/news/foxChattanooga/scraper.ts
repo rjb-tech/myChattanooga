@@ -74,9 +74,6 @@ export default class FoxChattanoogaScraper extends BaseScraper {
         `xpath=//div[contains(translate(@class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'storytext')]`,
       );
 
-      const imageLinkContainer = await story?.$('img');
-      const imageLink = await imageLinkContainer?.getAttribute('src');
-
       const timeTag = await page.$('time');
       const time = await timeTag?.getAttribute('datetime');
 
@@ -92,7 +89,8 @@ export default class FoxChattanoogaScraper extends BaseScraper {
           relevantArticles.push({
             ...currentArticle,
             published,
-            image: `${foxChattanoogaUrl}${imageLink}`,
+            image:
+              'https://mychattanooga-files.nyc3.digitaloceanspaces.com/FoxChattanoogaLogo.jpg',
           });
         }
       }

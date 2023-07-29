@@ -65,7 +65,6 @@ export default class ChattanoogaPulseScraper extends BaseScraper {
     const feed = await p.parseURL(`${this.url}/${section.link}`);
 
     for (const currentArticle of feed.items) {
-      const image = currentArticle['media:content'].$.url;
       const {
         title: headline,
         link,
@@ -73,8 +72,7 @@ export default class ChattanoogaPulseScraper extends BaseScraper {
         content,
       } = currentArticle;
 
-      const allElementsExist =
-        headline && link && publishedString && content && image;
+      const allElementsExist = headline && link && publishedString && content;
 
       if (allElementsExist) {
         const published = parse(
@@ -100,7 +98,8 @@ export default class ChattanoogaPulseScraper extends BaseScraper {
           relevant.push({
             headline,
             link,
-            image,
+            image:
+              'https://mychattanooga-files.nyc3.digitaloceanspaces.com/PulseLogo.png',
             published,
           });
         }

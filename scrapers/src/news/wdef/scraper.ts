@@ -49,17 +49,10 @@ export default class WDEFScraper extends BaseScraper {
       await page.goto(currentArticle.link);
 
       const article = await page.$('article');
-      const imageContainer = await article?.$(
-        "//div[contains(@class, 'flowplayer')]",
-      );
-      const imageContainerStyle = await imageContainer?.getAttribute('style');
-
       if (!article)
         throw new Error(
           `Couldn't find article element for WDEF article:\n\n ${currentArticle.link}`,
         );
-
-      const imageLink = await this.getImageLink(imageContainerStyle);
 
       if (
         isRelevantArticle(
@@ -70,21 +63,11 @@ export default class WDEFScraper extends BaseScraper {
       )
         relevantArticles.push({
           ...currentArticle,
-          image: imageLink,
+          image:
+            'https://mychattanooga-files.nyc3.digitaloceanspaces.com/wdef_logo.png',
         });
     }
 
     return relevantArticles;
-  }
-
-  async getImageLink(style: string | null | undefined) {
-    if (!style)
-      return 'https://mychattanooga-files.nyc3.digitaloceanspaces.com/wdef_logo.png';
-    const regex = /url\((.*?)\)/;
-    const match = style.match(regex);
-
-    if (match && match[1]) return `${match[1]}`;
-
-    throw new Error('WDEF image link regex done goofed.');
   }
 }
