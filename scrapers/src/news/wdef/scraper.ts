@@ -8,7 +8,6 @@ import {
 import Parser from 'rss-parser';
 import { parseISO } from 'date-fns';
 import { fromToday, isRelevantArticle } from '../generalHelpers';
-import { wdefUrl } from './config';
 
 export default class WDEFScraper extends BaseScraper {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
