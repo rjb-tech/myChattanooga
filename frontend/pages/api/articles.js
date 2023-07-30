@@ -1,6 +1,8 @@
-import apiSupabase from "../../lib/supabase";
 import { endOfDay, subDays } from "date-fns";
 import { zonedTimeToUtc } from "date-fns-tz";
+import getSupabaseClient from "../../lib/supabase";
+
+const supabase = getSupabaseClient("news");
 
 export default async function handler(req, res) {
   if (!req.method !== "GET") res.status(404);
@@ -11,7 +13,7 @@ export default async function handler(req, res) {
   const dayQueried = endOfDay(zonedTimeToUtc(published, "America/New_York"));
   const dayBefore = subDays(dayQueried, 1);
 
-  const { data: articles, error } = await apiSupabase
+  const { data: articles, error } = await supabase
     .from("articles")
     .select("*")
     .gte("published", dayBefore.toISOString())
