@@ -1,28 +1,21 @@
-import axios from "axios";
-const url = require("url");
+import getSupabaseClient from "../../lib/supabase";
 
-export default function handler(req, res) {
-  let apiURL;
-  if (process.env.DEPLOYMENT_ENV === "prod") {
-    apiURL = "https://api.mychattanooga.app";
-  } else {
-    apiURL = "http://0.0.0.0:8000";
-  }
-  if (req.method === "GET") {
-    const parsedURL = url.parse(req.url, true);
+const supabase = getSupabaseClient("weather");
 
-    const result = axios
-      .get(`${apiURL}/weather?location=${parsedURL.query.location}`)
-      .then(async (response) => {
-        res.json(response.data);
-        res.end();
-      })
-      .catch((error) => {
-        res.json(error);
-        res.end();
-      });
-  } else {
+export default async function handler(req, res) {
+  if (req.method !== "GET") res.status(404);
+
+  const { location: queriedLocation } = req.query;
+
+  const { data: weather, error } = await supabase
+    .from("weather")
+    .select("*")
+    .eq("location", queriedLocation);
+
+  if (error) {
+    console.error(error);
     res.status(404);
-    res.end();
   }
+
+  res.status(200).json(weather);
 }

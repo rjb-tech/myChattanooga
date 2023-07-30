@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
+import { format, isAfter, isBefore, parseISO } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ReactSkycon, SkyconType } from "react-skycons-extended";
@@ -14,6 +15,7 @@ import {
   setSunset,
   setHumidity,
 } from "../redux/slices/weatherSlice";
+import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 
 const loadingVariants = {
   loading: { opacity: 0 },
@@ -307,37 +309,37 @@ const weatherCodeMappings = {
 };
 
 const weatherLocations = {
-  airport: {
+  Airport: {
     latitude: 35.037384,
     longitude: -85.196596,
     name: "Airport",
   },
-  coolidgePark: {
+  CoolidgePark: {
     latitude: 35.060666,
     longitude: -85.307835,
     name: "Coolidge Park",
   },
-  downtown: {
+  Downtown: {
     latitude: 35.055072,
     longitude: -85.311388,
     name: "Downtown",
   },
-  eastBrainerd: {
+  EastBrainerd: {
     latitude: 35.035135,
     longitude: -85.156978,
     name: "East Brainerd",
   },
-  eastRidge: {
+  EastRidge: {
     latitude: 34.991181,
     longitude: -85.229127,
     name: "East Ridge",
   },
-  harrison: {
+  Harrison: {
     latitude: 35.114548,
     longitude: -85.138063,
     name: "Harrison",
   },
-  hixson: {
+  Hixson: {
     latitude: 35.130611,
     longitude: -85.241446,
     name: "Hixson",
@@ -347,27 +349,27 @@ const weatherLocations = {
   //   longitude: -85.339596,
   //   "name": "Lookout Mountain"
   // },
-  northChattanooga: {
+  NorthChattanooga: {
     latitude: 35.069496,
     longitude: -85.289329,
     name: "North Chattanooga",
   },
-  redBank: {
+  RedBank: {
     latitude: 35.110136,
     longitude: -85.295099,
     name: "Red Bank",
   },
-  signalMountain: {
+  SignalMountain: {
     latitude: 35.142164,
     longitude: -85.3422,
     name: "Signal Mountain",
   },
-  soddyDaisy: {
+  SoddyDaisy: {
     latitude: 35.237057,
     longitude: -85.183266,
     name: "Soddy Daisy",
   },
-  southside: {
+  Southside: {
     latitude: 35.037511,
     longitude: -85.307215,
     name: "Southside",
@@ -383,7 +385,7 @@ export const WeatherStation = ({ isDark, currentWeatherLocation }) => {
   const { temperature, iconCode, description, sunrise, sunset, humidity } =
     useSelector((state) => state.weather);
   const { data, isError, isLoading, isSuccess } = useGetWeatherByLocationQuery(
-    weatherLocations[currentWeatherLocation]["name"]
+    currentWeatherLocation
   );
 
   const locationsIterHelper = Object.keys(weatherLocations);
@@ -392,27 +394,30 @@ export const WeatherStation = ({ isDark, currentWeatherLocation }) => {
     if (isSuccess) {
       const {
         temp,
-        weather_code,
-        weather_description,
+        weatherCode,
+        weatherDescription,
         sunrise,
         sunset,
         humidity,
       } = data[0];
-      dispatch(setTemperature(temp?.toFixed()));
-      dispatch(setIconCode(weather_code));
-      dispatch(setDesciption(weather_description));
+
+      dispatch(setTemperature(temp.toFixed()));
+      dispatch(setIconCode(weatherCode));
+      dispatch(setDesciption(weatherDescription));
       dispatch(setSunrise(sunrise));
       dispatch(setSunset(sunset));
       dispatch(setHumidity(humidity));
     }
   }, [data, isSuccess]);
 
-  // The sunrise and sunset
+  // I fucking hate timezones this code works but I'm not sure why
   const isDay = (sunrise, sunset) => {
-    const currentDate = new Date();
-    const now = currentDate.getTime() / 1000;
+    const now = new Date();
 
-    return now > sunrise && now < sunset ? true : false;
+    const sunriseDate = zonedTimeToUtc(new Date(sunrise));
+    const sunsetDate = zonedTimeToUtc(new Date(sunset));
+
+    return isAfter(now, sunriseDate) && isBefore(now, sunsetDate);
   };
 
   const switchWeatherLocation = (increasing) => {

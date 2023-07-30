@@ -8,7 +8,7 @@ export const weatherApi = createApi({
   refetchOnReconnect: true,
   refetchOnMountOrArgChange: 60,
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/weather`,
+    baseUrl: "api/weather",
   }),
   endpoints: (builder) => ({
     getWeatherByLocation: builder.query({

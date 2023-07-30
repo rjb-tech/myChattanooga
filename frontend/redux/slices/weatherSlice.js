@@ -9,7 +9,7 @@ export const weatherSlice = createSlice({
     sunrise: 0,
     sunset: 0,
     humidity: 0,
-    location: "northChattanooga",
+    location: "NorthChattanooga",
   },
   reducers: {
     setTemperature: (state, action) => {
