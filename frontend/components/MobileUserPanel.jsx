@@ -1,6 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from "react-redux";
 import { MobileAuxillaryPanel } from "./MobileAuxillaryPanel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -26,9 +25,6 @@ export const MobileUserPanel = ({ showFilters }) => {
   );
   const iconColor = isDark === true ? "#f0f0f0" : "#222";
   // const thereAreBrews = currentUserBrews.length > 0
-
-  const { loginWithRedirect, user, isAuthenticated, isLoading } = useAuth0();
-  const isAdmin = user?.email === "admin@mychattanooga.app";
 
   const handleAuxPanel = (incomingSection) => {
     if (auxPanelExpanded === false) {
@@ -81,7 +77,7 @@ export const MobileUserPanel = ({ showFilters }) => {
             >
                 <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faPlusCircle} style={{color: `${iconColor}`}} />
             </motion.button>} */}
-            <motion.button
+            {/* <motion.button
               aria-label="Articles Datepicker"
               whileTap={{ scale: 0.85 }}
               className="bg-[#f0f0f0] dark:bg-[#222] h-2/3 rounded-full flex-1 z-10"
@@ -94,23 +90,7 @@ export const MobileUserPanel = ({ showFilters }) => {
                 icon={faCalendarDays}
                 style={{ color: `${iconColor}` }}
               />
-            </motion.button>
-            <motion.button
-              whileTap={{ scale: 0.85 }}
-              className="bg-[#f0f0f0] dark:bg-[#222] h-2/3 rounded-full flex-1 z-10"
-              // onClick={() => {handleAuxPanel("account")}}
-              onClick={() =>
-                isAuthenticated === false
-                  ? loginWithRedirect()
-                  : handleAuxPanel("account")
-              }
-            >
-              <FontAwesomeIcon
-                className="h-2/3 w-2/3 mx-auto"
-                icon={faUser}
-                style={{ color: `${iconColor}` }}
-              />
-            </motion.button>
+            </motion.button> */}
           </div>
         </div>
       </div>

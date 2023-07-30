@@ -1,7 +1,6 @@
 import { Socials } from "./Socials";
 import { Modal, Fade } from "@mui/material";
 import { motion } from "framer-motion";
-import { useAuth0 } from "@auth0/auth0-react";
 import { FiltersPanel } from "./FiltersPanel";
 import { AuxillaryPanel } from "./AuxillaryPanel";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +8,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSun,
   faMoon,
-  faUser,
   faCalendarDays,
 } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -31,8 +29,6 @@ export const UserPanel = ({ showFilters }) => {
   const iconColor = isDark === true ? "#f0f0f0" : "#222";
   const darkModeIcon = isDark === true ? faSun : faMoon;
   // const thereAreBrews = currentUserBrews.length > 0
-
-  const { loginWithRedirect, user, isAuthenticated, isLoading } = useAuth0();
 
   const handleAuxPanel = (incomingSection) => {
     if (auxPanelExpanded === false) {
@@ -78,7 +74,7 @@ export const UserPanel = ({ showFilters }) => {
           >
             <FontAwesomeIcon className='h-2/3 w-2/3 mx-auto' icon={faBeer} style={{color: `${iconColor}`}} />
           </motion.button>} */}
-        <motion.button
+        {/* <motion.button
           whileTap={{ scale: 0.85 }}
           className="bg-[#f0f0f0] dark:bg-[#222] h-5/6 rounded-full flex-1 z-30"
           onClick={handleCalendarClick}
@@ -88,8 +84,8 @@ export const UserPanel = ({ showFilters }) => {
             icon={faCalendarDays}
             style={{ color: `${iconColor}` }}
           />
-        </motion.button>
-        <Modal
+        </motion.button> */}
+        {/* <Modal
           open={datePickerModalOpen}
           onClose={handleCalendarClick}
           closeAfterTransition
@@ -99,22 +95,7 @@ export const UserPanel = ({ showFilters }) => {
               <MobileDatePicker isWeb />
             </div>
           </Fade>
-        </Modal>
-        <motion.button
-          whileTap={{ scale: 0.85 }}
-          className="bg-[#f0f0f0] dark:bg-[#222] h-5/6 rounded-full flex-1 z-30"
-          onClick={() =>
-            isAuthenticated === false
-              ? loginWithRedirect()
-              : handleAuxPanel("account")
-          }
-        >
-          <FontAwesomeIcon
-            className="h-2/3 w-2/3 mx-auto"
-            icon={faUser}
-            style={{ color: `${iconColor}` }}
-          />
-        </motion.button>
+        </Modal> */}
       </div>
       <motion.div
         className="h-fit w-full relative bg-[#f0f0f0] text-[#222] dark:bg-[#222] dark:text-[#f0f0f0] overscroll-auto flex-col items-center z-10"
@@ -134,9 +115,6 @@ export const UserPanel = ({ showFilters }) => {
             <FiltersPanel />
           </div>
         )}
-        <div>
-          <Socials />
-        </div>
       </motion.div>
     </div>
   );
