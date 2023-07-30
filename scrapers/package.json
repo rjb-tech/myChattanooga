@@ -1,0 +1,41 @@
+{
+  "name": "mychattanooga-backend",
+  "version": "1.0.0",
+  "description": "The scraper and database connection code for mychattanooga",
+  "main": "src/index.js",
+  "scripts": {
+    "scrape:news": "ts-node ./src/news/scrape.ts",
+    "scrape:weather": "ts-node ./src/weather/scrape.ts",
+    "build": "tsc",
+    "lint": "eslint ./src",
+    "format": "npx prettier --write ./src",
+    "format-check": "npx prettier --check ./src"
+  },
+  "author": "Ryne Burden",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jsdom": "^21.1.1",
+    "@types/node": "^20.4.1",
+    "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "eslint": "^8.44.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^3.0.0",
+    "prisma": "^5.0.0",
+    "supabase": "^1.75.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.0.0",
+    "@sentry/node": "^7.58.1",
+    "axios": "^1.4.0",
+    "date-fns": "^2.30.0",
+    "date-fns-tz": "^2.0.0",
+    "dotenv": "^16.3.1",
+    "jsdom": "^22.1.0",
+    "playwright": "^1.35.1",
+    "rss-parser": "^3.13.0",
+    "yargs": "^17.7.2"
+  }
+}

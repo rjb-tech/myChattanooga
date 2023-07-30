@@ -1,0 +1,119 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["news", "weather", "stats"]
+}
+
+// region: news schema
+
+model Article {
+  id        Int        @id @default(autoincrement())
+  headline  String
+  link      String
+  image     String
+  published DateTime
+  saved     DateTime   @default(now())
+  publisher Publishers
+
+  @@index([publisher, saved])
+  @@map("articles")
+  @@schema("news")
+}
+
+enum Publishers {
+  Chattanoogan
+  FoxChattanooga
+  WDEF
+  TimesFreePress
+  ChattanoogaPulse
+  ChattNewsChronicle
+  Local3News
+
+  @@map("publishers")
+  @@schema("news")
+}
+
+// endregion
+
+// region: weather schema
+
+model Weather {
+  location           WeatherLocations @id
+  temp               Decimal
+  humidity           Int
+  weatherCode        Int
+  weatherDescription String
+  sunrise            DateTime
+  sunset             DateTime
+  windSpeed          Decimal
+  windDirection      WindDirections
+
+  @@map("weather")
+  @@schema("weather")
+}
+
+enum WindDirections {
+  N
+  NNE
+  NE
+  ENE
+  E
+  ESE
+  SE
+  SSE
+  S
+  SSW
+  SW
+  WSW
+  W
+  WNW
+  NW
+  NNW
+
+  @@map("wind_directions")
+  @@schema("weather")
+}
+
+enum WeatherLocations {
+  Airport
+  CoolidgePark
+  Downtown
+  EastBrainerd
+  EastRidge
+  Harrison
+  Hixson
+  NorthChattanooga
+  RedBank
+  SignalMountain
+  SoddyDaisy
+  Southside
+
+  @@map("weather_locations")
+  @@schema("weather")
+}
+
+// endregion
+
+// region: stats
+
+model Stat {
+  id           Int        @id @default(autoincrement())
+  publisher    Publishers
+  numPublished Int
+  numRelevant  Int
+  dateSaved    DateTime   @default(now())
+
+  @@index([publisher, dateSaved])
+  @@map("stats")
+  @@schema("stats")
+}
+
+// endregion
