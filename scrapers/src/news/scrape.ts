@@ -1,4 +1,4 @@
-import { chromium } from 'playwright';
+import { firefox } from 'playwright';
 import ScraperFactory from './factory';
 import { Publishers } from '@prisma/client';
 import { captureException, init as initSentry } from '@sentry/node';
@@ -11,12 +11,12 @@ initSentry({
 });
 
 async function main() {
-  const browser = await chromium.launch();
+  const browser = await firefox.launch();
   const factory = new ScraperFactory();
 
   try {
     const scrapers = Object.values(Publishers).map(async (p) => {
-      const context = await browser.newContext();
+      const context = await browser.newContext({ ignoreHTTPSErrors: true });
       const page = await context.newPage();
 
       const scraper = factory.getScraperInstance(p);
