@@ -1,4 +1,3 @@
-# docker build --target scraper -t mychattanooga_scraper .
 FROM buildpack-deps:bullseye as scraper
 WORKDIR /scrapers
 ENV TZ="America/New_York"

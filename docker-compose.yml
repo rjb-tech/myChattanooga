@@ -29,7 +29,7 @@ services:
     env_file:
       - ./scrapers/.env
     build:
-      context: ./scrapers
+      context: .
       dockerfile: Dockerfile
       target: scraper
     volumes:
@@ -40,7 +40,7 @@ services:
     env_file:
       - ./scrapers/.env
     build:
-      context: ./scrapers
+      context: .
       dockerfile: Dockerfile
       target: scraper
     volumes:
