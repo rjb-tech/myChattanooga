@@ -10,6 +10,6 @@ RUN apt-get update && \
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt-get install -y nodejs
 RUN npm install
-RUN npx playwright install
 RUN npx playwright install-deps
+RUN npx playwright install
 RUN npx prisma generate
