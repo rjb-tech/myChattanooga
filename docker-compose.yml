@@ -26,11 +26,12 @@ services:
       - 8000:8000
   scraper:
     container_name: scraper
-    depends_on:
-      - database
     env_file:
-      - .env
+      - ./scrapers/.env
     build:
-      context: .
+      context: ./scrapers
       dockerfile: Dockerfile
-      target: scraper
+      target: scraper_new
+    volumes:
+      - ./scrapers:/scrapers
+    command: ["bash", "-c", "npm run scrape:news"]
