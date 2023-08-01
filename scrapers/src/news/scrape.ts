@@ -16,7 +16,19 @@ async function main() {
 
   try {
     const scrapers = Object.values(Publishers).map(async (p) => {
-      const context = await browser.newContext({ ignoreHTTPSErrors: true });
+      const context = await browser.newContext({
+        ignoreHTTPSErrors: true,
+        reducedMotion: 'reduce',
+        timezoneId: 'America/New_York',
+        locale: 'en-US',
+        extraHTTPHeaders: {
+          'User-Agent':
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0) Gecko/20100101 Firefox/91.0',
+          // Add headers for HTTPS DNS resolution
+          DNT: '1', // Do Not Track
+          'Upgrade-Insecure-Requests': '1',
+        },
+      });
       const page = await context.newPage();
 
       const scraper = factory.getScraperInstance(p);
@@ -24,6 +36,10 @@ async function main() {
     });
 
     await Promise.allSettled(scrapers);
+
+    // await factory
+    //   .getScraperInstance(Publishers.FoxChattanooga)
+    //   .scrapeAndSaveNews(await browser.newPage());
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {
     console.log(e);
