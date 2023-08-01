@@ -31,18 +31,18 @@ services:
     build:
       context: ./scrapers
       dockerfile: Dockerfile
-      target: scraper_new
+      target: scraper
     volumes:
       - ./scrapers:/scrapers
     command: ["bash", "-c", "npm run scrape:news"]
   weather_scraper:
-    container_name: news_scraper
+    container_name: weather_scraper
     env_file:
       - ./scrapers/.env
     build:
       context: ./scrapers
       dockerfile: Dockerfile
-      target: scraper_new
+      target: scraper
     volumes:
       - ./scrapers:/scrapers
     command: ["bash", "-c", "npm run scrape:weather"]
