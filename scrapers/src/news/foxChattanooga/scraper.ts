@@ -36,9 +36,17 @@ export default class FoxChattanoogaScraper extends BaseScraper {
       ]?.getAttribute('href');
 
       if (!currentHeadline)
-        throw new Error("Couldn't find headline for Fox Chattanooga article");
+        throw new Error(
+          `Couldn't find headline for Fox Chattanooga article: ${JSON.stringify(
+            headlineAndLinkContainer,
+          )}`,
+        );
       if (!currentLink)
-        throw new Error('Could find link href for Fox Chattanooga article');
+        throw new Error(
+          `Couldn't find link href for Fox Chattanooga article: ${JSON.stringify(
+            headlineAndLinkContainer,
+          )}`,
+        );
 
       foundArticles.push({
         headline: currentHeadline,

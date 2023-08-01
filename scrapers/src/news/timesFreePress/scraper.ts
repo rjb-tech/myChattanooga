@@ -27,9 +27,13 @@ export default class TimesFreePressScraper extends BaseScraper {
       const published = new Date(); // dummy date since we have to go into each article to get the actual date
 
       if (!headline)
-        throw new Error("Couldn't find headline for Fox Chattanooga article");
+        throw new Error(
+          `Couldn't find headline for Fox Chattanooga article: ${link}`,
+        );
       if (!link)
-        throw new Error('Could find link href for Fox Chattanooga article');
+        throw new Error(
+          `Could find link href for Fox Chattanooga article: ${headline}`,
+        );
 
       found.push({
         headline,
