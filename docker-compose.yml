@@ -24,8 +24,8 @@ services:
       target: api_server
     ports:
       - 8000:8000
-  scraper:
-    container_name: scraper
+  news_scraper:
+    container_name: news_scraper
     env_file:
       - ./scrapers/.env
     build:
@@ -35,3 +35,14 @@ services:
     volumes:
       - ./scrapers:/scrapers
     command: ["bash", "-c", "npm run scrape:news"]
+  weather_scraper:
+    container_name: news_scraper
+    env_file:
+      - ./scrapers/.env
+    build:
+      context: ./scrapers
+      dockerfile: Dockerfile
+      target: scraper_new
+    volumes:
+      - ./scrapers:/scrapers
+    command: ["bash", "-c", "npm run scrape:weather"]
