@@ -53,8 +53,6 @@ function scrape() {
       captureException(`Error in weather scraper: ${e}`);
     }
   });
-
-  Promise.all(results);
 }
 
 scrape();
