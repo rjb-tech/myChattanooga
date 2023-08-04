@@ -3,7 +3,6 @@ import { Page } from 'playwright';
 import { captureException } from '@sentry/node';
 import { endOfDay, subDays } from 'date-fns';
 import { zonedTimeToUtc } from 'date-fns-tz';
-import scraperPrisma from '../../prisma';
 
 export interface WebsiteSection {
   link: string;
@@ -28,7 +27,6 @@ interface Scraper {
   publisher: Publishers;
   sections: WebsiteSection[];
   prisma: PrismaClient;
-  isRss: boolean;
   scrapeAndSaveNews(page: Page): void;
   saveArticles(articles: RelevantArticle[]): void;
   saveStats(numPublished: number, numRelevant: number): void;
@@ -39,19 +37,17 @@ export abstract class BaseScraper implements Scraper {
   publisher: Publishers;
   sections: WebsiteSection[];
   prisma: PrismaClient;
-  isRss: boolean;
 
   constructor(
     url: string,
     publisher: Publishers,
     sections: WebsiteSection[],
-    isRss = false,
+    prisma: PrismaClient,
   ) {
     this.url = url;
     this.publisher = publisher;
     this.sections = sections;
-    this.prisma = scraperPrisma;
-    this.isRss = isRss;
+    this.prisma = prisma;
   }
 
   async scrapeAndSaveNews(page: Page): Promise<void> {

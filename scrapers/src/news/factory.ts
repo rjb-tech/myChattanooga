@@ -1,5 +1,5 @@
 import ChattanooganScraper from './chattanoogan/scraper';
-import { Publishers } from '@prisma/client';
+import { PrismaClient, Publishers } from '@prisma/client';
 import { ChattanooganSections, chattanooganUrl } from './chattanoogan/config';
 import FoxChattanoogaScraper from './foxChattanooga/scraper';
 import {
@@ -26,6 +26,8 @@ import {
 import Local3NewsScraper from './local3/scraper';
 import { local3Sections, local3Url } from './local3/config';
 
+const prisma = new PrismaClient();
+
 export default class ScraperFactory {
   getScraperInstance(publisher: Publishers) {
     switch (publisher) {
@@ -34,38 +36,44 @@ export default class ScraperFactory {
           chattanooganUrl,
           Publishers.Chattanoogan,
           ChattanooganSections,
+          prisma,
         );
       case Publishers.FoxChattanooga:
         return new FoxChattanoogaScraper(
           foxChattanoogaUrl,
           Publishers.FoxChattanooga,
           foxChattanoogaSections,
+          prisma,
         );
       case Publishers.WDEF:
-        return new WDEFScraper(wdefUrl, Publishers.WDEF, wdefSections);
+        return new WDEFScraper(wdefUrl, Publishers.WDEF, wdefSections, prisma);
       case Publishers.TimesFreePress:
         return new TimesFreePressScraper(
           timesFreePressUrl,
           Publishers.TimesFreePress,
           timesFreePressSections,
+          prisma,
         );
       case Publishers.ChattanoogaPulse:
         return new ChattanoogaPulseScraper(
           chattanoogaPulseUrl,
           Publishers.ChattanoogaPulse,
           chattanoogaPulseSections,
+          prisma,
         );
       case Publishers.ChattNewsChronicle:
         return new ChattNewsChronicleScraper(
           chattNewsChronicleUrl,
           Publishers.ChattNewsChronicle,
           chattNewsChronicleSections,
+          prisma,
         );
       case Publishers.Local3News:
         return new Local3NewsScraper(
           local3Url,
           Publishers.Local3News,
           local3Sections,
+          prisma,
         );
     }
   }
