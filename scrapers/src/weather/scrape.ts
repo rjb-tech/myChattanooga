@@ -11,48 +11,59 @@ initSentry({
   tracesSampleRate: 0.75,
 });
 
-function scrape() {
+async function scrape() {
   const prisma = new PrismaClient({
-    log: ['query', 'info'],
+    log: ['info', 'error', 'warn'],
   });
 
-  const results = Object.keys(WeatherLocations).map(async (currentLocation) => {
-    try {
-      const currentLocationData = locations.find(
-        (location) => location.name === currentLocation,
-      );
-      if (currentLocationData) {
-        const response = await fetch(
-          `https://api.openweathermap.org/data/2.5/weather?lat=${currentLocationData.latitude}&lon=${currentLocationData.longitude}&appid=${process.env['OWM_API_KEY']}&units=imperial`,
-        );
-        const data = await response.json();
+  try {
+    await prisma.$connect();
 
-        const locationEnum: WeatherLocations =
-          currentLocation as WeatherLocations;
+    await prisma.$transaction(async (transaction) =>
+      Promise.all(
+        Object.keys(WeatherLocations).map(async (currentLocation) => {
+          try {
+            const currentLocationData = locations.find(
+              (location) => location.name === currentLocation,
+            );
+            if (currentLocationData) {
+              const response = await fetch(
+                `https://api.openweathermap.org/data/2.5/weather?lat=${currentLocationData.latitude}&lon=${currentLocationData.longitude}&appid=${process.env['OWM_API_KEY']}&units=imperial`,
+              );
+              const data = await response.json();
 
-        return await prisma.weather.update({
-          where: {
-            location: locationEnum,
-          },
-          data: {
-            location: locationEnum,
-            temp: data.main.temp,
-            humidity: data.main.humidity,
-            weatherCode: data.weather[0].id,
-            weatherDescription: data.weather[0].description,
-            sunrise: parse(data.sys.sunrise, 't', new Date()),
-            sunset: parse(data.sys.sunset, 't', new Date()),
-            windSpeed: data.wind.speed,
-            windDirection: getDirection(data.wind.deg),
-          },
-        });
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (e: any) {
-      console.log(e);
-      captureException(`Error in weather scraper: ${e}`);
-    }
-  });
+              const locationEnum: WeatherLocations =
+                currentLocation as WeatherLocations;
+
+              return await transaction.weather.update({
+                where: {
+                  location: locationEnum,
+                },
+                data: {
+                  location: locationEnum,
+                  temp: data.main.temp,
+                  humidity: data.main.humidity,
+                  weatherCode: data.weather[0].id,
+                  weatherDescription: data.weather[0].description,
+                  sunrise: parse(data.sys.sunrise, 't', new Date()),
+                  sunset: parse(data.sys.sunset, 't', new Date()),
+                  windSpeed: data.wind.speed,
+                  windDirection: getDirection(data.wind.deg),
+                },
+              });
+            }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          } catch (e: any) {
+            console.log(e);
+            captureException(`Error in weather scraper: ${e}`);
+          }
+        }),
+      ),
+    );
+  } catch {
+  } finally {
+    await prisma.$disconnect;
+  }
 }
 
 scrape();
