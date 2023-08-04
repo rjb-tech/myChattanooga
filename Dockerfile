@@ -7,7 +7,7 @@ ENV DEPLOYMENT_ENV="${DEPLOYMENT_ENV}"
 COPY /scrapers .
 RUN apt-get update && \
     apt-get install -y libnss3 libglib2.0-0 libgbm1 libxshmfence-dev ca-certificates
-RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+RUN curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 RUN apt-get install -y nodejs
 RUN npm install
 RUN npx playwright install-deps
