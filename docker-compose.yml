@@ -1,29 +1,5 @@
 version: '3.4'
 services:
-  database:
-    container_name: database
-    restart: always
-    env_file:
-      - .env
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: database
-    ports:
-      - 5432:5432
-  api:
-    container_name: api
-    restart: always
-    depends_on:
-      - database
-    env_file:
-      - .env
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: api_server
-    ports:
-      - 8000:8000
   news_scraper:
     container_name: news_scraper
     env_file:
