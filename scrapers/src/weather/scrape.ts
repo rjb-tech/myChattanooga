@@ -12,7 +12,9 @@ initSentry({
 });
 
 function scrape() {
-  const prisma = new PrismaClient();
+  const prisma = new PrismaClient({
+    log: ['query', 'info'],
+  });
 
   const results = Object.keys(WeatherLocations).map(async (currentLocation) => {
     try {
