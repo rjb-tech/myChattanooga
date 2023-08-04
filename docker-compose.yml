@@ -34,7 +34,7 @@ services:
       target: scraper
     volumes:
       - ./scrapers:/scrapers
-    command: ["bash", "-c", "npm run scrape:news"]
+    command: ["bash", "-c", "npx playwright install && npm run scrape:news"]
   weather_scraper:
     container_name: weather_scraper
     env_file:

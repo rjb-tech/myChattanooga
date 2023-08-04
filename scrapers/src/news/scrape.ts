@@ -1,4 +1,4 @@
-import { firefox } from 'playwright';
+import { chromium } from 'playwright';
 import ScraperFactory from './factory';
 import { Publishers } from '@prisma/client';
 import { captureException, init as initSentry } from '@sentry/node';
@@ -11,7 +11,7 @@ initSentry({
 });
 
 async function main() {
-  const browser = await firefox.launch();
+  const browser = await chromium.launch();
   const factory = new ScraperFactory();
 
   try {
