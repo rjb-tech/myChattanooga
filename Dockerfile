@@ -11,4 +11,5 @@ RUN curl -sL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt update && apt install nodejs
 RUN npm install
 RUN npx playwright install --with-deps chromium
+RUN npx playwright install --with-deps firefox
 RUN npx prisma generate
