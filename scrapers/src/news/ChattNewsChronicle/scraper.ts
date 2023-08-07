@@ -51,7 +51,7 @@ class ChattNewsChronicleScraper extends BaseScraper {
     const relevant: RelevantArticle[] = [];
 
     for (const currentArticle of foundArticles) {
-      await page.goto(currentArticle.link);
+      await page.goto(currentArticle.link, { timeout: 0 });
 
       const imageContainer = await page.$('.entry-thumb');
       const content = await page.$('.td-post-content');

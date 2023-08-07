@@ -53,7 +53,7 @@ class Local3NewsScraper extends BaseScraper {
       'https://mychattanooga-files.nyc3.digitaloceanspaces.com/local_three_logo.jpeg';
 
     for (const currentArticle of foundArticles) {
-      await page.goto(currentArticle.link);
+      await page.goto(currentArticle.link, { timeout: 0 });
 
       const contentContainer = await page.$('#article-body');
       const content = await contentContainer?.textContent();

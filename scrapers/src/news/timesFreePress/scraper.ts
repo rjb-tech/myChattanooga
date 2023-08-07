@@ -16,7 +16,7 @@ export default class TimesFreePressScraper extends BaseScraper {
     page: Page,
     section: WebsiteSection,
   ): Promise<FoundArticle[]> {
-    await page.goto(`${this.url}/${section.link}`);
+    await page.goto(`${this.url}/${section.link}`, { timeout: 0 });
 
     const found: FoundArticle[] = [];
     const articles = await page.$$('article');
