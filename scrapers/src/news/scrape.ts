@@ -29,6 +29,7 @@ async function main() {
           'Upgrade-Insecure-Requests': '1',
         },
       });
+      await context.setDefaultTimeout(420000);
       const page = await context.newPage();
 
       const scraper = factory.getScraperInstance(p);

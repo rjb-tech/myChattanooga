@@ -14,7 +14,7 @@ export default class FoxChattanoogaScraper extends BaseScraper {
     page: Page,
     section: WebsiteSection,
   ): Promise<FoundArticle[]> {
-    await page.goto(`${this.url}/${section.link}`, { timeout: 0 });
+    await page.goto(`${this.url}/${section.link}`);
 
     const foundArticles: FoundArticle[] = [];
     const articles = await page.$$(
@@ -67,7 +67,7 @@ export default class FoxChattanoogaScraper extends BaseScraper {
     const relevantArticles: RelevantArticle[] = [];
 
     for (const currentArticle of foundArticles) {
-      await page.goto(currentArticle.link, { timeout: 0 });
+      await page.goto(currentArticle.link);
 
       const story = await page.$(
         "xpath=//div[contains(@class, 'storyContainer')]",

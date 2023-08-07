@@ -45,7 +45,7 @@ export default class WDEFScraper extends BaseScraper {
     const relevantArticles: RelevantArticle[] = [];
 
     for (const currentArticle of foundArticles) {
-      await page.goto(currentArticle.link, { timeout: 0 });
+      await page.goto(currentArticle.link);
 
       const article = await page.$('article');
       if (!article)

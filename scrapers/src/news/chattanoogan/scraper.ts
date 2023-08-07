@@ -53,7 +53,7 @@ export default class ChattanooganScraper extends BaseScraper {
   ): Promise<RelevantArticle[]> {
     const relevantArticles: RelevantArticle[] = [];
     for (const currentArticle of foundArticles) {
-      await page.goto(currentArticle.link, { timeout: 0 });
+      await page.goto(currentArticle.link);
 
       const contentSection = await page.$('.news-content');
       const articleContent = await contentSection?.textContent();
