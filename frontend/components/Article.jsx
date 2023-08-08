@@ -25,6 +25,16 @@ const publisherImageMappings = {
   WDEF: WDEFLogo,
 };
 
+const publisherNameMappings = {
+  Chattanoogan: "Chattanoogan",
+  ChattanoogaNewsChronicle: "Chattanooga News Chronicle",
+  Local3News: "Local 3 News",
+  ChattanoogaPulse: "Chattanooga Pulse",
+  FoxChattanooga: "Fox Chattanooga",
+  TimesFreePress: "Chattanooga Times Free Press",
+  WDEF: "WDEF News 12",
+};
+
 export const Article = ({ publisher, headline, timePosted, image, link }) => {
   const { currentDate } = useSelector((state) => state.main);
   const todayISO = formatISO(new Date(), { representation: "date" });
@@ -49,7 +59,7 @@ export const Article = ({ publisher, headline, timePosted, image, link }) => {
             </div>
             <div className="pt-4 flex-col items-center">
               <p className="text-xs font-bold text-[#222] dark:text-[#F39887]">
-                &copy; {publisher?.toUpperCase()}
+                &copy; {publisherNameMappings[publisher].toUpperCase()}
               </p>
               <p className="pt-4 text-xl text-[#333] dark:text-[#f0f0f0]">
                 {headline}
