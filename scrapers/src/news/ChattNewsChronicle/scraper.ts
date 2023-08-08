@@ -78,8 +78,6 @@ class ChattNewsChronicleScraper extends BaseScraper {
       ) {
         relevant.push({
           ...currentArticle,
-          image:
-            'https://mychattanooga-files.nyc3.digitaloceanspaces.com/ChattNewsChronicleLogo.png',
         });
       }
     }

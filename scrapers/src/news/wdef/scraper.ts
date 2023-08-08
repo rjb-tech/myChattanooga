@@ -62,8 +62,6 @@ export default class WDEFScraper extends BaseScraper {
       )
         relevantArticles.push({
           ...currentArticle,
-          image:
-            'https://mychattanooga-files.nyc3.digitaloceanspaces.com/wdef_logo.png',
         });
     }
 

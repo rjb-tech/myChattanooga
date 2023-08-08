@@ -98,8 +98,6 @@ export default class ChattanoogaPulseScraper extends BaseScraper {
           relevant.push({
             headline,
             link,
-            image:
-              'https://mychattanooga-files.nyc3.digitaloceanspaces.com/PulseLogo.png',
             published,
           });
         }

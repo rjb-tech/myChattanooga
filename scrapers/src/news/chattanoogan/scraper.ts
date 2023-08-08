@@ -67,8 +67,6 @@ export default class ChattanooganScraper extends BaseScraper {
         if (relevant) {
           relevantArticles.push({
             ...currentArticle,
-            image:
-              'https://mychattanooga-files.nyc3.digitaloceanspaces.com/chattanoogan_logo.webp',
           });
         }
       }

@@ -49,8 +49,6 @@ class Local3NewsScraper extends BaseScraper {
     foundArticles: FoundArticle[],
   ): Promise<RelevantArticle[]> {
     const relevant: RelevantArticle[] = [];
-    const local3ImageUrl =
-      'https://mychattanooga-files.nyc3.digitaloceanspaces.com/local_three_logo.jpeg';
 
     for (const currentArticle of foundArticles) {
       await page.goto(currentArticle.link);
@@ -66,7 +64,6 @@ class Local3NewsScraper extends BaseScraper {
       if (isRelevantArticle(content, currentArticle.headline, section.keywords))
         relevant.push({
           ...currentArticle,
-          image: local3ImageUrl,
         });
     }
 

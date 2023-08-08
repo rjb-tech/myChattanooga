@@ -18,7 +18,6 @@ export interface FoundArticle {
 export interface RelevantArticle {
   headline: string;
   link: string;
-  image: string;
   published: Date;
 }
 
@@ -131,7 +130,6 @@ export abstract class BaseScraper implements Scraper {
             headline: article.headline,
             link: article.link,
             published: article.published,
-            image: article.image,
             publisher: this.publisher,
           },
         });

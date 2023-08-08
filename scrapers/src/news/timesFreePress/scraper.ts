@@ -90,8 +90,6 @@ export default class TimesFreePressScraper extends BaseScraper {
       if (isRelevantArticle(content, currentArticle.headline, section.keywords))
         relevantArticles.push({
           ...currentArticle,
-          image:
-            'https://mychattanooga-files.nyc3.digitaloceanspaces.com/TFP.jpg',
         });
     }
 

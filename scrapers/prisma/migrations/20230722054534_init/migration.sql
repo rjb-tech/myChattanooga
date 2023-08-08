@@ -35,7 +35,6 @@ CREATE TABLE "news"."articles" (
     "id" SERIAL NOT NULL,
     "headline" TEXT NOT NULL,
     "link" TEXT NOT NULL,
-    "image" TEXT NOT NULL,
     "published" TIMESTAMP(3) NOT NULL,
     "saved" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "publisher" "news"."publishers" NOT NULL,

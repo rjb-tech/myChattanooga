@@ -97,8 +97,6 @@ export default class FoxChattanoogaScraper extends BaseScraper {
           relevantArticles.push({
             ...currentArticle,
             published,
-            image:
-              'https://mychattanooga-files.nyc3.digitaloceanspaces.com/FoxChattanoogaLogo.jpg',
           });
         }
       }
