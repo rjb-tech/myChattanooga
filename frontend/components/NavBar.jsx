@@ -15,13 +15,6 @@ export const NavBar = () => {
           <a className="text-center">FAQ</a>
         </Link>
       </div>
-      {pageContent.length > 0 && (
-        <div className="text-center content-center items-center">
-          <Link href="/stats">
-            <a className="text-center">Stats</a>
-          </Link>
-        </div>
-      )}
       <div className="text-center content-center items-center">
         <Link href="https://www.buymeacoffee.com/mychattanooga">
           <a className="text-center" target="_blank">
