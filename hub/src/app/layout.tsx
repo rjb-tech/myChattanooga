@@ -26,7 +26,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body className={inter.className}>
         <header>
           <picture>
-            <Image src={myChattanoogaDark} alt="myChattanooga Logo" />
+            <Image
+              className="logo"
+              src={myChattanoogaDark}
+              alt="myChattanooga Logo"
+            />
           </picture>
         </header>
         <main>{children}</main>
