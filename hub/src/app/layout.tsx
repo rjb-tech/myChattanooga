@@ -4,6 +4,11 @@ import { Inter } from 'next/font/google'
 import Image from 'next/image'
 import myChattanoogaDark from '../../public/myChattanooga_long-dark.png'
 
+import '@fontsource/roboto/300.css'
+import '@fontsource/roboto/400.css'
+import '@fontsource/roboto/500.css'
+import '@fontsource/roboto/700.css'
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
