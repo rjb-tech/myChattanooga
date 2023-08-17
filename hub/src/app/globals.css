@@ -9,7 +9,7 @@ body {
 }
 
 header {
-  position: fixed;
+  position: sticky;
   top: 0;
   height: 120px;
   width: 100vw;
@@ -29,8 +29,4 @@ picture .logo {
   height: 100%;
   object-fit: contain;
   width: fit-content;
-}
-
-main {
-  margin-top: 120px;
 }
