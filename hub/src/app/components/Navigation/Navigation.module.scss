@@ -1,24 +1,20 @@
 .nav {
-  margin: 2em 0px;
+  display: flex;
+  justify-content: center;
+  gap: 2em;
 }
 
 .navTab {
   font-size: 1.5em;
-  padding: 0.5em;
   text-align: center;
-  background: linear-gradient(to bottom, #FFF, #FFF);
-  border-radius: 0.5em;
   cursor: pointer;
-
-  &:not(:last-child) {
-    margin-bottom: 1em;
-  }
+  padding: 0.35em;
+  border-radius: 0.5em 0.5em 0em 0em;
 
   @media (prefers-color-scheme: dark) {
-    background: linear-gradient(to bottom, black, black);
   }
 }
 
 .selected {
-  background: linear-gradient(to bottom, blue, blue);
+  background-color: aquamarine;
 }
