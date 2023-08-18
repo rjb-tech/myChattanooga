@@ -17,7 +17,7 @@ export const MobileNav = () => {
         <div className="h-fit mx-auto py-6">
           <WeatherStation isDark={isDark} currentWeatherLocation={location} />
         </div>
-        <div className="h-12 w-full p-1 flex items-center">
+        {/* <div className="h-12 w-full p-1 flex items-center">
           <Link href="/">
             <a>
               <button
@@ -65,7 +65,7 @@ export const MobileNav = () => {
               <button className="w-screen h-5/6">Support Us</button>
             </a>
           </Link>
-        </div>
+        </div> */}
       </div>
     </nav>
   );
