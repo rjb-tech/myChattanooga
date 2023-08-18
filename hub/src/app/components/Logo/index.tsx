@@ -1,16 +1,17 @@
 'use client'
 
 import Image from 'next/image'
+import styles from './Logo.module.css'
 import { useMediaQuery } from '@mui/material'
-import myChattanoogaDark from '../../../public/myChattanooga_long-dark.png'
-import myChattanoogaLight from '../../../public/myChattanooga_long-light.png'
+import myChattanoogaDark from '../../../../public/myChattanooga_long-dark.png'
+import myChattanoogaLight from '../../../../public/myChattanooga_long-light.png'
 
 export default function Logo() {
   const prefersDark = useMediaQuery('(prefers-color-scheme: dark)')
   return (
-    <picture>
+    <picture className={styles.picture}>
       <Image
-        className="logo"
+        className={styles.logo}
         src={prefersDark ? myChattanoogaLight : myChattanoogaDark}
         alt="myChattanooga Logo"
       />

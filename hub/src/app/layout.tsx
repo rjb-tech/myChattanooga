@@ -6,6 +6,7 @@ import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import Logo from '@/app/components/Logo'
+import Navigation from './components/Navigation'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body className={inter.className}>
         <header>
           <Logo />
+          <Navigation />
         </header>
         <main>{children}</main>
       </body>

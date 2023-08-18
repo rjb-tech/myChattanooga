@@ -17,19 +17,6 @@ header {
   box-shadow: 0px 0px 10px rgba(1, 1, 1, 0.025);
 }
 
-picture {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  padding: 12px;
-}
-
-picture .logo {
-  height: fit-content;
-  width: 100%;
-  object-fit: contain;
-}
-
 @media (prefers-color-scheme: dark) {
   body {
     background-color: black;
