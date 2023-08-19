@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import styles from './Logo.module.css'
+import styles from './Logo.module.scss'
 import { useMediaQuery } from '@mui/material'
 import myChattanoogaDark from '../../../../public/myChattanooga_long-dark.png'
 import myChattanoogaLight from '../../../../public/myChattanooga_long-light.png'
