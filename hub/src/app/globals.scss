@@ -27,18 +27,24 @@ header {
 }
 
 .header-container {
-  width: 20em;
+  width: 20%;
   height: 100vh;
   display: flex;
   background-color: #F1F1F1;
 
-  @media (prefers-color-scheme: dark) {
-    background-color: #131313;
-  }
-}
-
-.header-container > * {
   transition-property: all;
   transition-duration: 500ms;
   transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+  
+  -moz-transition-property: all;
+  -moz-transition-duration: 500ms;
+  -moz-transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+
+  -webkit-transition-property: all;
+  -webkit-transition-duration: 500ms;
+  -webkit-transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #131313;
+  }
 }
