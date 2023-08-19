@@ -23,9 +23,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header>
-          <Logo />
-        </header>
+        <section className="header-container">
+          <header>
+            <Logo />
+          </header>
+        </section>
         <main>{children}</main>
       </body>
     </html>
