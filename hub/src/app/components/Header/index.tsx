@@ -1,5 +1,5 @@
 import Logo from '../Logo'
-import styles from './Sidebar.module.scss'
+import styles from './Header.module.scss'
 
 export default function Header() {
   return (
