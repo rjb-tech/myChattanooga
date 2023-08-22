@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import styles from './page.module.scss'
+import { Button, Theme, createStyles, makeStyles } from '@mui/material'
 
 export default function Home() {
   return (
@@ -7,9 +8,7 @@ export default function Home() {
       <section className={styles.sidePanel}>
         <span className={styles.publisherContainer}>
           {new Array(7).fill(0).map((entry, i) => (
-            <div key={i} className={styles.publisher}>{`Publisher ${
-              i + 1
-            }`}</div>
+            <div className={styles.publisher}>{`Publisher ${i + 1}`}</div>
           ))}
         </span>
       </section>
