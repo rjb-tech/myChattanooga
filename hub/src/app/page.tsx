@@ -1,4 +1,5 @@
 import Logo from './components/Logo'
+import NewsRoom from './components/NewsRoom'
 import Sidebar from './components/Sidebar'
 import styles from './page.module.scss'
 
@@ -17,7 +18,7 @@ export default function Home() {
         <h1 className={styles.mainHeading}>
           Chattanooga News - Today&apos;s Date
         </h1>
-        <div className={styles.newsRoom}></div>
+        <NewsRoom />
       </section>
     </div>
   )
