@@ -10,13 +10,14 @@ export default function Home() {
   return (
     <div className={styles.home}>
       <Sidebar />
-      <section className={styles.newsRoom}>
+      <section className={styles.headquarters}>
         <div className={styles.mobileLogoContainer}>
           <Logo />
         </div>
         <h1 className={styles.mainHeading}>
           Chattanooga News - Today&apos;s Date
         </h1>
+        <div className={styles.newsRoom}></div>
       </section>
     </div>
   )

@@ -4,9 +4,12 @@
   display: flex;
 }
 
-.newsRoom {
+.headquarters {
+  display: flex;
+  flex-direction: column;
   height: 100%;
   width: 100%;
+  gap: 1em;
   padding: 1em;
   border: 1px solid white;
 
@@ -19,8 +22,15 @@
   }
 }
 
+.newsRoom {
+  height: 100%;
+  border: 1px solid white;
+  overflow-y: scroll;
+}
+
 .mainHeading {
-  font-size: 1em;
+  height: fit-content;
+  font-size: 1.5em;
   padding: 0.5em 1em;
   border: 1px solid white;
 
