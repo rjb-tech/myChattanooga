@@ -2,6 +2,7 @@ import { format } from 'date-fns'
 import styles from './NewsRoom.module.scss'
 import config from '@/config'
 import { ArticleResponseData } from '@/app/types'
+import Article from '../Article'
 
 async function getArticles() {
   const today = format(new Date(), 'yyyy-MM-dd')
@@ -20,7 +21,7 @@ export default async function NewsRoom() {
   return (
     <div className={styles.newsRoom}>
       {articles.map((article: ArticleResponseData) => (
-        <div></div>
+        <Article {...article} />
       ))}
     </div>
   )
