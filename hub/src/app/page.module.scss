@@ -10,7 +10,7 @@
   height: 100%;
   width: 100%;
   gap: 1em;
-  padding: 1em;
+  padding: 2em;
   border: 1px solid white;
 
   @media (min-width: 641px) {
@@ -30,8 +30,9 @@
 
 .mainHeading {
   height: fit-content;
+  text-align: center;
   font-size: 1.5em;
-  padding: 0.5em 1em;
+  padding: 0.5em 0;
   border: 1px solid white;
 
   @media (min-width: 641px) {
