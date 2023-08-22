@@ -4,5 +4,14 @@ export type ArticleResponseData = {
   link: string
   published: string
   saved: string
-  publisher: string
+  publisher: publisher
 }
+
+export type publisher =
+  | 'Chattanoogan'
+  | 'FoxChattanooga'
+  | 'Local3News'
+  | 'TimesFreePress'
+  | 'WDEF'
+  | 'ChattanoogaPulse'
+  | 'ChattanoogaNewsChronicle'
