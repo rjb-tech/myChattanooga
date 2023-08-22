@@ -40,10 +40,14 @@ export default function Article({
 }: ArticleResponseData) {
   return (
     <div className={styles.article}>
-      <Image
-        src={publisherImageMappings[publisher]}
-        alt={`${publisher} logo`}
-      />
+      <picture className={styles.publisherImageContainer}>
+        <Image
+          className={styles.publisherImage}
+          src={publisherImageMappings[publisher]}
+          alt={`${publisher} logo`}
+        />
+      </picture>
+      <p>&copy; {publisherNameMappings[publisher]}</p>
       <h3>{headline}</h3>
     </div>
   )

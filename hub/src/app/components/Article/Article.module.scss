@@ -3,3 +3,14 @@
   background-color: gray;
   padding: 2em;
 }
+
+.publisherImageContainer {
+  height: 50%;
+  width: 100%;
+}
+
+.publisherImage {
+  height: inherit;
+  width: inherit;
+  object-fit: cover;
+}
