@@ -2,15 +2,7 @@ import { endOfDay, subDays } from 'date-fns'
 import { zonedTimeToUtc } from 'date-fns-tz'
 import getSupabaseClient from '@/lib/supabase'
 import { NextRequest, NextResponse } from 'next/server'
-
-type ResponseData = {
-  id: number
-  headline: string
-  link: string
-  published: string
-  saved: string
-  publisher: string
-}
+import { ArticleResponseData } from '@/app/types'
 
 export async function GET(req: NextRequest) {
   const supabase = getSupabaseClient('news')
@@ -32,5 +24,5 @@ export async function GET(req: NextRequest) {
     return NextResponse.error()
   }
 
-  return NextResponse.json(articles as ResponseData[])
+  return NextResponse.json(articles as ArticleResponseData[])
 }
