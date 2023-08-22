@@ -10,7 +10,9 @@ export default function Home() {
         </div>
         <span className={styles.publisherContainer}>
           {new Array(7).fill(0).map((entry, i) => (
-            <div className={styles.publisher}>{`Publisher ${i + 1}`}</div>
+            <div key={i} className={styles.publisher}>{`Publisher ${
+              i + 1
+            }`}</div>
           ))}
         </span>
       </section>
@@ -18,7 +20,9 @@ export default function Home() {
         <div className={styles.mobileLogoContainer}>
           <Logo />
         </div>
-        <h1 className={styles.mainHeading}>Chattanooga News - Today's Date</h1>
+        <h1 className={styles.mainHeading}>
+          Chattanooga News - Today&apos;s Date
+        </h1>
       </section>
     </div>
   )

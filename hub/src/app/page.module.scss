@@ -35,9 +35,17 @@
 }
 
 .mainHeading {
-  font-size: xx-large;
+  font-size: 1em;
   padding: 0.5em 1em;
   border: 1px solid white;
+
+  @media (min-width: 641px) {
+    font-size: 2em;
+  }
+
+  @media (min-width: 1008px) {
+    font-size: 3em;
+  }
 }
 
 .publisherContainer {
