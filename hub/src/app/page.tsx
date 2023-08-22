@@ -1,21 +1,15 @@
 import Logo from './components/Logo'
+import Sidebar from './components/Sidebar'
 import styles from './page.module.scss'
+
+async function getArticles() {
+  const res = fetch('/api/articles')
+}
 
 export default function Home() {
   return (
     <div className={styles.home}>
-      <section className={styles.sidePanel}>
-        <div className={styles.logoContainer}>
-          <Logo />
-        </div>
-        <span className={styles.publisherContainer}>
-          {new Array(7).fill(0).map((entry, i) => (
-            <div key={i} className={styles.publisher}>{`Publisher ${
-              i + 1
-            }`}</div>
-          ))}
-        </span>
-      </section>
+      <Sidebar />
       <section className={styles.newsRoom}>
         <div className={styles.mobileLogoContainer}>
           <Logo />

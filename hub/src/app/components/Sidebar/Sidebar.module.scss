@@ -1,0 +1,34 @@
+.sidePanel {
+  width: 0%;
+  height: 100%;
+  border: 1px solid white;
+  overflow-y: hidden;
+
+  @media (min-width: 641px) {
+    width: 30%;
+  }
+
+  @media (min-width: 1008px) {
+    width: 20%;
+  }
+}
+
+.publisherContainer {
+  display: none;
+  height: 100%;
+  flex-direction: column;
+  gap: 1em;
+  padding: 2em;
+
+  @media (min-width: 641px) {
+    display: flex;
+  }
+}
+
+.publisher {
+  border: 1px solid white;
+  padding: 0.75em;
+  text-align: center;
+  border-radius: 12px;
+  cursor: pointer;
+}
