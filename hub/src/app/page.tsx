@@ -7,13 +7,6 @@ export default async function Home() {
   return (
     <div className={styles.home}>
       <section className={styles.headquarters}>
-        <div className={styles.mobileLogoContainer}>
-          <Logo />
-        </div>
-        <div className={styles.header}>
-          <h1 className={styles.mainHeading}>Chattanooga News</h1>
-          <p className={styles.date}>hey</p>
-        </div>
         <NewsRoom />
       </section>
     </div>

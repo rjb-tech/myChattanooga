@@ -12,38 +12,3 @@
   width: 100%;
   background-color: transparent;
 }
-
-.header {
-  padding: 2em 2em 0em 2em;
-  position: relative;
-  z-index: 10;
-}
-
-.headerShadow {
-  box-shadow: 10px -5px 10px black;
-}
-
-.mainHeading {
-  height: fit-content;
-  text-align: center;
-  font-size: 1.5em;
-
-  @media (min-width: 641px) {
-    font-size: 2em;
-  }
-
-  @media (min-width: 1008px) {
-    font-size: 3em;
-  }
-}
-
-.date {
-  padding: 0.5em 0;
-  text-align: center;
-}
-
-.mobileLogoContainer {
-  @media (min-width: 641px) {
-    display: none;
-  }
-}
