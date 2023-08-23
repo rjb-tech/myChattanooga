@@ -19,7 +19,7 @@ export default async function NewsRoom() {
   const articles: ArticleResponseData[] = await getArticles()
 
   return (
-    <div className={styles.newsRoom}>
+    <div className={styles.newsRoom} id="newsRoom">
       {articles.map((article: ArticleResponseData) => (
         <Article {...article} />
       ))}
