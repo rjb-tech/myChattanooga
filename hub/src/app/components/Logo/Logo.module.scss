@@ -2,12 +2,7 @@
   height: 100%;
   width: fit-content;
   display: flex;
-  padding: 1em 1em 0em 1em;
   box-sizing: border-box;
-
-  @media (min-width: 1008px) {
-    padding: 2em 2em 0em 2em;
-  }
 }
 
 .logo {

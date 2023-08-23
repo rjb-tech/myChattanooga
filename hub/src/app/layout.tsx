@@ -29,7 +29,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           </div>
           <p className={styles.date}>hey</p>
         </header>
-        <main>{children}</main>
+        <main className={styles.contentSection}>{children}</main>
       </body>
     </html>
   )
