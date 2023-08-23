@@ -2,13 +2,24 @@
   width: 0%;
   height: 100%;
   overflow-y: hidden;
+  padding: 1em;
+  display: none;
+  flex-direction: column;
+  gap: 2em;
 
-  @media (min-width: 641px) {
-    width: 30%;
+  @media (min-width: 769px) {
+    width: 40%;
+    display: flex;
   }
 
   @media (min-width: 1008px) {
+    width: 30%;
+    display: flex;
+  }
+
+  @media (min-width: 1200px) {
     width: 20%;
+    display: flex;
   }
 }
 
@@ -17,7 +28,6 @@
   height: 100%;
   flex-direction: column;
   gap: 1em;
-  padding: 2em;
 
   @media (min-width: 641px) {
     display: flex;

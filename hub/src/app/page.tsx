@@ -6,6 +6,7 @@ import styles from './page.module.scss'
 export default async function Home() {
   return (
     <div className={styles.home}>
+      <Sidebar />
       <section className={styles.headquarters}>
         <NewsRoom />
       </section>

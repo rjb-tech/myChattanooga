@@ -22,6 +22,5 @@ $headerHeight: 10em;
 
 .contentSection {
   width: 100vw;
-  height: calc(100vh - $headerHeight);
-  margin-top: 10em;
+  height: 100vh;
 }

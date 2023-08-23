@@ -23,12 +23,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header className={styles.header}>
-          <div className={styles.logoContainer}>
-            <Logo />
-          </div>
-          <p className={styles.date}>hey</p>
-        </header>
         <main className={styles.contentSection}>{children}</main>
       </body>
     </html>
