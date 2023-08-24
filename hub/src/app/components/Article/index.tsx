@@ -8,7 +8,8 @@ import PulseLogo from '../../../../public/Pulse.png'
 import FoxChattanoogaLogo from '../../../../public/FoxChattanoogaLogo.jpg'
 import TFPLogo from '../../../../public/TimesFreePress.jpg'
 import WDEFLogo from '../../../../public/WDEF.png'
-import Image, { StaticImageData } from 'next/image'
+import Image from 'next/image'
+import Link from 'next/link'
 
 const publisherImageMappings = {
   Chattanoogan: Chattanooganlogo,
@@ -39,16 +40,24 @@ export default function Article({
   publisher,
 }: ArticleResponseData) {
   return (
-    <div className={styles.article}>
-      <picture className={styles.publisherImageContainer}>
-        <Image
-          className={styles.publisherImage}
-          src={publisherImageMappings[publisher]}
-          alt={`${publisher} logo`}
-        />
-      </picture>
-      <p>&copy; {publisherNameMappings[publisher]}</p>
-      <h3>{headline}</h3>
-    </div>
+    <Link href={link} target="_blank" className={styles.articleLink}>
+      <div className={styles.article}>
+        <div className={styles.imageAndPublisher}>
+          <div className={styles.publisherImageContainer}>
+            <Image
+              className={styles.publisherImage}
+              src={publisherImageMappings[publisher]}
+              alt={`${publisher} logo`}
+            />
+          </div>
+          <p className={styles.publisher}>
+            &copy; {publisherNameMappings[publisher]}
+          </p>
+        </div>
+        <div className={styles.headline}>
+          <h3>{headline}</h3>
+        </div>
+      </div>
+    </Link>
   )
 }
