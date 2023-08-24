@@ -8,6 +8,9 @@ export default async function Home() {
     <div className={styles.home}>
       <Sidebar />
       <section className={styles.headquarters}>
+        <div className={styles.mobileHeader}>
+          <Logo />
+        </div>
         <NewsRoom />
       </section>
     </div>

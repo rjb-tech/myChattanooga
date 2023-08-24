@@ -1,3 +1,5 @@
+@import '../../styles/variables';
+
 .sidePanel {
   width: 0%;
   height: 100%;
@@ -7,17 +9,17 @@
   flex-direction: column;
   gap: 2em;
 
-  @media (min-width: 769px) {
+  @media (min-width: $tabletBreakpoint) {
     width: 40%;
     display: flex;
   }
 
-  @media (min-width: 1008px) {
+  @media (min-width: $largeTabletBreakpoint) {
     width: 30%;
     display: flex;
   }
 
-  @media (min-width: 1200px) {
+  @media (min-width: $laptopBreakpoint) {
     width: 20%;
     display: flex;
   }
@@ -29,7 +31,7 @@
   flex-direction: column;
   gap: 1em;
 
-  @media (min-width: 641px) {
+  @media (min-width: $tabletBreakpoint) {
     display: flex;
   }
 }
