@@ -21,7 +21,7 @@ export default function Sidebar() {
     return
   }
   return (
-    <section className={styles.sidePanel}>
+    <section className={styles.sidebar}>
       <div className={styles.logoAndPublisherContainer}>
         <div className={styles.logoContainer}>
           <Logo />
