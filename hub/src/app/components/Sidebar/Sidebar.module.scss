@@ -4,6 +4,7 @@
   width: 0%;
   height: 100%;
   overflow-y: hidden;
+  justify-content: space-between;
   padding: 1em;
   display: none;
   flex-direction: column;
@@ -25,19 +26,18 @@
   }
 }
 
+.logoAndPublisherContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5em;
+}
+
 .publisherContainer {
   display: none;
   height: fit-content;
   flex-direction: column;
-  gap: 1em;
-  padding: 1em;
-  border-top: 1px solid black;
-  border-right: 1px solid black;
-
-  @media (prefers-color-scheme: dark) {
-    border-top: 1px solid #f1f1f1;
-    border-right: 1px solid #f1f1f1;
-  }
+  gap: 1.5em;
+  padding: 1em 1em 2em 1em;
 
   @media (min-width: $tabletBreakpoint) {
     display: flex;
@@ -46,15 +46,45 @@
 
 .publisher {
   border: 1px solid white;
+  color: white;
+  border-radius: 4px;
   padding: 0.75em;
   text-align: center;
-  border-radius: 12px;
   cursor: pointer;
+  background-color: transparent;
+
+  &:hover {
+    color: violet;
+    background-color: transparent;
+  }
+}
+
+.selectedPublisher {
+  border: 1px solid violet;
+  box-shadow: 0px 0px 5px violet;
 }
 
 .date {
   margin-top: -1em;
-  margin-left: 2em;
+  margin-left: 2.5em;
   text-align: center;
   font-style: italic;
+
+  @media (min-width: $largeTabletBreakpoint) {
+    margin-left: 2em;
+  }
+}
+
+.newsletterSignup {
+  height: fit-content;
+  padding: 0.75em;
+  margin: 1em 0em;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  border-radius: 32px;
+  background-color: navy;
+  cursor: pointer;
 }
