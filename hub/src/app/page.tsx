@@ -21,7 +21,7 @@ export default async function Home() {
   const articles = await getArticles()
   return (
     <div className={styles.home}>
-      <Sidebar />
+      <Sidebar articles={articles} />
       <section className={styles.headquarters}>
         <div className={styles.mobileHeader}>
           <Logo />

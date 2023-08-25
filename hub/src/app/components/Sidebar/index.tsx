@@ -6,10 +6,17 @@ import styles from './Sidebar.module.scss'
 import { Email } from '@mui/icons-material'
 import { useState } from 'react'
 import classNames from 'classnames'
-import { Collapse } from '@mui/material'
+import { ArticleResponseData } from '@/app/types'
 
-export default function Sidebar() {
+interface SidebarProps {
+  articles: ArticleResponseData[]
+}
+
+export default function Sidebar({ articles }: SidebarProps) {
   const [selected, setSelected] = useState<number | null>(null)
+  const publishers = Array.from(
+    new Set(articles.map((article) => article.publisher)),
+  )
 
   const onPublisherClick = (index: number) => {
     if (selected !== index) {
@@ -28,7 +35,7 @@ export default function Sidebar() {
           <p className={styles.date}>{format(new Date(), 'EEEE MMMM do')}</p>
         </div>
         <div className={styles.publisherContainer}>
-          {new Array(7).fill(0).map((entry, i) => (
+          {publishers.map((publisher, i) => (
             <div
               key={i}
               className={classNames(
@@ -37,9 +44,7 @@ export default function Sidebar() {
               )}
               onClick={() => onPublisherClick(i)}
             >
-              <span className={styles.publisherName}>{`Publisher ${
-                i + 1
-              }`}</span>
+              <span className={styles.publisherName}>{publisher}</span>
             </div>
           ))}
         </div>
