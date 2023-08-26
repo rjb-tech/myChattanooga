@@ -43,7 +43,8 @@
 
 .articleLink {
   border-radius: 32px;
-  position: sticky;
+  display: none;
+  opacity: 0;
 
   &:hover {
     transform: scale(1.02);

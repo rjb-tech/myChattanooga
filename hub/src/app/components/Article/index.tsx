@@ -10,6 +10,7 @@ import TFPLogo from '../../../../public/TimesFreePress.jpg'
 import WDEFLogo from '../../../../public/WDEF.png'
 import Image from 'next/image'
 import Link from 'next/link'
+import classNames from 'classnames'
 
 const publisherImageMappings = {
   Chattanoogan: Chattanooganlogo,
@@ -40,7 +41,12 @@ export default function Article({
   publisher,
 }: ArticleResponseData) {
   return (
-    <Link href={link} target="_blank" className={styles.articleLink}>
+    <Link
+      href={link}
+      target="_blank"
+      className={classNames(styles.articleLink, 'visibleArticle')}
+      data-publisher={publisher}
+    >
       <div className={styles.article}>
         <div className={styles.imageAndPublisher}>
           <div className={styles.publisherImageContainer}>

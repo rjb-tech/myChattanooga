@@ -4,29 +4,59 @@ import { format } from 'date-fns'
 import Logo from '../Logo'
 import styles from './Sidebar.module.scss'
 import { Email } from '@mui/icons-material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import classNames from 'classnames'
-import { ArticleResponseData } from '@/app/types'
+import { ArticleResponseData, publisher } from '@/app/types'
+
+const SHOWN_ARTICLE_CLASSNAME = 'visibleArticle'
 
 interface SidebarProps {
   articles: ArticleResponseData[]
 }
 
 export default function Sidebar({ articles }: SidebarProps) {
-  const [selected, setSelected] = useState<number | null>(null)
+  const [selected, setSelected] = useState<publisher | null>(null)
   const publishers = Array.from(
     new Set(articles.map((article) => article.publisher)),
   )
 
-  const onPublisherClick = (index: number) => {
-    if (selected !== index) {
-      setSelected(index)
+  const onPublisherClick = (incoming: publisher) => {
+    const showArticlesByPublisher = (publisher: publisher) => {
+      const articlesToHide = document.querySelectorAll(
+        `[data-publisher]:not([data-publisher=${publisher}])`,
+      )
+      articlesToHide.forEach((article) => {
+        article.classList.remove(SHOWN_ARTICLE_CLASSNAME)
+      })
+
+      const articlesToShow = document.querySelectorAll(
+        `[data-publisher = ${publisher}]`,
+      )
+      articlesToShow.forEach((article) => {
+        article.classList.add(SHOWN_ARTICLE_CLASSNAME)
+      })
+    }
+
+    const showAllArticles = () => {
+      const articlesToShow = document.querySelectorAll(
+        `[data-publisher]:not([data-publisher=${selected}])`,
+      )
+      articlesToShow.forEach((article) =>
+        article.classList.add(SHOWN_ARTICLE_CLASSNAME),
+      )
+    }
+
+    if (incoming !== selected) {
+      showArticlesByPublisher(incoming)
+      setSelected(incoming)
       return
     }
 
+    showAllArticles()
     setSelected(null)
     return
   }
+
   return (
     <section className={styles.sidebar}>
       <div className={styles.logoAndPublisherContainer}>
@@ -40,9 +70,9 @@ export default function Sidebar({ articles }: SidebarProps) {
               key={i}
               className={classNames(
                 styles.publisher,
-                selected === i ? styles.selectedPublisher : '',
+                selected === publisher ? styles.selectedPublisher : '',
               )}
-              onClick={() => onPublisherClick(i)}
+              onClick={() => onPublisherClick(publisher)}
             >
               <span className={styles.publisherName}>{publisher}</span>
             </div>
