@@ -36,7 +36,11 @@ export default function Sidebar() {
                 selected === i ? styles.selectedPublisher : '',
               )}
               onClick={() => onPublisherClick(i)}
-            >{`Publisher ${i + 1}`}</div>
+            >
+              <span className={styles.publisherName}>{`Publisher ${
+                i + 1
+              }`}</span>
+            </div>
           ))}
         </div>
       </div>
