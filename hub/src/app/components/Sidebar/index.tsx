@@ -14,11 +14,31 @@ interface SidebarProps {
   articles: ArticleResponseData[]
 }
 
+interface PublisherMap {
+  Chattanoogan: string
+  FoxChattanooga: string
+  Local3News: string
+  TimesFreePress: string
+  WDEF: string
+  ChattanoogaPulse: string
+  ChattanoogaNewsChronicle: string
+}
+
+const PublisherMappings: PublisherMap = {
+  Chattanoogan: 'Chattanoogan',
+  FoxChattanooga: 'Fox Chattanooga',
+  Local3News: 'Local 3 News',
+  TimesFreePress: 'Times Free Press',
+  WDEF: 'WDEF News 12',
+  ChattanoogaPulse: 'Chattanooga Pulse',
+  ChattanoogaNewsChronicle: 'Chattanooga News Chronicle',
+}
+
 export default function Sidebar({ articles }: SidebarProps) {
   const [selected, setSelected] = useState<publisher | null>(null)
   const publishers = Array.from(
     new Set(articles.map((article) => article.publisher)),
-  )
+  ).sort()
 
   const onPublisherClick = (incoming: publisher) => {
     const showArticlesByPublisher = (publisher: publisher) => {
@@ -74,7 +94,9 @@ export default function Sidebar({ articles }: SidebarProps) {
               )}
               onClick={() => onPublisherClick(publisher)}
             >
-              <span className={styles.publisherName}>{publisher}</span>
+              <span className={styles.publisherName}>
+                {PublisherMappings[publisher]}
+              </span>
             </div>
           ))}
         </div>
