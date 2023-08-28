@@ -6,16 +6,6 @@
   flex-direction: column;
   gap: 1em;
   border-radius: 8px;
-  box-shadow:
-    2px 2px 8px rgba(0, 0, 0, 0.1),
-    -2px -2px 8px rgba(255, 255, 255, 0.2);
-
-  @media (prefers-color-scheme: dark) {
-    background-color: #151515;
-    box-shadow:
-      2px 2px 8px rgba(0, 0, 0, 0.1),
-      -2px -2px 8px rgba(255, 255, 255, 0.2);
-  }
 }
 
 .publisherImageContainer {
@@ -46,11 +36,32 @@
 
 .articleLink {
   height: fit-content;
-  border-radius: 32px;
+  border-radius: 16px;
   display: none;
   opacity: 0;
+  box-shadow:
+    2px 2px 8px rgba(0, 0, 0, 0.1),
+    -2px -2px 8px rgba(255, 255, 255, 0.2);
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #151515;
+    box-shadow:
+      -2px 2px 8px rgba(0, 0, 0, 0.1),
+      2px -2px 8px rgba(255, 255, 255, 0.15);
+  }
 
   &:hover {
-    transform: scale(1.02);
+    transform: scale(1.015);
+
+    box-shadow:
+      2px 2px 16px rgba(0, 0, 0, 0.1),
+      -4px -4px 8px rgba(255, 255, 255, 0.2);
+
+    @media (prefers-color-scheme: dark) {
+      background-color: #151515;
+      box-shadow:
+        -4px 4px 20px rgba(255, 255, 255, 0.05),
+        2px -2px 5px rgba(255, 255, 255, 0.2);
+    }
   }
 }
