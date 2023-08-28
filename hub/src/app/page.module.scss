@@ -17,11 +17,11 @@
 
 .mobileHeader {
   width: 100vw;
-  height: 8em;
+  height: 10em;
   display: flex;
   align-content: center;
   justify-content: center;
-  padding: 1.5em 1.5em 0 1.5em;
+  padding: 1.5em;
 
   @media (min-width: $tabletBreakpoint) {
     display: none;
