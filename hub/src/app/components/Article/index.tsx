@@ -60,9 +60,7 @@ export default function Article({
             &copy; {publisherNameMappings[publisher]}
           </p>
         </div>
-        <div className={styles.headline}>
-          <h3>{headline}</h3>
-        </div>
+        <h3 className={styles.headline}>{headline}</h3>
       </div>
     </Link>
   )
