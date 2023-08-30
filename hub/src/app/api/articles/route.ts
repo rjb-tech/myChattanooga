@@ -1,13 +1,13 @@
 import { endOfDay, subDays } from 'date-fns'
 import { zonedTimeToUtc } from 'date-fns-tz'
 import getSupabaseClient from '@/lib/supabase'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { ArticleResponseData } from '@/app/types'
 
-export async function GET(req: NextRequest) {
+export async function GET(req: Request) {
   const supabase = getSupabaseClient('news')
-
-  const published = (req.nextUrl.searchParams.get('published') as string) ?? ''
+  const {searchParams} = new URL(req.url)
+  const published = (searchParams.get('published') as string) ?? ''
   if (!published) return NextResponse.error()
 
   const dayQueried = endOfDay(zonedTimeToUtc(published, 'America/New_York'))
