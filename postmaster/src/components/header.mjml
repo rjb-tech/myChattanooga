@@ -1,0 +1,7 @@
+<mj-section padding="10px 0 0 0" background-color="#1f1f1f">
+  <mj-column padding="10px 0 0 0" background-color="#1f1f1f">
+    <mj-image align="center" width="200px" padding="0px" src=https://irlbnquhcxpdvhbdqsqp.supabase.co/storage/v1/object/public/Logos/myChattanooga_long-light.png> </mj-image>
+    <mj-text color="#FFF" align="center" padding-bottom="8px">Saturday August 1</mj-text>
+    <mj-divider border-color="#FFF" padding="10px 0px" border-width="1px" width="300px"></mj-divider>
+  </mj-column>
+</mj-section>

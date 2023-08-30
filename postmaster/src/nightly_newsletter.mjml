@@ -1,0 +1,48 @@
+<mjml>
+  <mj-head>
+    <mj-font
+      name="Roboto"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700"
+    ></mj-font>
+    <mj-font
+      name="ibm plex sans"
+      href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,700"
+    ></mj-font>
+    <mj-preview>myChattanooga News - {{ todays_date }}</mj-preview>
+    <mj-attributes>
+      <mj-class name="articleLink" color="#000000" />
+      <mj-class name="visibleArticle" display="block" />
+      <mj-class name="article" padding="20px" />
+      <mj-class name="imageAndPublisher" display="flex" align="center" />
+      <mj-class name="publisherImageContainer" padding="0 10px 0 0" />
+      <mj-class name="publisherImage" height="30px" />
+      <mj-class name="publisher" font-size="14px" color="#777777" />
+      <mj-class name="headline" font-size="20px" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body width="1200px" background-color="#1f1f1f">
+    <mj-include path="./components/header.mjml" />
+    <mj-section>
+      <mj-column width="350px" padding="10px">
+        <mj-image
+          width="200px"
+          src="https://irlbnquhcxpdvhbdqsqp.supabase.co/storage/v1/object/public/Publisher_Images/LocalThree.jpeg?t=2023-08-29T03%3A29%3A12.448Z"
+          alt="{{publisher}} logo"
+          align="center"
+        />
+        <mj-text font-size="14px" color="#777777" align="left">
+          &copy; {{publisherName}}
+        </mj-text>
+        <mj-text font-size="20px" align="left" color="#FFF">
+          Make this an email that gives a news summary and then leads to the
+          myChattanooga website
+        </mj-text>
+        <mj-divider
+          border-color="#FFF"
+          padding="20px 0px"
+          border-width="1px"
+        ></mj-divider>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
