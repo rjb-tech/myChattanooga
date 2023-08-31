@@ -9,8 +9,8 @@ interface NewsRoomProps {
 export default async function NewsRoom({ articles }: NewsRoomProps) {
   return (
     <div className={styles.newsRoom} id="newsRoom">
-      {articles.map((article: ArticleResponseData) => (
-        <Article {...article} />
+      {articles.map((article: ArticleResponseData, i) => (
+        <Article key={i} {...article} />
       ))}
     </div>
   )
