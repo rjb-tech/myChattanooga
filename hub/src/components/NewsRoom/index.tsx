@@ -13,17 +13,24 @@ interface NewsRoomProps {
 
 export default function NewsRoom({ articles }: NewsRoomProps) {
   // This needs to be a context variable
-  const { state } = useContext(NewsContext)
+  const {
+    state: { selectedPublisher },
+  } = useContext(NewsContext)
   const publishers: publisher[] = [
     'all',
-    ...Array.from(new Set(articles.map((a) => a.publisher))),
+    ...Array.from(new Set(articles.map((a) => a.publisher))).sort(),
   ]
+
+  console.log(publishers)
 
   return (
     <>
       <div className={styles.newsRoom} id="newsRoom">
         {publishers.map((publisher, i) => {
-          const isActive = state.selectedPublisher === publisher
+          const isActive = selectedPublisher === publisher
+          const activeIndex = publishers.findIndex(
+            (publisher) => publisher === selectedPublisher,
+          )
           const filteredArticles =
             publisher === 'all'
               ? articles
@@ -35,7 +42,7 @@ export default function NewsRoom({ articles }: NewsRoomProps) {
               className={classNames(
                 { visibleArticleSection: isActive },
                 styles.publisherSection,
-                styles.left,
+                i <= activeIndex ? styles.left : styles.right,
               )}
             >
               {filteredArticles.map((article: ArticleResponseData, i) => (

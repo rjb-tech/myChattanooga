@@ -35,8 +35,10 @@
 
 .left {
   transform: translate3d(-150%, 0, 0);
+  opacity: 0%;
 }
 
 .right {
   transform: translate3d(150%, 0, 0);
+  opacity: 0%;
 }
