@@ -3,16 +3,17 @@
 import styles from './NewsRoom.module.scss'
 import { ArticleResponseData, publisher } from '@/types'
 import Article from '../Article'
-import { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import classNames from 'classnames'
+import { NewsContext } from '@/context/news.context'
 
 interface NewsRoomProps {
   articles: ArticleResponseData[]
 }
 
-export default async function NewsRoom({ articles }: NewsRoomProps) {
+export default function NewsRoom({ articles }: NewsRoomProps) {
   // This needs to be a context variable
-  const [activePublisher, setActivePublisher] = useState<publisher>('all')
+  const { state } = useContext(NewsContext)
   const publishers: publisher[] = [
     'all',
     ...Array.from(new Set(articles.map((a) => a.publisher))),
@@ -22,7 +23,7 @@ export default async function NewsRoom({ articles }: NewsRoomProps) {
     <>
       <div className={styles.newsRoom} id="newsRoom">
         {publishers.map((publisher, i) => {
-          const isActive = activePublisher === publisher
+          const isActive = state.selectedPublisher === publisher
           const filteredArticles =
             publisher === 'all'
               ? articles

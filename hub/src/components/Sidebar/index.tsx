@@ -4,7 +4,7 @@ import { format } from 'date-fns'
 import Logo from '../Logo'
 import styles from './Sidebar.module.scss'
 import { Email } from '@mui/icons-material'
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import classNames from 'classnames'
 import { ArticleResponseData, publisher, publisherNameMap } from '@/types'
 import { NEWS_ACTIONS, NewsContext } from '@/context/news.context'
@@ -14,14 +14,23 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ articles }: SidebarProps) {
-  const { dispatch, state } = useContext(NewsContext)
+  const {
+    dispatch,
+    state: { selectedPublisher },
+  } = useContext(NewsContext)
 
   const publishers = Array.from(
     new Set(articles.map((article) => article.publisher)),
   ).sort()
 
   const onPublisherClick = (incoming: publisher) => {
+    if (incoming === selectedPublisher) {
+      dispatch({ type: NEWS_ACTIONS.CHANGE_PUBLISHER, publisher: 'all' })
+      return
+    }
+
     dispatch({ type: NEWS_ACTIONS.CHANGE_PUBLISHER, publisher: incoming })
+    return
   }
 
   return (
@@ -37,9 +46,7 @@ export default function Sidebar({ articles }: SidebarProps) {
               key={i}
               className={classNames(
                 styles.publisher,
-                state.selectedPublisher === publisher
-                  ? styles.selectedPublisher
-                  : '',
+                selectedPublisher === publisher ? styles.selectedPublisher : '',
               )}
               onClick={() => onPublisherClick(publisher)}
             >
@@ -52,7 +59,7 @@ export default function Sidebar({ articles }: SidebarProps) {
       </div>
       <div className={styles.newsletterSignup}>
         <Email />
-        {state.selectedPublisher}
+        {selectedPublisher}
       </div>
     </section>
   )
