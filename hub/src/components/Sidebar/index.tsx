@@ -4,57 +4,24 @@ import { format } from 'date-fns'
 import Logo from '../Logo'
 import styles from './Sidebar.module.scss'
 import { Email } from '@mui/icons-material'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import classNames from 'classnames'
 import { ArticleResponseData, publisher, publisherNameMap } from '@/types'
-
-const SHOWN_ARTICLE_CLASSNAME = 'visibleArticleSection'
+import { NEWS_ACTIONS, NewsContext } from '@/context/news.context'
 
 interface SidebarProps {
   articles: ArticleResponseData[]
 }
 
 export default function Sidebar({ articles }: SidebarProps) {
-  const [selected, setSelected] = useState<publisher | null>(null)
+  const { dispatch, state } = useContext(NewsContext)
+
   const publishers = Array.from(
     new Set(articles.map((article) => article.publisher)),
   ).sort()
 
   const onPublisherClick = (incoming: publisher) => {
-    const showArticlesByPublisher = (publisher: publisher) => {
-      const articlesToHide = document.querySelectorAll(
-        `[data-publisher]:not([data-publisher=${publisher}])`,
-      )
-      articlesToHide.forEach((article) => {
-        article.classList.remove(SHOWN_ARTICLE_CLASSNAME)
-      })
-
-      const articlesToShow = document.querySelectorAll(
-        `[data-publisher = ${publisher}]`,
-      )
-      articlesToShow.forEach((article) => {
-        article.classList.add(SHOWN_ARTICLE_CLASSNAME)
-      })
-    }
-
-    const showAllArticles = () => {
-      const articlesToShow = document.querySelectorAll(
-        `[data-publisher]:not([data-publisher=${selected}])`,
-      )
-      articlesToShow.forEach((article) =>
-        article.classList.add(SHOWN_ARTICLE_CLASSNAME),
-      )
-    }
-
-    if (incoming !== selected) {
-      showArticlesByPublisher(incoming)
-      setSelected(incoming)
-      return
-    }
-
-    showAllArticles()
-    setSelected(null)
-    return
+    dispatch({ type: NEWS_ACTIONS.CHANGE_PUBLISHER, publisher: incoming })
   }
 
   return (
@@ -70,7 +37,9 @@ export default function Sidebar({ articles }: SidebarProps) {
               key={i}
               className={classNames(
                 styles.publisher,
-                selected === publisher ? styles.selectedPublisher : '',
+                state.selectedPublisher === publisher
+                  ? styles.selectedPublisher
+                  : '',
               )}
               onClick={() => onPublisherClick(publisher)}
             >
@@ -83,7 +52,7 @@ export default function Sidebar({ articles }: SidebarProps) {
       </div>
       <div className={styles.newsletterSignup}>
         <Email />
-        Subscribe
+        {state.selectedPublisher}
       </div>
     </section>
   )
