@@ -35,8 +35,7 @@ export default function Article({
     <Link
       href={link}
       target="_blank"
-      className={classNames(styles.articleLink, 'visibleArticle')}
-      data-publisher={publisher}
+      className={classNames(styles.articleLink)}
     >
       <div className={styles.article}>
         <div className={styles.imageAndPublisher}>

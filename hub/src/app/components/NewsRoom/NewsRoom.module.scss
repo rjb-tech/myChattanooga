@@ -2,7 +2,7 @@
 
 .newsRoom {
   height: 100%;
-  overflow-y: scroll;
+  overflow-x: hidden;
 
   padding: 2.5em;
   -ms-overflow-style: none; /* IE and Edge */
@@ -13,18 +13,18 @@
   }
 }
 
-.visibleArticles {
+.publisherSection {
   display: flex;
   opacity: 100%;
   width: 100%;
-  height: 100%;
+  height: 0%;
+  overflow-y: scroll;
 
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: 2.5em;
 
   @media (min-width: $largeTabletBreakpoint) {
-    padding: 3em;
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -33,9 +33,10 @@
   }
 }
 
-.hiddenArticles {
-  display: flex;
-  opacity: 0%;
-  width: 100%;
-  height: 100%;
+.left {
+  transform: translate3d(-150%, 0, 0);
+}
+
+.right {
+  transform: translate3d(150%, 0, 0);
 }

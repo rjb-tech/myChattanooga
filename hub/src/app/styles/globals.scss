@@ -30,7 +30,7 @@ a {
   }
 }
 
-.visibleArticle {
-  opacity: 100% !important;
-  display: block !important;
+.visibleArticleSection {
+  height: fit-content !important;
+  transform: translate3d(0, 0, 0) !important;
 }

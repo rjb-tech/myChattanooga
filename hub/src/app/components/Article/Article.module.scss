@@ -37,8 +37,7 @@
 .articleLink {
   height: fit-content;
   border-radius: 16px;
-  display: none;
-  opacity: 0;
+  display: block;
   box-shadow:
     2px 2px 8px rgba(0, 0, 0, 0.1),
     -2px -2px 8px rgba(255, 255, 255, 0.2);

@@ -4,11 +4,11 @@ import { format } from 'date-fns'
 import Logo from '../Logo'
 import styles from './Sidebar.module.scss'
 import { Email } from '@mui/icons-material'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import classNames from 'classnames'
 import { ArticleResponseData, publisher, publisherNameMap } from '@/app/types'
 
-const SHOWN_ARTICLE_CLASSNAME = 'visibleArticle'
+const SHOWN_ARTICLE_CLASSNAME = 'visibleArticleSection'
 
 interface SidebarProps {
   articles: ArticleResponseData[]
