@@ -1,4 +1,4 @@
-import { ArticleResponseData } from '@/app/types'
+import { ArticleResponseData, publisherNameMap } from '@/app/types'
 import styles from './Article.module.scss'
 
 import Chattanooganlogo from '../../../../public/Chattanoogan.webp'
@@ -20,16 +20,7 @@ const publisherImageMappings = {
   FoxChattanooga: FoxChattanoogaLogo,
   TimesFreePress: TFPLogo,
   WDEF: WDEFLogo,
-}
-
-const publisherNameMappings = {
-  Chattanoogan: 'Chattanoogan',
-  ChattanoogaNewsChronicle: 'Chattanooga News Chronicle',
-  Local3News: 'Local 3 News',
-  ChattanoogaPulse: 'Chattanooga Pulse',
-  FoxChattanooga: 'Fox Chattanooga',
-  TimesFreePress: 'Chattanooga Times Free Press',
-  WDEF: 'WDEF News 12',
+  all: '',
 }
 
 export default function Article({
@@ -57,7 +48,7 @@ export default function Article({
             />
           </div>
           <p className={styles.publisher}>
-            &copy; {publisherNameMappings[publisher]}
+            &copy; {publisherNameMap[publisher]}
           </p>
         </div>
         <h3 className={styles.headline}>{headline}</h3>

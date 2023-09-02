@@ -15,3 +15,15 @@ export type publisher =
   | 'WDEF'
   | 'ChattanoogaPulse'
   | 'ChattanoogaNewsChronicle'
+  | 'all'
+
+export const publisherNameMap = {
+  Chattanoogan: 'Chattanoogan',
+  ChattanoogaNewsChronicle: 'Chattanooga News Chronicle',
+  Local3News: 'Local 3 News',
+  ChattanoogaPulse: 'Chattanooga Pulse',
+  FoxChattanooga: 'Fox Chattanooga',
+  TimesFreePress: 'Times Free Press',
+  WDEF: 'WDEF News 12',
+  all: 'All Publishers',
+}

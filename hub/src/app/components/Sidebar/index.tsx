@@ -6,32 +6,12 @@ import styles from './Sidebar.module.scss'
 import { Email } from '@mui/icons-material'
 import { useEffect, useState } from 'react'
 import classNames from 'classnames'
-import { ArticleResponseData, publisher } from '@/app/types'
+import { ArticleResponseData, publisher, publisherNameMap } from '@/app/types'
 
 const SHOWN_ARTICLE_CLASSNAME = 'visibleArticle'
 
 interface SidebarProps {
   articles: ArticleResponseData[]
-}
-
-interface PublisherMap {
-  Chattanoogan: string
-  FoxChattanooga: string
-  Local3News: string
-  TimesFreePress: string
-  WDEF: string
-  ChattanoogaPulse: string
-  ChattanoogaNewsChronicle: string
-}
-
-const PublisherMappings: PublisherMap = {
-  Chattanoogan: 'Chattanoogan',
-  FoxChattanooga: 'Fox Chattanooga',
-  Local3News: 'Local 3 News',
-  TimesFreePress: 'Times Free Press',
-  WDEF: 'WDEF News 12',
-  ChattanoogaPulse: 'Chattanooga Pulse',
-  ChattanoogaNewsChronicle: 'Chattanooga News Chronicle',
 }
 
 export default function Sidebar({ articles }: SidebarProps) {
@@ -95,7 +75,7 @@ export default function Sidebar({ articles }: SidebarProps) {
               onClick={() => onPublisherClick(publisher)}
             >
               <span className={styles.publisherName}>
-                {PublisherMappings[publisher]}
+                {publisherNameMap[publisher]}
               </span>
             </div>
           ))}
