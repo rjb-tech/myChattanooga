@@ -1,7 +1,7 @@
 'use client'
 
 import styles from './NewsRoom.module.scss'
-import { ArticleResponseData, publisher } from '@/app/types'
+import { ArticleResponseData, publisher } from '@/types'
 import Article from '../Article'
 import { useState } from 'react'
 import classNames from 'classnames'
@@ -11,6 +11,7 @@ interface NewsRoomProps {
 }
 
 export default async function NewsRoom({ articles }: NewsRoomProps) {
+  // This needs to be a context variable
   const [activePublisher, setActivePublisher] = useState<publisher>('all')
   const publishers: publisher[] = [
     'all',

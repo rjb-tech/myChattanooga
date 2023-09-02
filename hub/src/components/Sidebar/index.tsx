@@ -6,7 +6,7 @@ import styles from './Sidebar.module.scss'
 import { Email } from '@mui/icons-material'
 import { useState } from 'react'
 import classNames from 'classnames'
-import { ArticleResponseData, publisher, publisherNameMap } from '@/app/types'
+import { ArticleResponseData, publisher, publisherNameMap } from '@/types'
 
 const SHOWN_ARTICLE_CLASSNAME = 'visibleArticleSection'
 

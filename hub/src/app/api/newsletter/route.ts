@@ -2,7 +2,7 @@ import { endOfDay, subDays } from 'date-fns'
 import { zonedTimeToUtc } from 'date-fns-tz'
 import getSupabaseClient from '@/lib/supabase'
 import { NextResponse } from 'next/server'
-import { ArticleResponseData } from '@/app/types'
+import { ArticleResponseData } from '@/types'
 import OpenAI from 'openai'
 
 export async function GET(req: Request) {

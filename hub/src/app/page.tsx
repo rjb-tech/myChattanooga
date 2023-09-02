@@ -1,7 +1,7 @@
 import { format } from 'date-fns'
-import Logo from './components/Logo'
-import NewsRoom from './components/NewsRoom'
-import Sidebar from './components/Sidebar'
+import Logo from '../components/Logo'
+import NewsRoom from '../components/NewsRoom'
+import Sidebar from '../components/Sidebar'
 import styles from './page.module.scss'
 import config from '@/config'
 

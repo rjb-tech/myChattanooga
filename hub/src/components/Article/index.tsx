@@ -1,16 +1,15 @@
-import { ArticleResponseData, publisherNameMap } from '@/app/types'
-import styles from './Article.module.scss'
-
-import Chattanooganlogo from '../../../../public/Chattanoogan.webp'
-import ChronicleLogo from '../../../../public/ChattNewsChronicle.png'
-import Local3Logo from '../../../../public/Local3.jpeg'
-import PulseLogo from '../../../../public/Pulse.png'
-import FoxChattanoogaLogo from '../../../../public/FoxChattanoogaLogo.jpg'
-import TFPLogo from '../../../../public/TimesFreePress.jpg'
-import WDEFLogo from '../../../../public/WDEF.png'
 import Image from 'next/image'
 import Link from 'next/link'
 import classNames from 'classnames'
+import { ArticleResponseData, publisherNameMap } from '@/types'
+import styles from './Article.module.scss'
+import Chattanooganlogo from '../../../public/Chattanoogan.webp'
+import ChronicleLogo from '../../../public/ChattNewsChronicle.png'
+import Local3Logo from '../../../public/Local3.jpeg'
+import PulseLogo from '../../../public/Pulse.png'
+import FoxChattanoogaLogo from '../../../public/FoxChattanoogaLogo.jpg'
+import TFPLogo from '../../../public/TimesFreePress.jpg'
+import WDEFLogo from '../../../public/WDEF.png'
 
 const publisherImageMappings = {
   Chattanoogan: Chattanooganlogo,
