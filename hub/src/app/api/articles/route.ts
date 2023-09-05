@@ -18,6 +18,7 @@ export async function GET(req: Request) {
     .select('*')
     .gte('published', dayBefore.toISOString())
     .lt('published', dayQueried.toISOString())
+    .order('published', { ascending: false })
 
   if (error) {
     console.log(error ?? '')
