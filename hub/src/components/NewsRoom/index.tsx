@@ -16,12 +16,21 @@ export default function NewsRoom({ articles }: NewsRoomProps) {
   const {
     state: { selectedPublisher },
   } = useContext(NewsContext)
+
   const publishers: publisher[] = [
     'all',
     ...Array.from(new Set(articles.map((a) => a.publisher))).sort(),
   ]
 
-  console.log(publishers)
+  const getDirection = (
+    publisher: publisher,
+    incomingIndex: number,
+    activeIndex: number,
+  ) => {
+    if (publisher === 'all') return styles.up
+
+    return incomingIndex <= activeIndex ? styles.left : styles.right
+  }
 
   return (
     <>
@@ -42,7 +51,7 @@ export default function NewsRoom({ articles }: NewsRoomProps) {
               className={classNames(
                 { visibleArticleSection: isActive },
                 styles.publisherSection,
-                i <= activeIndex ? styles.left : styles.right,
+                getDirection(publisher, i, activeIndex),
               )}
             >
               {filteredArticles.map((article: ArticleResponseData, i) => (
