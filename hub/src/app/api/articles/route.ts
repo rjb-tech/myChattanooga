@@ -3,6 +3,13 @@ import { zonedTimeToUtc } from 'date-fns-tz'
 import getSupabaseClient from '@/lib/supabase'
 import { NextResponse } from 'next/server'
 import { ArticleResponseData } from '@/types'
+import { init as initSentry, captureException } from '@sentry/node'
+
+initSentry({
+  dsn: process.env.SENTRY_DSN ?? '',
+  environment: process.env.DEPLOYMENT_ENV ?? 'dev',
+  tracesSampleRate: 0.75,
+})
 
 export async function GET(req: Request) {
   const supabase = getSupabaseClient('news')
@@ -21,7 +28,7 @@ export async function GET(req: Request) {
     .order('published', { ascending: false })
 
   if (error) {
-    console.log(error ?? '')
+    captureException('Error fetching articles')
     return NextResponse.error()
   }
 
