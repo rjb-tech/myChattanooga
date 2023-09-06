@@ -6,6 +6,12 @@ import Article from '../Article'
 import { MutableRefObject, useContext, useEffect, useRef } from 'react'
 import classNames from 'classnames'
 import { NewsContext } from '@/context/news.context'
+import {
+  ArrowCircleUp,
+  ArrowCircleUpOutlined,
+  ChevronLeft,
+  ChevronLeftRounded,
+} from '@mui/icons-material'
 
 interface NewsRoomProps {
   articles: ArticleResponseData[]
@@ -40,16 +46,30 @@ export default function NewsRoom({ articles }: NewsRoomProps) {
         id="newsRoom"
         ref={scrollableRef}
         onScroll={(e) => {
-          const scrollPosition = e.currentTarget.scrollTop
           const SHADOW_CLASSNAME = 'headerShadow'
-          const el = document.querySelector('#mobileHeader')
+          const VISIBLE_CLASSNAME = 'visible'
+
+          const scrollPosition = e.currentTarget.scrollTop
+          const header = document.querySelector('#mobileHeader')
+          const goToTop = document.querySelector('#goToTop')
           if (scrollPosition > 15) {
-            el?.classList.add(SHADOW_CLASSNAME)
+            header?.classList.add(SHADOW_CLASSNAME)
+            goToTop?.classList.add(VISIBLE_CLASSNAME)
           } else {
-            el?.classList.remove(SHADOW_CLASSNAME)
+            header?.classList.remove(SHADOW_CLASSNAME)
+            goToTop?.classList.remove(VISIBLE_CLASSNAME)
           }
         }}
       >
+        <span
+          id="goToTop"
+          className={styles.goToTop}
+          onClick={() => {
+            scrollableRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
+          }}
+        >
+          <ChevronLeftRounded className={styles.icon} />
+        </span>
         {publishers.map((publisher, i) => {
           const isActive = selectedPublisher === publisher
           const activeIndex = publishers.findIndex(

@@ -38,6 +38,29 @@
   }
 }
 
+.goToTop {
+  position: absolute;
+  z-index: 1000;
+  bottom: 0;
+  right: 0;
+  height: 42px;
+  width: 42px;
+  border-radius: 21px;
+  background-color: rgba(255, 255, 255, 0.35);
+  margin: 1em;
+  transform: rotate(90deg);
+  cursor: pointer;
+  opacity: 0;
+  transition-property: all;
+  transition-duration: 500ms;
+  transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+
+  .icon {
+    height: 100%;
+    width: 100%;
+  }
+}
+
 .left {
   transform: translate3d(-150%, 0, 0) scale3d(0.7, 0.7, 0);
   opacity: 0%;

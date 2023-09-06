@@ -38,6 +38,10 @@ a {
   overflow: visible !important;
 }
 
+.visible {
+  opacity: 1 !important;
+}
+
 .headerShadow {
   z-index: 1000;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
