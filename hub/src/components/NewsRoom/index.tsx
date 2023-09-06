@@ -39,6 +39,10 @@ export default function NewsRoom({ articles }: NewsRoomProps) {
     return incomingIndex <= activeIndex ? styles.left : styles.right
   }
 
+  useEffect(() => {
+    scrollableRef.current?.scrollTo({ top: 0 })
+  }, [selectedPublisher])
+
   return (
     <>
       <div
