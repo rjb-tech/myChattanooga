@@ -1,3 +1,4 @@
+@import 'variables';
 $headerHeight: 8em;
 
 * {
@@ -11,12 +12,12 @@ $headerHeight: 8em;
 }
 
 body {
-  background-color: #f1f1f1;
+  background-color: $lightBackgroundColor;
   display: flex;
   flex-direction: column;
 
   @media (prefers-color-scheme: dark) {
-    background-color: #151515;
+    background-color: $darkBackgroundColor;
     color: #ffffff;
   }
 }
