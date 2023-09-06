@@ -3,7 +3,7 @@
 import styles from './NewsRoom.module.scss'
 import { ArticleResponseData, publisher } from '@/types'
 import Article from '../Article'
-import { useContext, useEffect, useState } from 'react'
+import { useContext } from 'react'
 import classNames from 'classnames'
 import { NewsContext } from '@/context/news.context'
 
@@ -14,7 +14,7 @@ interface NewsRoomProps {
 export default function NewsRoom({ articles }: NewsRoomProps) {
   // This needs to be a context variable
   const {
-    state: { selectedPublisher },
+    state: { selectedPublisher, subscribeModalOpen },
   } = useContext(NewsContext)
 
   const publishers: publisher[] = [

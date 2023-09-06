@@ -16,10 +16,7 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ articles }: SidebarProps) {
-  const {
-    dispatch,
-    state: { selectedPublisher },
-  } = useContext(NewsContext)
+  const { dispatch, state } = useContext(NewsContext)
 
   const [modalOpen, setModalOpen] = useState<boolean>(false)
 
@@ -28,7 +25,7 @@ export default function Sidebar({ articles }: SidebarProps) {
   ).sort()
 
   const onPublisherClick = (incoming: publisher) => {
-    if (incoming === selectedPublisher) {
+    if (incoming === state.selectedPublisher) {
       dispatch({ type: NEWS_ACTIONS.CHANGE_PUBLISHER, publisher: 'all' })
       return
     }
@@ -37,10 +34,27 @@ export default function Sidebar({ articles }: SidebarProps) {
     return
   }
 
+  const openModal = () => {
+    dispatch({
+      type: NEWS_ACTIONS.TOGGLE_SUBSCRIBE_MODAL,
+      open: true,
+    })
+  }
+
+  const closeModal = () => {
+    dispatch({
+      type: NEWS_ACTIONS.TOGGLE_SUBSCRIBE_MODAL,
+      open: false,
+    })
+  }
+
   return (
-    <ClickAwayListener onClickAway={() => setModalOpen(false)}>
+    <ClickAwayListener onClickAway={closeModal}>
       <section className={styles.sidebar}>
-        <NewsletterSubscribeModal open={modalOpen} setOpen={setModalOpen} />
+        <NewsletterSubscribeModal
+          open={state.subscribeModalOpen}
+          closeModal={closeModal}
+        />
         <div className={styles.logoAndPublisherContainer}>
           <div className={styles.logoContainer}>
             <Logo />
@@ -52,7 +66,7 @@ export default function Sidebar({ articles }: SidebarProps) {
                 key={i}
                 className={classNames(
                   styles.publisher,
-                  selectedPublisher === publisher
+                  state.selectedPublisher === publisher
                     ? styles.selectedPublisher
                     : '',
                 )}
@@ -65,12 +79,9 @@ export default function Sidebar({ articles }: SidebarProps) {
             ))}
           </div>
         </div>
-        <div
-          className={styles.newsletterSignup}
-          onClick={() => setModalOpen(true)}
-        >
+        <div className={styles.newsletterSignup} onClick={openModal}>
           <Email />
-          {selectedPublisher}
+          {state.selectedPublisher}
         </div>
       </section>
     </ClickAwayListener>

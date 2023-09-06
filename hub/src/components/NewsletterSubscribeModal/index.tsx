@@ -1,26 +1,21 @@
-import config from '@/config'
-import {
-  ClickAwayListener,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  TextField,
-} from '@mui/material'
+import { Dialog, DialogContent, DialogTitle, TextField } from '@mui/material'
 import styles from './NewsletterSubscribeModal.module.scss'
 import { useState } from 'react'
 
 interface NewsletterSubscribeModalProps {
-  open: boolean
-  setOpen: Function
+  open?: boolean
+  closeModal: () => void
 }
 
 export default function NewsletterSubscribeModal({
   open,
-  setOpen,
+  closeModal,
 }: NewsletterSubscribeModalProps) {
   const [email, setEmail] = useState<string>('')
+  const onSubmit = () => {}
+
   return (
-    <Dialog open={open} onClose={() => setOpen(false)}>
+    <Dialog open={open ?? false} onClose={closeModal}>
       <DialogTitle>myChattanooga Nighly News Roundup</DialogTitle>
       <DialogContent className={styles.modalContent}>
         Relevant news from around the city in your inbox.
