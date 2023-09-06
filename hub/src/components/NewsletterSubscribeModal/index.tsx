@@ -1,31 +1,35 @@
 import config from '@/config'
-import { Dialog, DialogContent, DialogTitle } from '@mui/material'
+import {
+  ClickAwayListener,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  TextField,
+} from '@mui/material'
 import styles from './NewsletterSubscribeModal.module.scss'
+import { useState } from 'react'
 
 interface NewsletterSubscribeModalProps {
   open: boolean
+  setOpen: Function
 }
 
 export default function NewsletterSubscribeModal({
   open,
+  setOpen,
 }: NewsletterSubscribeModalProps) {
+  const [email, setEmail] = useState<string>('')
   return (
-    <Dialog open={open}>
-      <DialogTitle>Headlines in your inbox every night</DialogTitle>
-      <DialogContent>
-        <button
-          onClick={() => {
-            fetch(`${config.apiRoutes.url}/subscribe`, {
-              method: 'POST',
-              body: JSON.stringify({
-                email: 'rburden1996@hotmail.com',
-                first_name: 'ryne',
-              }),
-            })
-          }}
-        >
-          hey
-        </button>
+    <Dialog open={open} onClose={() => setOpen(false)}>
+      <DialogTitle>myChattanooga Nighly News Roundup</DialogTitle>
+      <DialogContent className={styles.modalContent}>
+        Relevant news from around the city in your inbox.
+        <TextField
+          value={email}
+          label="Email"
+          onChange={(e) => setEmail(e.target.value)}
+          fullWidth
+        />
       </DialogContent>
     </Dialog>
   )

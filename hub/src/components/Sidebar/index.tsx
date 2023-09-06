@@ -38,39 +38,41 @@ export default function Sidebar({ articles }: SidebarProps) {
   }
 
   return (
-    <section className={styles.sidebar}>
-      <ClickAwayListener onClickAway={() => setModalOpen(false)}>
-        <NewsletterSubscribeModal open={modalOpen} />
-      </ClickAwayListener>
-      <div className={styles.logoAndPublisherContainer}>
-        <div className={styles.logoContainer}>
-          <Logo />
-          <p className={styles.date}>{format(new Date(), 'EEEE MMMM do')}</p>
+    <ClickAwayListener onClickAway={() => setModalOpen(false)}>
+      <section className={styles.sidebar}>
+        <NewsletterSubscribeModal open={modalOpen} setOpen={setModalOpen} />
+        <div className={styles.logoAndPublisherContainer}>
+          <div className={styles.logoContainer}>
+            <Logo />
+            <p className={styles.date}>{format(new Date(), 'EEEE MMMM do')}</p>
+          </div>
+          <div className={styles.publisherContainer}>
+            {publishers.map((publisher, i) => (
+              <div
+                key={i}
+                className={classNames(
+                  styles.publisher,
+                  selectedPublisher === publisher
+                    ? styles.selectedPublisher
+                    : '',
+                )}
+                onClick={() => onPublisherClick(publisher)}
+              >
+                <span className={styles.publisherName}>
+                  {publisherNameMap[publisher]}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className={styles.publisherContainer}>
-          {publishers.map((publisher, i) => (
-            <div
-              key={i}
-              className={classNames(
-                styles.publisher,
-                selectedPublisher === publisher ? styles.selectedPublisher : '',
-              )}
-              onClick={() => onPublisherClick(publisher)}
-            >
-              <span className={styles.publisherName}>
-                {publisherNameMap[publisher]}
-              </span>
-            </div>
-          ))}
+        <div
+          className={styles.newsletterSignup}
+          onClick={() => setModalOpen(true)}
+        >
+          <Email />
+          {selectedPublisher}
         </div>
-      </div>
-      <div
-        className={styles.newsletterSignup}
-        onClick={() => setModalOpen(true)}
-      >
-        <Email />
-        {selectedPublisher}
-      </div>
-    </section>
+      </section>
+    </ClickAwayListener>
   )
 }
