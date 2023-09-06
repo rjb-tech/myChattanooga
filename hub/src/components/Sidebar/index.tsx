@@ -4,10 +4,12 @@ import { format } from 'date-fns'
 import Logo from '../Logo'
 import styles from './Sidebar.module.scss'
 import { Email } from '@mui/icons-material'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import classNames from 'classnames'
 import { ArticleResponseData, publisher, publisherNameMap } from '@/types'
 import { NEWS_ACTIONS, NewsContext } from '@/context/news.context'
+import NewsletterSubscribeModal from '../NewsletterSubscribeModal'
+import { ClickAwayListener } from '@mui/material'
 
 interface SidebarProps {
   articles: ArticleResponseData[]
@@ -18,6 +20,8 @@ export default function Sidebar({ articles }: SidebarProps) {
     dispatch,
     state: { selectedPublisher },
   } = useContext(NewsContext)
+
+  const [modalOpen, setModalOpen] = useState<boolean>(false)
 
   const publishers = Array.from(
     new Set(articles.map((article) => article.publisher)),
@@ -35,6 +39,9 @@ export default function Sidebar({ articles }: SidebarProps) {
 
   return (
     <section className={styles.sidebar}>
+      <ClickAwayListener onClickAway={() => setModalOpen(false)}>
+        <NewsletterSubscribeModal open={modalOpen} />
+      </ClickAwayListener>
       <div className={styles.logoAndPublisherContainer}>
         <div className={styles.logoContainer}>
           <Logo />
@@ -57,7 +64,10 @@ export default function Sidebar({ articles }: SidebarProps) {
           ))}
         </div>
       </div>
-      <div className={styles.newsletterSignup}>
+      <div
+        className={styles.newsletterSignup}
+        onClick={() => setModalOpen(true)}
+      >
         <Email />
         {selectedPublisher}
       </div>
