@@ -11,13 +11,17 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: 80%;
+  width: 100%;
   background-color: transparent;
+
+  @media (min-width: $tabletBreakpoint) {
+    width: 80%;
+  }
 }
 
 .mobileHeader {
   width: 100vw;
-  height: 10em;
+  height: 8em;
   display: flex;
   align-content: center;
   justify-content: center;
