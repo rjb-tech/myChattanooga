@@ -1,6 +1,13 @@
-import { Dialog, DialogContent, DialogTitle, TextField } from '@mui/material'
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  TextField,
+} from '@mui/material'
 import styles from './NewsletterSubscribeModal.module.scss'
 import { useState } from 'react'
+import validator from 'validator'
 
 interface NewsletterSubscribeModalProps {
   open?: boolean
@@ -12,19 +19,40 @@ export default function NewsletterSubscribeModal({
   closeModal,
 }: NewsletterSubscribeModalProps) {
   const [email, setEmail] = useState<string>('')
-  const onSubmit = () => {}
+  const [firstName, setFirstName] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
+  const onSubmit = () => {} // WORK ON THIS AND ADD LOADING STATE
+
+  const emailValid = validator.isEmail(email) && !validator.isEmpty(email)
+  const firstNameValid = !validator.isEmpty(firstName)
+  const buttonDisabled = !emailValid || !firstNameValid
 
   return (
     <Dialog open={open ?? false} onClose={closeModal}>
       <DialogTitle>myChattanooga Nighly News Roundup</DialogTitle>
       <DialogContent className={styles.modalContent}>
-        Relevant news from around the city in your inbox.
         <TextField
           value={email}
           label="Email"
-          onChange={(e) => setEmail(e.target.value)}
           fullWidth
+          required
+          onChange={(e) => setEmail(e.target.value)}
         />
+        <TextField
+          value={firstName}
+          label="First Name"
+          fullWidth
+          required
+          onChange={(e) => setFirstName(e.target.value)}
+        />
+        <Button
+          className={styles.submit}
+          fullWidth
+          disabled={buttonDisabled}
+          variant="contained"
+        >
+          Subscribe
+        </Button>
       </DialogContent>
     </Dialog>
   )

@@ -74,8 +74,8 @@
 .selectedPublisher {
   width: 105%;
   box-shadow:
-    inset -5px -5px 20px rgba(45, 216, 255, 0.15),
-    inset 5px 5px 20px rgba(45, 216, 255, 0.15);
+    inset -5px -5px 20px rgba(101, 126, 212, 0.3),
+    inset 5px 5px 15px rgba(101, 126, 212, 0.1);
 
   @media (prefers-color-scheme: dark) {
     box-shadow:
@@ -110,9 +110,13 @@
   align-items: center;
   gap: 1em;
   border-radius: 32px;
-  background-color: navy;
+  background-color: #657ed4;
   cursor: pointer;
   color: white;
+
+  &:hover {
+    box-shadow: 0px 0px 10px rgba(101, 126, 212, 0.5);
+  }
 }
 
 .publisherName {
