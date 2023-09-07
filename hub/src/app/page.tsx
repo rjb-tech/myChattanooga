@@ -23,7 +23,7 @@ export default async function Home() {
     <div className={styles.home}>
       <Sidebar articles={articles} />
       <section className={styles.headquarters}>
-        <div className={styles.mobileHeader}>
+        <div id="mobileHeader" className={styles.mobileHeader}>
           <Logo />
         </div>
         <NewsRoom articles={articles} />

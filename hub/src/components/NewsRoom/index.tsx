@@ -3,7 +3,7 @@
 import styles from './NewsRoom.module.scss'
 import { ArticleResponseData, publisher } from '@/types'
 import Article from '../Article'
-import { useContext } from 'react'
+import { MutableRefObject, useContext, useEffect, useRef } from 'react'
 import classNames from 'classnames'
 import { NewsContext } from '@/context/news.context'
 
@@ -16,6 +16,7 @@ export default function NewsRoom({ articles }: NewsRoomProps) {
   const {
     state: { selectedPublisher, subscribeModalOpen },
   } = useContext(NewsContext)
+  const scrollableRef = useRef<HTMLDivElement>(null)
 
   const publishers: publisher[] = [
     'all',
@@ -34,7 +35,21 @@ export default function NewsRoom({ articles }: NewsRoomProps) {
 
   return (
     <>
-      <div className={styles.newsRoom} id="newsRoom">
+      <div
+        className={styles.newsRoom}
+        id="newsRoom"
+        ref={scrollableRef}
+        onScroll={(e) => {
+          const scrollPosition = e.currentTarget.scrollTop
+          const SHADOW_CLASSNAME = 'headerShadow'
+          const el = document.querySelector('#mobileHeader')
+          if (scrollPosition > 15) {
+            el?.classList.add(SHADOW_CLASSNAME)
+          } else {
+            el?.classList.remove(SHADOW_CLASSNAME)
+          }
+        }}
+      >
         {publishers.map((publisher, i) => {
           const isActive = selectedPublisher === publisher
           const activeIndex = publishers.findIndex(
