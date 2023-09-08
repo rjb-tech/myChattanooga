@@ -1,8 +1,6 @@
 import { init as initSentry, captureException } from '@sentry/node'
 import { NextRequest, NextResponse } from 'next/server'
-import mailchimp, { ErrorResponse } from '@mailchimp/mailchimp_marketing'
-
-// THIS AIN'T WORKIN PA
+import mailchimp from '@mailchimp/mailchimp_marketing'
 
 initSentry({
   dsn: process.env.SENTRY_DSN ?? '',
@@ -11,9 +9,10 @@ initSentry({
 })
 
 export async function POST(req: NextRequest) {
-  const parameters: { email: string; first_name: string } = await req.json()
+  const parameters: { email: string; firstName: string } = await req.json()
 
-  if (!parameters.email || !parameters.first_name) return NextResponse.error()
+  if (!parameters.email || !parameters.firstName)
+    return NextResponse.json('', { status: 404 })
 
   mailchimp.setConfig({
     apiKey: process.env.MAILCHIMP_API_KEY ?? '',
@@ -27,14 +26,16 @@ export async function POST(req: NextRequest) {
         email_address: parameters.email,
         status: 'subscribed',
         merge_fields: {
-          FNAME: parameters.first_name,
+          FNAME: parameters.firstName,
         },
       },
     )
   } catch (e: any) {
-    captureException(`Error subscribing user to newsletter`)
-    return NextResponse.error()
+    if (e.response.body.title.trim() === 'Member Exists')
+      return NextResponse.json("You're already subscribed", { status: 400 })
+
+    return NextResponse.json('Error adding to newsletter', { status: 404 })
   }
 
-  return NextResponse.json('hey')
+  return NextResponse.json('Added to newsletter', { status: 201 })
 }

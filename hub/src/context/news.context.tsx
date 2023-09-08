@@ -2,6 +2,8 @@
 
 import { publisher } from '@/types'
 import React, { Dispatch, createContext, useReducer } from 'react'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 type NewsState = {
   selectedPublisher?: publisher
@@ -50,6 +52,7 @@ export const NewsContextProvider = ({
   return (
     <NewsContext.Provider value={{ state, dispatch }}>
       {children}
+      <ToastContainer />
     </NewsContext.Provider>
   )
 }

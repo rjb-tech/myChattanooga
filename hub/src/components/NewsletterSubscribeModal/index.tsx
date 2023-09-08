@@ -6,10 +6,11 @@ import {
   TextField,
 } from '@mui/material'
 import styles from './NewsletterSubscribeModal.module.scss'
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import validator from 'validator'
-import { Close, CloseRounded, ExitToApp } from '@mui/icons-material'
-import { NEWS_ACTIONS, NewsContext } from '@/context/news.context'
+import { Close } from '@mui/icons-material'
+import { toast } from 'react-toastify'
+import config from '@/config'
 
 interface NewsletterSubscribeModalProps {
   open?: boolean
@@ -20,13 +21,34 @@ export default function NewsletterSubscribeModal({
   open,
   closeModal,
 }: NewsletterSubscribeModalProps) {
-  const { dispatch } = useContext(NewsContext)
   const [email, setEmail] = useState<string>('')
   const [firstName, setFirstName] = useState<string>('')
-  const [loading, setLoading] = useState<boolean>(false)
   const onSubmit = async () => {
-    setLoading(true)
-  } // WORK ON THIS AND ADD LOADING STATE
+    toast('Processing subscription, please wait...', {
+      position: 'bottom-left',
+    })
+    closeModal()
+    const response = await fetch(`${config.apiRoutes.url}/subscribe`, {
+      method: 'POST',
+      body: JSON.stringify({
+        email,
+        firstName,
+      }),
+    })
+
+    if (response.status === 201)
+      toast.success("You're subscribed! Check your email.", {
+        position: 'bottom-left',
+      })
+    else if (response.status === 400)
+      toast.error("You're already subscribed.", {
+        position: 'bottom-left',
+      })
+    else if (response.status === 404)
+      toast.error('Error adding you to the newsletter. Try again later.', {
+        position: 'bottom-left',
+      })
+  }
 
   const emailValid = validator.isEmail(email) && !validator.isEmpty(email)
   const firstNameValid = !validator.isEmpty(firstName)
@@ -35,13 +57,8 @@ export default function NewsletterSubscribeModal({
   return (
     <Dialog open={open ?? false} onClose={closeModal}>
       <DialogTitle className={styles.title}>
-        {'Get the local news in your inbox every day'}
-        <span
-          className={styles.closeButton}
-          onClick={() => {
-            dispatch({ type: NEWS_ACTIONS.TOGGLE_SUBSCRIBE_MODAL, open: false })
-          }}
-        >
+        {'myChattanooga Nightly News Summary'}
+        <span className={styles.closeButton} onClick={closeModal}>
           <Close />
         </span>
       </DialogTitle>
@@ -65,8 +82,9 @@ export default function NewsletterSubscribeModal({
           fullWidth
           disabled={buttonDisabled}
           variant="contained"
+          onClick={onSubmit}
         >
-          {loading ? 'Please wait' : 'Submit'}
+          Submit
         </Button>
       </DialogContent>
     </Dialog>
