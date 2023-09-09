@@ -6,8 +6,10 @@ import {
   TextField,
 } from '@mui/material'
 import styles from './NewsletterSubscribeModal.module.scss'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import validator from 'validator'
+import { Close, CloseRounded, ExitToApp } from '@mui/icons-material'
+import { NEWS_ACTIONS, NewsContext } from '@/context/news.context'
 
 interface NewsletterSubscribeModalProps {
   open?: boolean
@@ -18,6 +20,7 @@ export default function NewsletterSubscribeModal({
   open,
   closeModal,
 }: NewsletterSubscribeModalProps) {
+  const { dispatch } = useContext(NewsContext)
   const [email, setEmail] = useState<string>('')
   const [firstName, setFirstName] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
@@ -31,7 +34,17 @@ export default function NewsletterSubscribeModal({
 
   return (
     <Dialog open={open ?? false} onClose={closeModal}>
-      <DialogTitle>Get the local news in your inbox every day</DialogTitle>
+      <DialogTitle className={styles.title}>
+        {'Get the local news in your inbox every day'}
+        <span
+          className={styles.closeButton}
+          onClick={() => {
+            dispatch({ type: NEWS_ACTIONS.TOGGLE_SUBSCRIBE_MODAL, open: false })
+          }}
+        >
+          <Close />
+        </span>
+      </DialogTitle>
       <DialogContent className={styles.modalContent}>
         <TextField
           value={email}
