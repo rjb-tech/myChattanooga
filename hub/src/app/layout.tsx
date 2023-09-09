@@ -7,6 +7,7 @@ import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import styles from './layout.module.scss'
 import { NewsContextProvider } from '@/context/news.context'
+import MyChattanoogaTheme from '@/components/Theme'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,11 +23,13 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <main className={styles.contentSection}>
-          <NewsContextProvider>{children}</NewsContextProvider>
-        </main>
-      </body>
+      <MyChattanoogaTheme>
+        <body className={inter.className}>
+          <main className={styles.contentSection}>
+            <NewsContextProvider>{children}</NewsContextProvider>
+          </main>
+        </body>
+      </MyChattanoogaTheme>
     </html>
   )
 }

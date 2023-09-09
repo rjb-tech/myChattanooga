@@ -81,7 +81,7 @@ export default function Sidebar({ articles }: SidebarProps) {
         </div>
         <div className={styles.newsletterSignup} onClick={openModal}>
           <Email />
-          {state.selectedPublisher}
+          Newsletter
         </div>
       </section>
     </ClickAwayListener>

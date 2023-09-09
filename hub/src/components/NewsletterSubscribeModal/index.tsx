@@ -21,7 +21,9 @@ export default function NewsletterSubscribeModal({
   const [email, setEmail] = useState<string>('')
   const [firstName, setFirstName] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
-  const onSubmit = () => {} // WORK ON THIS AND ADD LOADING STATE
+  const onSubmit = async () => {
+    setLoading(true)
+  } // WORK ON THIS AND ADD LOADING STATE
 
   const emailValid = validator.isEmail(email) && !validator.isEmpty(email)
   const firstNameValid = !validator.isEmpty(firstName)
@@ -29,7 +31,7 @@ export default function NewsletterSubscribeModal({
 
   return (
     <Dialog open={open ?? false} onClose={closeModal}>
-      <DialogTitle>myChattanooga Nighly News Roundup</DialogTitle>
+      <DialogTitle>Get the local news in your inbox every day</DialogTitle>
       <DialogContent className={styles.modalContent}>
         <TextField
           value={email}
@@ -51,7 +53,7 @@ export default function NewsletterSubscribeModal({
           disabled={buttonDisabled}
           variant="contained"
         >
-          Subscribe
+          {loading ? 'Please wait' : 'Submit'}
         </Button>
       </DialogContent>
     </Dialog>
