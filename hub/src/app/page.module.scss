@@ -18,21 +18,3 @@
     width: 80%;
   }
 }
-
-.mobileHeader {
-  width: 100vw;
-  height: 8em;
-  display: flex;
-  align-content: center;
-  justify-content: center;
-  padding: 1.5em;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-
-  @media (prefers-color-scheme: dark) {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  @media (min-width: $tabletBreakpoint) {
-    display: none;
-  }
-}

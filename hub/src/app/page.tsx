@@ -1,9 +1,9 @@
 import { format } from 'date-fns'
-import Logo from '../components/Logo'
 import NewsRoom from '../components/NewsRoom'
 import Sidebar from '../components/Sidebar'
 import styles from './page.module.scss'
 import config from '@/config'
+import MobileHeader from '@/components/MobileHeader'
 
 async function getArticles() {
   // Should this be changed to eastern time to account for production servers?
@@ -23,9 +23,7 @@ export default async function Home() {
     <div className={styles.home}>
       <Sidebar articles={articles} />
       <section className={styles.headquarters}>
-        <div id="mobileHeader" className={styles.mobileHeader}>
-          <Logo />
-        </div>
+        <MobileHeader />
         <NewsRoom articles={articles} />
       </section>
     </div>

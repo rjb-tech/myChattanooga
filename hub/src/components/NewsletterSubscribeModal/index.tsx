@@ -57,7 +57,7 @@ export default function NewsletterSubscribeModal({
   return (
     <Dialog open={open ?? false} onClose={closeModal}>
       <DialogTitle className={styles.title}>
-        {'myChattanooga Nightly News Summary'}
+        {"Today's news in your inbox"}
         <span className={styles.closeButton} onClick={closeModal}>
           <Close />
         </span>
