@@ -16,7 +16,7 @@ export default function FiltersModal({ open, closeModal }: FiltersModalProps) {
   return (
     <Dialog open={open ?? false} onClose={closeModal}>
       <DialogTitle className={styles.title}>
-        {'Filter articles by publisher'}
+        {'Filter by publisher'}
         <span className={styles.closeButton} onClick={closeModal}>
           <Close />
         </span>

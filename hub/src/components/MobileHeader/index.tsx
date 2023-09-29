@@ -19,7 +19,7 @@ export default function MobileHeader() {
           setFiltersModalOpen(false)
         }}
       />
-      <div
+      {/* <div
         className={styles.mobileMenuButton}
         onClick={() => {
           dispatch({
@@ -29,7 +29,7 @@ export default function MobileHeader() {
         }}
       >
         <EmailRounded fontSize="large" />
-      </div>
+      </div> */}
       <Logo />
       <div
         className={styles.mobileMenuButton}
