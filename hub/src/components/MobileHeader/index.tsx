@@ -1,6 +1,12 @@
 'use client'
 
-import { EmailRounded, Settings } from '@mui/icons-material'
+import {
+  EmailRounded,
+  Filter,
+  FilterList,
+  Settings,
+  Sort,
+} from '@mui/icons-material'
 import { useContext, useState } from 'react'
 import { NEWS_ACTIONS, NewsContext } from '@/context/news.context'
 import Logo from '../Logo'
@@ -8,7 +14,7 @@ import styles from './MobileHeader.module.scss'
 import FiltersModal from '../FiltersModal'
 
 export default function MobileHeader() {
-  const { dispatch } = useContext(NewsContext)
+  const { state } = useContext(NewsContext)
   const [filtersModalOpen, setFiltersModalOpen] = useState<boolean>(false)
 
   return (
@@ -31,14 +37,16 @@ export default function MobileHeader() {
         <EmailRounded fontSize="large" />
       </div> */}
       <Logo />
-      <div
-        className={styles.mobileMenuButton}
-        onClick={() => {
-          setFiltersModalOpen(true)
-        }}
-      >
-        <Settings fontSize="large" />
-      </div>
+      {state.publishers.length > 0 && (
+        <div
+          className={styles.mobileMenuButton}
+          onClick={() => {
+            setFiltersModalOpen(true)
+          }}
+        >
+          <FilterList fontSize="large" />
+        </div>
+      )}
     </div>
   )
 }
