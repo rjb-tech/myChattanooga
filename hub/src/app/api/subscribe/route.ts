@@ -9,6 +9,7 @@ initSentry({
 })
 
 export async function POST(req: NextRequest) {
+  return NextResponse.error()
   const parameters: { email: string; firstName: string } = await req.json()
 
   if (!parameters.email || !parameters.firstName)

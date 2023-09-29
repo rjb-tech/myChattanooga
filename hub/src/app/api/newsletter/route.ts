@@ -13,6 +13,7 @@ initSentry({
 })
 
 export async function GET(req: Request) {
+  return NextResponse.error()
   // const { searchParams } = new URL(req.url)
   // const accessKey = searchParams.get('bippityBoopity') as string
   // if (accessKey !== 'e%n@c8Q!hPuMR@5%u^5#@Yov#FbdtN^t')
