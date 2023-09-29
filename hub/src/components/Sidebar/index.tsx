@@ -75,10 +75,10 @@ export default function Sidebar({ articles }: SidebarProps) {
           ))}
         </div>
       </div>
-      <div className={styles.newsletterSignup} onClick={openModal}>
+      {/* <div className={styles.newsletterSignup} onClick={openModal}>
         <EmailRounded />
         Newsletter
-      </div>
+      </div> */}
     </section>
   )
 }
