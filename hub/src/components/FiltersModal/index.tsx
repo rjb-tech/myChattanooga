@@ -4,6 +4,7 @@ import { useContext, useEffect } from 'react'
 import { Close } from '@mui/icons-material'
 import Filters from '../Filters'
 import { NewsContext } from '@/context/news.context'
+import classNames from 'classnames'
 
 interface FiltersModalProps {
   open?: boolean
@@ -15,13 +16,15 @@ export default function FiltersModal({ open, closeModal }: FiltersModalProps) {
 
   return (
     <Dialog open={open ?? false} onClose={closeModal}>
-      <DialogTitle className={styles.title}>
+      <DialogTitle className={classNames(styles.title, styles.background)}>
         {'Filter by publisher'}
         <span className={styles.closeButton} onClick={closeModal}>
           <Close />
         </span>
       </DialogTitle>
-      <DialogContent className={styles.modalContent}>
+      <DialogContent
+        className={classNames(styles.modalContent, styles.background)}
+      >
         <Filters publishers={state.publishers} />
       </DialogContent>
     </Dialog>
