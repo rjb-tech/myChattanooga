@@ -1,14 +1,8 @@
 'use client'
 
-import {
-  EmailRounded,
-  Filter,
-  FilterList,
-  Settings,
-  Sort,
-} from '@mui/icons-material'
+import { FilterList } from '@mui/icons-material'
 import { useContext, useState } from 'react'
-import { NEWS_ACTIONS, NewsContext } from '@/context/news.context'
+import { NewsContext } from '@/context/news.context'
 import Logo from '../Logo'
 import styles from './MobileHeader.module.scss'
 import FiltersModal from '../FiltersModal'

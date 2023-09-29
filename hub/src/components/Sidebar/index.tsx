@@ -39,7 +39,7 @@ export default function Sidebar({ articles }: SidebarProps) {
       type: NEWS_ACTIONS.SET_PUBLISHER_OPTIONS,
       publishers: publishers,
     })
-  }, [articles])
+  }, [articles, dispatch])
 
   return (
     <section className={styles.sidebar}>
