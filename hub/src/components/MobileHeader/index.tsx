@@ -5,7 +5,7 @@ import { useContext, useState } from 'react'
 import { NEWS_ACTIONS, NewsContext } from '@/context/news.context'
 import Logo from '../Logo'
 import styles from './MobileHeader.module.scss'
-import SettingsModal from '../SettingsModal'
+import FiltersModal from '../FiltersModal'
 
 export default function MobileHeader() {
   const { dispatch } = useContext(NewsContext)
@@ -13,7 +13,7 @@ export default function MobileHeader() {
 
   return (
     <div id="mobileHeader" className={styles.mobileHeader}>
-      <SettingsModal
+      <FiltersModal
         open={filtersModalOpen}
         closeModal={() => {
           setFiltersModalOpen(false)

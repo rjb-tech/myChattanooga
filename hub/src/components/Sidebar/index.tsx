@@ -3,12 +3,11 @@
 import { format } from 'date-fns'
 import Logo from '../Logo'
 import styles from './Sidebar.module.scss'
-import { EmailRounded } from '@mui/icons-material'
-import { useContext } from 'react'
-import classNames from 'classnames'
-import { ArticleResponseData, publisher, publisherNameMap } from '@/types'
+import { useContext, useEffect } from 'react'
+import { ArticleResponseData } from '@/types'
 import { NEWS_ACTIONS, NewsContext } from '@/context/news.context'
 import NewsletterSubscribeModal from '../NewsletterSubscribeModal'
+import Filters from '../Filters'
 
 interface SidebarProps {
   articles: ArticleResponseData[]
@@ -16,20 +15,6 @@ interface SidebarProps {
 
 export default function Sidebar({ articles }: SidebarProps) {
   const { dispatch, state } = useContext(NewsContext)
-
-  const publishers = Array.from(
-    new Set(articles.map((article) => article.publisher)),
-  ).sort()
-
-  const onPublisherClick = (incoming: publisher) => {
-    if (incoming === state.selectedPublisher) {
-      dispatch({ type: NEWS_ACTIONS.CHANGE_PUBLISHER, publisher: 'all' })
-      return
-    }
-
-    dispatch({ type: NEWS_ACTIONS.CHANGE_PUBLISHER, publisher: incoming })
-    return
-  }
 
   const openModal = () => {
     dispatch({
@@ -45,6 +30,17 @@ export default function Sidebar({ articles }: SidebarProps) {
     })
   }
 
+  useEffect(() => {
+    const publishers = Array.from(
+      new Set(articles.map((article) => article.publisher)),
+    ).sort()
+
+    dispatch({
+      type: NEWS_ACTIONS.SET_PUBLISHER_OPTIONS,
+      publishers: publishers,
+    })
+  }, [articles])
+
   return (
     <section className={styles.sidebar}>
       <NewsletterSubscribeModal
@@ -56,24 +52,7 @@ export default function Sidebar({ articles }: SidebarProps) {
           <Logo />
           <p className={styles.date}>{format(new Date(), 'EEEE MMMM do')}</p>
         </div>
-        <div className={styles.publisherContainer}>
-          {publishers.map((publisher, i) => (
-            <div
-              key={i}
-              className={classNames(
-                styles.publisher,
-                state.selectedPublisher === publisher
-                  ? styles.selectedPublisher
-                  : '',
-              )}
-              onClick={() => onPublisherClick(publisher)}
-            >
-              <span className={styles.publisherName}>
-                {publisherNameMap[publisher]}
-              </span>
-            </div>
-          ))}
-        </div>
+        <Filters publishers={state.publishers ?? []} />
       </div>
       {/* <div className={styles.newsletterSignup} onClick={openModal}>
         <EmailRounded />
