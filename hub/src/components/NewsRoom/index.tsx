@@ -3,15 +3,11 @@
 import styles from './NewsRoom.module.scss'
 import { ArticleResponseData, publisher } from '@/types'
 import Article from '../Article'
-import { MutableRefObject, useContext, useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef } from 'react'
 import classNames from 'classnames'
 import { NewsContext } from '@/context/news.context'
-import {
-  ArrowCircleUp,
-  ArrowCircleUpOutlined,
-  ChevronLeft,
-  ChevronLeftRounded,
-} from '@mui/icons-material'
+import { ChevronLeftRounded } from '@mui/icons-material'
+import { Typography } from '@mui/material'
 
 interface NewsRoomProps {
   articles: ArticleResponseData[]
@@ -37,6 +33,34 @@ export default function NewsRoom({ articles }: NewsRoomProps) {
     if (publisher === 'all') return styles.up
 
     return incomingIndex <= activeIndex ? styles.left : styles.right
+  }
+
+  const renderArticles = () => {
+    return publishers.map((publisher, i) => {
+      const isActive = selectedPublisher === publisher
+      const activeIndex = publishers.findIndex(
+        (publisher) => publisher === selectedPublisher,
+      )
+      const filteredArticles =
+        publisher === 'all'
+          ? articles
+          : articles.filter((article) => article.publisher === publisher)
+      return (
+        <section
+          key={i}
+          data-publisher={publisher}
+          className={classNames(
+            { visibleArticleSection: isActive },
+            styles.publisherSection,
+            getDirection(publisher, i, activeIndex),
+          )}
+        >
+          {filteredArticles.map((article: ArticleResponseData, i) => (
+            <Article key={i} {...article} />
+          ))}
+        </section>
+      )
+    })
   }
 
   useEffect(() => {
@@ -74,31 +98,13 @@ export default function NewsRoom({ articles }: NewsRoomProps) {
         >
           <ChevronLeftRounded className={styles.icon} />
         </span>
-        {publishers.map((publisher, i) => {
-          const isActive = selectedPublisher === publisher
-          const activeIndex = publishers.findIndex(
-            (publisher) => publisher === selectedPublisher,
-          )
-          const filteredArticles =
-            publisher === 'all'
-              ? articles
-              : articles.filter((article) => article.publisher === publisher)
-          return (
-            <section
-              key={i}
-              data-publisher={publisher}
-              className={classNames(
-                { visibleArticleSection: isActive },
-                styles.publisherSection,
-                getDirection(publisher, i, activeIndex),
-              )}
-            >
-              {filteredArticles.map((article: ArticleResponseData, i) => (
-                <Article key={i} {...article} />
-              ))}
-            </section>
-          )
-        })}
+        {articles.length === 0 ? (
+          <Typography variant="h3" align="center">
+            No articles found yet, check back later today.
+          </Typography>
+        ) : (
+          renderArticles()
+        )}
       </div>
     </>
   )
