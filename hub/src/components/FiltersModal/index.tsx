@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogTitle } from '@mui/material'
 import styles from './FiltersModal.module.scss'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { Close } from '@mui/icons-material'
 import Filters from '../Filters'
 import { NewsContext } from '@/context/news.context'

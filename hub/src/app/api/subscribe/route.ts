@@ -1,4 +1,4 @@
-import { init as initSentry, captureException } from '@sentry/node'
+import { init as initSentry } from '@sentry/node'
 import { NextRequest, NextResponse } from 'next/server'
 import mailchimp from '@mailchimp/mailchimp_marketing'
 

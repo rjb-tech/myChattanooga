@@ -1,6 +1,6 @@
 'use client'
 
-import { ArticleResponseData, publisher } from '@/types'
+import { publisher } from '@/types'
 import React, { Dispatch, createContext, useReducer } from 'react'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
