@@ -23,7 +23,7 @@ export default function Filters({ publishers }: FiltersProps) {
 
   return (
     <div className={styles.publisherContainer}>
-      {publishers.map((publisher, i) => (
+      {publishers.sort().map((publisher, i) => (
         <div
           key={i}
           className={classNames(
