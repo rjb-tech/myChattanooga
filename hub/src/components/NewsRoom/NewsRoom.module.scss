@@ -62,16 +62,16 @@
 }
 
 .left {
-  transform: translate3d(-10%, 0, 0) scale3d(1.15, 1, 1);
+  transform: translate3d(-15%, 0, 0) scale3d(1.1, 1, 1);
   opacity: 100%;
 }
 
 .right {
-  transform: translate3d(10%, 0, 0) scale3d(1.15, 1, 1);
+  transform: translate3d(15%, 0, 0) scale3d(1.1, 1, 1);
   opacity: 100%;
 }
 
 .up {
-  transform: translate3d(0, 10%, 0) scale3d(1, 1.15, 1);
+  transform: translate3d(0, 15%, 0) scale3d(1, 1.2, 1);
   opacity: 100%;
 }
