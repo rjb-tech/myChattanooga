@@ -4,16 +4,16 @@ import { format } from 'date-fns'
 import Logo from '../Logo'
 import styles from './Sidebar.module.scss'
 import { useContext, useEffect } from 'react'
-import { ArticleResponseData } from '@/types'
+import { publisher } from '@/types'
 import { NEWS_ACTIONS, NewsContext } from '@/context/news.context'
 import NewsletterSubscribeModal from '../NewsletterSubscribeModal'
 import Filters from '../Filters'
 
 interface SidebarProps {
-  articles: ArticleResponseData[]
+  publishers: publisher[]
 }
 
-export default function Sidebar({ articles }: SidebarProps) {
+export default function Sidebar({ publishers }: SidebarProps) {
   const { dispatch, state } = useContext(NewsContext)
 
   const openModal = () => {
@@ -31,15 +31,11 @@ export default function Sidebar({ articles }: SidebarProps) {
   }
 
   useEffect(() => {
-    const publishers = Array.from(
-      new Set(articles.map((article) => article.publisher)),
-    ).sort()
-
     dispatch({
       type: NEWS_ACTIONS.SET_PUBLISHER_OPTIONS,
       publishers: publishers,
     })
-  }, [articles, dispatch])
+  }, [publishers])
 
   return (
     <section className={styles.sidebar}>
@@ -52,7 +48,7 @@ export default function Sidebar({ articles }: SidebarProps) {
           <Logo />
           <p className={styles.date}>{format(new Date(), 'EEEE MMMM do')}</p>
         </div>
-        <Filters publishers={state.publishers ?? []} />
+        <Filters publishers={publishers} />
       </div>
       {/* <div className={styles.newsletterSignup} onClick={openModal}>
         <EmailRounded />

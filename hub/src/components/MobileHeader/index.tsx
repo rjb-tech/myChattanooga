@@ -1,19 +1,23 @@
 'use client'
 
 import { FilterList } from '@mui/icons-material'
-import { useContext, useState } from 'react'
-import { NewsContext } from '@/context/news.context'
+import { useState } from 'react'
 import Logo from '../Logo'
 import styles from './MobileHeader.module.scss'
 import FiltersModal from '../FiltersModal'
+import { publisher } from '@/types'
 
-export default function MobileHeader() {
-  const { state } = useContext(NewsContext)
+interface MobileHeaderProps {
+  publishers: publisher[]
+}
+
+export default function MobileHeader({ publishers }: MobileHeaderProps) {
   const [filtersModalOpen, setFiltersModalOpen] = useState<boolean>(false)
 
   return (
     <div id="mobileHeader" className={styles.mobileHeader}>
       <FiltersModal
+        publishers={publishers}
         open={filtersModalOpen}
         closeModal={() => {
           setFiltersModalOpen(false)
@@ -31,7 +35,7 @@ export default function MobileHeader() {
         <EmailRounded fontSize="large" />
       </div> */}
       <Logo />
-      {state.publishers.length > 0 && (
+      {publishers.length > 0 && (
         <div
           className={styles.mobileMenuButton}
           onClick={() => {
