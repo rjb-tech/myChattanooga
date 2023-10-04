@@ -62,9 +62,9 @@ export default function Article({
           </p>
         </div>
         <h3 className={styles.headline}>{headline}</h3>
-        <p className={styles.timePosted}>
+        {/* <p className={styles.timePosted}>
           {getTimePostedText()}
-        </p>
+        </p> */}
       </div>
     </Link>
   )
