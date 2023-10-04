@@ -1,0 +1,20 @@
+.nav {
+  display: flex;
+  justify-content: center;
+  gap: 2em;
+}
+
+.navTab {
+  font-size: 1.5em;
+  text-align: center;
+  cursor: pointer;
+  padding: 0.35em;
+  border-radius: 0.5em 0.5em 0em 0em;
+
+  @media (prefers-color-scheme: dark) {
+  }
+}
+
+.selected {
+  background-color: aquamarine;
+}

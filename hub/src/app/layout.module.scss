@@ -1,0 +1,26 @@
+$headerHeight: 10em;
+
+.header {
+  height: $headerHeight;
+  width: 100vw;
+  z-index: 100;
+  position: fixed;
+  padding: 2em;
+}
+
+.logoContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.date {
+  text-align: center;
+  margin-top: -1em;
+}
+
+.contentSection {
+  width: 100vw;
+  height: 100vh;
+}

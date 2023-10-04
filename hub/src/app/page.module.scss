@@ -1,0 +1,20 @@
+@import 'styles/variables';
+
+.home {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.headquarters {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: transparent;
+
+  @media (min-width: $tabletBreakpoint) {
+    width: 80%;
+  }
+}

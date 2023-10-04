@@ -1,0 +1,37 @@
+@import '../../app/styles/variables';
+
+.background {
+  background-color: $lightBackgroundColor;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: $darkBackgroundColor;
+  }
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5em;
+  overflow: visible;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2em;
+  border-bottom: 1px solid black;
+
+  @media (prefers-color-scheme: dark) {
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+.closeButton {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
