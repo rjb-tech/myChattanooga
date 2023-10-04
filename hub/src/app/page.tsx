@@ -18,6 +18,7 @@ async function getArticles() {
 
 export default async function Home() {
   const articles = await getArticles()
+  console.log(articles)
   const publishers: publisher[] = Array.from(
     new Set(articles.map((article: ArticleResponseData) => article.publisher)),
   )
