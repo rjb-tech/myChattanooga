@@ -20,26 +20,25 @@
       <mj-class name="headline" font-size="20px" />
     </mj-attributes>
   </mj-head>
-  <mj-body width="1200px" background-color="#1f1f1f">
+  <mj-body width="1200px" background-color="white">
     <mj-include path="./components/header.mjml" />
     <mj-section>
-      <mj-column width="350px" padding="10px">
-        <mj-image
-          width="200px"
-          src="https://irlbnquhcxpdvhbdqsqp.supabase.co/storage/v1/object/public/Publisher_Images/LocalThree.jpeg?t=2023-08-29T03%3A29%3A12.448Z"
-          alt="{{publisher}} logo"
-          align="center"
-        />
-        <mj-text font-size="14px" color="#777777" align="left">
-          &copy; {{publisherName}}
-        </mj-text>
-        <mj-text font-size="20px" align="left" color="#FFF">
-          Make this an email that gives a news summary and then leads to the
-          myChattanooga website
-        </mj-text>
+      <mj-column width="70%" padding="0px 10px">
+        <mj-text color="#FFF" font-size="20px" align="center"
+          >Chattanoogan</mj-text
+        >
+        <mj-table width="75%" align="center">
+          <tr>
+            <th>Posted Articles: {{chattanoogan_posted}}</th>
+            <th>Relevant Articles: {{chattanoogan_relevant}}</th>
+          </tr>
+        </mj-table>
+      </mj-column>
+
+      <mj-column width="50%">
         <mj-divider
           border-color="#FFF"
-          padding="20px 0px"
+          padding="60px 0px"
           border-width="1px"
         ></mj-divider>
       </mj-column>
