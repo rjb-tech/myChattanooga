@@ -35,8 +35,6 @@ export default function NewsRoom({ articles }: NewsRoomProps) {
     return incomingIndex <= activeIndex ? styles.left : styles.right
   }
 
-  console.log(articles)
-
   const renderArticles = () => {
     return publishers.map((publisher, i) => {
       const isActive = selectedPublisher === publisher
