@@ -8,8 +8,10 @@ import { ArticleResponseData, publisher } from '@/types'
 
 async function getArticles() {
   // Should this be changed to eastern time to account for production servers?
-  const today = format(new Date(), 'yyyy-MM-dd')
-  const res = await fetch(`${config.apiRoutes.url}/articles?published=${today}`)
+  const today = new Date()
+  const res = await fetch(
+    `${config.apiRoutes.url}/articles?published=${today.toISOString()}`,
+  )
 
   if (!res.ok) throw new Error('Error fetching articles.')
 
