@@ -4,6 +4,9 @@ import config from '../../config'
 const getSupabaseClient = (schema: string) => {
   const options = {
     db: { schema },
+    auth: {
+      persistSession: false
+    }
   }
 
   const supabase = createClient(
