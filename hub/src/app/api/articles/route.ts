@@ -11,6 +11,8 @@ initSentry({
   tracesSampleRate: 0.75,
 })
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(req: Request) {
   const supabase = getSupabaseClient('news')
   const { searchParams } = new URL(req.url)
