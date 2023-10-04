@@ -8,6 +8,7 @@ import { ArticleResponseData, publisher } from '@/types'
 
 async function getArticles() {
   // Should this be changed to eastern time to account for production servers?
+  console.log(new Date())
   const today = format(new Date(), 'yyyy-MM-dd')
   const res = await fetch(`${config.apiRoutes.url}/articles?published=${today}`)
 
@@ -16,9 +17,10 @@ async function getArticles() {
   return res.json()
 }
 
+export const revalidate = 300
+
 export default async function Home() {
   const articles = await getArticles()
-  console.log(articles)
   const publishers: publisher[] = Array.from(
     new Set(articles.map((article: ArticleResponseData) => article.publisher)),
   )
