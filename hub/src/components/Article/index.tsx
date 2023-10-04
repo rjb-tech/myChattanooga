@@ -10,6 +10,8 @@ import PulseLogo from '../../../public/Pulse.png'
 import FoxChattanoogaLogo from '../../../public/FoxChattanoogaLogo.jpg'
 import TFPLogo from '../../../public/TimesFreePress.jpg'
 import WDEFLogo from '../../../public/WDEF.png'
+import { differenceInMinutes, format } from 'date-fns'
+import { number } from 'prop-types'
 
 const publisherImageMappings = {
   Chattanoogan: Chattanooganlogo,
@@ -30,6 +32,16 @@ export default function Article({
   saved,
   publisher,
 }: ArticleResponseData) {
+
+  const getTimePostedText = () => {
+    const minutesSince = differenceInMinutes(new Date(), new Date(published))
+
+    if (minutesSince < 60)
+      return `Posted ${minutesSince} Minutes Ago`
+
+    return minutesSince < 120 ? `Posted over ${Math.trunc(minutesSince / 60)} hour ago` : `Posted over ${Math.trunc(minutesSince / 60)} hours ago`
+  }
+
   return (
     <Link
       href={link}
@@ -50,6 +62,9 @@ export default function Article({
           </p>
         </div>
         <h3 className={styles.headline}>{headline}</h3>
+        <p className={styles.timePosted}>
+          {getTimePostedText()}
+        </p>
       </div>
     </Link>
   )

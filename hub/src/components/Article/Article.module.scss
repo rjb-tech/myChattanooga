@@ -29,12 +29,23 @@
 
 .publisher {
   margin-top: 0.75em;
-  font-style: italic;
+  letter-spacing: 1.25px;
+  color: #7e7e7e;
+
+  @media (prefers-color-scheme: dark) {
+    color: #636363;
+  }
 }
 
 .headline {
   line-height: 1.75em;
   font-size: 1.2em;
+  letter-spacing: 0.5px;
+}
+
+.timePosted {
+  text-align: right;
+  font-style: italic;
 }
 
 .articleLink {
