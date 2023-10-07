@@ -8,6 +8,7 @@ import {
 import Parser from 'rss-parser';
 import { parseISO } from 'date-fns';
 import { fromToday, isRelevantArticle } from '../generalHelpers';
+import { utcToZonedTime } from 'date-fns-tz';
 
 export default class WDEFScraper extends BaseScraper {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -25,12 +26,13 @@ export default class WDEFScraper extends BaseScraper {
 
       if (link && headline && isoDate) {
         const published = parseISO(isoDate);
+        const zonedPublished = utcToZonedTime(published, "America/New_York")
         // the weatherupdate article is updated every day, we don't want that shit dirtying our data
         if (fromToday(published) && !link.includes('weatherupdate'))
           found.push({
             headline,
             link,
-            published,
+            published: zonedPublished,
           });
       }
     }

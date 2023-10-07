@@ -8,6 +8,7 @@ import {
 import Parser from 'rss-parser';
 import { parse } from 'date-fns';
 import { fromToday, isRelevantArticle } from '../generalHelpers';
+import { utcToZonedTime } from 'date-fns-tz';
 
 export default class ChattanoogaPulseScraper extends BaseScraper {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -36,9 +37,11 @@ export default class ChattanoogaPulseScraper extends BaseScraper {
           publishedString,
           'EEE, dd MMM yyyy HH:mm:ss xxxx',
           new Date(),
-        );
+        )
 
-        if (fromToday(published))
+        const zonedPublished = utcToZonedTime(published, "America/New_York")
+
+        if (fromToday(zonedPublished))
           found.push({
             headline,
             link,

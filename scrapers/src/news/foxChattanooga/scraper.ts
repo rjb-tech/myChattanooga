@@ -8,6 +8,7 @@ import {
 import { foxChattanoogaUrl } from './config';
 import { parseJSON } from 'date-fns';
 import { fromToday, isRelevantArticle } from '../generalHelpers';
+import { utcToZonedTime } from 'date-fns-tz';
 
 export default class FoxChattanoogaScraper extends BaseScraper {
   async findArticles(
@@ -87,16 +88,18 @@ export default class FoxChattanoogaScraper extends BaseScraper {
 
       if (time) {
         const published = parseJSON(time);
+        const zonedPublished = utcToZonedTime(published, "America/New_York")
+
         const relevant = isRelevantArticle(
           (await contentSection?.innerText()) ?? '',
           currentArticle.headline,
           section.keywords,
         );
 
-        if (relevant && fromToday(published)) {
+        if (relevant && fromToday(zonedPublished)) {
           relevantArticles.push({
             ...currentArticle,
-            published,
+            published: zonedPublished,
           });
         }
       }

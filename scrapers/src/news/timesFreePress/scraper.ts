@@ -10,6 +10,7 @@ import { JSDOM } from 'jsdom';
 import axios from 'axios';
 import { parse } from 'date-fns';
 import { fromToday, isRelevantArticle } from '../generalHelpers';
+import { utcToZonedTime } from 'date-fns-tz';
 
 export default class TimesFreePressScraper extends BaseScraper {
   async findArticles(
@@ -85,7 +86,9 @@ export default class TimesFreePressScraper extends BaseScraper {
           `Error parsing date string for Times Free Press article, maybe the format changed. ${currentArticle.link}`,
         );
 
-      if (!fromToday(published)) continue;
+      const zonedPublished = utcToZonedTime(published, 'America/New_York');
+
+      if (!fromToday(zonedPublished)) continue;
 
       if (isRelevantArticle(content, currentArticle.headline, section.keywords))
         relevantArticles.push({
