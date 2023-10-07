@@ -10,8 +10,14 @@ import PulseLogo from '../../../public/Pulse.png'
 import FoxChattanoogaLogo from '../../../public/FoxChattanoogaLogo.jpg'
 import TFPLogo from '../../../public/TimesFreePress.jpg'
 import WDEFLogo from '../../../public/WDEF.png'
-import { differenceInMinutes, format } from 'date-fns'
+import { addHours, differenceInMinutes, parseISO, subHours } from 'date-fns'
 import { number } from 'prop-types'
+import {
+  format,
+  formatInTimeZone,
+  utcToZonedTime,
+  zonedTimeToUtc,
+} from 'date-fns-tz'
 
 const publisherImageMappings = {
   Chattanoogan: Chattanooganlogo,
@@ -32,14 +38,23 @@ export default function Article({
   saved,
   publisher,
 }: ArticleResponseData) {
-
   const getTimePostedText = () => {
-    const minutesSince = differenceInMinutes(new Date(), new Date(published))
+    // Add timezone offset to get a UTC representation of the time to compare
+    const utcRepresentation = addHours(
+      new Date(),
+      new Date().getTimezoneOffset() / 60,
+    )
 
-    if (minutesSince < 60)
-      return `Posted ${minutesSince} Minutes Ago`
+    const minutesSince = differenceInMinutes(
+      utcRepresentation,
+      new Date(published),
+    )
 
-    return minutesSince < 120 ? `Posted over ${Math.trunc(minutesSince / 60)} hour ago` : `Posted over ${Math.trunc(minutesSince / 60)} hours ago`
+    if (minutesSince < 60) return `Posted ${minutesSince} Minutes Ago`
+
+    return minutesSince < 120
+      ? `Posted over ${Math.trunc(minutesSince / 60)} hour ago`
+      : `Posted over ${Math.trunc(minutesSince / 60)} hours ago`
   }
 
   return (
@@ -62,9 +77,7 @@ export default function Article({
           </p>
         </div>
         <h3 className={styles.headline}>{headline}</h3>
-        {/* <p className={styles.timePosted}>
-          {getTimePostedText()}
-        </p> */}
+        <p className={styles.timePosted}>{getTimePostedText()}</p>
       </div>
     </Link>
   )

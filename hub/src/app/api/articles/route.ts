@@ -1,4 +1,4 @@
-import { endOfDay, format, subDays } from 'date-fns'
+import { endOfDay, format, formatISO, subDays } from 'date-fns'
 import { utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz'
 import getSupabaseClient from '@/lib/supabase'
 import { NextResponse } from 'next/server'
@@ -27,8 +27,8 @@ export async function GET(req: Request) {
   const { data: articles, error } = await supabase
     .from('articles')
     .select('*')
-    .gte('published', dayBefore.toISOString())
-    .lt('published', dayQueried.toISOString())
+    .gte('published', dayBefore.toUTCString())
+    .lt('published', dayQueried.toUTCString())
     .order('published', { ascending: false })
 
   if (error) {
