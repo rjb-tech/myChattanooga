@@ -13,8 +13,8 @@ import MyChattanoogaTheme from '@/components/Theme'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'myChattanooga Hub',
-  description: 'Community, but like online',
+  title: 'myChattanooga News',
+  description: 'Real-time Chattanoga news aggregation',
 }
 
 interface RootLayoutProps {
