@@ -1,6 +1,6 @@
 const config = {
   apiRoutes: {
-    url: process.env.API_ROUTES_URL ?? 'http://localhost:3000/api',
+    url: process.env.API_ROUTES_URL ?? 'http://localhost:3030/api',
   },
   supabase: {
     apiUrl: process.env.SUPABASE_URL || '',
