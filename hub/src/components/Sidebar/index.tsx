@@ -16,13 +16,6 @@ interface SidebarProps {
 export default function Sidebar({ publishers }: SidebarProps) {
   const { dispatch, state } = useContext(NewsContext)
 
-  const openModal = () => {
-    dispatch({
-      type: NEWS_ACTIONS.TOGGLE_SUBSCRIBE_MODAL,
-      open: true,
-    })
-  }
-
   const closeModal = () => {
     dispatch({
       type: NEWS_ACTIONS.TOGGLE_SUBSCRIBE_MODAL,
@@ -35,7 +28,7 @@ export default function Sidebar({ publishers }: SidebarProps) {
       type: NEWS_ACTIONS.SET_PUBLISHER_OPTIONS,
       publishers: publishers,
     })
-  }, [publishers])
+  }, [publishers, dispatch])
 
   return (
     <section className={styles.sidebar}>

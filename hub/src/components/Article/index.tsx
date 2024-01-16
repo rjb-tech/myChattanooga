@@ -24,11 +24,9 @@ const publisherImageMappings = {
 }
 
 export default function Article({
-  id,
   headline,
   link,
   published,
-  saved,
   publisher,
 }: ArticleResponseData) {
   const getTimePostedText = (): string | null => {

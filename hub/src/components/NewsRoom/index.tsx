@@ -16,7 +16,7 @@ interface NewsRoomProps {
 export default function NewsRoom({ articles }: NewsRoomProps) {
   // This needs to be a context variable
   const {
-    state: { selectedPublisher, subscribeModalOpen },
+    state: { selectedPublisher },
   } = useContext(NewsContext)
   const scrollableRef = useRef<HTMLDivElement>(null)
 
@@ -55,8 +55,8 @@ export default function NewsRoom({ articles }: NewsRoomProps) {
             getDirection(publisher, i, activeIndex),
           )}
         >
-          {filteredArticles.map((article: ArticleResponseData, i) => (
-            <Article key={i} {...article} />
+          {filteredArticles.map((article: ArticleResponseData) => (
+            <Article key={article.id} {...article} />
           ))}
         </section>
       )

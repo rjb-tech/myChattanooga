@@ -26,6 +26,8 @@ const initialState: NewsState = {
   publishers: [],
 }
 
+// I'm not sure why this is triggering the no-unused-vars rule, but it is
+/* eslint-disable no-unused-vars */
 export enum NEWS_ACTIONS {
   CHANGE_PUBLISHER = 'CHANGE_PUBLISHER',
   SET_PUBLISHER_OPTIONS = 'SET_PUBLISHER_OPTIONS',
