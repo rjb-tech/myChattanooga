@@ -4,9 +4,17 @@ Be sure to `npm i` before starting work
 
 ## Dev environment Variables (.env)
 
+The `DATABASE_URL` variable should be changed for the command being run. Prisma and the scrapers won't work right without the correct environment variable enabled. It should be noted this is only for local development. The database URL is set only for prisma in the production environment
+
 ```
-DATABASE_URL="postgresql://postgres:postgres@localhost:54322/postgres"
+# DATABASE_URL="postgresql://postgres:postgres@localhost:54322/postgres" # For prisma
+DATABASE_URL="postgresql://postgres:postgres@host.docker.internal:54322/postgres" # For scrapers
+DEPLOYMENT_ENV="dev"
 ```
+
+## Fixing docker.sock issue
+
+`sudo ln -s ~/Library/Containers/com.docker.docker/Data/docker.raw.sock /var/run/docker.sock`
 
 ## Data Models
 
