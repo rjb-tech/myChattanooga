@@ -14,7 +14,7 @@ describe('Article component tests', () => {
       />,
     )
 
-    expect(screen.getByTestId('time-posted')).toEqual(
+    expect(screen.getByTestId('time-posted').textContent).toEqual(
       `Posted ${minutesSince} Minutes Ago`,
     )
   })

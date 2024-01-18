@@ -73,7 +73,9 @@ export default function Article({
           </p>
         </div>
         <h3 className={styles.headline}>{headline}</h3>
-        <p className={styles.timePosted}>{timePostedText}</p>
+        <p data-testid="time-posted" className={styles.timePosted}>
+          {timePostedText}
+        </p>
       </div>
     </Link>
   )
