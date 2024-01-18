@@ -43,7 +43,7 @@ export default function Article({
 
     if (minutesSince < 0) return null
 
-    if (minutesSince < 60) return `Posted ${minutesSince} Minutes Ago`
+    if (minutesSince < 60) return `Posted ${minutesSince} minutes ago`
 
     return minutesSince < 120
       ? `Posted over ${Math.trunc(minutesSince / 60)} hour ago`
@@ -58,6 +58,7 @@ export default function Article({
       href={link}
       target="_blank"
       className={classNames(styles.articleLink)}
+      data-testid="article"
     >
       <div className={styles.article}>
         <div className={styles.imageAndPublisher}>
