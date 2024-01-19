@@ -26,6 +26,7 @@ export default function Filters({ publishers }: FiltersProps) {
       {publishers.sort().map((publisher, i) => (
         <div
           key={i}
+          data-testid={`${publisher}-filter-selector`}
           className={classNames(
             styles.publisher,
             state.selectedPublisher === publisher

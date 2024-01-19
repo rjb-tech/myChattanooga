@@ -4,6 +4,7 @@ import getSupabaseClient from '@/lib/supabase'
 import { NextResponse } from 'next/server'
 import { ArticleResponseData } from '@/types'
 import { init as initSentry, captureException } from '@sentry/node'
+import config from '@/config'
 
 initSentry({
   dsn: process.env.SENTRY_DSN ?? '',
@@ -14,6 +15,10 @@ initSentry({
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: Request) {
+  if (process.env.DEPLOYMENT_ENV === 'development') {
+    return NextResponse.json(config.mockData.articles as ArticleResponseData[])
+  }
+
   const supabase = getSupabaseClient('news')
   const { searchParams } = new URL(req.url)
   const published = (searchParams.get('published') as string) ?? ''

@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import classNames from 'classnames'
+import { addHours, differenceInMinutes } from 'date-fns'
+
 import { ArticleResponseData, publisherNameMap } from '@/types'
 import styles from './Article.module.scss'
 import Chattanooganlogo from '../../../public/Chattanoogan.webp'
@@ -10,7 +12,6 @@ import PulseLogo from '../../../public/Pulse.png'
 import FoxChattanoogaLogo from '../../../public/FoxChattanoogaLogo.jpg'
 import TFPLogo from '../../../public/TimesFreePress.jpg'
 import WDEFLogo from '../../../public/WDEF.png'
-import { addHours, differenceInMinutes } from 'date-fns'
 
 const publisherImageMappings = {
   Chattanoogan: Chattanooganlogo,
@@ -23,12 +24,17 @@ const publisherImageMappings = {
   all: '',
 }
 
+interface ExtendedArticleData extends ArticleResponseData {
+  isActive: boolean
+}
+
 export default function Article({
+  isActive,
   headline,
   link,
   published,
   publisher,
-}: ArticleResponseData) {
+}: ExtendedArticleData) {
   const getTimePostedText = (): string | null => {
     // Add timezone offset to get a UTC representation of the time to compare
     const utcRepresentation = addHours(
@@ -58,7 +64,7 @@ export default function Article({
       href={link}
       target="_blank"
       className={classNames(styles.articleLink)}
-      data-testid="article"
+      data-testid={isActive ? 'article' : ''}
     >
       <article className={styles.article}>
         <div className={styles.imageAndPublisher}>

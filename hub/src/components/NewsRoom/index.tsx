@@ -56,7 +56,7 @@ export default function NewsRoom({ articles }: NewsRoomProps) {
           )}
         >
           {filteredArticles.map((article: ArticleResponseData) => (
-            <Article key={article.id} {...article} />
+            <Article key={article.id} isActive={isActive} {...article} />
           ))}
         </section>
       )
