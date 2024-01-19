@@ -60,7 +60,7 @@ export default function Article({
       className={classNames(styles.articleLink)}
       data-testid="article"
     >
-      <div className={styles.article}>
+      <article className={styles.article}>
         <div className={styles.imageAndPublisher}>
           <div className={styles.publisherImageContainer}>
             <Image
@@ -77,7 +77,7 @@ export default function Article({
         <p data-testid="time-posted" className={styles.timePosted}>
           {timePostedText}
         </p>
-      </div>
+      </article>
     </Link>
   )
 }
