@@ -25,10 +25,13 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Install Dependencies
+      working-directory: hub
       run: npm install
 
     - name: Run E2E Tests
+      working-directory: hub
       run: npm run test:e2e
 
     - name: Run Unit Tests
+      working-directory: hub
       run: npm run test
