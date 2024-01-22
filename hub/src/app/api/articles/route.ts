@@ -2,7 +2,7 @@ import { endOfDay, subDays } from 'date-fns'
 import { utcToZonedTime } from 'date-fns-tz'
 import getSupabaseClient from '@/lib/supabase'
 import { NextResponse } from 'next/server'
-import { ArticleResponseData } from '@/types'
+import { ArticleResponseData, deploymentEnvironments } from '@/types'
 import { init as initSentry, captureException } from '@sentry/node'
 import config from '@/config'
 
@@ -15,7 +15,7 @@ initSentry({
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: Request) {
-  if (process.env.DEPLOYMENT_ENV === 'development') {
+  if (process.env.DEPLOYMENT_ENV !== deploymentEnvironments.production) {
     return NextResponse.json(config.mockData.articles as ArticleResponseData[])
   }
 
