@@ -29,6 +29,6 @@ export const publisherNameMap = {
 }
 
 export enum deploymentEnvironments {
-  dev = 'dev',
+  dev = 'development',
   production = 'prod',
 }
