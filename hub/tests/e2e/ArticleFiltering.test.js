@@ -21,35 +21,48 @@ const expectedWDEFArticles = config.mockData.articles.filter(
 test('publisher filtering', async ({ page }) => {
   await page.goto('/')
 
-  await expect(page.getByTestId('article')).toHaveCount(totalExpectedArticles)
+  await page.screenshot()
+  await expect(page.getByTestId('active-article')).toHaveCount(
+    totalExpectedArticles,
+  )
 
   await page.getByTestId('Chattanoogan-filter-selector').click()
-  await expect(page.getByTestId('article')).toHaveCount(
+  await page.screenshot()
+  await expect(page.getByTestId('active-article')).toHaveCount(
     expectedChattanooganArticles,
   )
   await page.getByTestId('Chattanoogan-filter-selector').click()
 
   await page.getByTestId('FoxChattanooga-filter-selector').click()
-  await expect(page.getByTestId('article')).toHaveCount(
+  await page.screenshot()
+  await expect(page.getByTestId('active-article')).toHaveCount(
     expectedFoxChattanoogaArticles,
   )
   await page.getByTestId('FoxChattanooga-filter-selector').click()
 
   await page.getByTestId('Local3News-filter-selector').click()
-  await expect(page.getByTestId('article')).toHaveCount(
+  await page.screenshot()
+  await expect(page.getByTestId('active-article')).toHaveCount(
     expectedLocal3NewsArticles,
   )
   await page.getByTestId('Local3News-filter-selector').click()
 
   await page.getByTestId('TimesFreePress-filter-selector').click()
-  await expect(page.getByTestId('article')).toHaveCount(
+  await page.screenshot()
+  await expect(page.getByTestId('active-article')).toHaveCount(
     expectedTimesFreePressArticles,
   )
   await page.getByTestId('TimesFreePress-filter-selector').click()
 
   await page.getByTestId('WDEF-filter-selector').click()
-  await expect(page.getByTestId('article')).toHaveCount(expectedWDEFArticles)
+  await page.screenshot()
+  await expect(page.getByTestId('active-article')).toHaveCount(
+    expectedWDEFArticles,
+  )
   await page.getByTestId('WDEF-filter-selector').click()
 
-  await expect(page.getByTestId('article')).toHaveCount(totalExpectedArticles)
+  await page.screenshot()
+  await expect(page.getByTestId('active-article')).toHaveCount(
+    totalExpectedArticles,
+  )
 })

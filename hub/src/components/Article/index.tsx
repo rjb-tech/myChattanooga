@@ -64,7 +64,7 @@ export default function Article({
       href={link}
       target="_blank"
       className={classNames(styles.articleLink)}
-      data-testid={isActive ? 'article' : ''}
+      data-testid={isActive ? 'active-article' : undefined}
     >
       <article className={styles.article}>
         <div className={styles.imageAndPublisher}>
