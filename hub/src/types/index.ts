@@ -27,3 +27,8 @@ export const publisherNameMap = {
   WDEF: 'WDEF News 12',
   all: 'All Publishers',
 }
+
+export enum deploymentEnvironments {
+  dev = 'dev',
+  production = 'prod',
+}
