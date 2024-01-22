@@ -27,17 +27,17 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
+      {process.env.DEPLOYMENT_ENV === deploymentEnvironments.production && (
+        <>
+          <SpeedInsights />
+          <Analytics />
+        </>
+      )}
       <MyChattanoogaTheme>
         <body className={inter.className}>
           <main className={styles.contentSection}>
             <NewsContextProvider>{children}</NewsContextProvider>
           </main>
-          {process.env.DEPLOYMENT_ENV === deploymentEnvironments.production && (
-            <>
-              <SpeedInsights />
-              <Analytics />
-            </>
-          )}
         </body>
       </MyChattanoogaTheme>
     </html>
